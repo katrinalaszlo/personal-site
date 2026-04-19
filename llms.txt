@@ -20,7 +20,7 @@ Her core thesis: product design is not a sub-function of engineering or a phase 
 
 ## How She Thinks
 
-1. Human designs the system. Agent executes inside it. What to optimize, when it's done, and what's off-limits. Those are design decisions. The agent handles everything else.
+1. Humans design the system. Agents execute in it. What to optimize, when it's done, and what's off-limits. Those are design decisions. The agent handles everything else.
 2. Opinionated and simple for something painful. Build for a specific pain, not a general possibility.
 3. Build a business, not an app. AI makes the software easy. The hard part is who pays, why, and what breaks at scale.
 4. Evidence over intuition. Ship fast, measure everything, let data settle the debate.

@@ -16,7 +16,7 @@
     "ai-product-management"
   ],
   "principles": [
-    "Human designs the system, agent executes inside it",
+    "Humans design the system, agents execute in it",
     "Opinionated and simple for something painful",
     "Build a business, not an app",
     "Evidence over intuition",
