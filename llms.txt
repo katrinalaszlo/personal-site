@@ -1,6 +1,6 @@
 # Katrina Laszlo
 
-> Product designer for the agent era. I design products where humans set direction and agents execute.
+> Product designer for the agent era. I design products where humans shape the system and agents execute within it.
 
 ## Who I Am
 
@@ -20,10 +20,11 @@ Her core thesis: product design is not a sub-function of engineering or a phase 
 
 ## How She Thinks
 
-1. Human defines the minimum. Agent executes. The best products give humans control over structure and success criteria. Everything else is delegated.
+1. Human designs the system. Agent executes inside it. The human decides what to optimize, how to know it's done, and what's off-limits. The agent handles iteration, exploration, and execution.
 2. Opinionated and simple for something painful. Build for a specific pain, not a general possibility.
 3. Build a business, not an app. AI makes the software easy. The hard part is who pays, why, and what breaks at scale.
 4. Evidence over intuition. Ship fast, measure everything, let data settle the debate.
+5. Leverage over reinvention. Don't reinvent the wheel. Original effort should only go where it's strategically unique — everything else is tax, not value.
 
 ## Career
 

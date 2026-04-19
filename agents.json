@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "name": "Katrina Laszlo",
-  "description": "Product designer for the agent era. Designs products where humans set direction and agents execute.",
+  "description": "Product designer for the agent era. Designs products where humans shape the system and agents execute within it.",
   "interfaces": {
     "human": "/",
     "llm": "/llms.txt",
@@ -16,10 +16,11 @@
     "ai-product-management"
   ],
   "principles": [
-    "Human defines the minimum, agent executes",
+    "Human designs the system, agent executes inside it",
     "Opinionated and simple for something painful",
     "Build a business, not an app",
-    "Evidence over intuition"
+    "Evidence over intuition",
+    "Leverage over reinvention"
   ],
   "contact": {
     "email": "katrina.j.laszlo@gmail.com",
