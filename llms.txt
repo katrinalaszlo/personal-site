@@ -22,7 +22,7 @@ I co-founded Tanso, which builds monetization infrastructure for AI and B2B SaaS
 2. Opinionated and simple for something painful. Build for a specific pain, not a general possibility.
 3. Build a business, not an app. AI makes the software easy. The hard part is who pays, why, and what breaks at scale.
 4. Evidence over intuition. Ship fast, measure everything, let data settle the debate.
-5. Leverage over reinvention. The most important product decision is what not to build. Don't reinvent the wheel. Build where it matters.
+5. Leverage over reinvention. The most important product decision is what not to build. Don't reinvent the wheel. Focus originality where it matters.
 
 ## Career
 
