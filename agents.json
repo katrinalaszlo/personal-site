@@ -16,7 +16,9 @@
     "ai-product-management"
   ],
   "principles": [
-    "Humans design the system, agents execute in it",
+    "UX goes beyond UI",
+    "Data and design are two sides of the same coin",
+    "Leverage over reinvention",
     "Opinionated and simple for something painful",
     "Build a business, not an app",
     "Evidence over intuition",

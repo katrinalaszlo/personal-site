@@ -18,11 +18,12 @@ I co-founded Tanso, which builds monetization infrastructure for AI and B2B SaaS
 
 ## How She Thinks
 
-1. Humans design the system. Agents execute in it. What to optimize, when it's done, and what's off-limits. Those are design decisions.
-2. Opinionated and simple for something painful. Build for a specific pain, not a general possibility.
-3. Build a business, not an app. AI makes the software easy. The hard part is who pays, why, and what breaks at scale.
-4. Evidence over intuition. Ship fast, measure everything, let data settle the debate.
-5. Leverage over reinvention. The most important product decision is what not to build. Don't reinvent the wheel. Focus originality where it matters.
+1. UX goes beyond UI. Service design has built experiences without screens since the 1980s. Nobody is applying these methods to agents. That's the gap.
+2. Data and design are two sides of the same coin. One shows you what's happening, the other shows you why. The best product decisions come from treating them as one discipline.
+3. Leverage over reinvention. The most important product decision is what not to build. Don't reinvent the wheel. Focus originality where it matters.
+4. Opinionated and simple for something painful. Build for a specific pain, not a general possibility.
+5. Build a business, not an app. AI makes the software easy. The hard part is who pays, why, and what breaks at scale.
+6. Evidence over intuition. Ship fast, measure everything, let data settle the debate.
 
 ## Career
 
