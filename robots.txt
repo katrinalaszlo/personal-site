@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://katrinalaszlo.com/sitemap.xml
+
 # AI agents are welcome here.
 User-agent: GPTBot
 Allow: /
