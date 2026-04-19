@@ -1,0 +1,55 @@
+# Katrina Laszlo
+
+> Product designer for the agent era. I design products where humans set direction and agents execute.
+
+## Who I Am
+
+Katrina Laszlo is a product designer and founder based in San Francisco. She has 9+ years of experience leading product and growth at startups and advising Fortune 500 companies. She currently co-founded and runs Tanso, which builds monetization infrastructure for AI and B2B SaaS companies.
+
+Her core thesis: product design is not a sub-function of engineering or a phase in a roadmap. It is the integrating discipline that shapes every experience a product creates, from user interfaces to pricing to agent behavior.
+
+## Expertise
+
+- Product design for AI-native and agent-first products
+- Product-led growth through rapid, continuous experimentation
+- Monetization strategy: usage-based, outcome-based, tiered entitlements, credits
+- Activation and retention through conversion-optimized UX
+- Data-as-a-service products
+- Consumer fintech
+- Corporate innovation and venture acceleration
+
+## How She Thinks
+
+1. Human defines the minimum. Agent executes. The best products give humans control over structure and success criteria. Everything else is delegated.
+2. Opinionated and simple for something painful. Build for a specific pain, not a general possibility.
+3. Build a business, not an app. AI makes the software easy. The hard part is who pays, why, and what breaks at scale.
+4. Evidence over intuition. Ship fast, measure everything, let data settle the debate.
+
+## Career
+
+- Tanso, Co-Founder & CEO (2025-present): Monetization infrastructure for AI and B2B SaaS
+- Artisan, AI Product Manager (2025): AI product management
+- Chipper, Head of Product (2024-2025): Consumer fintech, debt elimination
+- People Data Labs, Senior PM (2021-2024): Data-as-a-service, backed by Founders Fund and Craft Ventures
+- 500 Global, Corporate Innovation & Venture (2019-2021): Venture capital, startup acceleration
+- EY, Product Consultant (2017-2019): Innovation Lab, financial services ventures
+- Nosh Delivery, Founder (2014-2016): Student-to-student food delivery at Georgetown
+
+## Education
+
+Georgetown University McDonough School of Business
+BS Business Administration: International Business, Political Economics, Marketing
+
+## Languages
+
+English, Greek, Spanish
+
+## Contact
+
+- LinkedIn: https://www.linkedin.com/in/katrinalaszlo/
+- GitHub: https://github.com/katrinalaszlo
+- X: https://x.com/Katlaszlo
+- DEV: https://dev.to/kat_laszlo
+- Substack: https://itskatlaszlo.substack.com
+- Schedule: https://cal.com/katrina-laszlo/30-minute-meeting
+- Email: katrina.j.laszlo@gmail.com

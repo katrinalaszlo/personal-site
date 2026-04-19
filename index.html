@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katrina Laszlo — Product Design for the Agent Era</title>
+    <meta name="description" content="Product designer for the agent era. I design products where humans set direction and agents execute.">
+    <meta property="og:title" content="Katrina Laszlo — Product Design for the Agent Era">
+    <meta property="og:description" content="I design products where humans set direction and agents execute. 9 years of product, growth, and monetization across startups and enterprise.">
+    <meta property="og:type" content="website">
+    <meta name="author" content="Katrina Laszlo">
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
+    <link rel="alternate" type="application/json" href="/agents.json" title="Agent capabilities manifest">
+    <link rel="me" href="https://github.com/katrinalaszlo">
+    <link rel="me" href="https://www.linkedin.com/in/katrinalaszlo/">
+    <link rel="me" href="https://x.com/Katlaszlo">
+    <link rel="me" href="https://dev.to/kat_laszlo">
+    <link rel="me" href="https://itskatlaszlo.substack.com">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>K</text></svg>">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Katrina Laszlo",
+        "jobTitle": "Co-Founder & CEO",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "Tanso"
+        },
+        "description": "Product designer for the agent era. Designs products where humans set direction and agents execute.",
+        "sameAs": [
+            "https://www.linkedin.com/in/katrinalaszlo/",
+            "https://github.com/katrinalaszlo",
+            "https://x.com/Katlaszlo",
+            "https://dev.to/kat_laszlo",
+            "https://itskatlaszlo.substack.com"
+        ],
+        "alumniOf": {
+            "@type": "EducationalOrganization",
+            "name": "Georgetown University McDonough School of Business"
+        },
+        "knowsAbout": [
+            "Product Design",
+            "Agent Architecture",
+            "Product-Led Growth",
+            "Monetization Strategy",
+            "B2B SaaS",
+            "AI Products",
+            "UX Design",
+            "Rapid Experimentation",
+            "Service Design",
+            "Data Analysis"
+        ],
+        "knowsLanguage": ["English", "Greek", "Spanish"]
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #0a0a0a;
+            background: #ffffff;
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 1.5rem 0;
+        }
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-name {
+            font-weight: 600;
+            font-size: 0.9375rem;
+            color: #0a0a0a;
+            text-decoration: none;
+        }
+        .nav-link {
+            font-size: 0.875rem;
+            color: #71717a;
+            text-decoration: none;
+        }
+        .nav-link:hover {
+            color: #0a0a0a;
+        }
+
+        .hero {
+            padding: 5rem 0 4rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.75rem;
+        }
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: #4f46e5;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        .hero .intro {
+            color: #52525b;
+            max-width: 560px;
+            font-size: 1.125rem;
+            line-height: 1.75;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-top: 1px solid #f4f4f5;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .section-sub {
+            color: #52525b;
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+        }
+
+        .diagram-wrap {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        .diagram-wrap svg {
+            width: 100%;
+            max-width: 520px;
+            height: auto;
+        }
+
+        .principles dl {
+            display: grid;
+            gap: 2.25rem;
+        }
+        .principles dt {
+            font-weight: 600;
+            font-size: 1.0625rem;
+            margin-bottom: 0.25rem;
+            color: #0a0a0a;
+        }
+        .principles dd {
+            color: #52525b;
+            margin-left: 0;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 1.75rem;
+        }
+        .t-entry {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 0.75rem;
+            align-items: start;
+        }
+        .t-date {
+            font-size: 0.8125rem;
+            color: #a1a1aa;
+            padding-top: 0.2rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .t-role {
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .t-co {
+            color: #52525b;
+        }
+        .t-desc {
+            color: #a1a1aa;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .education {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #f4f4f5;
+        }
+        .edu-school {
+            font-weight: 600;
+        }
+        .edu-detail {
+            color: #52525b;
+            font-size: 0.9375rem;
+        }
+        .edu-langs {
+            margin-top: 0.5rem;
+            color: #a1a1aa;
+            font-size: 0.875rem;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        .projects a {
+            display: block;
+            padding: 1.125rem 1.25rem;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #0a0a0a;
+            transition: border-color 0.15s ease;
+        }
+        .projects a:hover {
+            border-color: #4f46e5;
+        }
+        .proj-name {
+            font-weight: 600;
+            font-size: 0.9375rem;
+            margin-bottom: 0.25rem;
+        }
+        .proj-desc {
+            font-size: 0.8125rem;
+            color: #71717a;
+            line-height: 1.5;
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        .links a {
+            display: block;
+            padding: 1.125rem 1.25rem;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #0a0a0a;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: border-color 0.15s ease;
+        }
+        .links a:hover {
+            border-color: #4f46e5;
+        }
+        .link-label {
+            display: block;
+            font-size: 0.6875rem;
+            color: #a1a1aa;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+            margin-bottom: 0.125rem;
+        }
+
+        .agent-interface {
+            background: #09090b;
+            padding: 4rem 0;
+        }
+        .agent-interface h2 {
+            color: #fafafa;
+            margin-bottom: 0.5rem;
+        }
+        .agent-interface .ai-sub {
+            color: #a1a1aa;
+            margin-bottom: 2rem;
+            font-size: 0.9375rem;
+        }
+        .endpoints {
+            display: grid;
+            gap: 0.5rem;
+        }
+        .endpoint {
+            display: grid;
+            grid-template-columns: 40px auto 1fr;
+            gap: 1rem;
+            padding: 0.875rem 1.25rem;
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 8px;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+            font-size: 0.8125rem;
+            transition: border-color 0.15s ease;
+        }
+        a.endpoint:hover {
+            border-color: #4f46e5;
+        }
+        .ep-method {
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 0.6875rem;
+            letter-spacing: 0.05em;
+        }
+        .ep-path {
+            color: #d4d4d8;
+        }
+        .ep-desc {
+            color: #a1a1aa;
+            text-align: right;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8125rem;
+        }
+        .ai-note {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: #71717a;
+            font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+        }
+
+        footer {
+            background: #09090b;
+            padding: 2rem 0;
+            font-size: 0.8125rem;
+            color: #71717a;
+            border-top: 1px solid #18181b;
+        }
+        footer a {
+            color: #71717a;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        footer a:hover {
+            color: #52525b;
+        }
+
+        @media (max-width: 640px) {
+            .hero { padding: 3.5rem 0 3rem; }
+            .hero h1 { font-size: 2.25rem; }
+            .hero .intro { font-size: 1rem; }
+            section { padding: 3rem 0; }
+            h2 { font-size: 1.3rem; }
+            .t-entry {
+                grid-template-columns: 1fr;
+                gap: 0.125rem;
+            }
+            .t-date { padding-top: 0; }
+            .projects { grid-template-columns: 1fr; }
+            .links { grid-template-columns: 1fr; }
+            .endpoint { grid-template-columns: 36px 1fr; }
+            .ep-desc { text-align: left; grid-column: 1 / -1; margin-top: -0.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="nav-name">Katrina Laszlo</a>
+                <a href="#connect" class="nav-link">Connect</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero" style="border-top: none;" data-agent="about">
+            <h1>Katrina Laszlo</h1>
+            <p class="tagline">Product design for the agent era</p>
+            <p class="intro">I design products where humans set direction and agents execute. 9 years of product, growth, and monetization across startups and enterprise.</p>
+        </section>
+
+        <section data-agent="worldview">
+            <h2>Product design is the whole product.</h2>
+            <p class="section-sub">Not a department. Not a phase. The integrating discipline that shapes every experience a product creates.</p>
+            <div class="diagram-wrap">
+                <svg viewBox="0 0 600 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram: Product Design encompasses Agent Design, UX, Growth, Data, Service Design, Pricing, and Strategy">
+                    <text x="300" y="28" text-anchor="middle" fill="#a1a1aa" font-size="11.5" font-family="Inter, sans-serif" letter-spacing="0.14em" font-weight="500">PRODUCT DESIGN</text>
+
+                    <circle cx="300" cy="272" r="215" fill="none" stroke="#e4e4e7" stroke-width="1.5" stroke-dasharray="6 4"/>
+
+                    <line x1="300" y1="272" x2="300" y2="128" stroke="#e4e4e7" stroke-width="1"/>
+                    <line x1="300" y1="272" x2="425" y2="200" stroke="#e4e4e7" stroke-width="1"/>
+                    <line x1="300" y1="272" x2="425" y2="344" stroke="#e4e4e7" stroke-width="1"/>
+                    <line x1="300" y1="272" x2="300" y2="416" stroke="#e4e4e7" stroke-width="1"/>
+                    <line x1="300" y1="272" x2="175" y2="344" stroke="#e4e4e7" stroke-width="1"/>
+                    <line x1="300" y1="272" x2="175" y2="200" stroke="#e4e4e7" stroke-width="1"/>
+
+                    <circle cx="300" cy="128" r="44" fill="#fafafa" stroke="#d4d4d8" stroke-width="1"/>
+                    <text x="300" y="132" text-anchor="middle" fill="#3f3f46" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">UX</text>
+
+                    <circle cx="425" cy="200" r="44" fill="#fafafa" stroke="#d4d4d8" stroke-width="1"/>
+                    <text x="425" y="204" text-anchor="middle" fill="#3f3f46" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Growth</text>
+
+                    <circle cx="425" cy="344" r="44" fill="#fafafa" stroke="#d4d4d8" stroke-width="1"/>
+                    <text x="425" y="348" text-anchor="middle" fill="#3f3f46" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Data</text>
+
+                    <circle cx="300" cy="416" r="44" fill="#fafafa" stroke="#d4d4d8" stroke-width="1"/>
+                    <text x="300" y="420" text-anchor="middle" fill="#3f3f46" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Service</text>
+
+                    <circle cx="175" cy="344" r="44" fill="#fafafa" stroke="#d4d4d8" stroke-width="1"/>
+                    <text x="175" y="348" text-anchor="middle" fill="#3f3f46" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Pricing</text>
+
+                    <circle cx="175" cy="200" r="44" fill="#fafafa" stroke="#d4d4d8" stroke-width="1"/>
+                    <text x="175" y="204" text-anchor="middle" fill="#3f3f46" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Strategy</text>
+
+                    <circle cx="300" cy="272" r="52" fill="#4f46e5"/>
+                    <text x="300" y="268" text-anchor="middle" fill="#ffffff" font-size="12.5" font-family="Inter, sans-serif" font-weight="600">Agent</text>
+                    <text x="300" y="284" text-anchor="middle" fill="#ffffff" font-size="12.5" font-family="Inter, sans-serif" font-weight="600">Design</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="principles" data-agent="principles">
+            <h2>How I think</h2>
+            <dl>
+                <div>
+                    <dt>Human defines the minimum. Agent executes.</dt>
+                    <dd>The best products give humans control over structure and success criteria. Everything else is delegated. This is the design pattern for everything that comes next.</dd>
+                </div>
+                <div>
+                    <dt>Opinionated and simple for something painful.</dt>
+                    <dd>Pick a lane. Build for a specific pain, not a general possibility. If a product tries to serve everyone, it serves no one.</dd>
+                </div>
+                <div>
+                    <dt>Build a business, not an app.</dt>
+                    <dd>AI makes the software easy. The hard part is who pays, why, and what breaks at scale.</dd>
+                </div>
+                <div>
+                    <dt>Evidence over intuition.</dt>
+                    <dd>Ship fast, measure everything, let data settle the debate.</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section data-agent="experience">
+            <h2>Experience</h2>
+            <div class="timeline">
+                <div class="t-entry">
+                    <span class="t-date">2025 &ndash; Present</span>
+                    <div>
+                        <div class="t-role">Co-Founder, CEO <span class="t-co">at Tanso</span></div>
+                        <div class="t-desc">Monetization infrastructure for AI and B2B SaaS.</div>
+                    </div>
+                </div>
+                <div class="t-entry">
+                    <span class="t-date">2025</span>
+                    <div>
+                        <div class="t-role">AI Product Manager <span class="t-co">at Artisan</span></div>
+                    </div>
+                </div>
+                <div class="t-entry">
+                    <span class="t-date">2024 &ndash; 2025</span>
+                    <div>
+                        <div class="t-role">Head of Product <span class="t-co">at Chipper</span></div>
+                        <div class="t-desc">Consumer fintech. Debt elimination through intelligent automation.</div>
+                    </div>
+                </div>
+                <div class="t-entry">
+                    <span class="t-date">2021 &ndash; 2024</span>
+                    <div>
+                        <div class="t-role">Senior PM, Web &amp; Apps <span class="t-co">at People Data Labs</span></div>
+                        <div class="t-desc">Data-as-a-service. Backed by Founders Fund and Craft Ventures.</div>
+                    </div>
+                </div>
+                <div class="t-entry">
+                    <span class="t-date">2019 &ndash; 2021</span>
+                    <div>
+                        <div class="t-role">Corporate Innovation <span class="t-co">at 500 Global</span></div>
+                        <div class="t-desc">Venture capital. Startup acceleration and corporate innovation.</div>
+                    </div>
+                </div>
+                <div class="t-entry">
+                    <span class="t-date">2017 &ndash; 2019</span>
+                    <div>
+                        <div class="t-role">Product Consultant <span class="t-co">at EY</span></div>
+                        <div class="t-desc">Innovation Lab. Building and launching financial services ventures.</div>
+                    </div>
+                </div>
+                <div class="t-entry">
+                    <span class="t-date">2014 &ndash; 2016</span>
+                    <div>
+                        <div class="t-role">Founder <span class="t-co">of Nosh Delivery</span></div>
+                        <div class="t-desc">Student-to-student food delivery at Georgetown.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="education">
+                <div class="edu-school">Georgetown University McDonough School of Business</div>
+                <div class="edu-detail">BS Business Administration. International Business, Political Economics, Marketing.</div>
+                <div class="edu-langs">Greek, English, Spanish</div>
+            </div>
+        </section>
+
+        <section data-agent="projects">
+            <h2>Projects</h2>
+            <p class="section-sub">Open source tools I've built.</p>
+            <div class="projects">
+                <a href="https://github.com/katrinalaszlo/zero-to-ship" target="_blank" rel="noopener">
+                    <div class="proj-name">zero-to-ship</div>
+                    <div class="proj-desc">An open-source toolkit for product people who are ready to build.</div>
+                </a>
+                <a href="https://github.com/katrinalaszlo/agentlens" target="_blank" rel="noopener">
+                    <div class="proj-name">agentlens</div>
+                    <div class="proj-desc">See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts.</div>
+                </a>
+                <a href="https://github.com/katrinalaszlo/observe" target="_blank" rel="noopener">
+                    <div class="proj-name">observe</div>
+                    <div class="proj-desc">Open source AI cost observability. See which customers and features are unprofitable.</div>
+                </a>
+                <a href="https://github.com/katrinalaszlo/buildnext" target="_blank" rel="noopener">
+                    <div class="proj-name">buildnext</div>
+                    <div class="proj-desc">Point it at your customer interviews. Get back the themes you'd find in two weeks.</div>
+                </a>
+                <a href="https://github.com/katrinalaszlo/dx-test" target="_blank" rel="noopener">
+                    <div class="proj-name">dx-test</div>
+                    <div class="proj-desc">Inspector-level scrutiny of the end-user experience, automated.</div>
+                </a>
+            </div>
+        </section>
+
+        <section id="connect" data-agent="contact">
+            <h2>Connect</h2>
+            <div class="links">
+                <a href="https://github.com/katrinalaszlo" target="_blank" rel="noopener">
+                    <span class="link-label">GitHub</span>
+                    katrinalaszlo
+                </a>
+                <a href="https://www.linkedin.com/in/katrinalaszlo/" target="_blank" rel="noopener">
+                    <span class="link-label">LinkedIn</span>
+                    katrinalaszlo
+                </a>
+                <a href="https://x.com/Katlaszlo" target="_blank" rel="noopener">
+                    <span class="link-label">X</span>
+                    @Katlaszlo
+                </a>
+                <a href="https://dev.to/kat_laszlo" target="_blank" rel="noopener">
+                    <span class="link-label">DEV</span>
+                    kat_laszlo
+                </a>
+                <a href="https://itskatlaszlo.substack.com" target="_blank" rel="noopener">
+                    <span class="link-label">Substack</span>
+                    itskatlaszlo
+                </a>
+                <a href="https://cal.com/katrina-laszlo/30-minute-meeting" target="_blank" rel="noopener">
+                    <span class="link-label">Schedule</span>
+                    30-minute call
+                </a>
+                <a href="mailto:katrina.j.laszlo@gmail.com">
+                    <span class="link-label">Email</span>
+                    katrina.j.laszlo@gmail.com
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <section class="agent-interface" data-agent="interface">
+        <div class="container">
+            <h2>Agent Interface</h2>
+            <p class="ai-sub">This site serves humans and agents. Structured data is available at these endpoints.</p>
+            <div class="endpoints">
+                <a href="/llms.txt" class="endpoint">
+                    <span class="ep-method">GET</span>
+                    <span class="ep-path">/llms.txt</span>
+                    <span class="ep-desc">Natural language profile</span>
+                </a>
+                <a href="/agents.json" class="endpoint">
+                    <span class="ep-method">GET</span>
+                    <span class="ep-path">/agents.json</span>
+                    <span class="ep-desc">Structured capabilities</span>
+                </a>
+                <div class="endpoint">
+                    <span class="ep-method">GET</span>
+                    <span class="ep-path">/</span>
+                    <span class="ep-desc">Schema.org JSON-LD</span>
+                </div>
+                <a href="/robots.txt" class="endpoint">
+                    <span class="ep-method">GET</span>
+                    <span class="ep-path">/robots.txt</span>
+                    <span class="ep-desc">AI crawlers welcome</span>
+                </a>
+            </div>
+            <p class="ai-note">Most sites block AI crawlers. This one was designed for them.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            Katrina Laszlo, 2026
+        </div>
+    </footer>
+</body>
+</html>

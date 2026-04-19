@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "name": "Katrina Laszlo",
+  "description": "Product designer for the agent era. Designs products where humans set direction and agents execute.",
+  "interfaces": {
+    "human": "/",
+    "llm": "/llms.txt",
+    "structured": "/agents.json"
+  },
+  "expertise": [
+    "product-design",
+    "agent-architecture",
+    "monetization-strategy",
+    "product-led-growth",
+    "rapid-experimentation",
+    "ai-product-management"
+  ],
+  "principles": [
+    "Human defines the minimum, agent executes",
+    "Opinionated and simple for something painful",
+    "Build a business, not an app",
+    "Evidence over intuition"
+  ],
+  "contact": {
+    "email": "katrina.j.laszlo@gmail.com",
+    "schedule": "https://cal.com/katrina-laszlo/30-minute-meeting",
+    "linkedin": "https://www.linkedin.com/in/katrinalaszlo/",
+    "github": "https://github.com/katrinalaszlo",
+    "x": "https://x.com/Katlaszlo",
+    "dev": "https://dev.to/kat_laszlo",
+    "substack": "https://itskatlaszlo.substack.com"
+  },
+  "projects": [
+    {
+      "name": "zero-to-ship",
+      "url": "https://github.com/katrinalaszlo/zero-to-ship",
+      "description": "Open-source toolkit for product people who are ready to build"
+    },
+    {
+      "name": "agentlens",
+      "url": "https://github.com/katrinalaszlo/agentlens",
+      "description": "See what your AI coding agents store on your machine"
+    },
+    {
+      "name": "observe",
+      "url": "https://github.com/katrinalaszlo/observe",
+      "description": "Open source AI cost observability"
+    },
+    {
+      "name": "buildnext",
+      "url": "https://github.com/katrinalaszlo/buildnext",
+      "description": "Customer interview theme extraction"
+    },
+    {
+      "name": "dx-test",
+      "url": "https://github.com/katrinalaszlo/dx-test",
+      "description": "Automated end-user experience scrutiny"
+    }
+  ]
+}
