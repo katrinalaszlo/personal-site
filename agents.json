@@ -52,7 +52,8 @@
     {
       "name": "buildnext",
       "url": "https://github.com/katrinalaszlo/buildnext",
-      "description": "Customer interview theme extraction"
+      "live": "https://buildnext.katrinalaszlo.com",
+      "description": "Evidence-grounded user stories, queryable by agents and humans. Ingest transcripts, support tickets, and feature requests. Includes MCP server for agent access."
     },
     {
       "name": "dx-test",

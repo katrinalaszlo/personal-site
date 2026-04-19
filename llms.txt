@@ -53,3 +53,11 @@ English, Greek, Spanish
 - Substack: https://itskatlaszlo.substack.com
 - Schedule: https://cal.com/katrina-laszlo/30-minute-meeting
 - Email: katrina.j.laszlo@gmail.com
+
+## Projects
+
+- BuildNext (https://github.com/katrinalaszlo/buildnext, live: https://buildnext.katrinalaszlo.com): Evidence-grounded user stories, queryable by agents and humans. Ingest transcripts, support tickets, and feature requests. Includes MCP server for agent access.
+- zero-to-ship (https://github.com/katrinalaszlo/zero-to-ship): Open-source toolkit for product people who are ready to build.
+- agentlens (https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine.
+- observe (https://github.com/katrinalaszlo/observe): Open source AI cost observability.
+- dx-test (https://github.com/katrinalaszlo/dx-test): Automated end-user experience scrutiny.
