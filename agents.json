@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "name": "Katrina Laszlo",
-  "description": "Product designer for the agent era. Designs products where humans shape the system and agents execute within it.",
+  "description": "Product design for the agent era. Product manager and builder. 10 years of growth and monetization.",
   "interfaces": {
     "human": "/",
     "llm": "/llms.txt",
