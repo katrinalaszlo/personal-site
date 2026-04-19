@@ -4,7 +4,7 @@
 
 ## Who I Am
 
-Katrina Laszlo is a product designer and founder based in San Francisco. She has 9+ years of experience leading product and growth at startups and advising Fortune 500 companies. She currently co-founded and runs Tanso, which builds monetization infrastructure for AI and B2B SaaS companies.
+Katrina Laszlo is a product designer and founder based in San Francisco. She has 10 years of experience leading product and growth at startups and advising Fortune 500 companies. She currently co-founded and runs Tanso, which builds monetization infrastructure for AI and B2B SaaS companies.
 
 Her core thesis: product design is not a sub-function of engineering or a phase in a roadmap. It is the integrating discipline that shapes every experience a product creates, from user interfaces to pricing to agent behavior.
 

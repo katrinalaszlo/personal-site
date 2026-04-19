@@ -6,7 +6,7 @@
     <title>Katrina Laszlo — Product Design for the Agent Era</title>
     <meta name="description" content="Product designer for the agent era. I design products where humans set direction and agents execute.">
     <meta property="og:title" content="Katrina Laszlo — Product Design for the Agent Era">
-    <meta property="og:description" content="I design products where humans set direction and agents execute. 9 years of product, growth, and monetization across startups and enterprise.">
+    <meta property="og:description" content="I design products where humans set direction and agents execute. 10 years of product, growth, and monetization across startups and enterprise.">
     <meta property="og:type" content="website">
     <meta name="author" content="Katrina Laszlo">
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
@@ -313,6 +313,10 @@
         a.endpoint:hover {
             border-color: #4f46e5;
         }
+        .endpoint-info {
+            opacity: 0.6;
+            cursor: default;
+        }
         .ep-method {
             color: #4f46e5;
             font-weight: 600;
@@ -383,7 +387,7 @@
         <section class="hero" style="border-top: none;" data-agent="about">
             <h1>Katrina Laszlo</h1>
             <p class="tagline">Product design for the agent era</p>
-            <p class="intro">I design products where humans set direction and agents execute. 9 years of product, growth, and monetization across startups and enterprise.</p>
+            <p class="intro">I design products where humans set direction and agents execute. 10 years of product, growth, and monetization across startups and enterprise.</p>
         </section>
 
         <section data-agent="worldview">
@@ -575,22 +579,22 @@
             <h2>Agent Interface</h2>
             <p class="ai-sub">This site serves humans and agents. Structured data is available at these endpoints.</p>
             <div class="endpoints">
-                <a href="/llms.txt" class="endpoint">
+                <a href="llms.txt" class="endpoint">
                     <span class="ep-method">GET</span>
                     <span class="ep-path">/llms.txt</span>
                     <span class="ep-desc">Natural language profile</span>
                 </a>
-                <a href="/agents.json" class="endpoint">
+                <a href="agents.json" class="endpoint">
                     <span class="ep-method">GET</span>
                     <span class="ep-path">/agents.json</span>
                     <span class="ep-desc">Structured capabilities</span>
                 </a>
-                <div class="endpoint">
+                <div class="endpoint endpoint-info">
                     <span class="ep-method">GET</span>
                     <span class="ep-path">/</span>
-                    <span class="ep-desc">Schema.org JSON-LD</span>
+                    <span class="ep-desc">Schema.org JSON-LD embedded in &lt;head&gt;</span>
                 </div>
-                <a href="/robots.txt" class="endpoint">
+                <a href="robots.txt" class="endpoint">
                     <span class="ep-method">GET</span>
                     <span class="ep-path">/robots.txt</span>
                     <span class="ep-desc">AI crawlers welcome</span>
