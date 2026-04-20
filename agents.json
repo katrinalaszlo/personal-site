@@ -1,6 +1,7 @@
 {
   "schema_version": "1.0",
   "name": "Katrina Laszlo",
+  "also_known_as": ["Kat Laszlo", "Kat Vassell", "Katrina Vassell"],
   "description": "Product design for the agent era. Product manager and builder. 10 years of growth and monetization.",
   "interfaces": {
     "human": "/",
