@@ -8,24 +8,24 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0d1117;
-  --bg-card: #161b22;
-  --bg-card-hover: #1c2230;
-  --bg-inset: #0d1117;
-  --border: #30363d;
-  --border-light: #21262d;
-  --text: #e6edf3;
-  --text-dim: #8b949e;
-  --text-bright: #f0f6fc;
-  --accent: #58a6ff;
-  --accent-dim: #1f6feb;
-  --green: #3fb950;
-  --green-dim: #238636;
-  --red: #f85149;
-  --red-dim: #da3633;
-  --orange: #d29922;
-  --purple: #bc8cff;
-  --cyan: #39d2c0;
+  --bg: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f4f4f5;
+  --bg-inset: #f4f4f5;
+  --border: #e4e4e7;
+  --border-light: #f0f0f0;
+  --text: #1a1a1a;
+  --text-dim: #666666;
+  --text-bright: #0a0a0a;
+  --accent: #4f46e5;
+  --accent-dim: #6366f1;
+  --green: #16a34a;
+  --green-dim: #166534;
+  --red: #dc2626;
+  --red-dim: #b91c1c;
+  --orange: #d97706;
+  --purple: #7c3aed;
+  --cyan: #0d9488;
   --mono: ui-monospace, 'SF Mono', Menlo, 'Cascadia Code', 'Liberation Mono', monospace;
   --sans: -apple-system, Inter, 'Segoe UI', system-ui, Helvetica, Arial, sans-serif;
   --radius: 8px;
@@ -45,7 +45,7 @@ body {
 /* ---- NAV ---- */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(13, 17, 23, 0.92);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center;
@@ -110,23 +110,23 @@ p.dim { color: var(--text-dim); font-size: 14px; }
 .tag {
   display: inline-block; font-size: 11px; font-family: var(--mono);
   padding: 2px 8px; border-radius: 4px;
-  background: var(--accent-dim); color: var(--accent);
+  background: rgba(79, 70, 229, 0.1); color: var(--accent);
   margin-right: 4px; margin-bottom: 4px;
 }
-.tag.green { background: var(--green-dim); color: var(--green); }
-.tag.red { background: var(--red-dim); color: var(--red); }
-.tag.orange { background: rgba(210, 153, 34, 0.2); color: var(--orange); }
-.tag.purple { background: rgba(188, 140, 255, 0.15); color: var(--purple); }
+.tag.green { background: rgba(22, 163, 74, 0.1); color: var(--green); }
+.tag.red { background: rgba(220, 38, 38, 0.1); color: var(--red); }
+.tag.orange { background: rgba(217, 119, 6, 0.1); color: var(--orange); }
+.tag.purple { background: rgba(124, 58, 237, 0.1); color: var(--purple); }
 
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--mono); font-size: 13px;
   padding: 8px 16px; border-radius: 6px;
-  border: 1px solid var(--accent-dim); background: var(--accent-dim);
-  color: var(--accent); cursor: pointer;
+  border: 1px solid var(--accent); background: var(--accent);
+  color: #fff; cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
 }
-.btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.btn:hover { background: var(--accent-dim); border-color: var(--accent-dim); }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .btn:disabled:hover { background: var(--accent-dim); color: var(--accent); }
 .btn.secondary {
@@ -139,7 +139,7 @@ p.dim { color: var(--text-dim); font-size: 14px; }
   border-left: 3px solid var(--accent-dim);
   padding: 12px 16px; margin: 16px 0;
   font-size: 14px; color: var(--text-dim);
-  background: rgba(31, 111, 235, 0.06);
+  background: rgba(79, 70, 229, 0.06);
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 .analogy strong { color: var(--accent); font-weight: 600; }
@@ -172,12 +172,12 @@ code {
 }
 .loop-node.active {
   border-color: var(--accent); color: var(--accent);
-  background: rgba(31, 111, 235, 0.12);
+  background: rgba(79, 70, 229, 0.12);
   box-shadow: 0 0 16px rgba(88, 166, 255, 0.2);
 }
 .loop-node.done {
   border-color: var(--green); color: var(--green);
-  background: rgba(63, 185, 80, 0.12);
+  background: rgba(22, 163, 74, 0.12);
 }
 .loop-node.terminated {
   border-color: var(--red); color: var(--red);
@@ -234,12 +234,12 @@ code {
 .dag-node.waiting { border-color: var(--border); color: var(--text-dim); }
 .dag-node.running {
   border-color: var(--accent); color: var(--accent);
-  background: rgba(31, 111, 235, 0.12);
+  background: rgba(79, 70, 229, 0.12);
   box-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
 }
 .dag-node.done {
   border-color: var(--green); color: var(--green);
-  background: rgba(63, 185, 80, 0.1);
+  background: rgba(22, 163, 74, 0.1);
 }
 .dag-svg {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -297,7 +297,7 @@ code {
 }
 .ws-file.written {
   border-color: var(--green); color: var(--green);
-  background: rgba(63, 185, 80, 0.1);
+  background: rgba(22, 163, 74, 0.1);
 }
 .ws-arrow-line {
   position: absolute; height: 2px;
@@ -357,7 +357,7 @@ code {
   text-align: center;
 }
 .knob-tile:hover { border-color: var(--text-dim); }
-.knob-tile.selected { border-color: var(--accent); background: rgba(31, 111, 235, 0.08); }
+.knob-tile.selected { border-color: var(--accent); background: rgba(79, 70, 229, 0.08); }
 .knob-icon {
   width: 48px; height: 48px; margin: 0 auto 10px;
   border-radius: 50%; border: 2px solid var(--border);
@@ -389,8 +389,8 @@ code {
   cursor: pointer; transition: border-color 0.2s, background 0.2s;
 }
 .knob-state:hover { border-color: var(--text-dim); }
-.knob-state.active { border-color: var(--accent); background: rgba(31,111,235,0.08); }
-.knob-state.bad { border-color: var(--red); background: rgba(248,81,73,0.08); }
+.knob-state.active { border-color: var(--accent); background: rgba(79,70,229,0.08); }
+.knob-state.bad { border-color: var(--red); background: rgba(220,38,38,0.08); }
 .knob-state .state-name { font-family: var(--mono); font-size: 12px; font-weight: 600; margin-bottom: 4px; }
 .knob-state .state-desc { font-size: 11px; color: var(--text-dim); }
 
@@ -422,9 +422,9 @@ code {
   background: var(--bg-card); color: var(--text-dim);
   transition: all 0.4s; z-index: 2;
 }
-.pattern-node.running { border-color: var(--accent); color: var(--accent); background: rgba(31,111,235,0.12); }
+.pattern-node.running { border-color: var(--accent); color: var(--accent); background: rgba(79,70,229,0.12); }
 .pattern-node.done { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.1); }
-.pattern-node.parallel-highlight { box-shadow: 0 0 0 3px rgba(188, 140, 255, 0.3); }
+.pattern-node.parallel-highlight { box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3); }
 
 /* ---- SECTION 7: MAP ---- */
 .scope-stack {
@@ -436,7 +436,7 @@ code {
   background: var(--bg-card);
   transition: border-color 0.3s, background 0.3s;
 }
-.scope-layer.active { border-color: var(--accent); background: rgba(31,111,235,0.06); }
+.scope-layer.active { border-color: var(--accent); background: rgba(79,70,229,0.06); }
 .scope-layer .scope-title {
   font-family: var(--mono); font-size: 12px; font-weight: 600;
   color: var(--text-dim); margin-bottom: 8px;
@@ -473,7 +473,7 @@ code {
   font-size: 10px; font-weight: 700; flex-shrink: 0;
 }
 .inst-layer.lit {
-  border-color: var(--accent); background: rgba(31,111,235,0.06);
+  border-color: var(--accent); background: rgba(79,70,229,0.06);
   color: var(--accent);
 }
 .inst-layer.lit .num { background: var(--accent-dim); color: var(--accent); }
@@ -507,9 +507,9 @@ code {
   transition: all 0.2s;
 }
 .quiz-opt:hover { border-color: var(--text-dim); color: var(--text); }
-.quiz-opt.selected { border-color: var(--accent); color: var(--accent); background: rgba(31,111,235,0.1); }
+.quiz-opt.selected { border-color: var(--accent); color: var(--accent); background: rgba(79,70,229,0.1); }
 .quiz-opt.correct { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.1); }
-.quiz-opt.wrong { border-color: var(--red); color: var(--red); background: rgba(248,81,73,0.1); }
+.quiz-opt.wrong { border-color: var(--red); color: var(--red); background: rgba(220,38,38,0.1); }
 
 .quiz-result {
   margin-top: 16px; padding: 16px;
@@ -628,7 +628,7 @@ code {
       <button class="btn secondary" onclick="resetDag()">Reset</button>
       <div style="display:flex;gap:12px;margin-left:auto">
         <span class="tag">waiting</span>
-        <span class="tag" style="background:rgba(31,111,235,0.2);color:var(--accent)">running</span>
+        <span class="tag" style="background:rgba(79,70,229,0.2);color:var(--accent)">running</span>
         <span class="tag green">done</span>
       </div>
     </div>
@@ -1252,7 +1252,7 @@ function animateParallelism() {
       el.style.borderColor = s.color;
       el.style.color = s.color;
       if (s.done) el.style.background = 'rgba(63,185,80,0.1)';
-      else el.style.background = 'rgba(31,111,235,0.1)';
+      else el.style.background = 'rgba(79,70,229,0.1)';
     }, s.delay);
   });
 
@@ -1262,7 +1262,7 @@ function animateParallelism() {
       const el = document.getElementById(id);
       el.style.borderColor = 'var(--accent)';
       el.style.color = 'var(--accent)';
-      el.style.background = 'rgba(31,111,235,0.1)';
+      el.style.background = 'rgba(79,70,229,0.1)';
     });
   }, 200);
 
@@ -1517,7 +1517,7 @@ function animatePattern(pat) {
       { idx: 0, state: 'done', delay: 600 },
       { idx: 1, state: 'running', delay: 800 },
       // fail
-      { idx: 1, state: '', delay: 1400, custom: el => { el.style.borderColor='var(--red)'; el.style.color='var(--red)'; el.style.background='rgba(248,81,73,0.12)'; } },
+      { idx: 1, state: '', delay: 1400, custom: el => { el.style.borderColor='var(--red)'; el.style.color='var(--red)'; el.style.background='rgba(220,38,38,0.12)'; } },
       { idx: 0, state: 'running', delay: 1800 },
       { idx: 0, state: 'done', delay: 2400 },
       { idx: 1, state: 'running', delay: 2600 },
