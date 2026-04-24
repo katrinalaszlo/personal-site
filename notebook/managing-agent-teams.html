@@ -42,42 +42,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---- NAV ---- */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center;
-  padding: 0 24px; height: 52px;
-  gap: 6px;
-  overflow-x: auto;
-}
-nav .logo {
-  font-family: var(--mono); font-size: 13px; font-weight: 600;
-  color: var(--accent); white-space: nowrap; margin-right: 16px;
-  letter-spacing: -0.3px;
-}
-nav a {
-  font-size: 12px; color: var(--text-dim); text-decoration: none;
-  padding: 6px 10px; border-radius: 6px; white-space: nowrap;
-  transition: color 0.15s, background 0.15s;
-}
-nav a:hover, nav a.active { color: var(--text); background: var(--bg-card); }
-nav a.active { color: var(--accent); }
-
-/* ---- PROGRESS ---- */
-.progress-bar {
-  position: fixed; top: 52px; left: 0; right: 0; z-index: 99;
-  height: 2px; background: var(--border);
-}
-.progress-bar .fill {
-  height: 100%; width: 0; background: var(--accent);
-  transition: width 0.3s ease;
-}
+/* (nav and progress bar styles removed — using inline header) */
 
 /* ---- MAIN ---- */
-main { max-width: 960px; margin: 0 auto; padding: 80px 24px 120px; }
+main { max-width: 900px; margin: 0 auto; padding: 2rem 2rem 4rem; }
 
 section { margin-bottom: 96px; scroll-margin-top: 72px; }
 
@@ -537,28 +505,30 @@ code {
   .card-grid, .models-grid, .knobs-grid { grid-template-columns: 1fr; }
   .loop-container { flex-direction: column; }
   .reason-demo { flex-direction: column; }
-  nav { padding: 0 12px; }
-  nav a { font-size: 11px; padding: 6px 8px; }
 }
 </style>
 </head>
 <body>
 
-<nav id="navbar">
-  <a href="/notebook/" style="text-decoration:none"><span class="logo" style="cursor:pointer">Notebook</span></a>
-  <span style="color:var(--text-dim);font-size:12px;margin-right:12px">/</span>
-  <span style="font-size:12px;color:var(--text);margin-right:16px">Agent Teams</span>
-  <a href="#s1">Agent</a>
-  <a href="#s2">DAG</a>
-  <a href="#s3">Models</a>
-  <a href="#s4">Why Split</a>
-  <a href="#s5">Six Knobs</a>
-  <a href="#s6">Patterns</a>
-  <a href="#s7">Real Setup</a>
-  <a href="#s8">The Test</a>
-</nav>
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
 
-<div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Agent Teams</span></div>
+  <div style="display:flex;gap:0.75rem">
+    <a href="/notebook/ai-system-design.html" style="color:#4f46e5;text-decoration:none">&larr; Prev</a>
+    <a href="/notebook/training-loop.html" style="color:#4f46e5;text-decoration:none">Next &rarr;</a>
+  </div>
+</div>
 
 <main>
 
@@ -921,29 +891,6 @@ code {
 </main>
 
 <script>
-// ===== NAVIGATION + PROGRESS =====
-(function() {
-  const sections = document.querySelectorAll('section');
-  const navLinks = document.querySelectorAll('nav a');
-  const fill = document.getElementById('progressFill');
-
-  function update() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    fill.style.width = pct + '%';
-
-    let current = '';
-    sections.forEach(s => {
-      if (s.offsetTop - 100 <= scrollTop) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
-  }
-  window.addEventListener('scroll', update, { passive: true });
-  update();
-})();
 
 // ===== SECTION 1: AGENT LOOP =====
 let loopRunning = false;
@@ -1721,6 +1668,11 @@ function checkQuiz() {
 
 renderQuiz();
 </script>
+
+<div style="max-width:900px;margin:2rem auto;padding:2rem 2rem 4rem;border-top:1px solid #e4e4e7;display:flex;justify-content:space-between;align-items:center;font-size:0.875rem">
+  <a href="/notebook/ai-system-design.html" style="color:#4f46e5;text-decoration:none">&larr; AI System Design</a>
+  <a href="/notebook/training-loop.html" style="color:#4f46e5;text-decoration:none">Training Loops &rarr;</a>
+</div>
 
 </body>
 </html>
