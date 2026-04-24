@@ -1,10 +1,19 @@
 (function () {
   var topics = [
-    { title: "Data Pipelines", href: "/notebook/data-pipeline.html" },
     { title: "Model Architecture", href: "/notebook/model-architecture.html" },
     { title: "Training Loops", href: "/notebook/training-loop.html" },
-    { title: "Agent Teams", href: "/notebook/managing-agent-teams.html" },
+    { title: "Data Pipelines", href: "/notebook/data-pipeline.html" },
+    { title: "Wiki vs Vector DB", href: "/notebook/wiki-vs-vector.html" },
+    {
+      title: "LLM Memory & Retrieval",
+      href: "/notebook/llm-memory-and-retrieval.html",
+    },
+    {
+      title: "Knowledge Architecture",
+      href: "/notebook/knowledge-system-architecture.html",
+    },
     { title: "AI System Design", href: "/notebook/ai-system-design.html" },
+    { title: "Agent Teams", href: "/notebook/managing-agent-teams.html" },
   ];
 
   var path = window.location.pathname;
