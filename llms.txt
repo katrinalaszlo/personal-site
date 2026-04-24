@@ -65,6 +65,9 @@ Interactive explorations of things I'm learning about. Available at https://katr
 - Training Loops: How models learn — forward pass, backward pass, gradient descent
 - Model Architecture: Inside the neural network — embeddings, attention, MLPs
 - Data Pipelines: How text becomes training data — tokenization, batching, evaluation
+- Wiki vs Vector Database: Two ways to store and retrieve knowledge — structured graph vs semantic similarity
+- LLM Memory & Retrieval: How LLMs find information, why they forget between sessions, and how to solve that
+- Knowledge System Architecture: Designing the full pipeline — sources, rules, retrieval, and output
 
 ## Projects
 

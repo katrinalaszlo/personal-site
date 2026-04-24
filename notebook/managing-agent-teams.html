@@ -616,11 +616,6 @@ code {
   <h2>Meeting model vs Workspace model</h2>
   <p class="subtitle">Two ways agents share work. One works. One mostly doesn't.</p>
 
-  <div style="text-align:center;margin-bottom:16px">
-    <button class="btn" id="modelsBtn" onclick="runModels()">Animate Both</button>
-    <button class="btn secondary" onclick="resetModels()">Reset</button>
-  </div>
-
   <div class="models-grid">
     <!-- Meeting model -->
     <div class="model-panel" id="meetingPanel">
@@ -628,7 +623,16 @@ code {
         <h3 style="color:var(--red)">Meeting Model</h3>
         <span class="tag red">chaotic</span>
       </div>
-      <div class="model-viewport" id="meetingViewport"></div>
+      <div class="model-viewport" style="padding:16px;display:flex;flex-direction:column;gap:6px;height:auto;min-height:200px">
+        <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--accent);color:#fff;align-self:flex-start">A: I found the API docs</div>
+        <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--green);color:#fff;align-self:flex-end">B: That changes my approach</div>
+        <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--orange);color:#fff;align-self:flex-start">C: I disagree with B</div>
+        <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--purple);color:#fff;align-self:flex-end">D: Wait, what about...</div>
+        <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--accent);color:#fff;align-self:flex-start">A: No, listen to me</div>
+        <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--green);color:#fff;align-self:flex-end">B: This contradicts A</div>
+        <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--orange);color:#fff;align-self:flex-start">C: Can someone clarify?</div>
+        <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--purple);color:#fff;align-self:flex-end">D: Are we done yet?</div>
+      </div>
       <div class="model-footer">
         Every message fills every agent's context with irrelevant noise. Like putting your whole team in one Slack channel.
       </div>
@@ -640,7 +644,21 @@ code {
         <h3 style="color:var(--green)">Workspace Model</h3>
         <span class="tag green">clean</span>
       </div>
-      <div class="model-viewport" id="workspaceViewport"></div>
+      <div class="model-viewport" style="padding:20px;height:auto;min-height:200px;position:relative">
+        <div style="display:flex;gap:40px;align-items:flex-start">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-family:var(--mono);font-size:12px;font-weight:700;width:36px;height:36px;border-radius:6px;border:2px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center">A</div>
+            <div style="font-family:var(--mono);font-size:12px;font-weight:700;width:36px;height:36px;border-radius:6px;border:2px solid var(--green);color:var(--green);display:flex;align-items:center;justify-content:center">B</div>
+            <div style="font-family:var(--mono);font-size:12px;font-weight:700;width:36px;height:36px;border-radius:6px;border:2px solid var(--orange);color:var(--orange);display:flex;align-items:center;justify-content:center">C</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:11px">
+            <div style="padding:6px 12px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:rgba(22,163,74,0.1)">spec.md <span style="opacity:0.6">← A wrote</span></div>
+            <div style="padding:6px 12px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:rgba(22,163,74,0.1)">api.ts <span style="opacity:0.6">← B wrote</span></div>
+            <div style="padding:6px 12px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:rgba(22,163,74,0.1)">ui.vue <span style="opacity:0.6">← C wrote</span></div>
+            <div style="padding:6px 12px;border-radius:4px;border:1px solid var(--border);color:var(--text-dim)">result/ <span style="opacity:0.6">← all write</span></div>
+          </div>
+        </div>
+      </div>
       <div class="model-footer">
         Agents read/write to shared files. No direct communication. Like engineers pushing to a repo. Each sees only what's relevant.
       </div>
@@ -667,23 +685,23 @@ code {
         <div class="reason-before">
           <h4>One Agent</h4>
           <div class="ctx-label">context window</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="ctx-single" style="width:0;background:var(--red)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" id="ctx-single" style="width:95%;background:var(--red)"></div></div>
           <div class="ctx-label" style="margin-top:8px">quality</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="qual-single" style="width:100%;background:var(--green)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" id="qual-single" style="width:25%;background:var(--red)"></div></div>
           <p class="dim" style="margin-top:12px;font-size:12px;text-align:center">Bloated context, degrading output</p>
         </div>
         <div class="reason-after">
           <h4>Two Agents</h4>
           <div class="ctx-label">agent A context</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="ctx-a" style="width:0;background:var(--green)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" id="ctx-a" style="width:40%;background:var(--green)"></div></div>
           <div class="ctx-label">agent B context</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="ctx-b" style="width:0;background:var(--green)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" id="ctx-b" style="width:35%;background:var(--green)"></div></div>
           <div class="ctx-label" style="margin-top:8px">quality</div>
           <div class="ctx-bar"><div class="ctx-fill" id="qual-split" style="width:100%;background:var(--green)"></div></div>
           <p class="dim" style="margin-top:12px;font-size:12px;text-align:center">Focused contexts, clean output</p>
         </div>
       </div>
-      <button class="btn" style="margin-top:12px;width:100%" onclick="animateContext()">Show Degradation</button>
+      <!-- bars show final state statically -->
 
       <div class="analogy" style="margin-top:16px">
         <strong>PM analogy:</strong> You don't invite the whole company to every meeting. You invite the people who need to be there and give them only the context they need.
@@ -1024,155 +1042,7 @@ function runDag() {
 window.addEventListener('resize', drawDagEdges);
 setTimeout(drawDagEdges, 100);
 
-// ===== SECTION 3: MEETING VS WORKSPACE =====
-let modelsRunning = false;
-
-function resetModels() {
-  document.getElementById('meetingViewport').innerHTML = '';
-  document.getElementById('workspaceViewport').innerHTML = '';
-  modelsRunning = false;
-  document.getElementById('modelsBtn').disabled = false;
-}
-
-function runModels() {
-  if (modelsRunning) return;
-  modelsRunning = true;
-  document.getElementById('modelsBtn').disabled = true;
-  resetModels();
-  modelsRunning = true;
-  document.getElementById('modelsBtn').disabled = true;
-
-  // --- Meeting model ---
-  const mv = document.getElementById('meetingViewport');
-  const agents = ['A', 'B', 'C', 'D'];
-  const colors = ['var(--accent)', 'var(--green)', 'var(--orange)', 'var(--purple)'];
-  const messages = [
-    'I found the API docs',
-    'That changes my approach',
-    'I disagree with B',
-    'Wait, what about...',
-    'No, listen to me',
-    'I found something else',
-    'This contradicts A',
-    'Can someone clarify?',
-    'Starting over...',
-    'Still confused',
-    'Repeat: the API says...',
-    'Are we done yet?',
-  ];
-
-  let msgIdx = 0;
-  const meetingInterval = setInterval(() => {
-    if (msgIdx >= messages.length) { clearInterval(meetingInterval); return; }
-    const bubble = document.createElement('div');
-    bubble.className = 'chat-bubble';
-    const agentIdx = msgIdx % agents.length;
-    bubble.style.background = colors[agentIdx];
-    bubble.style.color = 'var(--bg)';
-    bubble.style.left = (10 + Math.random() * 50) + '%';
-    bubble.style.top = (10 + Math.random() * 70) + '%';
-    bubble.style.transform = 'rotate(' + (Math.random() * 10 - 5) + 'deg)';
-    bubble.textContent = agents[agentIdx] + ': ' + messages[msgIdx];
-    mv.appendChild(bubble);
-    requestAnimationFrame(() => bubble.style.opacity = '1');
-    msgIdx++;
-  }, 350);
-
-  // --- Workspace model ---
-  const wv = document.getElementById('workspaceViewport');
-  // Setup: agents on left, files in center-right
-  const wsAgents = [
-    { label: 'A', x: 20, y: 40 },
-    { label: 'B', x: 20, y: 110 },
-    { label: 'C', x: 20, y: 180 },
-  ];
-  const wsFiles = [
-    { label: 'spec.md', x: 140, y: 30 },
-    { label: 'api.ts', x: 140, y: 90 },
-    { label: 'ui.vue', x: 140, y: 150 },
-    { label: 'result/', x: 140, y: 210 },
-  ];
-
-  wsAgents.forEach(a => {
-    const el = document.createElement('div');
-    el.className = 'ws-agent';
-    el.id = 'wsa-' + a.label;
-    el.style.left = a.x + 'px'; el.style.top = a.y + 'px';
-    el.textContent = a.label;
-    wv.appendChild(el);
-  });
-
-  wsFiles.forEach(f => {
-    const el = document.createElement('div');
-    el.className = 'ws-file';
-    el.id = 'wsf-' + f.label.replace(/[./]/g, '');
-    el.style.left = f.x + 'px'; el.style.top = f.y + 'px';
-    el.textContent = f.label;
-    wv.appendChild(el);
-  });
-
-  const wsSteps = [
-    { agent: 'A', file: 'specmd', action: 'write', delay: 400 },
-    { agent: 'B', file: 'specmd', action: 'read', delay: 1200 },
-    { agent: 'C', file: 'specmd', action: 'read', delay: 1400 },
-    { agent: 'B', file: 'apits', action: 'write', delay: 2200 },
-    { agent: 'C', file: 'uivue', action: 'write', delay: 2400 },
-    { agent: 'B', file: 'result', action: 'write', delay: 3200 },
-    { agent: 'C', file: 'result', action: 'write', delay: 3400 },
-  ];
-
-  wsSteps.forEach(step => {
-    setTimeout(() => {
-      const agent = document.getElementById('wsa-' + step.agent);
-      const file = document.getElementById('wsf-' + step.file);
-      if (!agent || !file) return;
-
-      if (step.action === 'write') {
-        agent.style.borderColor = 'var(--green)';
-        agent.style.color = 'var(--green)';
-        file.classList.add('written');
-      } else {
-        agent.style.borderColor = 'var(--accent)';
-        agent.style.color = 'var(--accent)';
-        file.style.borderColor = 'var(--accent)';
-      }
-
-      setTimeout(() => {
-        agent.style.borderColor = 'var(--border)';
-        agent.style.color = 'var(--text-dim)';
-        if (step.action === 'read') {
-          file.style.borderColor = 'var(--border)';
-        }
-      }, 600);
-    }, step.delay);
-  });
-}
-
-// ===== SECTION 4: CONTEXT + PARALLELISM =====
-function animateContext() {
-  // Single agent: context fills, quality drops
-  const ctxSingle = document.getElementById('ctx-single');
-  const qualSingle = document.getElementById('qual-single');
-  const ctxA = document.getElementById('ctx-a');
-  const ctxB = document.getElementById('ctx-b');
-  const qualSplit = document.getElementById('qual-split');
-
-  // Reset
-  ctxSingle.style.width = '0'; qualSingle.style.width = '100%'; qualSingle.style.background = 'var(--green)';
-  ctxA.style.width = '0'; ctxB.style.width = '0';
-  qualSplit.style.width = '100%'; qualSplit.style.background = 'var(--green)';
-
-  setTimeout(() => {
-    ctxSingle.style.width = '95%';
-    qualSingle.style.width = '25%';
-    qualSingle.style.background = 'var(--red)';
-
-    ctxA.style.width = '40%';
-    ctxB.style.width = '35%';
-    qualSplit.style.width = '90%';
-    qualSplit.style.background = 'var(--green)';
-  }, 100);
-}
+// Sections 3 & 4 are now static HTML
 
 function animateParallelism() {
   // Reset

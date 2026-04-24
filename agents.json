@@ -45,7 +45,19 @@
         "title": "Model Architecture",
         "url": "/notebook/model-architecture.html"
       },
-      { "title": "Data Pipelines", "url": "/notebook/data-pipeline.html" }
+      { "title": "Data Pipelines", "url": "/notebook/data-pipeline.html" },
+      {
+        "title": "Wiki vs Vector Database",
+        "url": "/notebook/wiki-vs-vector.html"
+      },
+      {
+        "title": "LLM Memory & Retrieval",
+        "url": "/notebook/llm-memory-and-retrieval.html"
+      },
+      {
+        "title": "Knowledge System Architecture",
+        "url": "/notebook/knowledge-system-architecture.html"
+      }
     ]
   },
   "projects": [
