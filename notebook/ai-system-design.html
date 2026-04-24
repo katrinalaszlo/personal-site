@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI System Design — Notebook — Katrina Laszlo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -70,7 +71,7 @@ p.dim { color: var(--text-dim); font-size: 14px; opacity: 0.85; }
   border-radius: var(--radius-lg); padding: 24px;
   margin-bottom: 16px;
 }
-.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
 
 .tag {
   display: inline-block; font-size: 11px; font-family: var(--mono);
@@ -83,26 +84,11 @@ p.dim { color: var(--text-dim); font-size: 14px; opacity: 0.85; }
 .tag.orange { background: rgba(217, 119, 6, 0.1); color: var(--orange); }
 .tag.purple { background: rgba(124, 58, 237, 0.1); color: var(--purple); }
 
-.btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--mono); font-size: 13px;
-  padding: 8px 16px; border-radius: 6px;
-  border: 1px solid var(--accent); background: var(--accent);
-  color: #fff; cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-}
-.btn:hover { background: var(--accent-dim); border-color: var(--accent-dim); }
-.btn.secondary {
-  background: transparent; border-color: var(--border);
-  color: var(--text-dim);
-}
-.btn.secondary:hover { border-color: var(--text-dim); color: var(--text); background: transparent; }
-
 .analogy {
   border-left: 3px solid var(--accent-dim);
   padding: 14px 18px; margin: 16px 0;
   font-size: 15px; color: var(--text-bright);
-  background: rgba(79, 70, 229, 0.1);
+  background: rgba(79, 70, 229, 0.04);
   border-radius: 0 var(--radius) var(--radius) 0;
   line-height: 1.7;
 }
@@ -112,11 +98,21 @@ p.dim { color: var(--text-dim); font-size: 14px; opacity: 0.85; }
   border-left: 3px solid var(--green-dim);
   padding: 14px 18px; margin: 16px 0;
   font-size: 15px; color: var(--text-bright);
-  background: rgba(22, 163, 74, 0.1);
+  background: rgba(22, 163, 74, 0.04);
   border-radius: 0 var(--radius) var(--radius) 0;
   line-height: 1.7;
 }
 .connection strong { color: var(--green); font-weight: 600; }
+
+.warning {
+  border-left: 3px solid var(--orange);
+  padding: 14px 18px; margin: 16px 0;
+  font-size: 15px; color: var(--text-bright);
+  background: rgba(217, 119, 6, 0.04);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  line-height: 1.7;
+}
+.warning strong { color: var(--orange); font-weight: 600; }
 
 code {
   font-family: var(--mono); font-size: 13px;
@@ -124,7 +120,6 @@ code {
   border-radius: 4px; color: var(--cyan);
 }
 
-/* Contrast table */
 .contrast-table {
   width: 100%; border-collapse: collapse;
   margin: 16px 0;
@@ -145,181 +140,8 @@ code {
 .contrast-table tr:last-child td { border-bottom: none; }
 .contrast-table { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 
-/* Pillar cards */
-.pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
-.pillar-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 20px;
-  border-top: 3px solid var(--border);
-  transition: border-color 0.3s, transform 0.2s;
-  cursor: pointer;
-}
-.pillar-card:hover { transform: translateY(-2px); }
-.pillar-card.active { border-top-color: var(--accent); }
-.pillar-card .pillar-icon {
-  font-size: 24px; margin-bottom: 12px;
-}
-.pillar-card h3 { margin-bottom: 8px; }
-.pillar-card p { font-size: 13px; color: var(--text-dim); margin-bottom: 0; }
-.pillar-detail {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 24px;
-  margin-top: 16px; display: none;
-}
-.pillar-detail.visible { display: block; }
-
-/* Model selector */
-.model-compare {
-  display: grid; grid-template-columns: 1fr auto 1fr;
-  gap: 16px; align-items: start; margin: 24px 0;
-}
-.model-option {
-  background: var(--bg-card); border: 2px solid var(--border);
-  border-radius: var(--radius-lg); padding: 20px;
-  cursor: pointer; transition: all 0.3s;
-}
-.model-option:hover { border-color: var(--text-dim); }
-.model-option.selected { border-color: var(--accent); background: rgba(79,70,229,0.06); }
-.model-option.wrong { border-color: var(--red); background: rgba(220,38,38,0.06); }
-.model-vs {
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 14px; color: var(--text-dim);
-  padding-top: 40px;
-}
-.model-option h3 { margin-bottom: 8px; }
-.model-option .specs {
-  font-size: 12px; color: var(--text-dim);
-  font-family: var(--mono);
-}
-.model-option .spec-row {
-  display: flex; justify-content: space-between;
-  padding: 4px 0; border-bottom: 1px solid var(--border-light);
-}
-.model-option .spec-row:last-child { border-bottom: none; }
-
-/* Orchestration diagram */
-.orch-diagram {
-  position: relative; width: 100%; height: 380px;
-  background: var(--bg-inset); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden;
-}
-.orch-node {
-  position: absolute; padding: 10px 18px;
-  font-family: var(--mono); font-size: 13px; font-weight: 600;
-  border-radius: 8px; border: 2px solid var(--border);
-  background: var(--bg-card); color: var(--text-dim);
-  transition: all 0.4s; z-index: 2; text-align: center;
-}
-.orch-node .role { display: block; font-size: 10px; font-weight: 400; margin-top: 2px; opacity: 0.7; }
-.orch-node.active {
-  border-color: var(--accent); color: var(--accent);
-  background: rgba(79,70,229,0.12);
-  box-shadow: 0 0 20px rgba(88,166,255,0.15);
-}
-.orch-node.done {
-  border-color: var(--green); color: var(--green);
-  background: rgba(63,185,80,0.1);
-}
-.orch-node.fail {
-  border-color: var(--red); color: var(--red);
-  background: rgba(220,38,38,0.1);
-}
-.orch-svg {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
-}
-.orch-edge { stroke: var(--border); stroke-width: 2; fill: none; }
-.orch-edge.active { stroke: var(--accent); }
-.orch-edge.done { stroke: var(--green); }
-
-/* Memory tiers */
-.memory-stack { margin: 24px 0; }
-.memory-tier {
-  display: flex; align-items: stretch; gap: 0;
-  margin-bottom: 2px;
-}
-.memory-label {
-  width: 120px; padding: 14px 16px;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-right: none;
-  border-radius: var(--radius) 0 0 var(--radius);
-  font-family: var(--mono); font-size: 13px; font-weight: 600;
-  display: flex; align-items: center;
-  transition: all 0.3s;
-}
-.memory-content {
-  flex: 1; padding: 14px 16px;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  font-size: 14px; color: var(--text-dim);
-  transition: all 0.3s;
-}
-.memory-tier.highlight .memory-label {
-  background: rgba(79,70,229,0.12); border-color: var(--accent);
-  color: var(--accent);
-}
-.memory-tier.highlight .memory-content {
-  background: rgba(79,70,229,0.06); border-color: var(--accent);
-}
-
-/* Failure table */
-.failure-grid {
-  display: grid; grid-template-columns: 1fr; gap: 8px;
-  margin: 24px 0;
-}
-.failure-row {
-  display: grid; grid-template-columns: 160px 1fr 1fr;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-  transition: border-color 0.3s;
-}
-.failure-row:hover { border-color: var(--text-dim); }
-.failure-cell {
-  padding: 12px 14px; font-size: 13px;
-  border-right: 1px solid var(--border-light);
-}
-.failure-cell:last-child { border-right: none; }
-.failure-cell.label {
-  font-weight: 600; color: var(--text);
-  display: flex; align-items: center; gap: 8px;
-}
-.failure-cell.detect { color: var(--orange); }
-.failure-cell.fix { color: var(--green); }
-.failure-header {
-  display: grid; grid-template-columns: 160px 1fr 1fr;
-  font-family: var(--mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.5px;
-  color: var(--text-dim); padding: 0 14px;
-  margin-bottom: 4px;
-}
-.failure-header span { padding: 8px 0; }
-
-/* Scale bars */
-.scale-bars { margin: 24px 0; }
-.scale-item {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px;
-  margin-bottom: 8px;
-}
-.scale-item h4 {
-  font-family: var(--mono); font-size: 13px;
-  margin-bottom: 8px;
-}
-.scale-bar-track {
-  width: 100%; height: 8px;
-  background: var(--bg-inset); border-radius: 4px;
-  overflow: hidden; margin-bottom: 8px;
-}
-.scale-bar-fill {
-  height: 100%; border-radius: 4px;
-  transition: width 1s ease;
-}
-.scale-item p { font-size: 13px; color: var(--text-dim); margin-bottom: 0; }
-
 /* Metrics quadrant */
-.metrics-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-  margin: 24px 0;
-}
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
 .metric-box {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 20px;
@@ -330,9 +152,7 @@ code {
   text-transform: uppercase; letter-spacing: 0.5px;
   margin-bottom: 12px;
 }
-.metric-box ul {
-  list-style: none; padding: 0;
-}
+.metric-box ul { list-style: none; padding: 0; }
 .metric-box li {
   font-size: 13px; color: var(--text-dim);
   padding: 4px 0; display: flex; align-items: center; gap: 8px;
@@ -355,29 +175,20 @@ code {
 .metric-box.business li::before { background: var(--purple); }
 
 /* Sequence steps */
-.sequence {
-  counter-reset: step;
-  margin: 24px 0;
-}
+.sequence { counter-reset: step; margin: 24px 0; }
 .seq-step {
   display: flex; gap: 16px; align-items: flex-start;
   margin-bottom: 2px; padding: 14px 16px;
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius);
-  cursor: pointer; transition: all 0.3s;
 }
-.seq-step:hover { border-color: var(--text-dim); }
-.seq-step.active { border-color: var(--accent); background: rgba(79,70,229,0.06); }
 .seq-num {
-  counter-increment: step;
   width: 28px; height: 28px; border-radius: 50%;
-  background: var(--border); color: var(--text-dim);
+  background: var(--bg-inset); color: var(--text-dim);
   display: flex; align-items: center; justify-content: center;
   font-family: var(--mono); font-size: 12px; font-weight: 700;
-  flex-shrink: 0; transition: all 0.3s;
+  flex-shrink: 0;
 }
-.seq-step.active .seq-num { background: var(--accent-dim); color: var(--accent); }
-.seq-step.done .seq-num { background: var(--green-dim); color: var(--green); }
 .seq-body h4 { font-size: 14px; margin-bottom: 4px; }
 .seq-body p { font-size: 13px; color: var(--text-dim); margin-bottom: 0; }
 .seq-tag {
@@ -389,12 +200,9 @@ code {
 /* Quiz */
 .quiz-card {
   background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 24px;
-  margin-bottom: 16px;
+  border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
 }
-.quiz-q {
-  font-size: 15px; font-weight: 500; margin-bottom: 16px;
-}
+.quiz-q { font-size: 15px; font-weight: 500; margin-bottom: 16px; }
 .quiz-options { display: flex; flex-direction: column; gap: 8px; }
 .quiz-opt {
   padding: 12px 16px; font-size: 14px; border-radius: var(--radius);
@@ -402,8 +210,8 @@ code {
   color: var(--text-dim); cursor: pointer; transition: all 0.2s;
 }
 .quiz-opt:hover { border-color: var(--text-dim); color: var(--text); }
-.quiz-opt.correct { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.1); }
-.quiz-opt.wrong { border-color: var(--red); color: var(--red); background: rgba(220,38,38,0.1); }
+.quiz-opt.correct { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.1); cursor: default; }
+.quiz-opt.wrong { border-color: var(--red); color: var(--red); background: rgba(220,38,38,0.1); cursor: default; }
 .quiz-opt.disabled { pointer-events: none; }
 .quiz-explain {
   margin-top: 12px; padding: 14px;
@@ -412,9 +220,7 @@ code {
   color: var(--text-dim); display: none;
 }
 .quiz-explain.visible { display: block; }
-.quiz-progress-bar {
-  display: flex; gap: 4px; margin-bottom: 24px;
-}
+.quiz-progress-bar { display: flex; gap: 4px; margin-bottom: 24px; }
 .quiz-dot {
   flex: 1; height: 4px; border-radius: 2px;
   background: var(--border); transition: background 0.3s;
@@ -432,6 +238,21 @@ code {
   color: var(--accent);
 }
 
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 13px;
+  padding: 8px 16px; border-radius: 6px;
+  border: 1px solid var(--accent); background: var(--accent);
+  color: #fff; cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn:hover { background: var(--accent-dim); border-color: var(--accent-dim); }
+.btn.secondary {
+  background: transparent; border-color: var(--border);
+  color: var(--text-dim);
+}
+.btn.secondary:hover { border-color: var(--text-dim); color: var(--text); background: transparent; }
+
 .credit {
   margin-top: 48px; padding: 20px;
   background: var(--bg-card); border: 1px solid var(--border);
@@ -439,15 +260,9 @@ code {
   font-size: 14px; color: var(--text-dim);
 }
 .credit a { color: var(--accent); text-decoration: none; }
-.credit a:hover { text-decoration: underline; }
 
 @media (max-width: 700px) {
-  .card-grid, .pillar-grid, .metrics-grid { grid-template-columns: 1fr; }
-  .model-compare { grid-template-columns: 1fr; }
-  .model-vs { padding-top: 0; }
-  .failure-row { grid-template-columns: 1fr; }
-  .failure-header { display: none; }
-  .memory-label { width: 90px; font-size: 11px; }
+  .card-grid, .metrics-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -467,10 +282,6 @@ code {
 
 <div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
   <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">AI System Design</span></div>
-  <div style="display:flex;gap:0.75rem">
-    <span style="color:#d4d4d8">Prev</span>
-    <a href="/notebook/managing-agent-teams.html" style="color:#4f46e5;text-decoration:none">Next &rarr;</a>
-  </div>
 </div>
 
 <main>
@@ -506,41 +317,28 @@ code {
   <h2>The three pillars</h2>
   <p class="subtitle">Every AI system has three load-bearing components. Name them explicitly.</p>
 
-  <div class="pillar-grid">
-    <div class="pillar-card" onclick="showPillar(0)" id="pc-0">
-      <div class="pillar-icon">&#9881;</div>
+  <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card" style="border-top:3px solid var(--accent)">
       <h3>Model</h3>
-      <p>What does the thinking. What type? Why? What's it optimized for?</p>
+      <p class="dim" style="margin-bottom:0">What does the thinking. What type? Why? What's it optimized for?</p>
     </div>
-    <div class="pillar-card" onclick="showPillar(1)" id="pc-1">
-      <div class="pillar-icon">&#9776;</div>
+    <div class="card" style="border-top:3px solid var(--orange)">
       <h3>Data</h3>
-      <p>What feeds the model. Where does it come from? How fresh does it need to be?</p>
+      <p class="dim" style="margin-bottom:0">What feeds the model. Where does it come from? How fresh does it need to be?</p>
     </div>
-    <div class="pillar-card" onclick="showPillar(2)" id="pc-2">
-      <div class="pillar-icon">&#128065;</div>
+    <div class="card" style="border-top:3px solid var(--green)">
       <h3>Memory</h3>
-      <p>What persists across interactions. What does the system remember about this user?</p>
+      <p class="dim" style="margin-bottom:0">What persists across interactions. What does the system remember about this user?</p>
     </div>
   </div>
 
-  <div class="pillar-detail" id="pd-0">
-    <h3 style="color:var(--accent)">Model</h3>
-    <p>The model is the engine. Not every engine needs to be a jet turbine. Some jobs need a sewing machine.</p>
-    <p>Questions to ask: What type of input does it handle? Structured data or free text? What's the latency budget? Does the output need to be interpretable? How much does each inference cost?</p>
-  </div>
-  <div class="pillar-detail" id="pd-1">
-    <h3 style="color:var(--accent)">Data</h3>
-    <p>Most AI systems fail because of data problems, not model problems. The model is only as good as what you feed it.</p>
-    <p>Questions to ask: Where does the data live? How fresh does it need to be? Real-time or batch? How is it structured? Who owns it? What are the privacy constraints?</p>
-  </div>
-  <div class="pillar-detail" id="pd-2">
-    <h3 style="color:var(--accent)">Memory</h3>
-    <p>Without memory, every interaction starts from zero. The system doesn't know you called yesterday about the same problem.</p>
-    <p>Questions to ask: What should persist across sessions? What's session-scoped? Where does memory live (vector DB, cache, database)? What's the retrieval strategy?</p>
-  </div>
+  <p><strong>Model:</strong> The engine. Not every engine needs to be a jet turbine. Some jobs need a sewing machine. Ask: What input does it handle? What's the latency budget? Does output need to be interpretable?</p>
 
-  <div class="connection" style="margin-top:24px">
+  <p><strong>Data:</strong> Most AI systems fail because of data problems, not model problems. Ask: Where does data live? Real-time or batch? What are the privacy constraints?</p>
+
+  <p><strong>Memory:</strong> Without memory, every interaction starts from zero. Ask: What persists across sessions? Where does memory live (vector DB, cache, database)? What's the retrieval strategy?</p>
+
+  <div class="connection">
     <strong>Connection to Data Pipelines:</strong> The data pillar is the pipeline you learned about. The difference is that here, the input isn't training data. It's customer records, chat logs, usage patterns. Same concept, different source.
   </div>
 </section>
@@ -550,75 +348,37 @@ code {
   <h2>LLM isn't the default</h2>
   <p class="subtitle">"I'd use an LLM" is not a design decision. It's a reflex.</p>
 
-  <p>Two jobs in the same system can need completely different models. Click the right model for each job:</p>
+  <p>Two jobs in the same system can need completely different models.</p>
 
-  <h3 style="margin-top:24px;margin-bottom:16px">Job 1: Predict which customers will churn</h3>
-  <p class="dim">Based on billing history, usage patterns, tenure. Structured tabular data.</p>
-  <div class="model-compare">
-    <div class="model-option" id="m1-xgb" onclick="pickModel(1,'xgb')">
-      <h3>XGBoost</h3>
-      <div class="specs">
-        <div class="spec-row"><span>Latency</span><span style="color:var(--green)">&lt;100ms</span></div>
-        <div class="spec-row"><span>Cost</span><span style="color:var(--green)">$0.001/pred</span></div>
-        <div class="spec-row"><span>Interpretable</span><span style="color:var(--green)">Yes</span></div>
-        <div class="spec-row"><span>Data type</span><span>Structured</span></div>
-      </div>
-    </div>
-    <div class="model-vs">vs</div>
-    <div class="model-option" id="m1-llm" onclick="pickModel(1,'llm')">
-      <h3>LLM</h3>
-      <div class="specs">
-        <div class="spec-row"><span>Latency</span><span style="color:var(--red)">1-10s</span></div>
-        <div class="spec-row"><span>Cost</span><span style="color:var(--red)">$0.01-0.10/pred</span></div>
-        <div class="spec-row"><span>Interpretable</span><span style="color:var(--red)">No</span></div>
-        <div class="spec-row"><span>Data type</span><span>Unstructured</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="quiz-explain" id="m1-explain"></div>
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Dimension</th><th>XGBoost</th><th>LLM</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Latency</td><td style="color:var(--green)">&lt;100ms</td><td style="color:var(--red)">100ms-2s first token; total depends on output length</td></tr>
+      <tr><td>Cost per prediction</td><td style="color:var(--green)">$0.001</td><td style="color:var(--red)">$0.01-0.10</td></tr>
+      <tr><td>Interpretable</td><td style="color:var(--green)">Yes (feature importance)</td><td style="color:var(--red)">No</td></tr>
+      <tr><td>Data type</td><td>Structured, tabular</td><td>Unstructured text, images</td></tr>
+      <tr><td>Output type</td><td>Classification, regression</td><td>Generation, conversation</td></tr>
+      <tr><td>Best for</td><td>Churn prediction, scoring</td><td>Conversation, summarization</td></tr>
+    </tbody>
+  </table>
 
-  <h3 style="margin-top:32px;margin-bottom:16px">Job 2: Talk to a customer about their billing problem</h3>
-  <p class="dim">Needs natural language understanding, context handling, open-ended generation.</p>
-  <div class="model-compare">
-    <div class="model-option" id="m2-xgb" onclick="pickModel(2,'xgb')">
-      <h3>XGBoost</h3>
-      <div class="specs">
-        <div class="spec-row"><span>Language gen</span><span style="color:var(--red)">No</span></div>
-        <div class="spec-row"><span>Context</span><span style="color:var(--red)">None</span></div>
-        <div class="spec-row"><span>Flexibility</span><span style="color:var(--red)">Fixed schema</span></div>
-      </div>
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h3>Job 1: Predict churn</h3>
+      <p class="dim" style="margin-bottom:8px">Billing history, usage patterns, tenure. Structured tabular data.</p>
+      <p style="margin-bottom:0"><strong style="color:var(--green)">Use XGBoost.</strong> You don't need a poet. You need a calculator.</p>
     </div>
-    <div class="model-vs">vs</div>
-    <div class="model-option" id="m2-llm" onclick="pickModel(2,'llm')">
-      <h3>LLM</h3>
-      <div class="specs">
-        <div class="spec-row"><span>Language gen</span><span style="color:var(--green)">Yes</span></div>
-        <div class="spec-row"><span>Context</span><span style="color:var(--green)">Full window</span></div>
-        <div class="spec-row"><span>Flexibility</span><span style="color:var(--green)">Open-ended</span></div>
-      </div>
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <h3>Job 2: Talk to a customer</h3>
+      <p class="dim" style="margin-bottom:8px">Natural language understanding, context handling, open-ended generation.</p>
+      <p style="margin-bottom:0"><strong style="color:var(--accent)">Use an LLM.</strong> XGBoost can't generate language. This is where the LLM earns its cost.</p>
     </div>
   </div>
-  <div class="quiz-explain" id="m2-explain"></div>
 
-  <div style="margin-top:32px">
-    <h3>The decision framework</h3>
-    <table class="contrast-table">
-      <thead>
-        <tr><th>Signal</th><th>Favors classical ML</th><th>Favors LLM</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Data type</td><td>Structured, tabular</td><td>Unstructured text, images</td></tr>
-        <tr><td>Interpretability</td><td>Feature importance needed</td><td>Black box acceptable</td></tr>
-        <tr><td>Latency budget</td><td>&lt;100ms</td><td>1-30s acceptable</td></tr>
-        <tr><td>Cost sensitivity</td><td>High volume, low margin</td><td>High value per query</td></tr>
-        <tr><td>Adaptation</td><td>Stable schema</td><td>New data sources, open-ended input</td></tr>
-        <tr><td>Output type</td><td>Classification, regression</td><td>Generation, conversation</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="card" style="margin-top:24px;border-left:3px solid var(--orange)">
-    <p style="margin-bottom:0;font-size:15px"><strong style="color:var(--orange)">The bar:</strong> "Here are the tradeoffs, here's my pick, here's why." Not "I'd use an LLM."</p>
+  <div class="warning">
+    <strong>The bar:</strong> "Here are the tradeoffs, here's my pick, here's why." Not "I'd use an LLM."
   </div>
 </section>
 
@@ -627,47 +387,43 @@ code {
   <h2>Orchestration before agents</h2>
   <p class="subtitle">Design the router before you design the specialists.</p>
 
-  <p>Before you design individual agents, design the layer that decides which agent handles what. Click "Route a message" to see it in action.</p>
+  <p>Before you design individual agents, design the layer that decides which agent handles what. This is triage.</p>
 
-  <div class="orch-diagram" id="orchDiagram">
-    <svg class="orch-svg" id="orchSvg">
-      <line class="orch-edge" id="oe-1" x1="50%" y1="62" x2="25%" y2="148"/>
-      <line class="orch-edge" id="oe-2" x1="50%" y1="62" x2="50%" y2="148"/>
-      <line class="orch-edge" id="oe-3" x1="50%" y1="62" x2="75%" y2="148"/>
-      <line class="orch-edge" id="oe-4" x1="50%" y1="62" x2="88%" y2="148"/>
-      <line class="orch-edge" id="oe-5" x1="25%" y1="198" x2="50%" y2="288"/>
-      <line class="orch-edge" id="oe-6" x1="50%" y1="198" x2="50%" y2="288"/>
-      <line class="orch-edge" id="oe-7" x1="75%" y1="198" x2="50%" y2="288"/>
-    </svg>
-    <div class="orch-node" id="on-router" style="top:20px;left:50%;transform:translateX(-50%)">
-      Router<span class="role">classify + route</span>
+  <div class="sequence">
+    <div class="seq-step">
+      <div class="seq-num">1</div>
+      <div class="seq-body">
+        <h4>User message arrives</h4>
+        <p>"Why is my bill higher this month?"</p>
+      </div>
     </div>
-    <div class="orch-node" id="on-analyst" style="top:140px;left:25%;transform:translateX(-50%)">
-      Analyst<span class="role">data queries</span>
+    <div class="seq-step">
+      <div class="seq-num">2</div>
+      <div class="seq-body">
+        <h4>Router classifies intent <span class="seq-tag tag">classify + route</span></h4>
+        <p>Intent: <code>billing_query</code> (confidence: 0.94). Routes to Analyst agent.</p>
+      </div>
     </div>
-    <div class="orch-node" id="on-voice" style="top:140px;left:50%;transform:translateX(-50%)">
-      Voice Bot<span class="role">conversation</span>
+    <div class="seq-step">
+      <div class="seq-num">3</div>
+      <div class="seq-body">
+        <h4>Specialist agent handles it</h4>
+        <p>Analyst queries billing database, retrieves account details.</p>
+      </div>
     </div>
-    <div class="orch-node" id="on-exec" style="top:140px;left:75%;transform:translateX(-50%)">
-      Executor<span class="role">actions</span>
-    </div>
-    <div class="orch-node" id="on-human" style="top:140px;left:88%;transform:translateX(-50%);border-style:dashed">
-      Human<span class="role">fallback</span>
-    </div>
-    <div class="orch-node" id="on-response" style="top:280px;left:50%;transform:translateX(-50%)">
-      Response<span class="role">back to user</span>
+    <div class="seq-step">
+      <div class="seq-num">4</div>
+      <div class="seq-body">
+        <h4>Response returned to user</h4>
+        <p>"Your bill increased by $12 due to roaming charges on March 5-7."</p>
+      </div>
     </div>
   </div>
 
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-    <button class="btn" onclick="routeMessage('billing')">Route: "Why is my bill higher?"</button>
-    <button class="btn secondary" onclick="routeMessage('cancel')">Route: "I want to cancel"</button>
-    <button class="btn secondary" onclick="routeMessage('unclear')">Route: "Uhh... help?"</button>
-  </div>
-  <div id="orch-status" style="font-family:var(--mono);font-size:13px;color:var(--text-dim);height:20px"></div>
+  <p>If the router's confidence is below threshold (e.g. 0.31), it routes to a human agent with the conversation transcript. The system learns from every handoff.</p>
 
-  <div class="analogy" style="margin-top:24px">
-    <strong>PM analogy:</strong> This is triage. An ER doesn't send you straight to a surgeon. There's a triage desk that assesses you and routes you to the right specialist. Without triage, you have specialists standing around with no one directing traffic.
+  <div class="analogy">
+    <strong>PM analogy:</strong> An ER doesn't send you straight to a surgeon. There's a triage desk that assesses you and routes you to the right specialist. Without triage, you have specialists standing around with no one directing traffic.
   </div>
 
   <div class="connection">
@@ -680,31 +436,25 @@ code {
   <h2>Memory isn't one thing</h2>
   <p class="subtitle">Three tiers, three purposes, three persistence models.</p>
 
-  <div class="memory-stack">
-    <div class="memory-tier" id="mt-session" onmouseenter="highlightMemory('session')" onmouseleave="clearMemory()">
-      <div class="memory-label">Session</div>
-      <div class="memory-content">
-        <strong>Current conversation state.</strong> "User asked about billing, then changed to data usage."
-        <br><span style="font-size:12px;color:var(--text-muted)">Dies when conversation ends. Implemented as conversation context.</span>
-      </div>
+  <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <h3>Session</h3>
+      <p class="dim" style="margin-bottom:8px">Current conversation state. "User asked about billing, then changed to data usage."</p>
+      <p class="dim" style="margin-bottom:0">Dies when conversation ends. Implemented as conversation context.</p>
     </div>
-    <div class="memory-tier" id="mt-episodic" onmouseenter="highlightMemory('episodic')" onmouseleave="clearMemory()">
-      <div class="memory-label">Episodic</div>
-      <div class="memory-content">
-        <strong>Past interactions with this specific user.</strong> "Called 3x in March about the same roaming charge."
-        <br><span style="font-size:12px;color:var(--text-muted)">Permanent, per-user. Lives in a vector database. Retrieved by similarity.</span>
-      </div>
+    <div class="card" style="border-top:3px solid var(--orange)">
+      <h3>Episodic</h3>
+      <p class="dim" style="margin-bottom:8px">Past interactions with this user. "Called 3x in March about the same roaming charge."</p>
+      <p class="dim" style="margin-bottom:0">Permanent, per-user. Lives in a vector database. Retrieved by similarity.</p>
     </div>
-    <div class="memory-tier" id="mt-semantic" onmouseenter="highlightMemory('semantic')" onmouseleave="clearMemory()">
-      <div class="memory-label">Semantic</div>
-      <div class="memory-content">
-        <strong>Knowledge base, docs, policies.</strong> "Roaming charges apply outside home network after 2GB."
-        <br><span style="font-size:12px;color:var(--text-muted)">Permanent, shared across all users. RAG over product documentation.</span>
-      </div>
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h3>Semantic</h3>
+      <p class="dim" style="margin-bottom:8px">Knowledge base, docs, policies. "Roaming charges apply outside home network after 2GB."</p>
+      <p class="dim" style="margin-bottom:0">Permanent, shared across all users. RAG over product documentation.</p>
     </div>
   </div>
 
-  <div class="card" style="margin-top:24px;border-left:3px solid var(--green)">
+  <div class="card" style="border-left:3px solid var(--green)">
     <p style="margin-bottom:0"><strong style="color:var(--green)">For churn, episodic memory is king.</strong> A customer who called three times about the same unresolved billing issue is about to leave. If your AI doesn't know that, it'll give a generic response instead of "I see you've called about this roaming charge three times. Let me escalate this right now."</p>
   </div>
 
@@ -718,40 +468,20 @@ code {
   <h2>Show failure modes</h2>
   <p class="subtitle">Candidates who only describe the happy path look junior. Systems that only handle it break in production.</p>
 
-  <div class="failure-header">
-    <span>Failure</span>
-    <span>Detection</span>
-    <span>Mitigation</span>
-  </div>
-  <div class="failure-grid">
-    <div class="failure-row">
-      <div class="failure-cell label"><span class="tag red" style="margin:0">&#9888;</span> Model down</div>
-      <div class="failure-cell detect">Health check, timeout</div>
-      <div class="failure-cell fix">Human handoff with transcript</div>
-    </div>
-    <div class="failure-row">
-      <div class="failure-cell label"><span class="tag orange" style="margin:0">&#9201;</span> High latency</div>
-      <div class="failure-cell detect">p95 monitoring, &gt;30s threshold</div>
-      <div class="failure-cell fix">Human handoff, async notification</div>
-    </div>
-    <div class="failure-row">
-      <div class="failure-cell label"><span class="tag orange" style="margin:0">&#128260;</span> Repeat question</div>
-      <div class="failure-cell detect">Semantic similarity on consecutive messages</div>
-      <div class="failure-cell fix">Escalate immediately. You've failed.</div>
-    </div>
-    <div class="failure-row">
-      <div class="failure-cell label"><span class="tag" style="margin:0">&#10067;</span> Low confidence</div>
-      <div class="failure-cell detect">Score &lt;0.7 on intent classification</div>
-      <div class="failure-cell fix">Route to human with context summary</div>
-    </div>
-    <div class="failure-row">
-      <div class="failure-cell label"><span class="tag red" style="margin:0">&#128123;</span> Hallucination</div>
-      <div class="failure-cell detect">Grounding check vs. source docs</div>
-      <div class="failure-cell fix">Flag, serve verified response</div>
-    </div>
-  </div>
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Failure</th><th>Detection</th><th>Mitigation</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Model down</td><td>Health check, timeout</td><td>Human handoff with transcript</td></tr>
+      <tr><td>High latency (&gt;30s)</td><td>p95 monitoring</td><td>Human handoff, async notification</td></tr>
+      <tr><td>Repeat question</td><td>Semantic similarity on consecutive messages</td><td>Escalate immediately. You've failed.</td></tr>
+      <tr><td>Low confidence</td><td>Score &lt;0.7 on intent classification</td><td>Route to human with context summary</td></tr>
+      <tr><td>Hallucination</td><td>Grounding check vs. source docs</td><td>Flag, serve verified response</td></tr>
+    </tbody>
+  </table>
 
-  <div class="analogy" style="margin-top:24px">
+  <div class="analogy">
     <strong>PM analogy:</strong> Every product has error states. 404 pages, failed payments, timeout screens. You design those before launch, not after. AI systems have the same need. The error states are just different.
   </div>
 </section>
@@ -761,35 +491,24 @@ code {
   <h2>Plan for 10x traffic</h2>
   <p class="subtitle">Your prototype works on 100 test calls. The telecom has 50 million subscribers.</p>
 
-  <div class="scale-bars">
-    <div class="scale-item">
-      <h4 style="color:var(--red)">Embedding Search</h4>
-      <div class="scale-bar-track">
-        <div class="scale-bar-fill" style="width:90%;background:var(--red)" id="sb-1"></div>
-      </div>
-      <p><strong>Problem:</strong> SQL can't do similarity search on millions of vectors fast enough.
-      <br><strong>Fix:</strong> Vector database (Pinecone, Weaviate, pgvector). Cache top N frequent query embeddings.</p>
-    </div>
-    <div class="scale-item">
-      <h4 style="color:var(--orange)">Model API Rate Limits</h4>
-      <div class="scale-bar-track">
-        <div class="scale-bar-fill" style="width:70%;background:var(--orange)" id="sb-2"></div>
-      </div>
-      <p><strong>Problem:</strong> External LLM APIs have throughput ceilings you'll hit at scale.
-      <br><strong>Fix:</strong> Batch non-real-time work (churn scoring) nightly. Self-host for latency-critical paths.</p>
-    </div>
-    <div class="scale-item">
-      <h4 style="color:var(--orange)">Cache Misses</h4>
-      <div class="scale-bar-track">
-        <div class="scale-bar-fill" style="width:50%;background:var(--orange)" id="sb-3"></div>
-      </div>
-      <p><strong>Problem:</strong> Same questions get asked thousands of times, each hitting the model.
-      <br><strong>Fix:</strong> Cache frequent query embeddings and common responses. Huge cost savings.</p>
-    </div>
+  <div class="card" style="border-left:3px solid var(--red)">
+    <h3>Embedding search</h3>
+    <p class="dim" style="margin-bottom:8px"><strong>Problem:</strong> SQL can't do similarity search on millions of vectors fast enough.</p>
+    <p class="dim" style="margin-bottom:0"><strong>Fix:</strong> Vector database (Pinecone, Weaviate, pgvector). Cache top N frequent query embeddings.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--orange)">
+    <h3>Model API rate limits</h3>
+    <p class="dim" style="margin-bottom:8px"><strong>Problem:</strong> External LLM APIs have throughput ceilings you'll hit at scale.</p>
+    <p class="dim" style="margin-bottom:0"><strong>Fix:</strong> Batch non-real-time work (churn scoring) nightly. Self-host for latency-critical paths.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--orange)">
+    <h3>Cache misses</h3>
+    <p class="dim" style="margin-bottom:8px"><strong>Problem:</strong> Same questions get asked thousands of times, each hitting the model.</p>
+    <p class="dim" style="margin-bottom:0"><strong>Fix:</strong> Cache frequent query embeddings and common responses. Huge cost savings.</p>
   </div>
 
-  <div class="card" style="border-left:3px solid var(--orange)">
-    <p style="margin-bottom:0"><strong style="color:var(--orange)">The key principle:</strong> Load test the model APIs before launch, not after. Know your ceiling. If OpenAI rate-limits you at 10,000 requests/minute and you expect 50,000, that's a launch-blocking problem to find in week one, not week twelve.</p>
+  <div class="warning">
+    <strong>The key principle:</strong> Load test the model APIs before launch, not after. Know your ceiling. If OpenAI rate-limits you at 10,000 requests/minute and you expect 50,000, that's a launch-blocking problem to find in week one, not week twelve.
   </div>
 </section>
 
@@ -857,7 +576,7 @@ code {
     </div>
   </div>
 
-  <div class="analogy" style="margin-top:24px">
+  <div class="analogy">
     <strong>PM analogy:</strong> You already measure products this way. Uptime (system), page load (latency), NPS (user), revenue (business). AI systems need the same stack. The model layer is just a new row in your metrics dashboard.
   </div>
 </section>
@@ -885,56 +604,56 @@ code {
   <p class="subtitle">In an interview, walk through in order. In product work, revisit as you learn.</p>
 
   <div class="sequence">
-    <div class="seq-step" onclick="this.classList.toggle('active')">
+    <div class="seq-step">
       <div class="seq-num">1</div>
       <div class="seq-body">
         <h4>Users first <span class="seq-tag tag">product thinking</span></h4>
         <p>Pick a segment, map the journey, find the pain.</p>
       </div>
     </div>
-    <div class="seq-step" onclick="this.classList.toggle('active')">
+    <div class="seq-step">
       <div class="seq-num">2</div>
       <div class="seq-body">
         <h4>Three pillars <span class="seq-tag tag purple">architecture</span></h4>
         <p>Name model, data, memory explicitly.</p>
       </div>
     </div>
-    <div class="seq-step" onclick="this.classList.toggle('active')">
+    <div class="seq-step">
       <div class="seq-num">3</div>
       <div class="seq-body">
         <h4>Model selection <span class="seq-tag tag orange">technical fluency</span></h4>
         <p>Argue the tradeoffs, pick, justify.</p>
       </div>
     </div>
-    <div class="seq-step" onclick="this.classList.toggle('active')">
+    <div class="seq-step">
       <div class="seq-num">4</div>
       <div class="seq-body">
         <h4>Orchestration <span class="seq-tag tag purple">systems thinking</span></h4>
         <p>Design the router before the agents.</p>
       </div>
     </div>
-    <div class="seq-step" onclick="this.classList.toggle('active')">
+    <div class="seq-step">
       <div class="seq-num">5</div>
       <div class="seq-body">
         <h4>Memory tiers <span class="seq-tag tag">depth</span></h4>
         <p>Session, episodic, semantic. Scoped correctly.</p>
       </div>
     </div>
-    <div class="seq-step" onclick="this.classList.toggle('active')">
+    <div class="seq-step">
       <div class="seq-num">6</div>
       <div class="seq-body">
         <h4>Failure modes <span class="seq-tag tag red">production readiness</span></h4>
         <p>Name them, detect them, mitigate them.</p>
       </div>
     </div>
-    <div class="seq-step" onclick="this.classList.toggle('active')">
+    <div class="seq-step">
       <div class="seq-num">7</div>
       <div class="seq-body">
         <h4>Scale plan <span class="seq-tag tag orange">operational maturity</span></h4>
         <p>10x traffic, bottlenecks, load testing.</p>
       </div>
     </div>
-    <div class="seq-step" onclick="this.classList.toggle('active')">
+    <div class="seq-step">
       <div class="seq-num">8</div>
       <div class="seq-body">
         <h4>Four-layer metrics <span class="seq-tag tag green">business judgment</span></h4>
@@ -951,85 +670,6 @@ code {
 </main>
 
 <script>
-// Pillars
-function showPillar(i) {
-  document.querySelectorAll('.pillar-card').forEach((c, j) => c.classList.toggle('active', j === i));
-  document.querySelectorAll('.pillar-detail').forEach((d, j) => d.classList.toggle('visible', j === i));
-}
-
-// Model picker
-function pickModel(job, choice) {
-  const correct = job === 1 ? 'xgb' : 'llm';
-  const xgb = document.getElementById(`m${job}-xgb`);
-  const llm = document.getElementById(`m${job}-llm`);
-  const explain = document.getElementById(`m${job}-explain`);
-
-  [xgb, llm].forEach(el => el.classList.remove('selected', 'wrong'));
-
-  if (choice === correct) {
-    document.getElementById(`m${job}-${choice}`).classList.add('selected');
-    if (job === 1) {
-      explain.innerHTML = '<strong style="color:var(--green)">Correct.</strong> Churn prediction is classification on structured tabular data. XGBoost gives interpretable feature importance, sub-100ms inference, and costs a fraction of LLM inference. You don\'t need a poet. You need a calculator.';
-    } else {
-      explain.innerHTML = '<strong style="color:var(--green)">Correct.</strong> Talking to a customer requires natural language generation, context handling, and flexibility with open-ended input. XGBoost can\'t generate language. This is where the LLM earns its cost.';
-    }
-  } else {
-    document.getElementById(`m${job}-${choice}`).classList.add('wrong');
-    document.getElementById(`m${job}-${correct}`).classList.add('selected');
-    if (job === 1) {
-      explain.innerHTML = '<strong style="color:var(--red)">Not this one.</strong> An LLM is 100x more expensive per prediction, takes 100x longer, and can\'t explain why it predicted churn. For structured tabular data, classical ML wins on every dimension.';
-    } else {
-      explain.innerHTML = '<strong style="color:var(--red)">Not this one.</strong> XGBoost can\'t generate natural language. It classifies structured data into categories. Talking to a human requires an LLM\'s language generation and context handling.';
-    }
-  }
-  explain.classList.add('visible');
-}
-
-// Orchestration animation
-function routeMessage(type) {
-  const nodes = ['on-router','on-analyst','on-voice','on-exec','on-human','on-response'];
-  const edges = ['oe-1','oe-2','oe-3','oe-4','oe-5','oe-6','oe-7'];
-  nodes.forEach(id => { const el = document.getElementById(id); el.classList.remove('active','done','fail'); });
-  edges.forEach(id => { const el = document.getElementById(id); el.classList.remove('active','done'); });
-
-  const status = document.getElementById('orch-status');
-  const steps = [];
-
-  if (type === 'billing') {
-    steps.push(
-      { delay: 0, action: () => { document.getElementById('on-router').classList.add('active'); status.textContent = 'Router: classifying intent...'; }},
-      { delay: 600, action: () => { document.getElementById('on-router').classList.remove('active'); document.getElementById('on-router').classList.add('done'); document.getElementById('oe-1').classList.add('active'); status.textContent = 'Intent: billing_query (confidence: 0.94). Routing to Analyst.'; }},
-      { delay: 1200, action: () => { document.getElementById('oe-1').classList.remove('active'); document.getElementById('oe-1').classList.add('done'); document.getElementById('on-analyst').classList.add('active'); status.textContent = 'Analyst: querying billing database...'; }},
-      { delay: 2000, action: () => { document.getElementById('on-analyst').classList.remove('active'); document.getElementById('on-analyst').classList.add('done'); document.getElementById('oe-5').classList.add('done'); document.getElementById('on-response').classList.add('done'); status.textContent = 'Response: "Your bill increased by $12 due to roaming charges on March 5-7."'; }}
-    );
-  } else if (type === 'cancel') {
-    steps.push(
-      { delay: 0, action: () => { document.getElementById('on-router').classList.add('active'); status.textContent = 'Router: classifying intent...'; }},
-      { delay: 600, action: () => { document.getElementById('on-router').classList.remove('active'); document.getElementById('on-router').classList.add('done'); document.getElementById('oe-3').classList.add('active'); status.textContent = 'Intent: cancellation (confidence: 0.91). Routing to Executor.'; }},
-      { delay: 1200, action: () => { document.getElementById('oe-3').classList.remove('active'); document.getElementById('oe-3').classList.add('done'); document.getElementById('on-exec').classList.add('active'); status.textContent = 'Executor: checking retention offers...'; }},
-      { delay: 2000, action: () => { document.getElementById('on-exec').classList.remove('active'); document.getElementById('on-exec').classList.add('done'); document.getElementById('oe-7').classList.add('done'); document.getElementById('on-response').classList.add('done'); status.textContent = 'Response: retention offer presented. Logging for churn model retraining.'; }}
-    );
-  } else {
-    steps.push(
-      { delay: 0, action: () => { document.getElementById('on-router').classList.add('active'); status.textContent = 'Router: classifying intent...'; }},
-      { delay: 600, action: () => { document.getElementById('on-router').classList.remove('active'); document.getElementById('on-router').classList.add('fail'); document.getElementById('oe-4').classList.add('active'); status.textContent = 'Intent: unclear (confidence: 0.31). Below threshold. Routing to human.'; }},
-      { delay: 1200, action: () => { document.getElementById('oe-4').classList.remove('active'); document.getElementById('oe-4').classList.add('done'); document.getElementById('on-human').classList.add('active'); status.textContent = 'Human agent receives transcript and context summary.'; }},
-      { delay: 2000, action: () => { document.getElementById('on-human').classList.remove('active'); document.getElementById('on-human').classList.add('done'); status.textContent = 'Handoff complete. System learns from this interaction.'; }}
-    );
-  }
-
-  steps.forEach(s => setTimeout(s.action, s.delay));
-}
-
-// Memory highlight
-function highlightMemory(type) {
-  document.getElementById('mt-' + type).classList.add('highlight');
-}
-function clearMemory() {
-  document.querySelectorAll('.memory-tier').forEach(t => t.classList.remove('highlight'));
-}
-
-// Quiz
 const quizData = [
   {
     q: "A stakeholder says: 'Let's add AI to reduce customer churn.' What's your first move?",
@@ -1055,12 +695,7 @@ const quizData = [
   },
   {
     q: "You need to predict which customers will churn using billing history and usage patterns. What model?",
-    opts: [
-      "GPT-4",
-      "XGBoost",
-      "BERT",
-      "Stable Diffusion"
-    ],
+    opts: ["GPT-4", "XGBoost", "BERT", "Stable Diffusion"],
     correct: 1,
     explain: "XGBoost. Structured tabular data, need for interpretability, sub-100ms latency, fraction of the cost. LLMs earn their cost when you need language generation or open-ended input."
   },
@@ -1077,12 +712,7 @@ const quizData = [
   },
   {
     q: "A customer calls about a billing issue they've called about twice before. Which memory type matters most?",
-    opts: [
-      "Session memory",
-      "Episodic memory",
-      "Semantic memory",
-      "Cache memory"
-    ],
+    opts: ["Session memory", "Episodic memory", "Semantic memory", "Cache memory"],
     correct: 1,
     explain: "Episodic memory. It stores past interactions with this specific user. The system should know they've called twice before about the same issue and escalate immediately."
   },
@@ -1137,15 +767,13 @@ function renderQuiz() {
       <div class="quiz-explain ${answers[currentQ] >= 0 ? 'visible' : ''}" id="qExplain">${q.explain}</div>
     </div>
   `;
-
   const progress = document.getElementById('quizProgress');
   progress.innerHTML = quizData.map((_, i) =>
     `<div class="quiz-dot ${answers[i] >= 0 ? 'done' : i === currentQ ? 'current' : ''}"></div>`
   ).join('');
-
   document.getElementById('prevBtn').style.display = currentQ > 0 ? '' : 'none';
   document.getElementById('nextBtn').style.display = answers[currentQ] >= 0 ? '' : 'none';
-  document.getElementById('nextBtn').textContent = currentQ === quizData.length - 1 ? 'See Score' : 'Next \u2192';
+  document.getElementById('nextBtn').textContent = currentQ === quizData.length - 1 ? 'See Score' : 'Next →';
 }
 
 function answer(i) {
@@ -1155,10 +783,8 @@ function answer(i) {
 }
 
 function nextQ() {
-  if (currentQ < quizData.length - 1) {
-    currentQ++;
-    renderQuiz();
-  } else {
+  if (currentQ < quizData.length - 1) { currentQ++; renderQuiz(); }
+  else {
     const score = answers.reduce((s, a, i) => s + (a === quizData[i].correct ? 1 : 0), 0);
     document.getElementById('quizScore').classList.add('visible');
     document.getElementById('scoreNum').textContent = score;
@@ -1166,17 +792,11 @@ function nextQ() {
   }
 }
 
-function prevQ() {
-  if (currentQ > 0) { currentQ--; renderQuiz(); }
-}
+function prevQ() { if (currentQ > 0) { currentQ--; renderQuiz(); } }
 
 renderQuiz();
 </script>
 
-<div style="max-width:900px;margin:2rem auto;padding:2rem 2rem 4rem;border-top:1px solid #e4e4e7;display:flex;justify-content:space-between;align-items:center;font-size:0.875rem">
-  <span style="color:#d4d4d8">Prev</span>
-  <a href="/notebook/managing-agent-teams.html" style="color:#4f46e5;text-decoration:none">Agent Teams &rarr;</a>
-</div>
-
+<script src="nav.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Teams — Notebook — Katrina Laszlo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -42,11 +43,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* (nav and progress bar styles removed — using inline header) */
-
-/* ---- MAIN ---- */
 main { max-width: 900px; margin: 0 auto; padding: 2rem 2rem 4rem; }
-
 section { margin-bottom: 96px; scroll-margin-top: 72px; }
 
 h1 {
@@ -63,17 +60,18 @@ h3 {
 }
 .subtitle {
   font-size: 14px; color: var(--text-dim); margin-bottom: 32px;
+  opacity: 0.9;
 }
 
 p { margin-bottom: 16px; color: var(--text); font-size: 15px; }
-p.dim { color: var(--text-dim); font-size: 14px; }
+p.dim { color: var(--text-dim); font-size: 14px; opacity: 0.85; }
 
 .card {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 24px;
   margin-bottom: 16px;
 }
-.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
 
 .tag {
   display: inline-block; font-size: 11px; font-family: var(--mono);
@@ -95,22 +93,26 @@ p.dim { color: var(--text-dim); font-size: 14px; }
   transition: background 0.15s, border-color 0.15s;
 }
 .btn:hover { background: var(--accent-dim); border-color: var(--accent-dim); }
-.btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn:disabled:hover { background: var(--accent-dim); color: var(--accent); }
-.btn.secondary {
-  background: transparent; border-color: var(--border);
-  color: var(--text-dim);
-}
-.btn.secondary:hover { border-color: var(--text-dim); color: var(--text); background: transparent; }
 
 .analogy {
   border-left: 3px solid var(--accent-dim);
-  padding: 12px 16px; margin: 16px 0;
-  font-size: 14px; color: var(--text-dim);
-  background: rgba(79, 70, 229, 0.06);
+  padding: 14px 18px; margin: 16px 0;
+  font-size: 15px; color: var(--text-bright);
+  background: rgba(79, 70, 229, 0.04);
   border-radius: 0 var(--radius) var(--radius) 0;
+  line-height: 1.7;
 }
 .analogy strong { color: var(--accent); font-weight: 600; }
+
+.warning {
+  border-left: 3px solid var(--orange);
+  padding: 14px 18px; margin: 16px 0;
+  font-size: 15px; color: var(--text-bright);
+  background: rgba(217, 119, 6, 0.04);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  line-height: 1.7;
+}
+.warning strong { color: var(--orange); font-weight: 600; }
 
 code {
   font-family: var(--mono); font-size: 13px;
@@ -118,109 +120,7 @@ code {
   border-radius: 4px; color: var(--cyan);
 }
 
-/* ---- SECTION 1: AGENT LOOP ---- */
-.loop-container {
-  display: flex; gap: 40px; align-items: flex-start;
-  margin-top: 24px; flex-wrap: wrap;
-}
-.loop-visual {
-  flex: 1; min-width: 300px;
-  display: flex; flex-direction: column; align-items: center;
-}
-.loop-ring {
-  position: relative; width: 280px; height: 280px; margin-bottom: 20px;
-}
-.loop-node {
-  position: absolute; width: 72px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 12px; font-weight: 600;
-  border-radius: 6px; border: 2px solid var(--border);
-  background: var(--bg-card); color: var(--text-dim);
-  transition: border-color 0.3s, color 0.3s, background 0.3s, box-shadow 0.3s;
-}
-.loop-node.active {
-  border-color: var(--accent); color: var(--accent);
-  background: rgba(79, 70, 229, 0.12);
-  box-shadow: 0 0 16px rgba(88, 166, 255, 0.2);
-}
-.loop-node.done {
-  border-color: var(--green); color: var(--green);
-  background: rgba(22, 163, 74, 0.12);
-}
-.loop-node.terminated {
-  border-color: var(--red); color: var(--red);
-  background: rgba(248, 81, 73, 0.12);
-}
-/* Position nodes in a circle */
-.loop-node:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
-.loop-node:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%) translateX(10px); }
-.loop-node:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
-.loop-node:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%) translateX(-10px); }
-
-.loop-arrows {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none;
-}
-.loop-arrow {
-  position: absolute; font-size: 18px; color: var(--border);
-  transition: color 0.3s;
-}
-.loop-arrow.lit { color: var(--accent); }
-.loop-arrow:nth-child(1) { top: 20%; right: 18%; }
-.loop-arrow:nth-child(2) { bottom: 20%; right: 18%; }
-.loop-arrow:nth-child(3) { bottom: 20%; left: 18%; }
-.loop-arrow:nth-child(4) { top: 20%; left: 18%; }
-
-.loop-counter {
-  font-family: var(--mono); font-size: 13px;
-  color: var(--text-dim); margin-bottom: 12px;
-}
-.loop-status {
-  font-family: var(--mono); font-size: 12px;
-  color: var(--text-dim); height: 20px;
-}
-
-.loop-info { flex: 1; min-width: 280px; }
-
-/* ---- SECTION 2: DAG ---- */
-.dag-container { position: relative; margin: 24px 0; }
-.dag-canvas {
-  position: relative; width: 100%; height: 340px;
-  background: var(--bg-inset); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); overflow: hidden;
-}
-.dag-node {
-  position: absolute; padding: 10px 18px;
-  font-family: var(--mono); font-size: 13px; font-weight: 600;
-  border-radius: 8px; border: 2px solid var(--border);
-  background: var(--bg-card); color: var(--text-dim);
-  transition: border-color 0.4s, color 0.4s, background 0.4s, box-shadow 0.4s;
-  text-align: center; z-index: 2;
-}
-.dag-node .label { display: block; font-size: 13px; }
-.dag-node .role { display: block; font-size: 10px; font-weight: 400; margin-top: 2px; opacity: 0.7; }
-.dag-node.waiting { border-color: var(--border); color: var(--text-dim); }
-.dag-node.running {
-  border-color: var(--accent); color: var(--accent);
-  background: rgba(79, 70, 229, 0.12);
-  box-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
-}
-.dag-node.done {
-  border-color: var(--green); color: var(--green);
-  background: rgba(22, 163, 74, 0.1);
-}
-.dag-svg {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 1;
-}
-.dag-edge { stroke: var(--border); stroke-width: 2; fill: none; }
-.dag-edge.active { stroke: var(--accent); }
-.dag-edge.done { stroke: var(--green); }
-.dag-particle {
-  fill: var(--accent); r: 4; opacity: 0;
-}
-
-/* ---- SECTION 3: MEETING VS WORKSPACE ---- */
+/* Models grid (section 3) */
 .models-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
 .model-panel {
   background: var(--bg-card); border: 1px solid var(--border);
@@ -231,51 +131,12 @@ code {
   display: flex; align-items: center; justify-content: space-between;
 }
 .model-header h3 { margin: 0; }
-.model-viewport {
-  height: 260px; position: relative; overflow: hidden;
-  background: var(--bg-inset);
-}
 .model-footer {
   padding: 12px 20px; font-size: 13px; color: var(--text-dim);
   border-top: 1px solid var(--border);
 }
-/* Chat bubbles for meeting model */
-.chat-bubble {
-  position: absolute; padding: 6px 10px;
-  font-family: var(--mono); font-size: 11px;
-  border-radius: 8px; white-space: nowrap;
-  opacity: 0; transition: opacity 0.3s;
-  max-width: 180px; overflow: hidden; text-overflow: ellipsis;
-}
-/* Workspace items */
-.ws-agent {
-  position: absolute; width: 36px; height: 36px;
-  border-radius: 6px; border: 2px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 12px; font-weight: 700;
-  background: var(--bg-card); color: var(--text-dim);
-  transition: border-color 0.4s, color 0.4s;
-}
-.ws-file {
-  position: absolute; padding: 4px 8px;
-  font-family: var(--mono); font-size: 10px;
-  border-radius: 4px; border: 1px solid var(--border);
-  background: var(--bg-card); color: var(--text-dim);
-  transition: border-color 0.4s, color 0.4s, background 0.4s;
-}
-.ws-file.written {
-  border-color: var(--green); color: var(--green);
-  background: rgba(22, 163, 74, 0.1);
-}
-.ws-arrow-line {
-  position: absolute; height: 2px;
-  background: var(--border);
-  transform-origin: left center;
-  transition: background 0.4s;
-}
-.ws-arrow-line.active { background: var(--accent); }
 
-/* ---- SECTION 4: TWO REASONS ---- */
+/* Context bars (section 4) */
 .reason-demo {
   margin-top: 16px;
   display: flex; gap: 20px; align-items: stretch;
@@ -295,25 +156,19 @@ code {
   margin-bottom: 8px; position: relative; overflow: hidden;
   border: 1px solid var(--border);
 }
-.ctx-fill {
-  height: 100%; border-radius: 3px;
-  transition: width 0.6s ease;
-}
+.ctx-fill { height: 100%; border-radius: 3px; }
 .ctx-label {
   font-family: var(--mono); font-size: 10px; color: var(--text-dim);
   margin-bottom: 4px; align-self: flex-start;
 }
-.timeline-bar {
-  display: flex; gap: 2px; width: 100%;
-}
+.timeline-bar { display: flex; gap: 2px; width: 100%; }
 .timeline-seg {
   height: 32px; border-radius: 3px;
   display: flex; align-items: center; justify-content: center;
   font-family: var(--mono); font-size: 10px;
-  transition: all 0.4s ease;
 }
 
-/* ---- SECTION 5: SIX KNOBS ---- */
+/* Six knobs (section 5) */
 .knobs-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
   margin-top: 24px;
@@ -348,9 +203,7 @@ code {
 .knob-detail h3 { color: var(--accent); margin-bottom: 12px; }
 .knob-detail .row { display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 10px; font-size: 14px; }
 .knob-detail .row .label { color: var(--text-dim); font-family: var(--mono); font-size: 12px; }
-.knob-states {
-  display: flex; gap: 8px; margin-top: 16px;
-}
+.knob-states { display: flex; gap: 8px; margin-top: 16px; }
 .knob-state {
   flex: 1; padding: 12px; border-radius: var(--radius);
   border: 1px solid var(--border); text-align: center;
@@ -362,7 +215,7 @@ code {
 .knob-state .state-name { font-family: var(--mono); font-size: 12px; font-weight: 600; margin-bottom: 4px; }
 .knob-state .state-desc { font-size: 11px; color: var(--text-dim); }
 
-/* ---- SECTION 6: FOUR PATTERNS ---- */
+/* Pattern tabs (section 6) */
 .pattern-tabs {
   display: flex; gap: 4px; margin-bottom: 20px;
   border-bottom: 1px solid var(--border); padding-bottom: 0;
@@ -388,16 +241,11 @@ code {
   font-family: var(--mono); font-size: 12px; font-weight: 600;
   border-radius: 6px; border: 2px solid var(--border);
   background: var(--bg-card); color: var(--text-dim);
-  transition: all 0.4s; z-index: 2;
+  z-index: 2;
 }
-.pattern-node.running { border-color: var(--accent); color: var(--accent); background: rgba(79,70,229,0.12); }
-.pattern-node.done { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.1); }
-.pattern-node.parallel-highlight { box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3); }
 
-/* ---- SECTION 7: MAP ---- */
-.scope-stack {
-  margin-top: 24px; position: relative;
-}
+/* Scope stack (section 7) */
+.scope-stack { margin-top: 24px; position: relative; }
 .scope-layer {
   border: 1px solid var(--border); border-radius: var(--radius);
   padding: 16px; margin-bottom: -1px;
@@ -411,9 +259,7 @@ code {
   display: flex; align-items: center; gap: 8px;
 }
 .scope-layer.active .scope-title { color: var(--accent); }
-.scope-layer .scope-items {
-  display: flex; flex-wrap: wrap; gap: 6px;
-}
+.scope-layer .scope-items { display: flex; flex-wrap: wrap; gap: 6px; }
 .scope-item {
   font-family: var(--mono); font-size: 11px;
   padding: 3px 8px; border-radius: 4px;
@@ -422,17 +268,13 @@ code {
 }
 .scope-inner { padding-left: 20px; margin-top: 12px; }
 
-.instruction-stack {
-  margin-top: 32px;
-}
+/* Instruction stack */
 .inst-layer {
   display: flex; align-items: center; gap: 12px;
   padding: 8px 12px; margin-bottom: 2px;
   border-radius: 4px; font-family: var(--mono); font-size: 12px;
   color: var(--text-dim); background: var(--bg-inset);
-  border: 1px solid transparent;
-  transition: all 0.3s;
-  cursor: default;
+  border: 1px solid transparent; cursor: default;
 }
 .inst-layer .num {
   width: 20px; height: 20px; border-radius: 50%;
@@ -446,7 +288,7 @@ code {
 }
 .inst-layer.lit .num { background: var(--accent-dim); color: var(--accent); }
 
-/* ---- SECTION 8: QUIZ ---- */
+/* Quiz (section 8) */
 .quiz-progress {
   font-family: var(--mono); font-size: 12px;
   color: var(--text-dim); margin-bottom: 16px;
@@ -460,9 +302,7 @@ code {
   font-size: 14px; line-height: 1.7; margin-bottom: 20px;
   white-space: pre-line;
 }
-.quiz-question {
-  margin-bottom: 16px;
-}
+.quiz-question { margin-bottom: 16px; }
 .quiz-question .q-label {
   font-family: var(--mono); font-size: 12px; font-weight: 600;
   color: var(--text-dim); margin-bottom: 8px;
@@ -500,10 +340,8 @@ code {
   color: var(--accent);
 }
 
-/* ---- RESPONSIVE ---- */
 @media (max-width: 700px) {
   .card-grid, .models-grid, .knobs-grid { grid-template-columns: 1fr; }
-  .loop-container { flex-direction: column; }
   .reason-demo { flex-direction: column; }
 }
 </style>
@@ -524,10 +362,6 @@ code {
 
 <div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
   <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Agent Teams</span></div>
-  <div style="display:flex;gap:0.75rem">
-    <a href="/notebook/ai-system-design.html" style="color:#4f46e5;text-decoration:none">&larr; Prev</a>
-    <a href="/notebook/training-loop.html" style="color:#4f46e5;text-decoration:none">Next &rarr;</a>
-  </div>
 </div>
 
 <main>
@@ -540,36 +374,21 @@ code {
   <h2>What is an agent?</h2>
   <p class="subtitle">An agent is a loop. That's it.</p>
 
-  <div class="loop-container">
-    <div class="loop-visual">
-      <div class="loop-ring" id="loopRing">
-        <div class="loop-node" id="ln-observe">Observe</div>
-        <div class="loop-node" id="ln-think">Think</div>
-        <div class="loop-node" id="ln-check">Check</div>
-        <div class="loop-node" id="ln-act">Act</div>
-        <div class="loop-arrows">
-          <div class="loop-arrow" id="la-0">&#8600;</div>
-          <div class="loop-arrow" id="la-1">&#8598;</div>
-          <div class="loop-arrow" id="la-2">&#8599;</div>
-          <div class="loop-arrow" id="la-3">&#8601;</div>
-        </div>
-      </div>
-      <div class="loop-counter" id="loopCounter">Iteration: --</div>
-      <div class="loop-status" id="loopStatus">Click "Run Loop" to start</div>
-      <button class="btn" id="loopBtn" style="margin-top:12px" onclick="runAgentLoop()">Run Loop</button>
+  <div class="card" style="text-align:center">
+    <div style="display:flex;justify-content:center;gap:8px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:13px">
+      <span class="tag">Observe</span> → <span class="tag">Think</span> → <span class="tag">Act</span> → <span class="tag">Check</span> → <span class="tag" style="background:rgba(22,163,74,0.1);color:var(--green)">Done?</span>
     </div>
-
-    <div class="loop-info">
-      <div class="analogy">
-        <strong>PM analogy:</strong> An engineer working a ticket does the same loop. Look at the ticket, think about the approach, write code, check if it works. Repeat until done. The difference: agents loop in seconds, not hours.
-      </div>
-      <p>A function runs once and returns. An agent keeps going until it decides it's finished.</p>
-      <p>When you give Claude Code a task and it reads files, edits code, runs tests, fixes errors, and tries again -- that's this loop.</p>
-      <h3 style="margin-top:20px">The key word: termination condition</h3>
-      <p>"Tests pass" is a termination condition. "I've been going for 50 iterations" is a termination condition. Without one, the agent keeps running forever.</p>
-      <p class="dim">This is the equivalent of an engineer who never ships -- they keep polishing forever.</p>
-    </div>
+    <p class="dim" style="margin-top:12px;margin-bottom:0">If not done, loop back to Observe. Repeat until termination condition met.</p>
   </div>
+
+  <div class="analogy">
+    <strong>PM analogy:</strong> An engineer working a ticket does the same loop. Look at the ticket, think about the approach, write code, check if it works. Repeat until done. The difference: agents loop in seconds, not hours.
+  </div>
+  <p>A function runs once and returns. An agent keeps going until it decides it's finished.</p>
+  <p>When you give Claude Code a task and it reads files, edits code, runs tests, fixes errors, and tries again -- that's this loop.</p>
+  <h3 style="margin-top:20px">The key word: termination condition</h3>
+  <p>"Tests pass" is a termination condition. "I've been going for 50 iterations" is a termination condition. Without one, the agent keeps running forever.</p>
+  <p class="dim">This is the equivalent of an engineer who never ships -- they keep polishing forever.</p>
 </section>
 
 <!-- ======== SECTION 2: WHAT IS A DAG? ======== -->
@@ -577,31 +396,17 @@ code {
   <h2>What is a DAG?</h2>
   <p class="subtitle">A directed acyclic graph. Or: a project plan drawn as a diagram.</p>
 
-  <div class="dag-container">
-    <div class="dag-canvas" id="dagCanvas">
-      <svg class="dag-svg" id="dagSvg"></svg>
-      <div class="dag-node waiting" id="dn-alice" style="top:20px;left:50%;transform:translateX(-50%)">
-        <span class="label">Alice</span><span class="role">research</span>
-      </div>
-      <div class="dag-node waiting" id="dn-bob" style="top:130px;left:25%;transform:translateX(-50%)">
-        <span class="label">Bob</span><span class="role">backend</span>
-      </div>
-      <div class="dag-node waiting" id="dn-carol" style="top:130px;left:75%;transform:translateX(-50%)">
-        <span class="label">Carol</span><span class="role">frontend</span>
-      </div>
-      <div class="dag-node waiting" id="dn-you" style="top:240px;left:50%;transform:translateX(-50%)">
-        <span class="label">You</span><span class="role">review</span>
-      </div>
+  <div class="card" style="text-align:center;font-family:var(--mono);font-size:13px">
+    <div style="margin-bottom:16px">
+      <span class="tag purple">Alice</span> <span class="dim" style="font-size:12px">research</span>
     </div>
-    <div style="display:flex;gap:12px;align-items:center;margin-top:16px">
-      <button class="btn" id="dagBtn" onclick="runDag()">Run</button>
-      <button class="btn secondary" onclick="resetDag()">Reset</button>
-      <div style="display:flex;gap:12px;margin-left:auto">
-        <span class="tag">waiting</span>
-        <span class="tag" style="background:rgba(79,70,229,0.2);color:var(--accent)">running</span>
-        <span class="tag green">done</span>
-      </div>
+    <div style="color:var(--text-dim);margin-bottom:16px">↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓</div>
+    <div style="display:flex;justify-content:center;gap:48px;margin-bottom:16px">
+      <div><span class="tag">Bob</span> <span class="dim" style="font-size:12px">backend</span></div>
+      <div><span class="tag">Carol</span> <span class="dim" style="font-size:12px">frontend</span></div>
     </div>
+    <div style="color:var(--text-dim);margin-bottom:16px">↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓</div>
+    <div><span class="tag green">You</span> <span class="dim" style="font-size:12px">review</span></div>
   </div>
 
   <div class="analogy">
@@ -618,12 +423,12 @@ code {
 
   <div class="models-grid">
     <!-- Meeting model -->
-    <div class="model-panel" id="meetingPanel">
+    <div class="model-panel">
       <div class="model-header">
         <h3 style="color:var(--red)">Meeting Model</h3>
         <span class="tag red">chaotic</span>
       </div>
-      <div class="model-viewport" style="padding:16px;display:flex;flex-direction:column;gap:6px;height:auto;min-height:200px">
+      <div style="padding:16px;display:flex;flex-direction:column;gap:6px">
         <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--accent);color:#fff;align-self:flex-start">A: I found the API docs</div>
         <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--green);color:#fff;align-self:flex-end">B: That changes my approach</div>
         <div style="font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:8px;background:var(--orange);color:#fff;align-self:flex-start">C: I disagree with B</div>
@@ -639,12 +444,12 @@ code {
     </div>
 
     <!-- Workspace model -->
-    <div class="model-panel" id="workspacePanel">
+    <div class="model-panel">
       <div class="model-header">
         <h3 style="color:var(--green)">Workspace Model</h3>
         <span class="tag green">clean</span>
       </div>
-      <div class="model-viewport" style="padding:20px;height:auto;min-height:200px;position:relative">
+      <div style="padding:20px">
         <div style="display:flex;gap:40px;align-items:flex-start">
           <div style="display:flex;flex-direction:column;gap:12px">
             <div style="font-family:var(--mono);font-size:12px;font-weight:700;width:36px;height:36px;border-radius:6px;border:2px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center">A</div>
@@ -679,29 +484,28 @@ code {
     <!-- Context Protection -->
     <div class="card">
       <h3 style="color:var(--cyan)">Context Protection</h3>
-      <p class="dim">LLMs get worse as context fills with irrelevant content. Not a cliff -- a gradual degradation. The model "loses the thread."</p>
+      <p class="dim">LLMs can lose focus as context fills with irrelevant content. Modern long-context models handle this better than earlier ones, but keeping context focused still improves output quality.</p>
 
-      <div class="reason-demo" id="contextDemo">
+      <div class="reason-demo">
         <div class="reason-before">
           <h4>One Agent</h4>
           <div class="ctx-label">context window</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="ctx-single" style="width:95%;background:var(--red)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" style="width:95%;background:var(--red)"></div></div>
           <div class="ctx-label" style="margin-top:8px">quality</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="qual-single" style="width:25%;background:var(--red)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" style="width:25%;background:var(--red)"></div></div>
           <p class="dim" style="margin-top:12px;font-size:12px;text-align:center">Bloated context, degrading output</p>
         </div>
         <div class="reason-after">
           <h4>Two Agents</h4>
           <div class="ctx-label">agent A context</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="ctx-a" style="width:40%;background:var(--green)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" style="width:40%;background:var(--green)"></div></div>
           <div class="ctx-label">agent B context</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="ctx-b" style="width:35%;background:var(--green)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" style="width:35%;background:var(--green)"></div></div>
           <div class="ctx-label" style="margin-top:8px">quality</div>
-          <div class="ctx-bar"><div class="ctx-fill" id="qual-split" style="width:100%;background:var(--green)"></div></div>
+          <div class="ctx-bar"><div class="ctx-fill" style="width:100%;background:var(--green)"></div></div>
           <p class="dim" style="margin-top:12px;font-size:12px;text-align:center">Focused contexts, clean output</p>
         </div>
       </div>
-      <!-- bars show final state statically -->
 
       <div class="analogy" style="margin-top:16px">
         <strong>PM analogy:</strong> You don't invite the whole company to every meeting. You invite the people who need to be there and give them only the context they need.
@@ -711,29 +515,28 @@ code {
     <!-- Parallelism -->
     <div class="card">
       <h3 style="color:var(--purple)">Parallelism</h3>
-      <p class="dim">Independent tasks run at the same time. But the subtler benefit: it avoids path dependence.</p>
+      <p class="dim">Independent tasks run at the same time. But the subtler benefit: it avoids path dependence. Two distinct benefits: speed (parallel execution) and independence (each agent reasons from scratch, avoiding anchoring bias from prior results).</p>
 
       <div class="reason-demo" style="flex-direction:column">
         <div style="width:100%">
           <h4 style="font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:8px">Sequential (slow, anchored)</h4>
-          <div class="timeline-bar" id="seqBar">
-            <div class="timeline-seg" id="seq-a" style="flex:1;background:var(--bg-inset);border:1px solid var(--border);color:var(--text-dim)">A</div>
-            <div class="timeline-seg" id="seq-b" style="flex:1;background:var(--bg-inset);border:1px solid var(--border);color:var(--text-dim)">B</div>
-            <div class="timeline-seg" id="seq-c" style="flex:1;background:var(--bg-inset);border:1px solid var(--border);color:var(--text-dim)">C</div>
+          <div class="timeline-bar">
+            <div class="timeline-seg" style="flex:1;background:rgba(63,185,80,0.1);border:1px solid var(--green);color:var(--green)">A</div>
+            <div class="timeline-seg" style="flex:1;background:rgba(63,185,80,0.1);border:1px solid var(--green);color:var(--green)">B</div>
+            <div class="timeline-seg" style="flex:1;background:rgba(63,185,80,0.1);border:1px solid var(--green);color:var(--green)">C</div>
           </div>
           <p class="dim" style="font-size:11px;margin-top:4px">Each anchored by previous result</p>
         </div>
         <div style="width:100%;margin-top:16px">
           <h4 style="font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:8px">Parallel (fast, independent)</h4>
-          <div class="timeline-bar" id="parBar">
-            <div class="timeline-seg" id="par-a" style="flex:1;background:var(--bg-inset);border:1px solid var(--border);color:var(--text-dim)">A</div>
-            <div class="timeline-seg" id="par-b" style="flex:1;background:var(--bg-inset);border:1px solid var(--border);color:var(--text-dim)">B</div>
-            <div class="timeline-seg" id="par-c" style="flex:1;background:var(--bg-inset);border:1px solid var(--border);color:var(--text-dim)">C</div>
+          <div class="timeline-bar">
+            <div class="timeline-seg" style="flex:1;background:rgba(63,185,80,0.1);border:1px solid var(--green);color:var(--green)">A</div>
+            <div class="timeline-seg" style="flex:1;background:rgba(63,185,80,0.1);border:1px solid var(--green);color:var(--green)">B</div>
+            <div class="timeline-seg" style="flex:1;background:rgba(63,185,80,0.1);border:1px solid var(--green);color:var(--green)">C</div>
           </div>
           <p class="dim" style="font-size:11px;margin-top:4px">Independent evaluation, no anchoring</p>
         </div>
       </div>
-      <button class="btn" style="margin-top:12px;width:100%" onclick="animateParallelism()">Show Difference</button>
 
       <div class="analogy" style="margin-top:16px">
         <strong>PM analogy:</strong> You send two engineers to evaluate two approaches independently. If one evaluates both sequentially, they unconsciously favor whichever they looked at first.
@@ -772,28 +575,24 @@ code {
     <div class="pattern-dag" id="pipeDag"></div>
     <p><strong>A -> B -> C.</strong> Each stage does one thing, passes output to the next.</p>
     <p class="dim">Example: Research -> Implement -> Test. Simple, linear, easy to debug. Use when each step genuinely needs different context or tools.</p>
-    <button class="btn" onclick="animatePattern('pipeline')">Run Pipeline</button>
   </div>
 
   <div class="pattern-panel" id="pat-fanout">
     <div class="pattern-dag" id="fanDag"></div>
     <p><strong>One coordinator splits work to N workers, results get merged.</strong> This is map-reduce.</p>
     <p class="dim">Example: "Research 5 competitors" -> 5 agents each research one -> coordinator synthesizes. <span class="tag purple" style="font-size:10px">parallel</span> section highlighted.</p>
-    <button class="btn" onclick="animatePattern('fanout')">Run Fan-out</button>
   </div>
 
   <div class="pattern-panel" id="pat-phased">
     <div class="pattern-dag" id="phaseDag" style="height:280px"></div>
     <p><strong>Multiple waves of fan-out/fan-in.</strong> Each wave's output shapes the next. The most powerful pattern.</p>
     <p class="dim">Example: Classify notes (parallel) -> Cross-reference per category (parallel) -> Write articles (parallel) -> Editorial review.</p>
-    <button class="btn" onclick="animatePattern('phased')">Run Phases</button>
   </div>
 
   <div class="pattern-panel" id="pat-verifier">
     <div class="pattern-dag" id="verDag"></div>
     <p><strong>After every write, an independent agent checks the work.</strong> If pass, next step. If fail, back to writer.</p>
     <p class="dim">Equivalent of requiring code review before merge. Cheap and catches most regressions.</p>
-    <button class="btn" onclick="animatePattern('verifier')">Run Verifier Loop</button>
   </div>
 </section>
 
@@ -871,21 +670,20 @@ code {
   <p class="dim" style="margin-bottom:16px">Every time an agent runs, it inherits layers of context. This is what you can't see:</p>
 
   <div class="instruction-stack" id="instStack">
-    <div class="inst-layer" data-idx="1"><span class="num">1</span> System prompt (model baseline)</div>
-    <div class="inst-layer" data-idx="2"><span class="num">2</span> Global CLAUDE.md (your rules, identity, code quality)</div>
-    <div class="inst-layer" data-idx="3"><span class="num">3</span> Global rules (framework conventions, lint rules)</div>
-    <div class="inst-layer" data-idx="4"><span class="num">4</span> Global rules (error handling, code style)</div>
-    <div class="inst-layer" data-idx="5"><span class="num">5</span> MEMORY.md (auto-persisted context)</div>
-    <div class="inst-layer" data-idx="6"><span class="num">6</span> Project CLAUDE.md (repo-specific rules)</div>
-    <div class="inst-layer" data-idx="7"><span class="num">7</span> Project settings.json (tools, permissions)</div>
-    <div class="inst-layer" data-idx="8"><span class="num">8</span> Hooks (pre/post-commit, lint, format)</div>
-    <div class="inst-layer" data-idx="9"><span class="num">9</span> Skill definitions (~/.claude/skills/)</div>
-    <div class="inst-layer" data-idx="10"><span class="num">10</span> Plugin instructions (MCP servers)</div>
-    <div class="inst-layer" data-idx="11"><span class="num">11</span> Conversation context (your messages + tool results)</div>
-    <div class="inst-layer" data-idx="12"><span class="num">12</span> Subagent scoping (when spawned)</div>
-    <div class="inst-layer" data-idx="13"><span class="num">13</span> Tool schemas (available capabilities)</div>
+    <div class="inst-layer lit"><span class="num">1</span> System prompt (model baseline)</div>
+    <div class="inst-layer lit"><span class="num">2</span> Global CLAUDE.md (your rules, identity, code quality)</div>
+    <div class="inst-layer lit"><span class="num">3</span> Global rules (framework conventions, lint rules)</div>
+    <div class="inst-layer lit"><span class="num">4</span> Global rules (error handling, code style)</div>
+    <div class="inst-layer lit"><span class="num">5</span> MEMORY.md (auto-persisted context)</div>
+    <div class="inst-layer lit"><span class="num">6</span> Project CLAUDE.md (repo-specific rules)</div>
+    <div class="inst-layer lit"><span class="num">7</span> Project settings.json (tools, permissions)</div>
+    <div class="inst-layer lit"><span class="num">8</span> Hooks (pre/post-commit, lint, format)</div>
+    <div class="inst-layer lit"><span class="num">9</span> Skill definitions (~/.claude/skills/)</div>
+    <div class="inst-layer lit"><span class="num">10</span> Plugin instructions (MCP servers)</div>
+    <div class="inst-layer lit"><span class="num">11</span> Conversation context (your messages + tool results)</div>
+    <div class="inst-layer lit"><span class="num">12</span> Subagent scoping (when spawned)</div>
+    <div class="inst-layer lit"><span class="num">13</span> Tool schemas (available capabilities)</div>
   </div>
-  <button class="btn" style="margin-top:16px" onclick="animateInstStack()">Reveal Stack</button>
 
   <div class="card" style="margin-top:24px;border-color:var(--orange)">
     <h3 style="color:var(--orange)">The gap</h3>
@@ -910,228 +708,45 @@ code {
 
 <script>
 
-// ===== SECTION 1: AGENT LOOP =====
-let loopRunning = false;
-function runAgentLoop() {
-  if (loopRunning) return;
-  loopRunning = true;
-  const btn = document.getElementById('loopBtn');
-  btn.disabled = true;
-
-  const nodes = ['ln-observe', 'ln-think', 'ln-act', 'ln-check'];
-  const arrows = ['la-3', 'la-0', 'la-1', 'la-2'];
-  const counter = document.getElementById('loopCounter');
-  const status = document.getElementById('loopStatus');
-
-  // Reset
-  nodes.forEach(id => {
-    const el = document.getElementById(id);
-    el.className = 'loop-node';
-  });
-  arrows.forEach(id => document.getElementById(id).classList.remove('lit'));
-
-  const totalIterations = 4;
-  let iteration = 0;
-  let step = 0;
-
-  function tick() {
-    // Clear previous
-    nodes.forEach(id => {
-      const el = document.getElementById(id);
-      el.classList.remove('active');
-    });
-    arrows.forEach(id => document.getElementById(id).classList.remove('lit'));
-
-    if (iteration >= totalIterations) {
-      // Terminate
-      nodes.forEach(id => document.getElementById(id).classList.add('done'));
-      document.getElementById('ln-check').classList.remove('done');
-      document.getElementById('ln-check').classList.add('terminated');
-      counter.textContent = 'Iteration: ' + totalIterations;
-      status.textContent = 'TERMINATED -- condition met';
-      status.style.color = 'var(--green)';
-      loopRunning = false;
-      btn.disabled = false;
-      return;
-    }
-
-    const nodeId = nodes[step];
-    const arrowId = arrows[step];
-    document.getElementById(nodeId).classList.add('active');
-    document.getElementById(arrowId).classList.add('lit');
-
-    counter.textContent = 'Iteration: ' + (iteration + 1);
-    status.textContent = nodeId.replace('ln-', '').toUpperCase() + '...';
-    status.style.color = 'var(--accent)';
-
-    step++;
-    if (step >= nodes.length) { step = 0; iteration++; }
-
-    setTimeout(tick, 500);
-  }
-  tick();
-}
-
-// ===== SECTION 2: DAG =====
-let dagRunning = false;
-
-function drawDagEdges() {
-  const svg = document.getElementById('dagSvg');
-  const canvas = document.getElementById('dagCanvas');
-  const rect = canvas.getBoundingClientRect();
-
-  function center(id) {
-    const el = document.getElementById(id);
-    const r = el.getBoundingClientRect();
-    return { x: r.left - rect.left + r.width/2, y: r.top - rect.top + r.height/2 };
-  }
-
-  const a = center('dn-alice'), b = center('dn-bob'), c = center('dn-carol'), y = center('dn-you');
-  svg.innerHTML = `
-    <line class="dag-edge" id="de-ab" x1="${a.x}" y1="${a.y+18}" x2="${b.x}" y2="${b.y-18}"/>
-    <line class="dag-edge" id="de-ac" x1="${a.x}" y1="${a.y+18}" x2="${c.x}" y2="${c.y-18}"/>
-    <line class="dag-edge" id="de-by" x1="${b.x}" y1="${b.y+18}" x2="${y.x}" y2="${y.y-18}"/>
-    <line class="dag-edge" id="de-cy" x1="${c.x}" y1="${c.y+18}" x2="${y.x}" y2="${y.y-18}"/>
-  `;
-}
-
-function resetDag() {
-  ['dn-alice','dn-bob','dn-carol','dn-you'].forEach(id => {
-    document.getElementById(id).className = 'dag-node waiting';
-  });
-  drawDagEdges();
-  document.getElementById('dagBtn').disabled = false;
-  dagRunning = false;
-}
-
-function runDag() {
-  if (dagRunning) return;
-  dagRunning = true;
-  document.getElementById('dagBtn').disabled = true;
-  resetDag();
-  dagRunning = true;
-  document.getElementById('dagBtn').disabled = true;
-
-  const steps = [
-    { nodes: ['dn-alice'], edges: [], state: 'running' },
-    { nodes: ['dn-alice'], edges: ['de-ab','de-ac'], state: 'done' },
-    { nodes: ['dn-bob','dn-carol'], edges: [], state: 'running' },
-    { nodes: ['dn-bob','dn-carol'], edges: ['de-by','de-cy'], state: 'done' },
-    { nodes: ['dn-you'], edges: [], state: 'running' },
-    { nodes: ['dn-you'], edges: [], state: 'done' },
-  ];
-
-  let i = 0;
-  function tick() {
-    if (i >= steps.length) { dagRunning = false; document.getElementById('dagBtn').disabled = false; return; }
-    const s = steps[i];
-    s.nodes.forEach(id => {
-      const el = document.getElementById(id);
-      el.className = 'dag-node ' + s.state;
-    });
-    s.edges.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('done');
-    });
-    i++;
-    setTimeout(tick, 800);
-  }
-  tick();
-}
-
-window.addEventListener('resize', drawDagEdges);
-setTimeout(drawDagEdges, 100);
-
-// Sections 3 & 4 are now static HTML
-
-function animateParallelism() {
-  // Reset
-  ['seq-a','seq-b','seq-c','par-a','par-b','par-c'].forEach(id => {
-    const el = document.getElementById(id);
-    el.style.background = 'var(--bg-inset)';
-    el.style.borderColor = 'var(--border)';
-    el.style.color = 'var(--text-dim)';
-  });
-
-  // Sequential: one at a time
-  const seqSteps = [
-    { id: 'seq-a', delay: 200, color: 'var(--accent)' },
-    { id: 'seq-a', delay: 800, color: 'var(--green)', done: true },
-    { id: 'seq-b', delay: 1000, color: 'var(--accent)' },
-    { id: 'seq-b', delay: 1600, color: 'var(--green)', done: true },
-    { id: 'seq-c', delay: 1800, color: 'var(--accent)' },
-    { id: 'seq-c', delay: 2400, color: 'var(--green)', done: true },
-  ];
-
-  seqSteps.forEach(s => {
-    setTimeout(() => {
-      const el = document.getElementById(s.id);
-      el.style.borderColor = s.color;
-      el.style.color = s.color;
-      if (s.done) el.style.background = 'rgba(63,185,80,0.1)';
-      else el.style.background = 'rgba(79,70,229,0.1)';
-    }, s.delay);
-  });
-
-  // Parallel: all at once
-  setTimeout(() => {
-    ['par-a','par-b','par-c'].forEach(id => {
-      const el = document.getElementById(id);
-      el.style.borderColor = 'var(--accent)';
-      el.style.color = 'var(--accent)';
-      el.style.background = 'rgba(79,70,229,0.1)';
-    });
-  }, 200);
-
-  setTimeout(() => {
-    ['par-a','par-b','par-c'].forEach(id => {
-      const el = document.getElementById(id);
-      el.style.borderColor = 'var(--green)';
-      el.style.color = 'var(--green)';
-      el.style.background = 'rgba(63,185,80,0.1)';
-    });
-  }, 800);
-}
-
 // ===== SECTION 5: SIX KNOBS =====
 const knobData = [
   {
-    name: 'Prompt', icon: '\u270E', short: 'Instructions + context',
+    name: 'Prompt', icon: '✎', short: 'Instructions + context',
     meaning: 'The instructions and context the agent works with.',
     pm: 'The brief / ticket / spec you write for an engineer.',
     good: { name: 'Well-scoped', desc: 'Clear task, relevant context, explicit constraints. The agent knows what to do and what not to do.' },
     bad: { name: 'Misconfigured', desc: 'Vague instructions, missing context, or contradictory rules. The agent guesses, hallucinates, or ignores important constraints. Like a ticket that says "make it better."' },
   },
   {
-    name: 'Tools', icon: '\u2692', short: 'Available capabilities',
+    name: 'Tools', icon: '⚒', short: 'Available capabilities',
     meaning: 'What the agent can do: read files, search the web, run code, call APIs.',
     pm: 'What systems the engineer has access to.',
     good: { name: 'Right tools', desc: 'Agent has exactly the tools it needs. No more, no less. Can complete its task without workarounds.' },
     bad: { name: 'Misconfigured', desc: 'Missing tools: agent can\'t complete the task. Too many tools: agent wastes time exploring irrelevant capabilities. Like giving an engineer admin access to production when they just need to read logs.' },
   },
   {
-    name: 'Termination', icon: '\u23F9', short: 'When to stop',
+    name: 'Termination', icon: '⏹', short: 'When to stop',
     meaning: 'How the agent knows it\'s done. "Tests pass." "All files reviewed." "50 iterations."',
     pm: 'Definition of done on the ticket.',
     good: { name: 'Clear exit', desc: 'Explicit success criteria. Agent stops when done, not when tired. Bounded iteration count as a safety net.' },
     bad: { name: 'Misconfigured', desc: 'No termination condition: agent runs forever (the engineer who never ships). Too aggressive: agent stops before finishing. Ambiguous: agent stops at "good enough" which varies every run.' },
   },
   {
-    name: 'Isolation', icon: '\u229E', short: 'Scope boundaries',
+    name: 'Isolation', icon: '⊞', short: 'Scope boundaries',
     meaning: 'What the agent can see and touch vs what\'s off-limits.',
     pm: 'File ownership / code ownership boundaries.',
     good: { name: 'Clean scope', desc: 'Agent reads and writes only within its domain. Can\'t accidentally modify unrelated code or data.' },
     bad: { name: 'Misconfigured', desc: 'Too open: agent edits files it shouldn\'t, causing conflicts with other agents. Too closed: agent can\'t access what it needs and fails silently. Like an engineer refactoring code they don\'t own.' },
   },
   {
-    name: 'Verification', icon: '\u2713', short: 'Quality check',
+    name: 'Verification', icon: '✓', short: 'Quality check',
     meaning: 'How the agent\'s work gets checked. Automated tests, a reviewer agent, or nothing.',
     pm: 'Code review / QA process.',
     good: { name: 'Verified', desc: 'Independent check catches errors before they propagate. Tests run, types checked, output validated.' },
     bad: { name: 'Misconfigured', desc: 'No verification: errors propagate to downstream agents (game of telephone). Self-verification only: agent validates its own mistakes. Like shipping without code review.' },
   },
   {
-    name: 'Substrate', icon: '\u2261', short: 'Read/write medium',
+    name: 'Substrate', icon: '≡', short: 'Read/write medium',
     meaning: 'Where the agent reads input and writes output. Filesystem, git repo, database, API.',
     pm: 'The repo / shared drive / project board.',
     good: { name: 'Clear handoff', desc: 'Output lands where the next agent expects it. Format is predictable. State is inspectable.' },
@@ -1182,7 +797,7 @@ function selectKnob(idx) {
 
 renderKnobs();
 
-// ===== SECTION 6: FOUR PATTERNS =====
+// ===== SECTION 6: PATTERN TABS =====
 const patternTabs = document.querySelectorAll('.pattern-tab');
 patternTabs.forEach(tab => {
   tab.onclick = () => {
@@ -1195,178 +810,66 @@ patternTabs.forEach(tab => {
 
 function buildPatternNodes() {
   // Pipeline
-  const pipe = document.getElementById('pipeDag');
-  pipe.innerHTML = `
+  document.getElementById('pipeDag').innerHTML = `
     <svg style="position:absolute;width:100%;height:100%;z-index:1">
-      <line x1="28%" y1="50%" x2="42%" y2="50%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="pipeline" data-idx="0"/>
-      <line x1="58%" y1="50%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="pipeline" data-idx="1"/>
+      <line x1="28%" y1="50%" x2="42%" y2="50%" stroke="var(--border)" stroke-width="2"/>
+      <line x1="58%" y1="50%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2"/>
     </svg>
-    <div class="pattern-node" data-pat="pipeline" data-idx="0" style="left:10%;top:50%;transform:translateY(-50%)">Research</div>
-    <div class="pattern-node" data-pat="pipeline" data-idx="1" style="left:40%;top:50%;transform:translateY(-50%)">Implement</div>
-    <div class="pattern-node" data-pat="pipeline" data-idx="2" style="left:72%;top:50%;transform:translateY(-50%)">Test</div>
+    <div class="pattern-node" style="left:10%;top:50%;transform:translateY(-50%)">Research</div>
+    <div class="pattern-node" style="left:40%;top:50%;transform:translateY(-50%)">Implement</div>
+    <div class="pattern-node" style="left:72%;top:50%;transform:translateY(-50%)">Test</div>
   `;
 
   // Fan-out
-  const fan = document.getElementById('fanDag');
-  fan.innerHTML = `
+  document.getElementById('fanDag').innerHTML = `
     <svg style="position:absolute;width:100%;height:100%;z-index:1">
-      <line x1="15%" y1="35%" x2="28%" y2="18%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="fanout" data-idx="0"/>
-      <line x1="15%" y1="50%" x2="28%" y2="40%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="fanout" data-idx="1"/>
-      <line x1="15%" y1="65%" x2="28%" y2="62%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="fanout" data-idx="2"/>
-      <line x1="15%" y1="80%" x2="28%" y2="84%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="fanout" data-idx="3"/>
-      <line x1="50%" y1="18%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="fanout" data-idx="4"/>
-      <line x1="50%" y1="40%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="fanout" data-idx="5"/>
-      <line x1="50%" y1="62%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="fanout" data-idx="6"/>
-      <line x1="50%" y1="84%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2" class="pat-edge" data-pat="fanout" data-idx="7"/>
+      <line x1="15%" y1="35%" x2="28%" y2="18%" stroke="var(--border)" stroke-width="2"/>
+      <line x1="15%" y1="50%" x2="28%" y2="40%" stroke="var(--border)" stroke-width="2"/>
+      <line x1="15%" y1="65%" x2="28%" y2="62%" stroke="var(--border)" stroke-width="2"/>
+      <line x1="15%" y1="80%" x2="28%" y2="84%" stroke="var(--border)" stroke-width="2"/>
+      <line x1="50%" y1="18%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2"/>
+      <line x1="50%" y1="40%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2"/>
+      <line x1="50%" y1="62%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2"/>
+      <line x1="50%" y1="84%" x2="72%" y2="50%" stroke="var(--border)" stroke-width="2"/>
     </svg>
-    <div class="pattern-node" data-pat="fanout" data-idx="0" style="left:3%;top:50%;transform:translateY(-50%)">Split</div>
-    <div class="pattern-node" data-pat="fanout" data-idx="1" style="left:30%;top:10%">W1</div>
-    <div class="pattern-node" data-pat="fanout" data-idx="2" style="left:30%;top:32%">W2</div>
-    <div class="pattern-node" data-pat="fanout" data-idx="3" style="left:30%;top:54%">W3</div>
-    <div class="pattern-node" data-pat="fanout" data-idx="4" style="left:30%;top:76%">W4</div>
-    <div class="pattern-node" data-pat="fanout" data-idx="5" style="left:72%;top:50%;transform:translateY(-50%)">Merge</div>
+    <div class="pattern-node" style="left:3%;top:50%;transform:translateY(-50%)">Split</div>
+    <div class="pattern-node" style="left:30%;top:10%">W1</div>
+    <div class="pattern-node" style="left:30%;top:32%">W2</div>
+    <div class="pattern-node" style="left:30%;top:54%">W3</div>
+    <div class="pattern-node" style="left:30%;top:76%">W4</div>
+    <div class="pattern-node" style="left:72%;top:50%;transform:translateY(-50%)">Merge</div>
   `;
 
   // Phased
-  const phase = document.getElementById('phaseDag');
-  phase.innerHTML = `
-    <svg style="position:absolute;width:100%;height:100%;z-index:1">
-    </svg>
-    <div class="pattern-node" data-pat="phased" data-idx="0" style="left:2%;top:42%">Plan</div>
-    <div class="pattern-node" data-pat="phased" data-idx="1" style="left:18%;top:12%">C1</div>
-    <div class="pattern-node" data-pat="phased" data-idx="2" style="left:18%;top:42%">C2</div>
-    <div class="pattern-node" data-pat="phased" data-idx="3" style="left:18%;top:72%">C3</div>
-    <div class="pattern-node" data-pat="phased" data-idx="4" style="left:36%;top:42%">Sync</div>
-    <div class="pattern-node" data-pat="phased" data-idx="5" style="left:52%;top:20%">D1</div>
-    <div class="pattern-node" data-pat="phased" data-idx="6" style="left:52%;top:60%">D2</div>
-    <div class="pattern-node" data-pat="phased" data-idx="7" style="left:70%;top:42%">Sync</div>
-    <div class="pattern-node" data-pat="phased" data-idx="8" style="left:86%;top:42%">Edit</div>
+  document.getElementById('phaseDag').innerHTML = `
+    <svg style="position:absolute;width:100%;height:100%;z-index:1"></svg>
+    <div class="pattern-node" style="left:2%;top:42%">Plan</div>
+    <div class="pattern-node" style="left:18%;top:12%">C1</div>
+    <div class="pattern-node" style="left:18%;top:42%">C2</div>
+    <div class="pattern-node" style="left:18%;top:72%">C3</div>
+    <div class="pattern-node" style="left:36%;top:42%">Sync</div>
+    <div class="pattern-node" style="left:52%;top:20%">D1</div>
+    <div class="pattern-node" style="left:52%;top:60%">D2</div>
+    <div class="pattern-node" style="left:70%;top:42%">Sync</div>
+    <div class="pattern-node" style="left:86%;top:42%">Edit</div>
     <div style="position:absolute;bottom:8px;left:10px;font-family:var(--mono);font-size:10px;color:var(--text-dim);z-index:3">Wave 1 &rarr; Wave 2 &rarr; Wave 3</div>
   `;
 
   // Verifier
-  const ver = document.getElementById('verDag');
-  ver.innerHTML = `
+  document.getElementById('verDag').innerHTML = `
     <svg style="position:absolute;width:100%;height:100%;z-index:1">
       <line x1="25%" y1="50%" x2="43%" y2="50%" stroke="var(--border)" stroke-width="2"/>
       <line x1="60%" y1="50%" x2="74%" y2="50%" stroke="var(--border)" stroke-width="2"/>
       <path d="M 60% 38% Q 40% 15% 22% 38%" stroke="var(--red)" stroke-width="2" fill="none" stroke-dasharray="4"/>
     </svg>
-    <div class="pattern-node" data-pat="verifier" data-idx="0" style="left:8%;top:50%;transform:translateY(-50%)">Write</div>
-    <div class="pattern-node" data-pat="verifier" data-idx="1" style="left:42%;top:50%;transform:translateY(-50%)">Verify</div>
-    <div class="pattern-node" data-pat="verifier" data-idx="2" style="left:74%;top:50%;transform:translateY(-50%)">Next</div>
+    <div class="pattern-node" style="left:8%;top:50%;transform:translateY(-50%)">Write</div>
+    <div class="pattern-node" style="left:42%;top:50%;transform:translateY(-50%)">Verify</div>
+    <div class="pattern-node" style="left:74%;top:50%;transform:translateY(-50%)">Next</div>
     <div style="position:absolute;top:12px;left:35%;font-family:var(--mono);font-size:10px;color:var(--red);z-index:3">fail &rarr; retry</div>
     <div style="position:absolute;bottom:12px;left:50%;font-family:var(--mono);font-size:10px;color:var(--green);z-index:3">pass &rarr; continue</div>
   `;
 }
 buildPatternNodes();
-
-function animatePattern(pat) {
-  const nodes = document.querySelectorAll(`.pattern-node[data-pat="${pat}"]`);
-  nodes.forEach(n => n.className = 'pattern-node');
-
-  if (pat === 'pipeline') {
-    const steps = [
-      { idx: 0, state: 'running', delay: 0 },
-      { idx: 0, state: 'done', delay: 600 },
-      { idx: 1, state: 'running', delay: 800 },
-      { idx: 1, state: 'done', delay: 1400 },
-      { idx: 2, state: 'running', delay: 1600 },
-      { idx: 2, state: 'done', delay: 2200 },
-    ];
-    steps.forEach(s => {
-      setTimeout(() => {
-        const n = document.querySelector(`.pattern-node[data-pat="pipeline"][data-idx="${s.idx}"]`);
-        if (n) n.className = 'pattern-node ' + s.state;
-      }, s.delay);
-    });
-  }
-
-  if (pat === 'fanout') {
-    const steps = [
-      { idx: 0, state: 'running', delay: 0 },
-      { idx: 0, state: 'done', delay: 500 },
-      { idx: [1,2,3,4], state: 'running parallel-highlight', delay: 600 },
-      { idx: [1,2,3,4], state: 'done', delay: 1400 },
-      { idx: 5, state: 'running', delay: 1600 },
-      { idx: 5, state: 'done', delay: 2200 },
-    ];
-    steps.forEach(s => {
-      setTimeout(() => {
-        const indices = Array.isArray(s.idx) ? s.idx : [s.idx];
-        indices.forEach(i => {
-          const n = document.querySelector(`.pattern-node[data-pat="fanout"][data-idx="${i}"]`);
-          if (n) n.className = 'pattern-node ' + s.state;
-        });
-      }, s.delay);
-    });
-  }
-
-  if (pat === 'phased') {
-    const steps = [
-      { idx: 0, state: 'running', delay: 0 },
-      { idx: 0, state: 'done', delay: 400 },
-      { idx: [1,2,3], state: 'running parallel-highlight', delay: 500 },
-      { idx: [1,2,3], state: 'done', delay: 1200 },
-      { idx: 4, state: 'running', delay: 1300 },
-      { idx: 4, state: 'done', delay: 1600 },
-      { idx: [5,6], state: 'running parallel-highlight', delay: 1700 },
-      { idx: [5,6], state: 'done', delay: 2400 },
-      { idx: 7, state: 'running', delay: 2500 },
-      { idx: 7, state: 'done', delay: 2800 },
-      { idx: 8, state: 'running', delay: 2900 },
-      { idx: 8, state: 'done', delay: 3400 },
-    ];
-    steps.forEach(s => {
-      setTimeout(() => {
-        const indices = Array.isArray(s.idx) ? s.idx : [s.idx];
-        indices.forEach(i => {
-          const n = document.querySelector(`.pattern-node[data-pat="phased"][data-idx="${i}"]`);
-          if (n) n.className = 'pattern-node ' + s.state;
-        });
-      }, s.delay);
-    });
-  }
-
-  if (pat === 'verifier') {
-    const steps = [
-      { idx: 0, state: 'running', delay: 0 },
-      { idx: 0, state: 'done', delay: 600 },
-      { idx: 1, state: 'running', delay: 800 },
-      // fail
-      { idx: 1, state: '', delay: 1400, custom: el => { el.style.borderColor='var(--red)'; el.style.color='var(--red)'; el.style.background='rgba(220,38,38,0.12)'; } },
-      { idx: 0, state: 'running', delay: 1800 },
-      { idx: 0, state: 'done', delay: 2400 },
-      { idx: 1, state: 'running', delay: 2600 },
-      { idx: 1, state: 'done', delay: 3200 },
-      { idx: 2, state: 'running', delay: 3400 },
-      { idx: 2, state: 'done', delay: 4000 },
-    ];
-    steps.forEach(s => {
-      setTimeout(() => {
-        const n = document.querySelector(`.pattern-node[data-pat="verifier"][data-idx="${s.idx}"]`);
-        if (!n) return;
-        if (s.custom) { s.custom(n); return; }
-        n.className = 'pattern-node ' + s.state;
-        n.style.borderColor = '';
-        n.style.color = '';
-        n.style.background = '';
-      }, s.delay);
-    });
-  }
-}
-
-// ===== SECTION 7: INSTRUCTION STACK =====
-function animateInstStack() {
-  const layers = document.querySelectorAll('.inst-layer');
-  layers.forEach(l => l.classList.remove('lit'));
-
-  layers.forEach((layer, i) => {
-    setTimeout(() => {
-      layer.classList.add('lit');
-    }, i * 180);
-  });
-}
 
 // Scope hover
 document.querySelectorAll('.scope-layer').forEach(layer => {
@@ -1446,7 +949,6 @@ function renderQuiz() {
 
   const sc = quizData[quizState.scenario];
   if (!sc) {
-    // Show final score
     document.getElementById('quizScore').classList.add('visible');
     document.getElementById('scoreNum').textContent = quizState.totalCorrect + '/18';
     document.getElementById('quizProgress').textContent = 'Complete';
@@ -1504,7 +1006,7 @@ function checkQuiz() {
     const opts = document.querySelectorAll(`.quiz-options[data-qi="${qi}"] .quiz-opt`);
     opts.forEach(o => {
       const oi = parseInt(o.dataset.oi);
-      o.onclick = null; // Disable
+      o.onclick = null;
       if (oi === q.answer) o.classList.add('correct');
       if (quizState.answers[qi] === oi && oi !== q.answer) o.classList.add('wrong');
     });
@@ -1539,10 +1041,6 @@ function checkQuiz() {
 renderQuiz();
 </script>
 
-<div style="max-width:900px;margin:2rem auto;padding:2rem 2rem 4rem;border-top:1px solid #e4e4e7;display:flex;justify-content:space-between;align-items:center;font-size:0.875rem">
-  <a href="/notebook/ai-system-design.html" style="color:#4f46e5;text-decoration:none">&larr; AI System Design</a>
-  <a href="/notebook/training-loop.html" style="color:#4f46e5;text-decoration:none">Training Loops &rarr;</a>
-</div>
-
+<script src="nav.js"></script>
 </body>
 </html>
