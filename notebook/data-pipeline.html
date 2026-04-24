@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Pipelines — Notebook — Katrina Laszlo</title>
+<meta name="description" content="How text becomes training data: tokenization, batching, packing, and evaluation metrics. Interactive visual explorations.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #0a0a0a;
+  background: #ffffff;
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+/* --- Typography --- */
+h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.03em; }
+h2 { font-size: 1.375rem; font-weight: 650; line-height: 1.3; letter-spacing: -0.01em; margin-bottom: 0.75rem; color: #0a0a0a; }
+h3 { font-size: 1.0625rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: #0a0a0a; }
+p { margin-bottom: 0.875rem; color: #27272a; font-size: 0.9375rem; line-height: 1.75; }
+ul { margin: 0.5rem 0 1rem 1.25rem; font-size: 0.9375rem; color: #27272a; line-height: 1.75; }
+li { margin-bottom: 0.375rem; }
+strong { font-weight: 600; color: #0a0a0a; }
+
+code {
+  font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  background: #f4f4f5;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  color: #4f46e5;
+}
+
+/* --- Page header --- */
+.page-header { padding: 4rem 0 2.5rem; }
+.page-header p { color: #52525b; font-size: 1.0625rem; max-width: 640px; margin-top: 0.5rem; }
+.breadcrumb { font-size: 0.8125rem; color: #71717a; margin-bottom: 0.75rem; }
+.breadcrumb a { color: #71717a; text-decoration: none; }
+.breadcrumb a:hover { color: #4f46e5; }
+
+/* --- Cards --- */
+.card {
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+.card-label {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4f46e5;
+  background: #eef2ff;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+/* --- Code blocks --- */
+.code-block {
+  background: #18181b;
+  color: #d4d4d8;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0.75rem 0 1rem;
+}
+.code-block .comment { color: #6b7280; }
+.code-block .keyword { color: #818cf8; }
+.code-block .number { color: #a5b4fc; }
+.code-block .string { color: #fbbf24; }
+
+/* --- Callouts --- */
+.callout {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 3px solid #f59e0b;
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  color: #27272a;
+  line-height: 1.65;
+}
+.callout-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #b45309;
+}
+
+.insight {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-left: 3px solid #4f46e5;
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  color: #27272a;
+  line-height: 1.65;
+}
+.insight-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #3730a3;
+}
+
+/* --- Constants grid --- */
+.constants-grid {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 0.5rem 1rem;
+  margin: 0.75rem 0;
+  font-size: 0.875rem;
+  align-items: baseline;
+}
+.const-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  color: #4f46e5;
+  font-weight: 500;
+}
+.const-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #0a0a0a;
+}
+.const-desc { color: #52525b; }
+
+/* --- Interactive buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid #e4e4e7;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #52525b;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.btn:hover { border-color: #4f46e5; color: #4f46e5; }
+.btn.active { background: #4f46e5; color: #ffffff; border-color: #4f46e5; }
+
+/* --- Tokenizer viz --- */
+.token-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 1rem 0;
+  min-height: 60px;
+  align-items: flex-start;
+}
+.token-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.token-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.token-chip {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid;
+  white-space: pre;
+}
+.token-id-label {
+  font-size: 0.625rem;
+  color: #a1a1aa;
+  margin-top: 2px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.tok-special { background: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
+.tok-word { background: #eef2ff; border-color: #a5b4fc; color: #3730a3; }
+.tok-space { background: #f5f3ff; border-color: #c4b5fd; color: #5b21b6; }
+.tok-punct { background: #fff7ed; border-color: #fdba74; color: #c2410c; }
+.tok-num { background: #ecfdf5; border-color: #6ee7b7; color: #065f46; }
+
+.sentence-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+.sentence-input-display {
+  background: #f4f4f5;
+  border-radius: 6px;
+  padding: 0.625rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #0a0a0a;
+  margin-bottom: 0.5rem;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* --- Pipeline SVG --- */
+.pipeline-svg-container {
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
+.pipeline-svg-container svg { display: block; margin: 0 auto; }
+.pipe-node { transition: opacity 0.4s ease; }
+.pipe-node.inactive { opacity: 0.25; }
+.pipe-node.active { opacity: 1; }
+.pipe-edge { transition: opacity 0.4s ease, stroke-dashoffset 0.6s ease; }
+.pipe-edge.inactive { opacity: 0.15; }
+.pipe-edge.active { opacity: 1; }
+.pipeline-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+.pipeline-status {
+  font-size: 0.8125rem;
+  color: #52525b;
+  margin-left: auto;
+}
+
+/* --- Batch packing viz --- */
+.packing-viz {
+  margin: 1rem 0;
+}
+.packing-row {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 4px;
+  align-items: center;
+}
+.packing-label {
+  width: 48px;
+  font-size: 0.75rem;
+  color: #71717a;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: right;
+  padding-right: 8px;
+  flex-shrink: 0;
+}
+.packing-cell {
+  width: 36px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-family: 'JetBrains Mono', monospace;
+  border-radius: 3px;
+  font-weight: 500;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.packing-cell.visible { opacity: 1; transform: scale(1); }
+.pack-bos { background: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5; font-weight: 600; }
+.pack-a { background: #eef2ff; color: #3730a3; border: 1px solid #a5b4fc; }
+.pack-b { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; }
+.pack-c { background: #fff7ed; color: #c2410c; border: 1px solid #fdba74; }
+.pack-d { background: #f5f3ff; color: #5b21b6; border: 1px solid #c4b5fd; }
+
+.packing-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #52525b;
+}
+.packing-legend span { display: flex; align-items: center; gap: 0.25rem; }
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* --- Shift diagram --- */
+.shift-viz { margin: 1rem 0; }
+.shift-row {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 4px;
+  align-items: center;
+}
+.shift-label {
+  width: 56px;
+  font-size: 0.75rem;
+  color: #71717a;
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+.shift-cell {
+  width: 40px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-family: 'JetBrains Mono', monospace;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.shift-input { background: #eef2ff; color: #3730a3; border: 1px solid #a5b4fc; }
+.shift-target { background: #fff7ed; color: #c2410c; border: 1px solid #fdba74; }
+.shift-empty { background: #f4f4f5; color: #d4d4d8; border: 1px dashed #d4d4d8; }
+
+/* --- Summary table --- */
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1rem 0;
+}
+.summary-table th {
+  text-align: left;
+  padding: 0.625rem 0.75rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #71717a;
+  border-bottom: 2px solid #e4e4e7;
+}
+.summary-table td {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid #f4f4f5;
+  color: #27272a;
+}
+.summary-table tr:last-child td { border-bottom: none; }
+.summary-table td:first-child { font-weight: 500; color: #0a0a0a; }
+
+/* --- BPB steps --- */
+.bpb-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  background: #fafafa;
+  border-radius: 8px;
+  border-left: 3px solid #4f46e5;
+  font-size: 0.875rem;
+  color: #27272a;
+  line-height: 1.65;
+}
+.bpb-num {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #4f46e5;
+  min-width: 20px;
+  flex-shrink: 0;
+}
+
+/* --- Bottom nav --- */
+.bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 3rem 0 4rem;
+  gap: 1rem;
+}
+.bottom-nav-link {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #0a0a0a;
+  transition: border-color 0.15s;
+  min-width: 0;
+  flex: 1;
+  max-width: 50%;
+}
+.bottom-nav-link:hover { border-color: #4f46e5; }
+.bottom-nav-link.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+  border-style: dashed;
+}
+.bottom-nav-dir {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #71717a;
+  margin-bottom: 0.25rem;
+}
+.bottom-nav-title { font-weight: 600; font-size: 0.9375rem; }
+.bottom-nav-link.next { text-align: right; margin-left: auto; }
+
+/* --- Footer --- */
+footer {
+  padding: 2rem 0;
+  font-size: 0.8125rem;
+  color: #a1a1aa;
+  border-top: 1px solid #f4f4f5;
+}
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .container { padding: 0 1.25rem; }
+  h1 { font-size: 1.75rem; }
+  .page-header { padding: 3rem 0 2rem; }
+  .card { padding: 1.25rem; }
+  .constants-grid { grid-template-columns: 1fr; gap: 0.25rem; }
+  .const-name { margin-top: 0.5rem; }
+  .packing-cell { width: 28px; height: 24px; font-size: 0.5625rem; }
+  .shift-cell { width: 32px; height: 24px; font-size: 0.625rem; }
+  .shift-label { width: 44px; font-size: 0.6875rem; }
+  .bottom-nav { flex-direction: column; }
+  .bottom-nav-link { max-width: 100%; }
+  .bottom-nav-link.next { text-align: left; }
+  .pipeline-status { margin-left: 0; margin-top: 0.25rem; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER NAV ========== -->
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ========== PAGE HEADER ========== -->
+<div class="container">
+  <div class="page-header">
+    <div class="breadcrumb"><a href="/notebook/">Notebook</a> / Data Pipelines</div>
+    <h1>Data Pipelines</h1>
+    <p>How text becomes numbers, gets fed to the model, and gets measured. The model never sees text — only integers.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PIPELINE FLOW DIAGRAM                                         -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <span class="card-label">The Full Pipeline</span>
+    <h2>From Raw Text to Loss</h2>
+    <p>Everything in ML follows this flow. <code>prepare.py</code> owns every stage except "Model" — it prepares data, feeds it in, and measures the output.</p>
+
+    <div class="pipeline-svg-container">
+      <svg id="pipelineSvg" viewBox="0 0 740 80" width="100%" style="max-width:740px">
+        <!-- Edges -->
+        <line id="edge01" class="pipe-edge inactive" x1="138" y1="40" x2="162" y2="40" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4 2"/>
+        <line id="edge12" class="pipe-edge inactive" x1="296" y1="40" x2="320" y2="40" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4 2"/>
+        <line id="edge23" class="pipe-edge inactive" x1="444" y1="40" x2="468" y2="40" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4 2"/>
+        <line id="edge34" class="pipe-edge inactive" x1="594" y1="40" x2="618" y2="40" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4 2"/>
+
+        <!-- Arrows -->
+        <polygon id="arr01" class="pipe-edge inactive" points="158,36 166,40 158,44" fill="#4f46e5"/>
+        <polygon id="arr12" class="pipe-edge inactive" points="316,36 324,40 316,44" fill="#4f46e5"/>
+        <polygon id="arr23" class="pipe-edge inactive" points="464,36 472,40 464,44" fill="#4f46e5"/>
+        <polygon id="arr34" class="pipe-edge inactive" points="614,36 622,40 614,44" fill="#4f46e5"/>
+
+        <!-- Node 0: Raw Text -->
+        <g id="node0" class="pipe-node inactive">
+          <rect x="4" y="10" width="130" height="60" rx="8" fill="#f4f4f5" stroke="#e4e4e7" stroke-width="1.5"/>
+          <text x="69" y="35" text-anchor="middle" fill="#0a0a0a" font-size="12.5" font-weight="600" font-family="Inter, sans-serif">Raw Text</text>
+          <text x="69" y="52" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">parquet files</text>
+        </g>
+
+        <!-- Node 1: Tokenizer -->
+        <g id="node1" class="pipe-node inactive">
+          <rect x="166" y="10" width="130" height="60" rx="8" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1.5"/>
+          <text x="231" y="35" text-anchor="middle" fill="#3730a3" font-size="12.5" font-weight="600" font-family="Inter, sans-serif">Tokenizer</text>
+          <text x="231" y="52" text-anchor="middle" fill="#6366f1" font-size="10" font-family="Inter, sans-serif">text → integers</text>
+        </g>
+
+        <!-- Node 2: Dataloader -->
+        <g id="node2" class="pipe-node inactive">
+          <rect x="324" y="10" width="120" height="60" rx="8" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1.5"/>
+          <text x="384" y="35" text-anchor="middle" fill="#3730a3" font-size="12.5" font-weight="600" font-family="Inter, sans-serif">Dataloader</text>
+          <text x="384" y="52" text-anchor="middle" fill="#6366f1" font-size="10" font-family="Inter, sans-serif">pack into batches</text>
+        </g>
+
+        <!-- Node 3: Model -->
+        <g id="node3" class="pipe-node inactive">
+          <rect x="472" y="10" width="120" height="60" rx="8" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+          <text x="532" y="35" text-anchor="middle" fill="#5b21b6" font-size="12.5" font-weight="600" font-family="Inter, sans-serif">Model</text>
+          <text x="532" y="52" text-anchor="middle" fill="#7c3aed" font-size="10" font-family="Inter, sans-serif">predict next token</text>
+        </g>
+
+        <!-- Node 4: Loss/BPB -->
+        <g id="node4" class="pipe-node inactive">
+          <rect x="622" y="10" width="110" height="60" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+          <text x="677" y="35" text-anchor="middle" fill="#b91c1c" font-size="12.5" font-weight="600" font-family="Inter, sans-serif">Loss / BPB</text>
+          <text x="677" y="52" text-anchor="middle" fill="#dc2626" font-size="10" font-family="Inter, sans-serif">how wrong?</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="pipeline-controls">
+      <button class="btn" id="pipelinePlayBtn" onclick="playPipeline()">Play</button>
+      <button class="btn" id="pipelineStepBtn" onclick="stepPipeline()">Step</button>
+      <button class="btn" onclick="resetPipeline()">Reset</button>
+      <span class="pipeline-status" id="pipelineStatus">Click Play or Step to animate the pipeline</span>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CONSTANTS                                                     -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <span class="card-label">Configuration</span>
+    <h2>The Constants</h2>
+    <p>Fixed rules for every experiment. These live in <code>prepare.py</code> so every run is measured on equal terms.</p>
+
+    <div class="constants-grid">
+      <span class="const-name">MAX_SEQ_LEN</span>
+      <span class="const-val">2,048</span>
+      <span class="const-desc">Tokens the model sees at once (context window)</span>
+
+      <span class="const-name">TIME_BUDGET</span>
+      <span class="const-val">300</span>
+      <span class="const-desc">Training time in seconds. 5 minutes, hard stop.</span>
+
+      <span class="const-name">EVAL_TOKENS</span>
+      <span class="const-val">~21M</span>
+      <span class="const-desc">Tokens to evaluate on (40 batches of 524,288)</span>
+
+      <span class="const-name">VOCAB_SIZE</span>
+      <span class="const-val">8,192</span>
+      <span class="const-desc">Unique tokens the model can recognize</span>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Why 8,192?</div>
+      GPT-4 uses ~100,000 tokens. A smaller vocabulary means each token represents less text, so you need more tokens to encode the same content. But the model has fewer things to learn. Deliberate tradeoff for a 5-minute experiment: simplify the problem so small models can make progress.
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TOKENIZATION VISUALIZER                                       -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <span class="card-label">Tokenization</span>
+    <h2>Text to Numbers</h2>
+    <p>The tokenizer converts text into integer IDs using <strong>BPE</strong> (Byte Pair Encoding): start with individual characters, then repeatedly merge the most common adjacent pairs into single tokens.</p>
+    <p>Click a sentence to see it tokenized step by step.</p>
+
+    <div class="sentence-selector" id="sentenceSelector"></div>
+    <div class="sentence-input-display" id="sentenceDisplay">Select a sentence above</div>
+    <div class="token-container" id="tokenContainer"></div>
+
+    <div style="margin-top:1rem">
+      <p>Things to notice:</p>
+      <ul>
+        <li><strong>BOS token</strong> (Beginning of Sequence) marks where a new document starts. ID 8188.</li>
+        <li><strong>Spaces attach</strong> to the following word (" world" is one token, not "world").</li>
+        <li><strong>Common words</strong> become single tokens. Rare words get split into pieces.</li>
+        <li><strong>Numbers cap at 2 digits</strong> per token (regex <code>\p{N}{1,2}</code>). "123" becomes "12" + "3".</li>
+      </ul>
+    </div>
+
+    <div class="insight">
+      <div class="insight-title">Connection to prepare.py</div>
+      The tokenizer is trained once by <code>prepare.py</code> and saved to <code>~/.cache/autoresearch/tokenizer/</code>. Training reads a billion characters and learns which byte pairs to merge. Lines 141-203.
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BATCH PACKING VISUALIZER                                      -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <span class="card-label">Batching</span>
+    <h2>Packing Tokens into Batches</h2>
+    <p>The model processes a <strong>batch</strong> of fixed-size rows simultaneously. Each row is exactly <code>MAX_SEQ_LEN + 1 = 2,049</code> tokens. The dataloader takes a stream of variable-length documents and packs them tightly — zero wasted space.</p>
+    <p>Watch documents get packed into rows. Each step places the next piece.</p>
+
+    <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap">
+      <button class="btn" id="packStepBtn" onclick="packStep()">Step</button>
+      <button class="btn" id="packAutoBtn" onclick="packAuto()">Auto-Pack</button>
+      <button class="btn" onclick="packReset()">Reset</button>
+      <span style="font-size:0.8125rem;color:#52525b;display:flex;align-items:center;margin-left:auto" id="packStatus">Ready. Each row holds 12 tokens.</span>
+    </div>
+
+    <div class="packing-viz" id="packingViz"></div>
+
+    <div class="packing-legend">
+      <span><span class="legend-dot" style="background:#fef2f2;border:1px solid #fca5a5"></span> BOS</span>
+      <span><span class="legend-dot" style="background:#eef2ff;border:1px solid #a5b4fc"></span> Doc A (4 tok)</span>
+      <span><span class="legend-dot" style="background:#ecfdf5;border:1px solid #6ee7b7"></span> Doc B (6 tok)</span>
+      <span><span class="legend-dot" style="background:#fff7ed;border:1px solid #fdba74"></span> Doc C (8 tok)</span>
+      <span><span class="legend-dot" style="background:#f5f3ff;border:1px solid #c4b5fd"></span> Doc D (3 tok)</span>
+    </div>
+
+    <div style="margin-top:1rem">
+      <p>How it works:</p>
+      <ul>
+        <li>Every document starts with a <strong>BOS token</strong>, so the model always knows "new document begins here."</li>
+        <li><strong>Best-fit packing</strong>: find the largest document that fits remaining space. Like Tetris.</li>
+        <li>If nothing fits, <strong>crop the shortest document</strong> in the buffer to fill exactly. 100% utilization, no padding.</li>
+        <li>The buffer holds ~1,000 documents to choose from, giving good packing options.</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Why packing matters</div>
+      The naive approach: one document per row, pad the rest with zeros. But padding tokens are wasted compute — the model processes them but learns nothing. With packing, every token is real data. At 524K tokens per step, even 5% padding waste = ~26K wasted tokens per step.
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- INPUTS & TARGETS                                              -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <span class="card-label">Training Data</span>
+    <h2>Inputs and Targets: The Shift</h2>
+    <p>The model's job: <strong>given a sequence of tokens, predict the next one</strong>. To train this, each packed row splits into <strong>inputs</strong> (everything except the last token) and <strong>targets</strong> (everything except the first).</p>
+
+    <div class="shift-viz">
+      <div class="shift-row">
+        <span class="shift-label">Packed:</span>
+        <div class="shift-cell shift-input">B</div>
+        <div class="shift-cell shift-input">The</div>
+        <div class="shift-cell shift-input">cat</div>
+        <div class="shift-cell shift-input">sat</div>
+        <div class="shift-cell shift-input">on</div>
+        <div class="shift-cell shift-input">the</div>
+        <div class="shift-cell shift-input">mat</div>
+      </div>
+      <div class="shift-row" style="margin-top:6px">
+        <span class="shift-label">Input:</span>
+        <div class="shift-cell shift-input">B</div>
+        <div class="shift-cell shift-input">The</div>
+        <div class="shift-cell shift-input">cat</div>
+        <div class="shift-cell shift-input">sat</div>
+        <div class="shift-cell shift-input">on</div>
+        <div class="shift-cell shift-input">the</div>
+        <div class="shift-cell shift-empty">-</div>
+      </div>
+      <div class="shift-row" style="margin-top:2px">
+        <span class="shift-label">Target:</span>
+        <div class="shift-cell shift-empty">-</div>
+        <div class="shift-cell shift-target">The</div>
+        <div class="shift-cell shift-target">cat</div>
+        <div class="shift-cell shift-target">sat</div>
+        <div class="shift-cell shift-target">on</div>
+        <div class="shift-cell shift-target">the</div>
+        <div class="shift-cell shift-target">mat</div>
+      </div>
+    </div>
+
+    <p>At each position, the model sees all tokens up to that point and predicts what comes next. After "The cat sat," it should predict "on." After "The cat sat on," it should predict "the."</p>
+
+    <p>This is why the row is <code>T + 1 = 2,049</code> tokens, but the model's sequence length is <code>T = 2,048</code>. One extra token so the last input position has a target to predict.</p>
+
+    <div class="code-block">
+<span class="comment"># prepare.py lines 334-336: the shift</span>
+cpu_inputs.copy_(row_buffer[:, :-1])   <span class="comment"># everything except last</span>
+cpu_targets.copy_(row_buffer[:, 1:])   <span class="comment"># everything except first</span>
+gpu_buffer.copy_(cpu_buffer, non_blocking=<span class="keyword">True</span>)
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- EVALUATION: BPB                                               -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <span class="card-label">Evaluation</span>
+    <h2>Bits Per Byte (BPB)</h2>
+    <p>The north star metric. "How efficiently can the model predict text it hasn't seen?" Here's the computation:</p>
+
+    <div class="bpb-step">
+      <div class="bpb-num">1</div>
+      <div>Feed validation data through the model. For each token position, the model outputs a probability distribution over all 8,192 possible next tokens.</div>
+    </div>
+
+    <div class="bpb-step">
+      <div class="bpb-num">2</div>
+      <div>Compute <strong>cross-entropy loss</strong> at each position: how surprised was the model by the actual next token? High probability on the correct token = low loss. Surprised = high loss. Measured in <strong>nats</strong> (natural log units).</div>
+    </div>
+
+    <div class="bpb-step">
+      <div class="bpb-num">3</div>
+      <div>The clever part: different tokens represent different amounts of text. " world" = 6 bytes of UTF-8. "!" = 1 byte. BPB normalizes by <strong>bytes</strong>, not tokens. This makes the metric independent of vocabulary size.</div>
+    </div>
+
+    <div class="bpb-step">
+      <div class="bpb-num">4</div>
+      <div>Convert nats to bits (divide by ln(2)). Final number: <strong>total bits of surprise / total bytes of text</strong>.</div>
+    </div>
+
+    <div class="code-block">
+<span class="comment"># prepare.py lines 344-365: the actual evaluation</span>
+
+<span class="keyword">for</span> _ <span class="keyword">in</span> range(steps):
+    x, y, _ = next(val_loader)
+    loss_flat = model(x, y, reduction=<span class="string">'none'</span>).view(-<span class="number">1</span>)
+    y_flat = y.view(-<span class="number">1</span>)
+    nbytes = token_bytes[y_flat]   <span class="comment"># UTF-8 bytes each target token represents</span>
+    mask = nbytes > <span class="number">0</span>             <span class="comment"># skip special tokens (0 bytes)</span>
+    total_nats += (loss_flat * mask).sum()
+    total_bytes += nbytes.sum()
+
+<span class="keyword">return</span> total_nats / (log(<span class="number">2</span>) * total_bytes)  <span class="comment"># nats → bits, per byte</span>
+    </div>
+
+    <div class="insight">
+      <div class="insight-title">Why BPB instead of loss?</div>
+      Changing vocabulary size changes raw loss even if the model is equally good. A 100K-token model has lower per-token loss than an 8K-token model (fewer, more informative tokens = easier predictions). BPB normalizes by bytes of actual text, making it comparable across any tokenizer. It's the metric equivalent of "cost per byte of text understood."
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PUTTING IT TOGETHER                                           -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <span class="card-label">Summary</span>
+    <h2>Putting It Together</h2>
+    <p>Complete data flow with actual numbers:</p>
+
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>What happens</th>
+          <th>Shape / Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Parquet files</td>
+          <td>Raw text documents on disk</td>
+          <td>~6,500 shards</td>
+        </tr>
+        <tr>
+          <td>Tokenize</td>
+          <td>BPE encodes text to integer sequences</td>
+          <td>Variable-length lists (0-8191)</td>
+        </tr>
+        <tr>
+          <td>Pack into rows</td>
+          <td>Best-fit pack documents into fixed rows</td>
+          <td>[128 rows x 2,049 tokens]</td>
+        </tr>
+        <tr>
+          <td>Shift</td>
+          <td>Split into inputs (x) and targets (y)</td>
+          <td>x: [128 x 2,048] &nbsp; y: [128 x 2,048]</td>
+        </tr>
+        <tr>
+          <td>Model forward</td>
+          <td>Predict next token at every position</td>
+          <td>logits: [128 x 2,048 x 8,192]</td>
+        </tr>
+        <tr>
+          <td>Loss / BPB</td>
+          <td>Compare predictions to actual targets</td>
+          <td>Single number (e.g., 0.9979)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>That logits shape is worth pausing on: <code>[128 x 2,048 x 8,192]</code>. That's 128 rows, each with 2,048 positions, each outputting a probability over 8,192 possible next tokens. <strong>~2.1 billion numbers</strong> per batch. All collapsed to a single loss that says "you were this wrong."</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- NEXT UP                                                       -->
+  <!-- ============================================================ -->
+  <div class="card" style="background:#eef2ff;border-color:#c7d2fe">
+    <span class="card-label" style="background:#4f46e5;color:#ffffff">Next Up</span>
+    <h2>What's Inside the Model?</h2>
+    <p>Now you know how data gets prepared and measured. Next: what happens inside the "Model" box? That's <code>train.py</code> — embeddings, attention, MLPs, and how they stack together.</p>
+  </div>
+
+  <!-- ========== BOTTOM NAV ========== -->
+  <div class="bottom-nav">
+    <div class="bottom-nav-link disabled">
+      <span class="bottom-nav-dir">Previous</span>
+      <span class="bottom-nav-title" style="color:#a1a1aa">First topic</span>
+    </div>
+    <a href="/notebook/model-architecture.html" class="bottom-nav-link next">
+      <span class="bottom-nav-dir">Next</span>
+      <span class="bottom-nav-title">Model Architecture</span>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <span>&copy; 2026 Katrina Laszlo</span>
+  </div>
+</footer>
+
+<script>
+// ==============================================
+// PIPELINE FLOW ANIMATION
+// ==============================================
+(function() {
+  const nodeIds = ['node0','node1','node2','node3','node4'];
+  const edgeIds = ['edge01','edge12','edge23','edge34'];
+  const arrIds = ['arr01','arr12','arr23','arr34'];
+  const labels = ['Raw Text loaded','Tokenizer encoding','Dataloader packing batches','Model predicting next tokens','Loss / BPB computed'];
+  let pipeStep = -1;
+  let pipeInterval = null;
+
+  window.resetPipeline = function() {
+    clearInterval(pipeInterval);
+    pipeInterval = null;
+    pipeStep = -1;
+    nodeIds.forEach(id => {
+      document.getElementById(id).classList.add('inactive');
+      document.getElementById(id).classList.remove('active');
+    });
+    edgeIds.forEach(id => {
+      document.getElementById(id).classList.add('inactive');
+      document.getElementById(id).classList.remove('active');
+    });
+    arrIds.forEach(id => {
+      document.getElementById(id).classList.add('inactive');
+      document.getElementById(id).classList.remove('active');
+    });
+    document.getElementById('pipelineStatus').textContent = 'Click Play or Step to animate the pipeline';
+    document.getElementById('pipelinePlayBtn').textContent = 'Play';
+  };
+
+  function advancePipe() {
+    pipeStep++;
+    if (pipeStep >= nodeIds.length) {
+      clearInterval(pipeInterval);
+      pipeInterval = null;
+      document.getElementById('pipelineStatus').textContent = 'Pipeline complete. Click Reset to replay.';
+      document.getElementById('pipelinePlayBtn').textContent = 'Play';
+      return;
+    }
+    const node = document.getElementById(nodeIds[pipeStep]);
+    node.classList.remove('inactive');
+    node.classList.add('active');
+    if (pipeStep > 0) {
+      const e = document.getElementById(edgeIds[pipeStep - 1]);
+      const a = document.getElementById(arrIds[pipeStep - 1]);
+      e.classList.remove('inactive'); e.classList.add('active');
+      a.classList.remove('inactive'); a.classList.add('active');
+    }
+    document.getElementById('pipelineStatus').textContent = labels[pipeStep];
+  }
+
+  window.stepPipeline = function() {
+    clearInterval(pipeInterval);
+    pipeInterval = null;
+    document.getElementById('pipelinePlayBtn').textContent = 'Play';
+    if (pipeStep >= nodeIds.length - 1) {
+      resetPipeline();
+      return;
+    }
+    advancePipe();
+  };
+
+  window.playPipeline = function() {
+    if (pipeInterval) {
+      clearInterval(pipeInterval);
+      pipeInterval = null;
+      document.getElementById('pipelinePlayBtn').textContent = 'Play';
+      return;
+    }
+    if (pipeStep >= nodeIds.length - 1) resetPipeline();
+    document.getElementById('pipelinePlayBtn').textContent = 'Pause';
+    advancePipe();
+    pipeInterval = setInterval(advancePipe, 800);
+  };
+})();
+
+// ==============================================
+// TOKENIZATION VISUALIZER
+// ==============================================
+(function() {
+  const sentences = [
+    {
+      text: 'Hello world! 42',
+      tokens: [
+        { text: 'BOS', id: 8188, type: 'special' },
+        { text: 'Hell', id: 2401, type: 'word' },
+        { text: 'o', id: 111, type: 'word' },
+        { text: ' world', id: 1844, type: 'space' },
+        { text: '!', id: 33, type: 'punct' },
+        { text: ' ', id: 32, type: 'space' },
+        { text: '42', id: 5318, type: 'num' }
+      ]
+    },
+    {
+      text: 'The cat sat on the mat.',
+      tokens: [
+        { text: 'BOS', id: 8188, type: 'special' },
+        { text: 'The', id: 464, type: 'word' },
+        { text: ' cat', id: 1327, type: 'space' },
+        { text: ' sat', id: 2062, type: 'space' },
+        { text: ' on', id: 378, type: 'space' },
+        { text: ' the', id: 290, type: 'space' },
+        { text: ' mat', id: 2931, type: 'space' },
+        { text: '.', id: 46, type: 'punct' }
+      ]
+    },
+    {
+      text: 'Transformers use self-attention.',
+      tokens: [
+        { text: 'BOS', id: 8188, type: 'special' },
+        { text: 'Trans', id: 6752, type: 'word' },
+        { text: 'form', id: 1014, type: 'word' },
+        { text: 'ers', id: 414, type: 'word' },
+        { text: ' use', id: 897, type: 'space' },
+        { text: ' self', id: 1563, type: 'space' },
+        { text: '-', id: 45, type: 'punct' },
+        { text: 'att', id: 720, type: 'word' },
+        { text: 'ention', id: 3104, type: 'word' },
+        { text: '.', id: 46, type: 'punct' }
+      ]
+    },
+    {
+      text: 'GPT-4 was released on March 14, 2023.',
+      tokens: [
+        { text: 'BOS', id: 8188, type: 'special' },
+        { text: 'G', id: 71, type: 'word' },
+        { text: 'PT', id: 4815, type: 'word' },
+        { text: '-', id: 45, type: 'punct' },
+        { text: '4', id: 52, type: 'num' },
+        { text: ' was', id: 569, type: 'space' },
+        { text: ' released', id: 4120, type: 'space' },
+        { text: ' on', id: 378, type: 'space' },
+        { text: ' March', id: 3894, type: 'space' },
+        { text: ' 14', id: 1122, type: 'space' },
+        { text: ',', id: 44, type: 'punct' },
+        { text: ' 20', id: 503, type: 'space' },
+        { text: '23', id: 2739, type: 'num' },
+        { text: '.', id: 46, type: 'punct' }
+      ]
+    }
+  ];
+
+  const selector = document.getElementById('sentenceSelector');
+  const display = document.getElementById('sentenceDisplay');
+  const container = document.getElementById('tokenContainer');
+
+  sentences.forEach(function(s, i) {
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.textContent = s.text;
+    btn.onclick = function() { selectSentence(i); };
+    btn.id = 'sentBtn' + i;
+    selector.appendChild(btn);
+  });
+
+  let currentSentence = -1;
+
+  function selectSentence(idx) {
+    if (currentSentence === idx) return;
+    currentSentence = idx;
+    const s = sentences[idx];
+
+    // Update button states
+    sentences.forEach(function(_, j) {
+      const b = document.getElementById('sentBtn' + j);
+      b.classList.toggle('active', j === idx);
+    });
+
+    display.textContent = '"' + s.text + '"';
+    container.innerHTML = '';
+
+    s.tokens.forEach(function(tok, ti) {
+      const item = document.createElement('div');
+      item.className = 'token-item';
+
+      const chip = document.createElement('span');
+      chip.className = 'token-chip tok-' + tok.type;
+      chip.textContent = tok.text;
+
+      const idLabel = document.createElement('span');
+      idLabel.className = 'token-id-label';
+      idLabel.textContent = tok.id;
+
+      item.appendChild(chip);
+      item.appendChild(idLabel);
+      container.appendChild(item);
+
+      setTimeout(function() {
+        item.classList.add('visible');
+      }, 80 * (ti + 1));
+    });
+  }
+
+  // Auto-select first sentence
+  selectSentence(0);
+})();
+
+// ==============================================
+// BATCH PACKING VISUALIZER
+// ==============================================
+(function() {
+  // Two rows of 12 cells each
+  // Documents: A=4tok, B=6tok, C=8tok, D=3tok (cropped to fit)
+  // Row 0: BOS A A A A BOS B B B B B B
+  // Row 1: BOS C C C C C C C C BOS D D
+  const ROW_SIZE = 12;
+  const rows = [
+    [
+      { label: 'B', cls: 'pack-bos', doc: 'BOS for Doc A' },
+      { label: 'a', cls: 'pack-a', doc: 'Doc A' },
+      { label: 'a', cls: 'pack-a', doc: 'Doc A' },
+      { label: 'a', cls: 'pack-a', doc: 'Doc A' },
+      { label: 'a', cls: 'pack-a', doc: 'Doc A' },
+      { label: 'B', cls: 'pack-bos', doc: 'BOS for Doc B' },
+      { label: 'b', cls: 'pack-b', doc: 'Doc B' },
+      { label: 'b', cls: 'pack-b', doc: 'Doc B' },
+      { label: 'b', cls: 'pack-b', doc: 'Doc B' },
+      { label: 'b', cls: 'pack-b', doc: 'Doc B' },
+      { label: 'b', cls: 'pack-b', doc: 'Doc B' },
+      { label: 'b', cls: 'pack-b', doc: 'Doc B' }
+    ],
+    [
+      { label: 'B', cls: 'pack-bos', doc: 'BOS for Doc C' },
+      { label: 'c', cls: 'pack-c', doc: 'Doc C' },
+      { label: 'c', cls: 'pack-c', doc: 'Doc C' },
+      { label: 'c', cls: 'pack-c', doc: 'Doc C' },
+      { label: 'c', cls: 'pack-c', doc: 'Doc C' },
+      { label: 'c', cls: 'pack-c', doc: 'Doc C' },
+      { label: 'c', cls: 'pack-c', doc: 'Doc C' },
+      { label: 'c', cls: 'pack-c', doc: 'Doc C' },
+      { label: 'c', cls: 'pack-c', doc: 'Doc C' },
+      { label: 'B', cls: 'pack-bos', doc: 'BOS for Doc D' },
+      { label: 'd', cls: 'pack-d', doc: 'Doc D' },
+      { label: 'd', cls: 'pack-d', doc: 'Doc D' }
+    ]
+  ];
+
+  // Steps: each step reveals a group of cells
+  const steps = [
+    // Step 0: BOS + Doc A in row 0
+    { cells: [[0,0],[0,1],[0,2],[0,3],[0,4]], msg: 'Doc A (4 tokens) placed in Row 0 with BOS' },
+    // Step 1: BOS + Doc B in row 0
+    { cells: [[0,5],[0,6],[0,7],[0,8],[0,9],[0,10],[0,11]], msg: 'Doc B (6 tokens) fills remaining Row 0 space' },
+    // Step 2: BOS + Doc C in row 1
+    { cells: [[1,0],[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],[1,8]], msg: 'Doc C (8 tokens) placed in Row 1 with BOS' },
+    // Step 3: BOS + Doc D cropped in row 1
+    { cells: [[1,9],[1,10],[1,11]], msg: 'Doc D cropped to fill remaining 2 slots. 100% utilization.' }
+  ];
+
+  const viz = document.getElementById('packingViz');
+  const statusEl = document.getElementById('packStatus');
+  let packStepIdx = 0;
+  let cellEls = [];
+  let packAutoInterval = null;
+
+  function buildGrid() {
+    viz.innerHTML = '';
+    cellEls = [];
+    rows.forEach(function(row, ri) {
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'packing-row';
+
+      const label = document.createElement('span');
+      label.className = 'packing-label';
+      label.textContent = 'Row ' + ri + ':';
+      rowDiv.appendChild(label);
+
+      const rowCells = [];
+      row.forEach(function(cell) {
+        const cellDiv = document.createElement('div');
+        cellDiv.className = 'packing-cell ' + cell.cls;
+        cellDiv.textContent = cell.label;
+        cellDiv.title = cell.doc;
+        rowDiv.appendChild(cellDiv);
+        rowCells.push(cellDiv);
+      });
+      cellEls.push(rowCells);
+      viz.appendChild(rowDiv);
+    });
+  }
+
+  buildGrid();
+
+  window.packReset = function() {
+    clearInterval(packAutoInterval);
+    packAutoInterval = null;
+    packStepIdx = 0;
+    cellEls.forEach(function(row) {
+      row.forEach(function(c) { c.classList.remove('visible'); });
+    });
+    statusEl.textContent = 'Ready. Each row holds 12 tokens.';
+    document.getElementById('packAutoBtn').textContent = 'Auto-Pack';
+  };
+
+  window.packStep = function() {
+    clearInterval(packAutoInterval);
+    packAutoInterval = null;
+    document.getElementById('packAutoBtn').textContent = 'Auto-Pack';
+    if (packStepIdx >= steps.length) {
+      packReset();
+      return;
+    }
+    const step = steps[packStepIdx];
+    step.cells.forEach(function(coord, i) {
+      const el = cellEls[coord[0]][coord[1]];
+      setTimeout(function() { el.classList.add('visible'); }, i * 60);
+    });
+    statusEl.textContent = 'Step ' + (packStepIdx + 1) + '/' + steps.length + ': ' + step.msg;
+    packStepIdx++;
+  };
+
+  window.packAuto = function() {
+    if (packAutoInterval) {
+      clearInterval(packAutoInterval);
+      packAutoInterval = null;
+      document.getElementById('packAutoBtn').textContent = 'Auto-Pack';
+      return;
+    }
+    if (packStepIdx >= steps.length) packReset();
+    document.getElementById('packAutoBtn').textContent = 'Pause';
+    packStep();
+    packAutoInterval = setInterval(function() {
+      if (packStepIdx >= steps.length) {
+        clearInterval(packAutoInterval);
+        packAutoInterval = null;
+        document.getElementById('packAutoBtn').textContent = 'Auto-Pack';
+        statusEl.textContent = 'Packing complete. Zero wasted space.';
+        return;
+      }
+      packStep();
+    }, 1200);
+  };
+})();
+</script>
+
+</body>
+</html>

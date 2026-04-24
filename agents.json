@@ -34,12 +34,21 @@
     "dev": "https://dev.to/kat_laszlo",
     "substack": "https://itskatlaszlo.substack.com"
   },
+  "notebook": {
+    "url": "/notebook/",
+    "description": "Interactive explorations of AI systems, data pipelines, model architecture, and more",
+    "entries": [
+      { "title": "AI System Design", "url": "/notebook/ai-system-design.html" },
+      { "title": "Agent Teams", "url": "/notebook/managing-agent-teams.html" },
+      { "title": "Training Loops", "url": "/notebook/training-loop.html" },
+      {
+        "title": "Model Architecture",
+        "url": "/notebook/model-architecture.html"
+      },
+      { "title": "Data Pipelines", "url": "/notebook/data-pipeline.html" }
+    ]
+  },
   "projects": [
-    {
-      "name": "zero-to-ship",
-      "url": "https://github.com/katrinalaszlo/zero-to-ship",
-      "description": "Open-source toolkit for product people who are ready to build"
-    },
     {
       "name": "agentlens",
       "url": "https://github.com/katrinalaszlo/agentlens",

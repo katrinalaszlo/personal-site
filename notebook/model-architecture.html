@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Architecture — Notebook — Katrina Laszlo</title>
+<meta name="description" content="Inside the neural network: embeddings, attention, multi-head attention, MLPs, and how depth and width shape a transformer.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --text: #0a0a0a;
+  --text-secondary: #52525b;
+  --text-muted: #71717a;
+  --accent: #4f46e5;
+  --accent-light: #eef2ff;
+  --accent-border: #c7d2fe;
+  --bg: #ffffff;
+  --border: #e4e4e7;
+  --code-bg: #18181b;
+  --card-radius: 8px;
+  --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Header ── */
+header { padding: 1.5rem 0; }
+
+/* ── Page header ── */
+.page-header { padding: 4rem 0 1rem; }
+.page-header h1 {
+  font-size: 2.5rem; font-weight: 700; line-height: 1.1;
+  letter-spacing: -0.03em; margin-bottom: 0.5rem;
+}
+.page-header p { color: var(--text-secondary); font-size: 1.0625rem; max-width: 640px; }
+
+/* ── Cards ── */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.topic-label {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--text);
+}
+
+.card p {
+  font-size: 0.9375rem;
+  margin-bottom: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.card ul, .card ol {
+  margin: 0.5rem 0 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.card li { margin-bottom: 0.375rem; }
+.card li strong { color: var(--text); }
+
+/* ── Callouts ── */
+.callout {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--card-radius) var(--card-radius) 0;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  background: var(--accent-light);
+}
+.callout-label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+.callout--warm {
+  background: #fffbeb;
+  border-left-color: #d97706;
+}
+.callout--warm .callout-label { color: #b45309; }
+
+/* ── Code ── */
+code {
+  font-family: var(--mono);
+  background: #f4f4f5;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  color: var(--text);
+}
+
+.code-block {
+  background: var(--code-bg);
+  color: #e4e4e7;
+  padding: 1rem 1.25rem;
+  border-radius: var(--card-radius);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+  white-space: pre;
+}
+.code-block .c { color: #6a9955; }
+.code-block .k { color: #c4b5fd; }
+.code-block .n { color: #93c5fd; }
+.code-block .s { color: #fbbf24; }
+
+/* ── Config grid ── */
+.config-grid {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 0.375rem 1rem;
+  margin: 0.75rem 0;
+  font-size: 0.875rem;
+}
+.cfg-name {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+.cfg-val {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.cfg-desc { color: var(--text-muted); font-size: 0.8125rem; }
+
+/* ── Parameter table ── */
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+}
+.param-table th {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+.param-table th:last-child { text-align: right; }
+.param-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f4f4f5;
+  color: var(--text-secondary);
+}
+.param-table td:first-child code { font-size: 0.8125rem; }
+.param-table td:last-child {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.param-table tr:last-child td {
+  border-bottom: none;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── Shape tracker ── */
+.shape-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  margin: 0.125rem 0;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+}
+.shape-row:nth-child(odd) { background: #fafafa; }
+.shape-stage { min-width: 10rem; font-weight: 500; color: var(--text); }
+.shape-dims {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  min-width: 11rem;
+}
+.shape-note { color: var(--text-muted); font-size: 0.75rem; }
+
+/* ── Tower diagram ── */
+.tower-wrap {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+.tower-svg { width: 100%; max-width: 520px; }
+.tower-layer {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.tower-layer:hover { opacity: 0.85; }
+.tower-layer rect {
+  transition: fill 0.2s, stroke 0.2s;
+}
+.tower-layer.active rect {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.tower-detail-panel {
+  display: none;
+  margin: 0.75rem 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--accent-border);
+  border-radius: var(--card-radius);
+  background: var(--accent-light);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  animation: fadeIn 0.2s ease;
+}
+.tower-detail-panel.visible { display: block; }
+.tower-detail-panel strong { color: var(--text); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Attention heatmap ── */
+.heatmap-wrap {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+.heatmap-container {
+  display: inline-block;
+  position: relative;
+}
+.heatmap-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.heatmap-grid {
+  display: grid;
+  gap: 2px;
+}
+.heatmap-cell {
+  width: 52px;
+  height: 52px;
+  border-radius: 4px;
+  transition: transform 0.1s, box-shadow 0.15s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  color: rgba(255,255,255,0.8);
+  cursor: default;
+}
+.heatmap-cell.masked {
+  background: #f4f4f5 !important;
+  color: transparent;
+  cursor: default;
+}
+.heatmap-cell.highlight {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 2px var(--accent);
+  z-index: 1;
+}
+.heatmap-token {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+  text-align: center;
+  padding: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.heatmap-token:hover, .heatmap-token.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+.heatmap-row-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: start;
+}
+.heatmap-row-label {
+  height: 52px;
+  width: 3.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+}
+.heatmap-col-labels {
+  display: flex;
+  gap: 2px;
+}
+.heatmap-col-label {
+  width: 52px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0.375rem;
+}
+.heatmap-outer {
+  display: flex;
+  gap: 0;
+  align-items: start;
+}
+.heatmap-instructions {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+/* ── Embedding visualizer ── */
+.embed-wrap {
+  margin: 1.5rem 0;
+  position: relative;
+}
+.embed-svg {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: #fafafa;
+}
+.embed-dot {
+  transition: cx 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              cy 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.embed-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  fill: var(--text-secondary);
+  pointer-events: none;
+  transition: x 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              y 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.embed-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+.embed-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.375rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.embed-btn:hover { border-color: var(--accent); color: var(--accent); }
+.embed-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.embed-epoch {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: auto;
+  font-family: var(--mono);
+}
+.embed-legend {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+.embed-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.embed-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* ── Bottom nav ── */
+.bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0 4rem;
+  gap: 1rem;
+}
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  text-decoration: none;
+  transition: border-color 0.15s;
+  min-width: 0;
+  flex: 1;
+}
+.bottom-nav a:hover { border-color: var(--accent); }
+.bottom-nav a span:first-child {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.125rem;
+}
+.bottom-nav a span:last-child {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.bottom-nav a:last-child { text-align: right; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .container { padding: 0 1.25rem; }
+  .page-header h1 { font-size: 1.75rem; }
+  .card { padding: 1.25rem; }
+  .config-grid { grid-template-columns: 1fr; gap: 0.5rem; }
+  .cfg-desc { margin-bottom: 0.5rem; }
+  .heatmap-cell { width: 40px; height: 40px; }
+  .heatmap-grid { grid-template-columns: repeat(6, 40px) !important; }
+  .heatmap-row-label { width: 3rem; height: 40px; }
+  .heatmap-col-label { width: 40px; }
+  .heatmap-container > div:first-child { margin-left: 3rem; }
+  .heatmap-col-label, .heatmap-row-label .heatmap-token { font-size: 0.6875rem; }
+  .shape-row { flex-wrap: wrap; gap: 0.25rem; }
+  .shape-stage { min-width: auto; }
+  .bottom-nav { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ── Page header ── -->
+<div class="page-header">
+  <h1>Model Architecture</h1>
+  <p>What happens between "tokens go in" and "predictions come out" &mdash; embeddings, attention, MLPs, and how they stack into a transformer.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- MODEL DIMENSIONS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Configuration</span>
+  <h2>Model Dimensions</h2>
+  <p>The model's shape is defined by a handful of numbers. Everything else derives from these.</p>
+
+  <div class="config-grid">
+    <span class="cfg-name">DEPTH</span>
+    <span class="cfg-val">8</span>
+    <span class="cfg-desc">Number of transformer blocks stacked on top of each other</span>
+
+    <span class="cfg-name">ASPECT_RATIO</span>
+    <span class="cfg-val">64</span>
+    <span class="cfg-desc">Controls width: model_dim = depth &times; 64 = 512</span>
+
+    <span class="cfg-name">n_embd</span>
+    <span class="cfg-val">512</span>
+    <span class="cfg-desc">The "width" of the model: every token is a vector of 512 numbers</span>
+
+    <span class="cfg-name">n_head</span>
+    <span class="cfg-val">4</span>
+    <span class="cfg-desc">Number of attention heads (parallel attention computations)</span>
+
+    <span class="cfg-name">HEAD_DIM</span>
+    <span class="cfg-val">128</span>
+    <span class="cfg-desc">Dimension per head. n_head = n_embd / HEAD_DIM</span>
+
+    <span class="cfg-name">vocab_size</span>
+    <span class="cfg-val">8,192</span>
+    <span class="cfg-desc">Number of possible tokens (from prepare.py)</span>
+
+    <span class="cfg-name">sequence_len</span>
+    <span class="cfg-val">2,048</span>
+    <span class="cfg-desc">Context window (from prepare.py)</span>
+  </div>
+
+  <div class="callout callout--warm">
+    <div class="callout-label">Depth vs Width</div>
+    The model has two axes: <strong>depth</strong> (how many layers) and <strong>width</strong> (how big each layer is). The ASPECT_RATIO ties them together: wider models need more layers to be effective, so width scales with depth. This is one of the key knobs the AI researcher can turn in experiments.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- THE TOWER -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Architecture Overview</span>
+  <h2>The Tower: Full Architecture</h2>
+  <p>The model is a vertical stack. Data enters at the bottom and exits at the top. Click any layer to see what it does.</p>
+
+  <div class="tower-wrap">
+    <svg class="tower-svg" viewBox="0 0 400 540" xmlns="http://www.w3.org/2000/svg">
+      <!-- Input Token IDs -->
+      <g class="tower-layer" data-layer="input" onclick="toggleTowerDetail('input')">
+        <rect x="60" y="490" width="280" height="40" rx="6" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
+        <text x="200" y="513" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0a0a0a">Input Token IDs</text>
+      </g>
+
+      <line x1="200" y1="490" x2="200" y2="472" stroke="#d4d4d8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+      <!-- Token Embedding -->
+      <g class="tower-layer" data-layer="embed" onclick="toggleTowerDetail('embed')">
+        <rect x="60" y="440" width="280" height="40" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+        <text x="200" y="463" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#065f46">Token Embedding (wte)</text>
+      </g>
+
+      <line x1="200" y1="440" x2="200" y2="422" stroke="#d4d4d8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+      <!-- RMS Norm -->
+      <g class="tower-layer" data-layer="norm1" onclick="toggleTowerDetail('norm1')">
+        <rect x="100" y="390" width="200" height="32" rx="6" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
+        <text x="200" y="410" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="500" fill="#7c3aed">RMS Norm</text>
+      </g>
+
+      <line x1="200" y1="390" x2="200" y2="372" stroke="#d4d4d8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+      <!-- Repeating block -->
+      <rect x="40" y="160" width="320" height="210" rx="8" fill="none" stroke="#c7d2fe" stroke-width="2" stroke-dasharray="6 4"/>
+      <text x="348" y="178" text-anchor="end" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#4f46e5">&times; 8 blocks</text>
+
+      <!-- Lambda mixing -->
+      <g class="tower-layer" data-layer="lambda" onclick="toggleTowerDetail('lambda')">
+        <rect x="70" y="325" width="260" height="34" rx="6" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="1"/>
+        <text x="200" y="346" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" font-weight="500" fill="#52525b">&#955;_resid &middot; x + &#955;_x0 &middot; x&#8320;</text>
+      </g>
+
+      <line x1="200" y1="325" x2="200" y2="307" stroke="#d4d4d8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+      <!-- Attention -->
+      <g class="tower-layer" data-layer="attention" onclick="toggleTowerDetail('attention')">
+        <rect x="70" y="267" width="260" height="40" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+        <text x="200" y="290" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#4338ca">Attention</text>
+      </g>
+
+      <line x1="200" y1="267" x2="200" y2="249" stroke="#d4d4d8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+      <!-- MLP -->
+      <g class="tower-layer" data-layer="mlp" onclick="toggleTowerDetail('mlp')">
+        <rect x="70" y="210" width="260" height="40" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+        <text x="200" y="233" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#1e40af">MLP</text>
+      </g>
+
+      <line x1="200" y1="160" x2="200" y2="143" stroke="#d4d4d8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+      <!-- Final RMS Norm -->
+      <g class="tower-layer" data-layer="norm2" onclick="toggleTowerDetail('norm2')">
+        <rect x="100" y="110" width="200" height="32" rx="6" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
+        <text x="200" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="500" fill="#7c3aed">RMS Norm</text>
+      </g>
+
+      <line x1="200" y1="110" x2="200" y2="92" stroke="#d4d4d8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+      <!-- lm_head -->
+      <g class="tower-layer" data-layer="lmhead" onclick="toggleTowerDetail('lmhead')">
+        <rect x="60" y="52" width="280" height="40" rx="6" fill="#fff7ed" stroke="#fed7aa" stroke-width="1"/>
+        <text x="200" y="75" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#c2410c">lm_head</text>
+      </g>
+
+      <line x1="200" y1="52" x2="200" y2="35" stroke="#d4d4d8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+      <!-- Output -->
+      <g class="tower-layer" data-layer="output" onclick="toggleTowerDetail('output')">
+        <rect x="80" y="2" width="240" height="32" rx="6" fill="#fef2f2" stroke="#fecaca" stroke-width="1"/>
+        <text x="200" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#dc2626">Softcap + Loss</text>
+      </g>
+
+      <defs>
+        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+          <path d="M 0 6 L 4 0 L 8 6" fill="none" stroke="#d4d4d8" stroke-width="1"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Detail panels for each layer -->
+  <div class="tower-detail-panel" id="detail-input">
+    <strong>Input Token IDs</strong> &mdash; [128 &times; 2,048] integers from the dataloader. Each integer is a token ID between 0 and 8,191, representing a piece of text from the vocabulary built by the tokenizer.
+  </div>
+  <div class="tower-detail-panel" id="detail-embed">
+    <strong>Token Embedding (wte)</strong> &mdash; A lookup table with 8,192 rows and 512 columns. Each token ID gets replaced with its corresponding 512-dimensional vector. The shape goes from [128, 2048] to [128, 2048, 512].
+  </div>
+  <div class="tower-detail-panel" id="detail-norm1">
+    <strong>RMS Norm</strong> &mdash; Normalizes the embedding vectors before they enter the transformer blocks. Keeps the same shape [128, 2048, 512], but rescales values so the model trains stably.
+  </div>
+  <div class="tower-detail-panel" id="detail-lambda">
+    <strong>Lambda Mixing</strong> &mdash; Before each block, the current representation is mixed with the original embedding: <code>resid_lambda * x + x0_lambda * x0</code>. Starts at 1.0/0.1 and the model learns the right balance. This gives later layers direct access to the original token signal.
+  </div>
+  <div class="tower-detail-panel" id="detail-attention">
+    <strong>Attention</strong> &mdash; Each token looks at all previous tokens and decides which are relevant. Uses Q/K/V projections split across 4 heads of 128 dimensions each. Flash Attention 3 with causal masking ensures tokens can't peek at future positions.
+  </div>
+  <div class="tower-detail-panel" id="detail-mlp">
+    <strong>MLP (Feed-Forward)</strong> &mdash; Processes each token individually. Expands from 512 to 2,048 dimensions, applies ReLU-squared activation, then compresses back to 512. This is where the model stores learned "facts" and "rules."
+  </div>
+  <div class="tower-detail-panel" id="detail-norm2">
+    <strong>RMS Norm</strong> &mdash; One final normalization before the output projection. Same mechanism as the earlier norm layer.
+  </div>
+  <div class="tower-detail-panel" id="detail-lmhead">
+    <strong>lm_head</strong> &mdash; Linear projection from 512 to 8,192 dimensions. Produces one score per vocabulary token at each position. Higher score = model thinks that token is more likely to come next.
+  </div>
+  <div class="tower-detail-panel" id="detail-output">
+    <strong>Softcap + Loss</strong> &mdash; Tanh soft-capping at &plusmn;15 prevents overconfident predictions. Then cross-entropy loss measures how wrong the model was compared to the actual next token. This single number flows backward to update all weights.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOKEN EMBEDDING -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Embeddings</span>
+  <h2>Token Embedding: IDs to Vectors</h2>
+
+  <p>The first conceptual leap: <strong>every token becomes a point in 512-dimensional space</strong>.</p>
+
+  <p>The embedding layer (<code>wte</code>) is a lookup table. It has 8,192 rows (one per vocabulary token) and 512 columns. Feed in token ID 2401 ("Hell"), it returns row 2401: a vector of 512 numbers.</p>
+
+  <div class="code-block"><span class="c"># The embedding is literally a giant table</span>
+wte = nn.Embedding(<span class="n">8192</span>, <span class="n">512</span>)  <span class="c"># shape: [8192, 512]</span>
+
+<span class="c"># Feed in token IDs, get vectors</span>
+x = wte(idx)  <span class="c"># [128, 2048] &rarr; [128, 2048, 512]</span></div>
+
+  <p>At first, these 512 numbers are random. During training, the model learns to arrange them so tokens with similar meanings end up near each other. "cat" and "dog" drift closer together. "cat" and "invoice" drift apart.</p>
+
+  <div class="callout">
+    <div class="callout-label">Why 512 dimensions?</div>
+    Think of it as the model's vocabulary for describing tokens. Two dimensions could capture simple things (positive/negative, concrete/abstract). But language is complex: you need dimensions for grammar, topic, sentiment, formality, position, and thousands of other features. 512 gives the model enough room to encode rich meaning. This is the "width" of the model &mdash; making it bigger lets the model capture more nuance, at the cost of more computation.
+  </div>
+
+  <h3>Embedding Space Visualizer</h3>
+  <p>Watch how word embeddings organize during training. Words start at random positions, then cluster by meaning as the model learns.</p>
+
+  <div class="embed-wrap">
+    <div class="embed-controls">
+      <button class="embed-btn" id="embedRandomBtn" onclick="setEmbedState('random')">Random Init</button>
+      <button class="embed-btn active" id="embedTrainedBtn" onclick="setEmbedState('trained')">Trained</button>
+      <span class="embed-epoch" id="embedEpochLabel">after training</span>
+    </div>
+    <svg class="embed-svg" id="embeddingSvg" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+    </svg>
+    <div class="embed-legend" id="embedLegend"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- ATTENTION -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Attention</span>
+  <h2>Attention: "What Should I Pay Attention To?"</h2>
+
+  <p>The core mechanism that makes transformers work. At every position in the sequence, the model asks: <strong>"Which previous tokens are relevant to predicting what comes next here?"</strong></p>
+
+  <h3>The Three Projections: Q, K, V</h3>
+  <p>Each token's 512-dim vector gets transformed into three different roles:</p>
+
+  <div style="display:flex;gap:0.75rem;margin:1rem 0;flex-wrap:wrap;justify-content:center">
+    <div style="flex:1;min-width:140px;padding:0.75rem 1rem;background:var(--accent-light);border:1px solid var(--accent-border);border-radius:6px;text-align:center">
+      <div style="font-weight:600;color:var(--accent);font-size:0.9375rem"><strong>Q</strong>uery</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.125rem">"What am I looking for?"</div>
+    </div>
+    <div style="flex:1;min-width:140px;padding:0.75rem 1rem;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:6px;text-align:center">
+      <div style="font-weight:600;color:#065f46;font-size:0.9375rem"><strong>K</strong>ey</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.125rem">"What do I contain?"</div>
+    </div>
+    <div style="flex:1;min-width:140px;padding:0.75rem 1rem;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;text-align:center">
+      <div style="font-weight:600;color:#c2410c;font-size:0.9375rem"><strong>V</strong>alue</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.125rem">"What do I offer?"</div>
+    </div>
+  </div>
+
+  <p>The process:</p>
+  <ol>
+    <li><strong>Compute scores:</strong> Each token's Query is compared against every previous token's Key. High score = "that token is relevant to me."</li>
+    <li><strong>Normalize:</strong> Scores become percentages (sum to 1). This is the attention pattern.</li>
+    <li><strong>Gather information:</strong> Each token collects a weighted mix of previous tokens' Values.</li>
+    <li><strong>Project out:</strong> Gathered information gets projected back to 512 dimensions via <code>c_proj</code>.</li>
+  </ol>
+
+  <h3>Attention Heatmap</h3>
+  <p class="heatmap-instructions">Hover over any row token (left side) to see which tokens it attends to. Brightness = attention weight. The upper triangle is masked (causal attention: no peeking ahead).</p>
+
+  <div class="heatmap-wrap">
+    <div class="heatmap-container" id="heatmapContainer"></div>
+  </div>
+
+  <h3>Multi-Head: Parallel Attention</h3>
+  <p>The model doesn't run attention once. It runs it <strong>4 times in parallel</strong> (n_head = 4), each with its own Q, K, V projections. Each head can learn to pay attention to different things: one head might focus on grammar, another on topic, another on recent context.</p>
+
+  <p>The 512-dim vector gets split into 4 heads of 128 dimensions each. Each head runs attention independently, then they get concatenated back to 512 and projected through <code>c_proj</code>.</p>
+
+  <div class="code-block"><span class="c"># Splitting into heads</span>
+q = self.c_q(x).view(B, T, <span class="n">4</span>, <span class="n">128</span>)  <span class="c"># 4 heads, 128 dim each</span>
+k = self.c_k(x).view(B, T, <span class="n">4</span>, <span class="n">128</span>)
+v = self.c_v(x).view(B, T, <span class="n">4</span>, <span class="n">128</span>)</div>
+
+  <h3>Causal Masking: No Peeking</h3>
+  <p>Critical constraint: <strong>a token can only attend to tokens that came before it</strong>, never tokens after it. If position 5 could see position 6, the model would be cheating &mdash; it would already know the answer it's supposed to predict. This is enforced by Flash Attention 3 with <code>causal=True</code>.</p>
+
+  <h3>Sliding Window: A Cost Optimization</h3>
+  <p>Full attention means every token looks at ALL previous tokens. With 2,048 tokens, that's expensive. The <code>window_pattern = "SSSL"</code> means:</p>
+  <ul>
+    <li><strong>S</strong> (Short) layers: each token only looks back 1,024 positions</li>
+    <li><strong>L</strong> (Long) layers: full 2,048 context</li>
+    <li>Pattern repeats: layers 0,1,2 are Short, layer 3 is Long, layers 4,5,6 are Short, layer 7 (last) is always Long</li>
+  </ul>
+  <p>Most layers do "local" attention (nearby context), and periodically one layer does the expensive "global" attention (full context). The last layer always sees everything.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- ROTARY EMBEDDINGS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Position Encoding</span>
+  <h2>Rotary Embeddings: "Where Am I?"</h2>
+
+  <p>Attention compares tokens, but it doesn't inherently know <strong>where</strong> they are. Without position information, "the cat sat on the mat" and "mat the on sat cat the" would look identical to attention.</p>
+
+  <p>Rotary Position Embeddings (RoPE) solve this by <strong>rotating</strong> the Q and K vectors based on their position. Token at position 0 gets rotated 0 degrees. Token at position 100 gets rotated 100&times; the base frequency. When Q and K are compared, the rotation difference encodes the distance between them.</p>
+
+  <div class="code-block"><span class="c"># Applied to Q and K before attention</span>
+q, k = apply_rotary_emb(q, cos, sin), apply_rotary_emb(k, cos, sin)</div>
+
+  <p>The intuition: two tokens close together have similar rotations, so their dot product (the attention score) is naturally higher. Tokens far apart have very different rotations, making it harder to attend strongly. This gives the model a smooth, continuous sense of "how far apart are these two tokens?"</p>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- THE MLP -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Feed-Forward Network</span>
+  <h2>The MLP: "What Does This Mean?"</h2>
+
+  <p>After attention gathers context from other tokens, the MLP processes each token individually. If attention is "what should I pay attention to?", the MLP is "given what I've gathered, what should I understand?"</p>
+
+  <div style="display:flex;align-items:center;justify-content:center;gap:0.375rem;margin:1.25rem 0;flex-wrap:wrap">
+    <div style="padding:0.625rem 0.875rem;background:var(--accent-light);border:1px solid var(--accent-border);border-radius:6px;text-align:center;font-size:0.8125rem">
+      <div style="font-weight:600;color:var(--accent)">Input</div>
+      <div style="font-family:var(--mono);font-size:0.6875rem;color:var(--text-muted);margin-top:2px">512</div>
+    </div>
+    <span style="color:#d4d4d8;font-size:1.125rem">&rarr;</span>
+    <div style="padding:0.625rem 0.875rem;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;text-align:center;font-size:0.8125rem">
+      <div style="font-weight:600;color:#c2410c">c_fc (expand)</div>
+      <div style="font-family:var(--mono);font-size:0.6875rem;color:var(--text-muted);margin-top:2px">512 &rarr; 2,048</div>
+    </div>
+    <span style="color:#d4d4d8;font-size:1.125rem">&rarr;</span>
+    <div style="padding:0.625rem 0.875rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;text-align:center;font-size:0.8125rem">
+      <div style="font-weight:600;color:#dc2626">ReLU&sup2;</div>
+      <div style="font-family:var(--mono);font-size:0.6875rem;color:var(--text-muted);margin-top:2px">activation</div>
+    </div>
+    <span style="color:#d4d4d8;font-size:1.125rem">&rarr;</span>
+    <div style="padding:0.625rem 0.875rem;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:6px;text-align:center;font-size:0.8125rem">
+      <div style="font-weight:600;color:#065f46">c_proj (compress)</div>
+      <div style="font-family:var(--mono);font-size:0.6875rem;color:var(--text-muted);margin-top:2px">2,048 &rarr; 512</div>
+    </div>
+  </div>
+
+  <p>Three steps:</p>
+  <ol>
+    <li><strong>Expand</strong> from 512 to 2,048 dimensions (4&times; wider). This gives the model a bigger workspace.</li>
+    <li><strong>Activate</strong> with ReLU-squared: zero out negative values, then square the positives. This introduces non-linearity (without it, stacking layers would be pointless, because multiple linear transforms collapse into one).</li>
+    <li><strong>Compress</strong> back to 512, keeping only what matters.</li>
+  </ol>
+
+  <div class="code-block"><span class="k">def</span> forward(self, x):
+    x = self.c_fc(x)          <span class="c"># [B, T, 512] &rarr; [B, T, 2048]</span>
+    x = F.relu(x).square()    <span class="c"># zero negatives, square positives</span>
+    x = self.c_proj(x)        <span class="c"># [B, T, 2048] &rarr; [B, T, 512]</span>
+    <span class="k">return</span> x</div>
+
+  <div class="callout callout--warm">
+    <div class="callout-label">Why expand then compress?</div>
+    The model temporarily thinks in a higher-dimensional space to do complex pattern matching, then summarizes the result back to standard size. The MLP is where the model stores "facts" and "rules" it has learned. Research shows that individual neurons in the expanded layer often correspond to recognizable concepts.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- THE BLOCK -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Residual Connections</span>
+  <h2>The Block: Attention + MLP Together</h2>
+
+  <p>Each of the 8 layers is a "Block" that combines attention and MLP, with a critical pattern: <strong>residual connections</strong>.</p>
+
+  <div class="code-block"><span class="k">def</span> forward(self, x, ve, cos_sin, window_size):
+    x = x + self.attn(norm(x), ve, cos_sin, window_size)  <span class="c"># attend + add back</span>
+    x = x + self.mlp(norm(x))                              <span class="c"># process + add back</span>
+    <span class="k">return</span> x</div>
+
+  <p>The <code>x = x + ...</code> pattern means the output of attention gets <strong>added to</strong> the input, not replacing it. Same for MLP. The original signal always passes through, and each layer just adds a small correction.</p>
+
+  <p>Without residuals, information from early layers would degrade across 8 layers. With residuals, early information flows directly to the top. Each layer only needs to learn "what should I add or adjust?", not "reproduce everything and also add my bit."</p>
+
+  <h3>The Lambda Trick: Mixing in the Original</h3>
+  <p>This model goes further. Before each block, it mixes the current representation with the original embedding:</p>
+
+  <div class="code-block"><span class="c"># Inside the forward pass</span>
+x = self.resid_lambdas[i] * x + self.x0_lambdas[i] * x0</div>
+
+  <p><code>resid_lambdas</code> starts at 1.0 and <code>x0_lambdas</code> starts at 0.1. So each layer mostly uses its current state (1.0 &times; x) with a small contribution from the original embedding (0.1 &times; x0). These values are <strong>learnable</strong>: the model figures out the right mix during training.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- VALUE EMBEDDINGS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Value Embeddings</span>
+  <h2>Value Embeddings: A Second Memory</h2>
+
+  <p>A feature from a recent paper called ResFormer, and one of the more unusual parts of this architecture.</p>
+
+  <p>Normal attention: the Value (V) is computed from the current token's representation, which has been transformed by all previous layers. Value embeddings add a second source: a <strong>direct lookup from the original token IDs</strong>, bypassing all intermediate layers.</p>
+
+  <div class="code-block"><span class="c"># Alternating layers get value embeddings (0, 2, 4, 6 or 1, 3, 5, 7)</span>
+<span class="k">if</span> ve <span class="k">is not</span> None:
+    ve = ve.view(B, T, n_kv_head, head_dim)
+    gate = <span class="n">2</span> * torch.sigmoid(self.ve_gate(x[..., :32]))
+    v = v + gate * ve  <span class="c"># mix in the direct embedding</span></div>
+
+  <p>The gate is input-dependent: the model looks at the first 32 channels of the current representation and decides <strong>how much</strong> of the value embedding to mix in. Initialized so the gate output is 1.0 (neutral), meaning the model starts by including them equally and learns to adjust.</p>
+
+  <div class="callout">
+    <div class="callout-label">Why does this help?</div>
+    In deep networks, information from the original tokens gets increasingly "processed" as it moves through layers. Sometimes the later layers need to recall the raw identity of a token, but that signal has been diluted. Value embeddings provide a shortcut: direct access to "what token was actually here?" without going through the full transformation chain.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- OUTPUT HEAD -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Output</span>
+  <h2>The Output Head: Vectors to Predictions</h2>
+
+  <p>After 8 blocks, each token position holds a 512-dim vector encoding everything the model "thinks" about what comes next. The final step converts this back to a prediction over the vocabulary.</p>
+
+  <div class="code-block">x = norm(x)                        <span class="c"># normalize one last time</span>
+
+softcap = <span class="n">15</span>
+logits = self.lm_head(x)           <span class="c"># [B, T, 512] &rarr; [B, T, 8192]</span>
+logits = logits.float()            <span class="c"># full precision for stability</span>
+logits = softcap * tanh(logits / softcap)  <span class="c"># cap extreme values</span>
+
+<span class="k">if</span> targets <span class="k">is not</span> None:
+    loss = cross_entropy(logits, targets)  <span class="c"># how wrong were we?</span></div>
+
+  <p><code>lm_head</code> is a linear projection from 512 to 8,192: for each position, it produces one score per token in the vocabulary. Higher score = model thinks that token is more likely to come next.</p>
+
+  <p>The <strong>softcap</strong> (tanh capping at &plusmn;15) prevents any single prediction from being too extreme. Without it, the model might become overconfident in wrong answers, which destabilizes training.</p>
+
+  <p><strong>Cross-entropy loss</strong> compares the model's prediction distribution against the actual next token. This single number flows backward through the entire model to update all the weights.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- SHAPE TRACKER -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Data Flow</span>
+  <h2>Shape Tracker: Following the Data</h2>
+  <p>Every shape transformation from input to output, so you can see exactly how the dimensions change:</p>
+
+  <div class="shape-row">
+    <div class="shape-stage">Input token IDs</div>
+    <div class="shape-dims">[128, 2048]</div>
+    <div class="shape-note">Integers 0&ndash;8191</div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage">After embedding</div>
+    <div class="shape-dims">[128, 2048, 512]</div>
+    <div class="shape-note">Each int &rarr; 512-dim vector</div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage">After norm</div>
+    <div class="shape-dims">[128, 2048, 512]</div>
+    <div class="shape-note">Same shape, normalized values</div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage">Q, K, V (in attention)</div>
+    <div class="shape-dims">[128, 2048, 4, 128]</div>
+    <div class="shape-note">Split into 4 heads of 128</div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage">After attention</div>
+    <div class="shape-dims">[128, 2048, 512]</div>
+    <div class="shape-note">Heads concatenated, projected</div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage">MLP expanded</div>
+    <div class="shape-dims">[128, 2048, 2048]</div>
+    <div class="shape-note">4&times; wider for processing</div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage">MLP compressed</div>
+    <div class="shape-dims">[128, 2048, 512]</div>
+    <div class="shape-note">Back to model width</div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage" style="color:var(--text-muted)">&hellip; repeat 8&times; &hellip;</div>
+    <div class="shape-dims" style="background:none"></div>
+    <div class="shape-note"></div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage">Logits (lm_head)</div>
+    <div class="shape-dims">[128, 2048, 8192]</div>
+    <div class="shape-note">One score per vocab token</div>
+  </div>
+  <div class="shape-row">
+    <div class="shape-stage">Loss</div>
+    <div class="shape-dims">[1]</div>
+    <div class="shape-note">Single number: how wrong</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PARAMETER COUNT -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="card">
+  <span class="topic-label">Parameter Count</span>
+  <h2>Where the 50M Parameters Live</h2>
+  <p>Every number the model learns is a "parameter." Here's where they are:</p>
+
+  <table class="param-table">
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>What it does</th>
+        <th>Params</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>wte</code></td>
+        <td>Token embedding table</td>
+        <td>4.2M</td>
+      </tr>
+      <tr>
+        <td><code>value_embeds</code></td>
+        <td>Value embedding tables (4 layers)</td>
+        <td>~16.8M</td>
+      </tr>
+      <tr>
+        <td><code>lm_head</code></td>
+        <td>Output projection</td>
+        <td>4.2M</td>
+      </tr>
+      <tr>
+        <td>Transformer blocks</td>
+        <td>Attention + MLP &times; 8 layers</td>
+        <td>~25M</td>
+      </tr>
+      <tr>
+        <td>Scalars</td>
+        <td>Lambda weights (16 total)</td>
+        <td>16</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Total</strong></td>
+        <td><strong>~50M</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:0.75rem">The embedding tables (wte + value_embeds + lm_head) account for roughly half the parameters. This is characteristic of small models with small vocabularies. As models get larger, the transformer blocks dominate.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- BOTTOM NAV -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="bottom-nav">
+  <a href="/notebook/data-pipeline.html">
+    <span>&larr; Previous</span>
+    <span>Data Pipelines</span>
+  </a>
+  <a href="/notebook/training-loop.html">
+    <span>Next &rarr;</span>
+    <span>Training Loops</span>
+  </a>
+</div>
+
+</div><!-- .container -->
+
+<script>
+// ── Tower Diagram Interactivity ──
+let activeTowerLayer = null;
+
+function toggleTowerDetail(layerId) {
+  const panel = document.getElementById('detail-' + layerId);
+  const layers = document.querySelectorAll('.tower-layer');
+  const panels = document.querySelectorAll('.tower-detail-panel');
+
+  if (activeTowerLayer === layerId) {
+    // Close
+    panel.classList.remove('visible');
+    layers.forEach(l => l.classList.remove('active'));
+    activeTowerLayer = null;
+    return;
+  }
+
+  // Close all, open this one
+  panels.forEach(p => p.classList.remove('visible'));
+  layers.forEach(l => l.classList.remove('active'));
+
+  panel.classList.add('visible');
+  document.querySelector('[data-layer="' + layerId + '"]').classList.add('active');
+  activeTowerLayer = layerId;
+}
+
+// ── Attention Heatmap ──
+(function() {
+  var tokens = ['The', 'cat', 'sat', 'on', 'the', 'mat'];
+  // Hand-tuned attention weights (row = query token, col = key token)
+  // Causal: row i can only attend to cols 0..i
+  var weights = [
+    [1.00,  0,     0,     0,     0,     0   ],  // "The" -> only itself
+    [0.25,  0.75,  0,     0,     0,     0   ],  // "cat" -> The, cat
+    [0.10,  0.55,  0.35,  0,     0,     0   ],  // "sat" -> mostly "cat"
+    [0.08,  0.15,  0.52,  0.25,  0,     0   ],  // "on"  -> mostly "sat"
+    [0.30,  0.12,  0.08,  0.10,  0.40,  0   ],  // "the" -> "The" and itself
+    [0.05,  0.35,  0.18,  0.12,  0.05,  0.25],  // "mat" -> mostly "cat"
+  ];
+
+  var n = tokens.length;
+  var container = document.getElementById('heatmapContainer');
+
+  // Build HTML
+  var html = '';
+  // Column labels
+  html += '<div style="display:flex;margin-left:3.75rem">';
+  html += '<div class="heatmap-col-labels">';
+  for (var c = 0; c < n; c++) {
+    html += '<div class="heatmap-col-label"><span class="heatmap-token" data-col="' + c + '">' + tokens[c] + '</span></div>';
+  }
+  html += '</div></div>';
+
+  // Rows
+  html += '<div class="heatmap-outer">';
+  // Row labels
+  html += '<div class="heatmap-row-labels">';
+  for (var r = 0; r < n; r++) {
+    html += '<div class="heatmap-row-label"><span class="heatmap-token" data-row="' + r + '">' + tokens[r] + '</span></div>';
+  }
+  html += '</div>';
+
+  // Grid
+  html += '<div class="heatmap-grid" style="grid-template-columns:repeat(' + n + ', 52px)">';
+  for (var r = 0; r < n; r++) {
+    for (var c = 0; c < n; c++) {
+      var w = weights[r][c];
+      var masked = c > r;
+      if (masked) {
+        html += '<div class="heatmap-cell masked" data-row="' + r + '" data-col="' + c + '"></div>';
+      } else {
+        var alpha = 0.1 + w * 0.9;
+        var bgColor = 'rgba(79, 70, 229, ' + alpha.toFixed(2) + ')';
+        var label = (w * 100).toFixed(0) + '%';
+        html += '<div class="heatmap-cell" data-row="' + r + '" data-col="' + c + '" style="background:' + bgColor + '">' + label + '</div>';
+      }
+    }
+  }
+  html += '</div></div>';
+
+  container.innerHTML = html;
+
+  // Hover interactivity: highlight row on hover
+  var rowLabels = container.querySelectorAll('.heatmap-token[data-row]');
+  var allCells = container.querySelectorAll('.heatmap-cell');
+  var allTokens = container.querySelectorAll('.heatmap-token');
+
+  function highlightRow(rowIdx) {
+    allCells.forEach(function(cell) {
+      var cr = parseInt(cell.dataset.row);
+      var cc = parseInt(cell.dataset.col);
+      if (cr === rowIdx && !cell.classList.contains('masked')) {
+        cell.classList.add('highlight');
+      } else {
+        cell.classList.remove('highlight');
+        if (cr !== rowIdx) {
+          cell.style.opacity = '0.3';
+        } else {
+          cell.style.opacity = '1';
+        }
+      }
+    });
+    allTokens.forEach(function(tok) {
+      if (parseInt(tok.dataset.row) === rowIdx) {
+        tok.classList.add('active');
+      } else {
+        tok.classList.remove('active');
+      }
+    });
+  }
+
+  function clearHighlight() {
+    allCells.forEach(function(cell) {
+      cell.classList.remove('highlight');
+      cell.style.opacity = '1';
+    });
+    allTokens.forEach(function(tok) {
+      tok.classList.remove('active');
+    });
+  }
+
+  rowLabels.forEach(function(label) {
+    label.addEventListener('mouseenter', function() {
+      highlightRow(parseInt(this.dataset.row));
+    });
+    label.addEventListener('mouseleave', clearHighlight);
+  });
+
+  // Also allow hovering over cells to highlight their row
+  allCells.forEach(function(cell) {
+    cell.addEventListener('mouseenter', function() {
+      if (!this.classList.contains('masked')) {
+        highlightRow(parseInt(this.dataset.row));
+      }
+    });
+    cell.addEventListener('mouseleave', clearHighlight);
+  });
+})();
+
+// ── Embedding Space Visualizer ──
+(function() {
+  var categories = [
+    { name: 'Animals',  color: '#4f46e5', words: ['cat', 'dog', 'fish', 'bird', 'horse', 'mouse'] },
+    { name: 'Food',     color: '#059669', words: ['bread', 'rice', 'apple', 'cake', 'soup', 'salad'] },
+    { name: 'Code',     color: '#d97706', words: ['function', 'class', 'return', 'import', 'loop', 'array'] },
+    { name: 'Emotions', color: '#dc2626', words: ['happy', 'sad', 'angry', 'calm', 'fear', 'joy'] },
+    { name: 'Places',   color: '#7c3aed', words: ['city', 'ocean', 'forest', 'desert', 'river', 'mountain'] },
+  ];
+
+  // Pre-computed positions
+  // Random positions (seeded-ish, spread across the space)
+  var randomPositions = {};
+  var seed = 42;
+  function pseudoRandom() {
+    seed = (seed * 16807 + 0) % 2147483647;
+    return (seed - 1) / 2147483646;
+  }
+
+  var allWords = [];
+  categories.forEach(function(cat) {
+    cat.words.forEach(function(w) {
+      allWords.push({ word: w, color: cat.color, category: cat.name });
+      randomPositions[w] = {
+        x: 60 + pseudoRandom() * 480,
+        y: 30 + pseudoRandom() * 300
+      };
+    });
+  });
+
+  // Trained positions: clustered by category
+  var clusterCenters = {
+    'Animals':  { x: 120, y: 80 },
+    'Food':     { x: 450, y: 70 },
+    'Code':     { x: 120, y: 280 },
+    'Emotions': { x: 300, y: 180 },
+    'Places':   { x: 470, y: 270 },
+  };
+
+  var trainedPositions = {};
+  seed = 99;
+  allWords.forEach(function(item) {
+    var center = clusterCenters[item.category];
+    trainedPositions[item.word] = {
+      x: center.x + (pseudoRandom() - 0.5) * 90,
+      y: center.y + (pseudoRandom() - 0.5) * 70
+    };
+  });
+
+  // Build SVG content
+  var svg = document.getElementById('embeddingSvg');
+  var svgContent = '';
+
+  allWords.forEach(function(item, i) {
+    var pos = trainedPositions[item.word];
+    svgContent += '<circle class="embed-dot" id="dot-' + i + '" cx="' + pos.x + '" cy="' + pos.y + '" r="5" fill="' + item.color + '" opacity="0.8"/>';
+    svgContent += '<text class="embed-label" id="lbl-' + i + '" x="' + (pos.x + 8) + '" y="' + (pos.y + 4) + '">' + item.word + '</text>';
+  });
+
+  svg.innerHTML = svgContent;
+
+  // Build legend
+  var legend = document.getElementById('embedLegend');
+  categories.forEach(function(cat) {
+    var item = document.createElement('div');
+    item.className = 'embed-legend-item';
+    item.innerHTML = '<div class="embed-legend-dot" style="background:' + cat.color + '"></div>' + cat.name;
+    legend.appendChild(item);
+  });
+
+  // State management
+  var currentState = 'trained';
+
+  window.setEmbedState = function(state) {
+    currentState = state;
+
+    document.getElementById('embedRandomBtn').classList.toggle('active', state === 'random');
+    document.getElementById('embedTrainedBtn').classList.toggle('active', state === 'trained');
+    document.getElementById('embedEpochLabel').textContent = state === 'random' ? 'epoch 0 (random)' : 'after training';
+
+    var positions = state === 'random' ? randomPositions : trainedPositions;
+
+    allWords.forEach(function(item, i) {
+      var pos = positions[item.word];
+      var dot = document.getElementById('dot-' + i);
+      var lbl = document.getElementById('lbl-' + i);
+      dot.setAttribute('cx', pos.x);
+      dot.setAttribute('cy', pos.y);
+      lbl.setAttribute('x', pos.x + 8);
+      lbl.setAttribute('y', pos.y + 4);
+    });
+  };
+})();
+</script>
+
+</body>
+</html>
