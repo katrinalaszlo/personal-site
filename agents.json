@@ -34,32 +34,6 @@
     "dev": "https://dev.to/kat_laszlo",
     "substack": "https://itskatlaszlo.substack.com"
   },
-  "notebook": {
-    "url": "/notebook/",
-    "description": "Interactive explorations of AI systems, data pipelines, model architecture, and more",
-    "entries": [
-      { "title": "AI System Design", "url": "/notebook/ai-system-design.html" },
-      { "title": "Agent Teams", "url": "/notebook/managing-agent-teams.html" },
-      { "title": "Training Loops", "url": "/notebook/training-loop.html" },
-      {
-        "title": "Model Architecture",
-        "url": "/notebook/model-architecture.html"
-      },
-      { "title": "Data Pipelines", "url": "/notebook/data-pipeline.html" },
-      {
-        "title": "Wiki vs Vector Database",
-        "url": "/notebook/wiki-vs-vector.html"
-      },
-      {
-        "title": "LLM Memory & Retrieval",
-        "url": "/notebook/llm-memory-and-retrieval.html"
-      },
-      {
-        "title": "Knowledge System Architecture",
-        "url": "/notebook/knowledge-system-architecture.html"
-      }
-    ]
-  },
   "projects": [
     {
       "name": "agentlens",

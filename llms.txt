@@ -56,19 +56,6 @@ English, Greek, Spanish
 - Schedule: https://cal.com/katrina-laszlo/30-minute-meeting
 - Email: katrina.j.laszlo@gmail.com
 
-## Notebook
-
-Interactive explorations of things I'm learning about. Available at https://katrinalaszlo.com/notebook/
-
-- AI System Design: Eight decisions for designing AI-powered products
-- Agent Teams: Multi-agent orchestration patterns and when to use them
-- Training Loops: How models learn — forward pass, backward pass, gradient descent
-- Model Architecture: Inside the neural network — embeddings, attention, MLPs
-- Data Pipelines: How text becomes training data — tokenization, batching, evaluation
-- Wiki vs Vector Database: Two ways to store and retrieve knowledge — structured graph vs semantic similarity
-- LLM Memory & Retrieval: How LLMs find information, why they forget between sessions, and how to solve that
-- Knowledge System Architecture: Designing the full pipeline — sources, rules, retrieval, and output
-
 ## Projects
 
 - BuildNext (https://github.com/katrinalaszlo/buildnext, live: https://buildnext.katrinalaszlo.com): Evidence-grounded user stories, queryable by agents and humans. Ingest transcripts, support tickets, and feature requests. Includes MCP server for agent access.
