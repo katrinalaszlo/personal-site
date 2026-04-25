@@ -55,6 +55,11 @@
       "name": "dx-test",
       "url": "https://github.com/katrinalaszlo/dx-test",
       "description": "Automated end-user experience scrutiny"
+    },
+    {
+      "name": "human-docs",
+      "url": "https://github.com/katrinalaszlo/human-docs",
+      "description": "Single-file HTML architecture docs. Readable by humans in a browser and by AI agents via section markers."
     }
   ]
 }
