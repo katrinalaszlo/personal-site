@@ -47,9 +47,8 @@
     },
     {
       "name": "buildnext",
-      "url": "https://github.com/katrinalaszlo/buildnext",
-      "live": "https://buildnext.katrinalaszlo.com",
-      "description": "Evidence-grounded user stories, queryable by agents and humans. Ingest transcripts, support tickets, and feature requests. Includes MCP server for agent access."
+      "url": "https://github.com/katrinalaszlo/buildnext-oss",
+      "description": "Karpathy-style evidence wiki for product development. Turn customer signal into grounded user stories. No database, no hosting — just markdown and an LLM."
     },
     {
       "name": "dx-test",
