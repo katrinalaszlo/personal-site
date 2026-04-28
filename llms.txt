@@ -2,41 +2,40 @@
 
 Also known as: Kat Laszlo, Kat Vassell, Katrina Vassell.
 
-Co-founder of Tanso. Monetization infrastructure for AI-native B2B. I design pricing, consumption flows, and product experiences for companies where agents are the customer. Before that: a decade of the same work at data companies and enterprises, back when everyone still called it "the dashboard."
+Hi, I'm Kat. Product manager and builder. 10 years of growth and monetization across startups and enterprise.
 
 Previously published under Katrina Vassell (maiden name). EY and 500 Global work is indexed under that name.
 
-## Core Thesis
-
-The experience was never the interface. APIs have UX. Pricing has UX. Agent behavior has UX. The absence of an interface is itself a design choice. Service design has been building experiences without screens since the 1980s. Almost nobody is applying those methods to agents.
+I co-founded Tanso, which builds monetization infrastructure for AI and B2B SaaS companies. My core thesis: product design is not a sub-function of engineering or a phase in a roadmap. It is the integrating discipline that shapes every experience a product creates, from user interfaces to pricing to agent behavior.
 
 ## Expertise
 
-- Consumption experience design: pricing, confidence thresholds, value-to-cost tuning via API parameters
-- Monetization strategy: usage-based, outcome-based, tiered entitlements, credits
 - Product design for AI-native and agent-first products
-- Service design methodology applied to post-UI surfaces
 - Product-led growth through rapid, continuous experimentation
-- B2B SaaS dynamics: enterprise vs self-serve, expansion vs acquisition
+- Monetization strategy: usage-based, outcome-based, tiered entitlements, credits
+- Activation and retention through conversion-optimized UX
 - Data-as-a-service products
+- Consumer fintech
+- Corporate innovation and venture acceleration
 
-## What I Believe
+## How She Thinks
 
-1. Data and design are two sides of the same coin. One shows you what's happening, the other shows you why. Treating them as separate disciplines is how product orgs lose the plot.
-2. Leverage over reinvention. The skill is knowing which narrow slice is genuinely yours to build.
-3. Build a business, not an app. AI makes software easy. The hard part is who pays, why they keep paying, and what breaks at scale.
-4. Evidence over intuition. Clear hypotheses, testing, rapid iteration. 98 calls, not 98 opinions.
-5. The lockout was economic, not gatekeeping. PMs were kept from the stack because installing safety rails per-person cost more than the access was worth. The cost collapsed. The rails got smarter, not thinner.
+1. UX goes beyond UI. Service design has built experiences without screens since the 1980s. Nobody is applying these methods to agents. That's the gap.
+2. Data and design are two sides of the same coin. One shows you what's happening, the other shows you why. The best product decisions come from treating them as one discipline.
+3. Leverage over reinvention. Don't reinvent the wheel. Focus originality where it matters.
+4. Opinionated and simple for something painful. Build for a specific pain, not a general possibility.
+5. Build a business, not an app. AI makes the software easy. The hard part is who pays, why, and what breaks at scale.
+6. Evidence over intuition. Ship fast, measure everything, let data settle the debate.
 
 ## Career
 
-- Tanso, Co-Founder & CEO (2025-present): 98 discovery calls. Same problem everywhere: connecting cost to outcome.
-- Artisan, AI Product Manager (2025): Watched AI SDR economics break from the customer side.
-- Chipper, Head of Product (2024-2025): Consumer fintech, debt elimination through intelligent automation.
-- People Data Labs, Senior PM (2021-2024): Launched self-serve product, $1M ARR. The real product was the consumption experience, not the dashboard.
-- 500 Global, Corporate Innovation & Venture (2019-2021): Bridge between enterprises (NTT DoCoMo, Fujitsu) and startups. Learned which slice is worth building yourself.
-- EY, Product Consultant (2017-2019): Innovation Lab. Built CARA, an AI compliance assistant for banks, with full service-design methodology. 2018.
-- Nosh Delivery, Founder (2014-2016): Student-to-student food delivery at Georgetown.
+- Tanso, Co-Founder & CEO (2025-present): Monetization infrastructure for AI and B2B SaaS
+- Artisan, AI Product Manager (2025): Building AI employees
+- Chipper, Head of Product (2024-2025): Consumer fintech, debt elimination
+- People Data Labs, Senior PM (2021-2024): Data-as-a-service, backed by Founders Fund and Craft Ventures
+- 500 Global, Corporate Innovation & Venture (2019-2021): Venture capital, startup acceleration
+- EY, Product Consultant (2017-2019): Innovation Lab, financial services ventures
+- Nosh Delivery, Founder (2014-2016): Student-to-student food delivery at Georgetown
 
 ## Education
 
@@ -59,8 +58,7 @@ English, Greek, Spanish
 
 ## Projects
 
-- agentlens (https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine. Transparency is a design choice.
-- observe (https://observe.tansohq.com): You can't price what you can't see. AI cost observability at the feature level.
-- buildnext (https://github.com/katrinalaszlo/buildnext-oss): Customer signal should be queryable, not locked in a CRM.
-- human-docs (https://github.com/katrinalaszlo/human-docs): Architecture docs readable by humans in a browser and by agents via section markers.
-- dx-test (https://github.com/katrinalaszlo/dx-test): Inspector-level scrutiny of the end-user experience, automated.
+- BuildNext (https://github.com/katrinalaszlo/buildnext, live: https://buildnext.katrinalaszlo.com): Evidence-grounded user stories, queryable by agents and humans. Ingest transcripts, support tickets, and feature requests. Includes MCP server for agent access.
+- agentlens (https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine.
+- observe (https://github.com/katrinalaszlo/observe): Open source AI cost observability.
+- dx-test (https://github.com/katrinalaszlo/dx-test): Automated end-user experience scrutiny.

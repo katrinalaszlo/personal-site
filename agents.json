@@ -2,30 +2,28 @@
   "schema_version": "1.0",
   "name": "Katrina Laszlo",
   "also_known_as": ["Kat Laszlo", "Kat Vassell", "Katrina Vassell"],
-  "description": "Co-founder of Tanso. Monetization infrastructure for AI-native B2B. Designs pricing, consumption flows, and product experiences for companies where agents are the customer.",
+  "description": "Product design for the agent era. Product manager and builder. 10 years of growth and monetization.",
   "interfaces": {
     "human": "/",
     "llm": "/llms.txt",
     "structured": "/agents.json"
   },
   "expertise": [
-    "consumption-experience-design",
-    "monetization-strategy",
-    "service-design",
     "product-design",
-    "ai-native-products",
+    "agent-architecture",
+    "monetization-strategy",
     "product-led-growth",
     "rapid-experimentation",
-    "b2b-saas",
-    "value-based-pricing"
+    "ai-product-management"
   ],
   "principles": [
-    "The experience was never the interface",
+    "UX goes beyond UI",
     "Data and design are two sides of the same coin",
     "Leverage over reinvention",
+    "Opinionated and simple for something painful",
     "Build a business, not an app",
     "Evidence over intuition",
-    "The lockout was economic, not gatekeeping"
+    "Leverage over reinvention"
   ],
   "contact": {
     "email": "katrina.j.laszlo@gmail.com",
@@ -40,27 +38,27 @@
     {
       "name": "agentlens",
       "url": "https://github.com/katrinalaszlo/agentlens",
-      "description": "See what your AI coding agents store on your machine. Transparency is a design choice."
+      "description": "See what your AI coding agents store on your machine"
     },
     {
       "name": "observe",
-      "url": "https://observe.tansohq.com",
-      "description": "You can't price what you can't see. AI cost observability at the feature level."
+      "url": "https://github.com/katrinalaszlo/observe",
+      "description": "Open source AI cost observability"
     },
     {
       "name": "buildnext",
       "url": "https://github.com/katrinalaszlo/buildnext-oss",
-      "description": "Customer signal should be queryable, not locked in a CRM."
-    },
-    {
-      "name": "human-docs",
-      "url": "https://github.com/katrinalaszlo/human-docs",
-      "description": "Architecture docs readable by humans in a browser and by agents via section markers."
+      "description": "Karpathy-style evidence wiki for product development. Turn customer signal into grounded user stories. No database, no hosting — just markdown and an LLM."
     },
     {
       "name": "dx-test",
       "url": "https://github.com/katrinalaszlo/dx-test",
-      "description": "Inspector-level scrutiny of the end-user experience, automated."
+      "description": "Automated end-user experience scrutiny"
+    },
+    {
+      "name": "human-docs",
+      "url": "https://github.com/katrinalaszlo/human-docs",
+      "description": "Single-file HTML architecture docs. Readable by humans in a browser and by AI agents via section markers."
     }
   ]
 }
