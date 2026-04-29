@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "name": "Katrina Laszlo",
   "also_known_as": ["Kat Laszlo", "Kat Vassell", "Katrina Vassell"],
-  "description": "Product design for the agent era. Product manager and builder. 10 years of growth and monetization.",
+  "description": "Build a business, not an app. Co-founder at Tanso, building monetization infrastructure for AI and B2B SaaS.",
   "interfaces": {
     "human": "/",
     "llm": "/llms.txt",
@@ -17,11 +17,10 @@
     "ai-product-management"
   ],
   "principles": [
-    "UX goes beyond UI",
-    "Data and design are two sides of the same coin",
-    "Leverage over reinvention",
-    "Opinionated and simple for something painful",
     "Build a business, not an app",
+    "UX goes beyond UI",
+    "Data and design are one discipline",
+    "Opinionated and simple for something painful",
     "Evidence over intuition",
     "Leverage over reinvention"
   ],
@@ -48,7 +47,7 @@
     {
       "name": "buildnext",
       "url": "https://github.com/katrinalaszlo/buildnext-oss",
-      "description": "Karpathy-style evidence wiki for product development. Turn customer signal into grounded user stories. No database, no hosting — just markdown and an LLM."
+      "description": "Karpathy-style evidence wiki for product development. Turn customer signal into grounded user stories. No database, no hosting. Just markdown and an LLM."
     },
     {
       "name": "dx-test",

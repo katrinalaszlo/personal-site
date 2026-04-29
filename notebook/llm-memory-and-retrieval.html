@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Memory &amp; Retrieval — Notebook — Katrina Laszlo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+/* Session diagram */
+.session-diagram { background: var(--bg-inset); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+.session-flow { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: start; }
+.session-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; }
+.session-title { font-size: 15px; font-weight: 600; color: var(--text-bright); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border-light); }
+.session-action { font-size: 13px; color: var(--text-dim); padding: 3px 0 3px 12px; border-left: 2px solid var(--border-light); margin-bottom: 4px; }
+.session-dead { font-size: 13px; color: var(--red); margin-top: 10px; padding: 8px 10px; background: rgba(220,38,38,0.05); border-radius: 6px; }
+.session-middle { display: flex; flex-direction: column; gap: 12px; padding-top: 20px; min-width: 140px; }
+.survives-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); margin-bottom: 4px; }
+.dies-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); margin-bottom: 4px; }
+.persist { font-size: 13px; color: var(--green); padding: 2px 0; }
+.gone { font-size: 13px; color: var(--red); opacity: 0.5; text-decoration: line-through; padding: 2px 0; }
+/* Metrics */
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+.metric-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; border-left: 3px solid var(--border); }
+.metric-box h3 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+.metric-box ul { list-style: none; padding: 0; }
+.metric-box li { font-size: 13px; color: var(--text-dim); padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+.metric-box li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.metric-box.files { border-left-color: var(--accent); }
+.metric-box.files h3 { color: var(--accent); }
+.metric-box.files li::before { background: var(--accent); }
+.metric-box.vector { border-left-color: var(--orange); }
+.metric-box.vector h3 { color: var(--orange); }
+.metric-box.vector li::before { background: var(--orange); }
+.metric-box.memory { border-left-color: var(--green); }
+.metric-box.memory h3 { color: var(--green); }
+.metric-box.memory li::before { background: var(--green); }
+.metric-box.context { border-left-color: var(--purple); }
+.metric-box.context h3 { color: var(--purple); }
+.metric-box.context li::before { background: var(--purple); }
+/* Quiz */
+.quiz-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px; }
+.quiz-q { font-size: 15px; font-weight: 500; margin-bottom: 16px; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt { padding: 12px 16px; font-size: 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-inset); color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+.quiz-opt:hover { border-color: var(--text-dim); color: var(--text); }
+.quiz-opt.correct { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.1); cursor: default; }
+.quiz-opt.wrong { border-color: var(--red); color: var(--red); background: rgba(220,38,38,0.1); cursor: default; }
+.quiz-opt.disabled { pointer-events: none; }
+.quiz-explain { margin-top: 12px; padding: 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-inset); font-size: 14px; color: var(--text-dim); display: none; }
+.quiz-explain.visible { display: block; }
+@media (max-width: 700px) { .card-grid, .metrics-grid { grid-template-columns: 1fr; } .session-flow { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header style="padding:1.5rem 0"><div style="max-width:900px;margin:0 auto;padding:0 2rem"><nav style="display:flex;justify-content:space-between;align-items:center"><a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a><div style="display:flex;gap:1.5rem"><a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a><a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a></div></nav></div></header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">LLM Memory &amp; Retrieval</span></div>
+</div>
+
+<main>
+
+<h1>LLM Memory &amp; Retrieval</h1>
+<p class="subtitle">How LLMs find information, why they forget between sessions, and how to solve that.</p>
+
+<section id="s1">
+  <h2>The memory problem</h2>
+  <p class="subtitle">LLMs don't remember anything by default. Every session starts from zero.</p>
+
+  <p>Ask an LLM to book a trip to Taipei. Close the session. Open a new one. Say "buy the ticket." It has no idea what trip you're talking about. The previous conversation is gone.</p>
+
+  <p>This happens because LLMs are <strong>stateless</strong>. They process the text in front of them — the context window — and produce output. Nothing persists between sessions unless you explicitly save it somewhere.</p>
+
+  <div class="analogy">
+    <strong>Analogy:</strong> An LLM is like a brilliant contractor who shows up every morning with total amnesia. They can do incredible work if you brief them — but yesterday's briefing is gone. You need to leave notes on the desk.
+  </div>
+</section>
+
+<section id="s2">
+  <h2>What survives and what doesn't</h2>
+  <p class="subtitle">The session boundary is the key concept.</p>
+
+  <div class="session-diagram">
+    <div class="session-flow">
+      <div class="session-box">
+        <div class="session-title">Session 1</div>
+        <div class="session-action">You: "Analyze this transcript"</div>
+        <div class="session-action">LLM reads your instructions</div>
+        <div class="session-action">LLM reads the transcript</div>
+        <div class="session-action">LLM writes a summary</div>
+        <div class="session-action">LLM updates related pages</div>
+        <div class="session-dead">Session ends. LLM's internal state = gone.</div>
+      </div>
+      <div class="session-middle">
+        <div>
+          <div class="survives-label">Survives</div>
+          <div class="persist">Instructions file</div>
+          <div class="persist">Source documents</div>
+          <div class="persist">Output files</div>
+        </div>
+        <div>
+          <div class="dies-label">Dies</div>
+          <div class="gone">LLM's "understanding"</div>
+          <div class="gone">Conversation context</div>
+          <div class="gone">Internal vectors</div>
+        </div>
+      </div>
+      <div class="session-box">
+        <div class="session-title">Session 2</div>
+        <div class="session-action">You: "What do we know about X?"</div>
+        <div class="session-action">LLM reads same instructions</div>
+        <div class="session-action">LLM reads the output from last time</div>
+        <div class="session-action">LLM answers from those files</div>
+        <div class="session-dead">Works because the files persisted, not because it "remembers."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>Key insight:</strong> The LLM doesn't remember — it re-reads. Session 2 works because someone saved files that the LLM can read again. The files ARE the memory. The LLM is just a reader.
+  </div>
+</section>
+
+<section id="s3">
+  <h2>Three approaches to persistence</h2>
+  <p class="subtitle">Different ways to leave notes on the desk for tomorrow's amnesiac contractor.</p>
+
+  <div class="card" style="border-top:3px solid var(--accent)">
+    <span class="tag">approach 1</span>
+    <h3>File-based memory</h3>
+    <p>Write instructions and outputs to files. The LLM reads them at the start of each session. You control exactly what persists and how it's structured.</p>
+    <p class="dim" style="margin-bottom:0">Examples: README files, CLAUDE.md, structured markdown wikis, config files. Human-readable, version-controllable, transparent.</p>
+  </div>
+
+  <div class="card" style="border-top:3px solid var(--orange)">
+    <span class="tag orange">approach 2</span>
+    <h3>Vector-based memory</h3>
+    <p>Embed all conversations and documents into a vector database. At the start of each session, query the database for relevant context and preload it.</p>
+    <p class="dim" style="margin-bottom:0">Examples: Pinecone, Chroma, Weaviate. Automatic, scales to millions of chunks, but opaque — you don't control what gets retrieved.</p>
+  </div>
+
+  <div class="card" style="border-top:3px solid var(--green)">
+    <span class="tag green">approach 3</span>
+    <h3>Platform memory</h3>
+    <p>The LLM platform itself stores memory entries between sessions. You tell it "remember this" and it saves a note internally.</p>
+    <p class="dim" style="margin-bottom:0">Examples: ChatGPT's memory feature, Claude's memory files. Convenient but limited — you're trusting the platform to decide what's relevant.</p>
+  </div>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th></th><th>File-based</th><th>Vector-based</th><th>Platform</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Control</td><td style="color:var(--green)">Full</td><td>Low</td><td>Medium</td></tr>
+      <tr><td>Effort</td><td>High (manual curation)</td><td style="color:var(--green)">Low (automatic)</td><td style="color:var(--green)">Low</td></tr>
+      <tr><td>Transparency</td><td style="color:var(--green)">Total</td><td>Low (similarity scores)</td><td>Medium</td></tr>
+      <tr><td>Scale</td><td>Hundreds of pages</td><td style="color:var(--green)">Millions of chunks</td><td>Limited</td></tr>
+      <tr><td>Infrastructure</td><td>Just files</td><td>Database + embedding pipeline</td><td style="color:var(--green)">None</td></tr>
+      <tr><td>Portability</td><td style="color:var(--green)">Works anywhere</td><td>Vendor-locked</td><td>Vendor-locked</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s4">
+  <h2>The two knobs: retrieval vs behavior</h2>
+  <p class="subtitle">These are independent controls. You can have either without the other, or both.</p>
+
+  <p>When you set up any LLM-based system, you're turning two separate knobs:</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--orange)">
+      <h3>What to look at</h3>
+      <p class="dim" style="margin-bottom:8px">The retrieval problem. Out of all available information, which pieces does the LLM read?</p>
+      <div><span class="tag orange">vector search</span><span class="tag orange">index lookup</span><span class="tag orange">file selection</span></div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <h3>How to process it</h3>
+      <p class="dim" style="margin-bottom:8px">The behavior problem. Once the LLM has the information, what should it do with it?</p>
+      <div><span class="tag">instructions</span><span class="tag">schemas</span><span class="tag">rules</span></div>
+    </div>
+  </div>
+
+  <table class="contrast-table">
+    <thead><tr><th></th><th>What to look at (retrieval)</th><th>How to process (behavior)</th></tr></thead>
+    <tbody>
+      <tr><td>File-based system</td><td>You pick the file, or LLM reads an index</td><td>Instructions file defines the rules</td></tr>
+      <tr><td>Vector system (RAG)</td><td>Vector DB picks the chunks</td><td>Still needs instructions/prompts</td></tr>
+      <tr><td>No system</td><td>User pastes text into chat</td><td>Whatever the LLM defaults to</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warning">
+    <strong>Common mistake:</strong> Assuming a vector database replaces instructions. Even with perfect retrieval, the LLM still needs to know: what format should the output be? What rules apply? What should it never do? Retrieval gets the right data in. Instructions tell it what to do with that data. You need both.
+  </div>
+</section>
+
+<section id="s5">
+  <h2>Vectors inside the LLM vs a vector database</h2>
+  <p class="subtitle">These sound the same but are completely different things.</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--green)">
+      <h3>Vectors inside the LLM</h3>
+      <p class="dim" style="margin-bottom:8px">Every token gets converted to a vector during processing. Attention is computed in vector space. This is just how neural networks work.</p>
+      <p class="dim" style="margin-bottom:0"><strong>Ephemeral.</strong> These vectors exist during your conversation and are gone when the session ends. You don't control or see them.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--orange)">
+      <h3>A vector database</h3>
+      <p class="dim" style="margin-bottom:8px">A separate piece of infrastructure you build and host. You embed your documents, store the vectors on disk, and query them later.</p>
+      <p class="dim" style="margin-bottom:0"><strong>Persistent.</strong> Survives session restarts. You decide what goes in. It's like Postgres, but for similarity search instead of exact queries.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>Analogy:</strong> Saying "the LLM uses vectors" is like saying "my car uses pistons." True, but you don't manage the pistons. A vector database is a separate engine you'd buy, install, and maintain.
+  </div>
+</section>
+
+
+
+<div class="credit">
+  Part of a series: <a href="/notebook/wiki-vs-vector.html">Wiki vs Vector Database</a> covers the fundamental difference. <a href="/notebook/knowledge-system-architecture.html">Knowledge System Architecture</a> covers designing the full system.
+</div>
+
+</main>
+<script src="nav.js"></script>
+</body>
+</html>

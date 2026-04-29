@@ -8,7 +8,7 @@ Pure HTML/CSS/JS. No framework, no dependencies, no build tool.
 
 ```
 index.html          # Homepage
-notebook/           # Private — gitignored, not deployed
+notebook/           # Learning notebook — deployed
 sitemap.xml         # SEO sitemap
 llms.txt            # LLM-readable profile
 agents.json         # Machine-readable capabilities manifest

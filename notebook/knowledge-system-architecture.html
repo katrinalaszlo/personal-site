@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge System Architecture — Notebook — Katrina Laszlo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+.pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+.pillar-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; border-top: 3px solid var(--border); }
+.pillar-card h3 { margin-bottom: 8px; }
+.pillar-card p { font-size: 13px; color: var(--text-dim); margin-bottom: 0; }
+/* System diagram */
+.system-visual { background: var(--bg-inset); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+.sys-wrapper { border: 2px dashed var(--accent-dim); border-radius: 12px; padding: 20px; position: relative; margin-bottom: 20px; }
+.sys-label { position: absolute; top: -11px; left: 16px; background: var(--bg-inset); padding: 0 10px; font-size: 13px; font-weight: 600; color: var(--accent); }
+.sys-row { display: flex; gap: 12px; margin-bottom: 12px; }
+.sys-box { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
+.sys-box h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.sys-box p { font-size: 12px; color: var(--text-dim); margin-bottom: 0; }
+.sys-box.immutable { border-left: 3px solid var(--text-dim); }
+.sys-box.rules { border-left: 3px solid var(--accent); }
+.sys-box.output { border-left: 3px solid var(--green); }
+.sys-arrow { text-align: center; color: var(--text-dim); font-size: 12px; margin: 8px 0; }
+/* Cost table */
+.cost-table { width: 100%; border-collapse: collapse; margin: 16px 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.cost-table th { text-align: left; padding: 10px 14px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+.cost-table td { padding: 10px 14px; font-size: 14px; border-bottom: 1px solid var(--border-light); color: var(--text-dim); }
+.cost-table td:first-child { color: var(--text); font-weight: 500; }
+.cost-table tr:last-child td { border-bottom: none; }
+.cost-table .cheap { color: var(--green); }
+.cost-table .expensive { color: var(--red); }
+/* Quiz */
+.quiz-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px; }
+.quiz-q { font-size: 15px; font-weight: 500; margin-bottom: 16px; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt { padding: 12px 16px; font-size: 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-inset); color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+.quiz-opt:hover { border-color: var(--text-dim); color: var(--text); }
+.quiz-opt.correct { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.1); cursor: default; }
+.quiz-opt.wrong { border-color: var(--red); color: var(--red); background: rgba(220,38,38,0.1); cursor: default; }
+.quiz-opt.disabled { pointer-events: none; }
+.quiz-explain { margin-top: 12px; padding: 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-inset); font-size: 14px; color: var(--text-dim); display: none; }
+.quiz-explain.visible { display: block; }
+.credit { margin-top: 48px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); font-size: 14px; color: var(--text-dim); }
+.credit a { color: var(--accent); text-decoration: none; }
+@media (max-width: 700px) { .card-grid, .pillar-grid { grid-template-columns: 1fr; } .sys-row { flex-direction: column; } }
+</style>
+</head>
+<body>
+<header style="padding:1.5rem 0"><div style="max-width:900px;margin:0 auto;padding:0 2rem"><nav style="display:flex;justify-content:space-between;align-items:center"><a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a><div style="display:flex;gap:1.5rem"><a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a><a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a></div></nav></div></header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Knowledge System Architecture</span></div>
+</div>
+
+<main>
+
+<h1>Knowledge System Architecture</h1>
+<p class="subtitle">Designing the full pipeline: sources, rules, retrieval, and output. Three architectures compared.</p>
+
+<section id="s1">
+  <h2>The three components</h2>
+  <p class="subtitle">Every knowledge system has the same three parts, regardless of implementation.</p>
+
+  <div class="pillar-grid">
+    <div class="pillar-card" style="border-top-color:var(--text-dim)">
+      <h3>Sources</h3>
+      <p>The raw material. Documents, transcripts, code, articles. The ground truth you're building on. Usually immutable — you reference them, you don't change them.</p>
+    </div>
+    <div class="pillar-card" style="border-top-color:var(--accent)">
+      <h3>Rules</h3>
+      <p>How the system processes sources into output. Instructions, schemas, templates, constraints. This is what makes output consistent and reliable.</p>
+    </div>
+    <div class="pillar-card" style="border-top-color:var(--green)">
+      <h3>Output</h3>
+      <p>The processed knowledge. Summaries, entities, synthesis, answers. This is what humans or other systems consume. It persists and compounds over time.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>Analogy:</strong> Sources = ingredients. Rules = recipe. Output = the dish. You can change the recipe without changing the ingredients. You can add new ingredients without changing the recipe. But the dish depends on both.
+  </div>
+</section>
+
+<section id="s2">
+  <h2>Three architectures</h2>
+  <p class="subtitle">Same three components, different implementations. Each trades off control, effort, and scale.</p>
+
+  <!-- Architecture 1: File-based wiki -->
+  <div class="card" style="border-top:3px solid var(--accent)">
+    <span class="tag">architecture 1</span>
+    <h3>File-based wiki</h3>
+    <p class="dim">Human curates sources, writes rules in an instructions file, LLM produces structured output as files. Everything is readable, version-controllable, transparent.</p>
+
+    <div class="system-visual" style="background:var(--bg-card)">
+      <div class="sys-wrapper">
+        <div class="sys-label">Instructions file controls everything inside</div>
+        <div class="sys-row">
+          <div class="sys-box immutable">
+            <h4>Sources (immutable)</h4>
+            <p>Transcripts, PDFs, research. Never modified. Referenced by output pages.</p>
+          </div>
+          <div class="sys-box rules">
+            <h4>Rules</h4>
+            <p>Schema, page types, frontmatter format, cross-referencing conventions, behavioral constraints.</p>
+          </div>
+          <div class="sys-box output">
+            <h4>Output</h4>
+            <p>Source summaries, entity pages, concept pages, synthesis, index. Grows over time.</p>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text-dim)">
+        <strong>Retrieval:</strong> LLM reads index → finds relevant pages → reads them → follows links to sources if needed.<br>
+        <strong>Processing:</strong> LLM follows rules to create/update output pages with citations and cross-references.
+      </div>
+    </div>
+
+    <table class="contrast-table">
+      <tbody>
+        <tr><td>Scale</td><td>Dozens to hundreds of sources</td></tr>
+        <tr><td>Effort</td><td>High — human triggers ingestion, curates quality</td></tr>
+        <tr><td>Transparency</td><td>Total — every link and citation is visible</td></tr>
+        <tr><td>Infrastructure</td><td>None — just files in a folder</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Architecture 2: RAG with vector DB -->
+  <div class="card" style="border-top:3px solid var(--orange)">
+    <span class="tag orange">architecture 2</span>
+    <h3>RAG (Retrieval-Augmented Generation)</h3>
+    <p class="dim">Documents are embedded into a vector database. User queries trigger a similarity search, relevant chunks are injected into the LLM prompt, LLM generates an answer.</p>
+
+    <div class="system-visual" style="background:var(--bg-card)">
+      <div class="sys-row">
+        <div class="sys-box immutable">
+          <h4>Sources</h4>
+          <p>Same documents, but chunked and embedded as vectors. Stored in a vector database.</p>
+        </div>
+        <div class="sys-box" style="border-left:3px solid var(--orange)">
+          <h4>Retrieval</h4>
+          <p>Query → embed → similarity search → top 5-10 chunks returned.</p>
+        </div>
+        <div class="sys-box rules">
+          <h4>Rules (prompt)</h4>
+          <p>System prompt tells LLM how to use retrieved chunks. Still needed.</p>
+        </div>
+        <div class="sys-box output">
+          <h4>Output</h4>
+          <p>Generated answer. Often ephemeral (in a chat), not always persisted.</p>
+        </div>
+      </div>
+    </div>
+
+    <table class="contrast-table">
+      <tbody>
+        <tr><td>Scale</td><td>Thousands to millions of documents</td></tr>
+        <tr><td>Effort</td><td>Low — embed and search, no curation</td></tr>
+        <tr><td>Transparency</td><td>Low — you see which chunks were retrieved, not why</td></tr>
+        <tr><td>Infrastructure</td><td>Vector database + embedding pipeline</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Architecture 3: Hybrid -->
+  <div class="card" style="border-top:3px solid var(--purple)">
+    <span class="tag purple">architecture 3</span>
+    <h3>Hybrid: vector retrieval + structured output</h3>
+    <p class="dim">Vector DB handles retrieval at scale. But output is structured wiki pages, not ephemeral chat. Best of both — automatic retrieval, persistent knowledge.</p>
+
+    <div class="system-visual" style="background:var(--bg-card)">
+      <div class="sys-row">
+        <div class="sys-box immutable">
+          <h4>Sources</h4>
+          <p>Embedded in vector DB for retrieval.</p>
+        </div>
+        <div class="sys-box" style="border-left:3px solid var(--orange)">
+          <h4>Vector retrieval</h4>
+          <p>Finds relevant chunks from massive corpus.</p>
+        </div>
+        <div class="sys-box rules">
+          <h4>Rules</h4>
+          <p>Schema for structured output. Same as wiki approach.</p>
+        </div>
+        <div class="sys-box output">
+          <h4>Structured output</h4>
+          <p>Wiki pages with citations. Compounds over time.</p>
+        </div>
+      </div>
+    </div>
+
+    <table class="contrast-table">
+      <tbody>
+        <tr><td>Scale</td><td>Thousands of sources, structured output</td></tr>
+        <tr><td>Effort</td><td>Medium — automated retrieval, curated output rules</td></tr>
+        <tr><td>Transparency</td><td>Medium — output is readable, retrieval is opaque</td></tr>
+        <tr><td>Infrastructure</td><td>Vector database + file system + rules</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="s3">
+  <h2>The cost of each approach</h2>
+  <p class="subtitle">Vector search is cheap math. LLM inference is expensive compute. The architecture determines how much inference you need.</p>
+
+  <table class="cost-table">
+    <thead><tr><th>Step</th><th>What it does</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Embedding a document</td><td>Convert text to vector (one-time per doc)</td><td class="cheap">~$0.0001 per page</td></tr>
+      <tr><td>Vector similarity search</td><td>Find nearest neighbors (just math)</td><td class="cheap">Basically free</td></tr>
+      <tr><td>LLM reads 5 chunks</td><td>Process ~2K tokens of retrieved context</td><td>Small</td></tr>
+      <tr><td>LLM reads 100K docs</td><td>Process entire knowledge base</td><td class="expensive">Huge (or impossible)</td></tr>
+      <tr><td>LLM writes a wiki page</td><td>Generate structured output with citations</td><td>Moderate</td></tr>
+    </tbody>
+  </table>
+
+  <div class="connection">
+    <strong>Key insight:</strong> A vector DB doesn't eliminate inference — it reduces how much you need. Instead of sending everything to the LLM, you send only the relevant chunks. The vector DB is a filter, not a replacement.
+  </div>
+
+  <div class="warning">
+    <strong>Both approaches still need inference.</strong> A wiki system uses inference to write pages (ingest step). A RAG system uses inference to generate answers (query step). The vector DB just makes the input to that inference step smaller and more targeted. You never avoid the LLM entirely — it's always doing the understanding.
+  </div>
+</section>
+
+<section id="s4">
+  <h2>What the rules file actually controls</h2>
+  <p class="subtitle">The rules file (instructions, CLAUDE.md, system prompt) isn't just for writing. It's the operating system for the entire session.</p>
+
+  <div class="sequence">
+    <div class="seq-step">
+      <div class="seq-num" style="background:rgba(79,70,229,0.15);color:var(--accent)">1</div>
+      <div class="seq-body">
+        <h4>Session starts — LLM reads the rules</h4>
+        <p>Now it knows: folder structure, page types, frontmatter format, what's immutable, what to update. This loads before anything else.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num" style="background:rgba(217,119,6,0.15);color:var(--orange)">2</div>
+      <div class="seq-body">
+        <h4>Query — rules define how to search</h4>
+        <p>"Read the index to find relevant pages." This is the retrieval step. The rules tell the LLM WHERE to look — which is the same job a vector DB does at larger scale.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num" style="background:rgba(22,163,74,0.15);color:var(--green)">3</div>
+      <div class="seq-body">
+        <h4>Ingest — rules define how to write</h4>
+        <p>"Create a source summary, use this frontmatter, link to entities, cite everything." Consistent structure every time.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num" style="background:rgba(124,58,237,0.15);color:var(--purple)">4</div>
+      <div class="seq-body">
+        <h4>Throughout — rules constrain behavior</h4>
+        <p>"Never modify sources. Flag contradictions. Prefer updating to creating." Guardrails that prevent drift and hallucination.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>In product terms:</strong> The rules file is like a combination of database schema (structure), API permissions (access control), and business logic (behavior). It's not just formatting — it's the entire contract for how the LLM operates.
+  </div>
+</section>
+
+<section id="s5">
+  <h2>Alternative retrieval: git diff as a search index</h2>
+  <p class="subtitle">If your sources are in a git repository, you already have a retrieval mechanism — and it's more precise than vector search.</p>
+
+  <p>When code changes, you don't need a vector DB to figure out which documentation to update. The git diff tells you exactly what changed.</p>
+
+  <div class="sequence">
+    <div class="seq-step">
+      <div class="seq-num">1</div>
+      <div class="seq-body"><h4>A commit lands</h4><p>New code, changed API, updated schema.</p></div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">2</div>
+      <div class="seq-body"><h4>Hook reads the diff</h4><p>Which files changed? What was added, removed, modified?</p></div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">3</div>
+      <div class="seq-body"><h4>LLM reads changed files + current docs</h4><p>Targeted inference — only reads what's relevant.</p></div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">4</div>
+      <div class="seq-body"><h4>LLM makes surgical doc updates</h4><p>"The billing API added a new endpoint. Update the API section."</p></div>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>The git diff IS a retrieval layer.</strong> Instead of "vector finds similar chunks," it's "git tells you exactly what changed." More precise than vector search, zero infrastructure, and deterministic — it always finds the right files.
+  </div>
+
+  <div class="warning">
+    <strong>Tradeoff:</strong> Git diff tells you WHAT changed. It doesn't tell you WHY it matters. An automated pass catches structural changes. A human pass catches strategic significance. The best systems combine both.
+  </div>
+</section>
+
+
+
+<div class="credit">
+  Part of a series: <a href="/notebook/wiki-vs-vector.html">Wiki vs Vector Database</a> covers the fundamental difference. <a href="/notebook/llm-memory-and-retrieval.html">LLM Memory &amp; Retrieval</a> covers how context persists across sessions.
+</div>
+
+</main>
+<script src="nav.js"></script>
+</body>
+</html>

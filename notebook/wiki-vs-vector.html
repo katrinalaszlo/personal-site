@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wiki vs Vector Database — Notebook — Katrina Laszlo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+/* Metric boxes */
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+.metric-box {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px;
+  border-left: 3px solid var(--border);
+}
+.metric-box h3 {
+  font-family: var(--mono); font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.metric-box ul { list-style: none; padding: 0; }
+.metric-box li {
+  font-size: 13px; color: var(--text-dim);
+  padding: 4px 0; display: flex; align-items: center; gap: 8px;
+}
+.metric-box li::before {
+  content: ""; width: 6px; height: 6px;
+  border-radius: 50%; flex-shrink: 0;
+}
+.metric-box.wiki { border-left-color: var(--accent); }
+.metric-box.wiki h3 { color: var(--accent); }
+.metric-box.wiki li::before { background: var(--accent); }
+.metric-box.vector { border-left-color: var(--orange); }
+.metric-box.vector h3 { color: var(--orange); }
+.metric-box.vector li::before { background: var(--orange); }
+
+/* Interactive vector search */
+.search-demo {
+  background: var(--bg-inset); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; margin: 24px 0;
+}
+.search-input {
+  width: 100%; padding: 10px 14px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text);
+  font-size: 14px; outline: none; font-family: var(--sans);
+  margin-bottom: 16px;
+}
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: #a1a1aa; }
+.result-item {
+  padding: 10px 14px; margin-bottom: 6px;
+  background: var(--bg-card); border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+  display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.2s;
+}
+.result-item .text { font-size: 14px; color: var(--text-dim); }
+.result-item .score { font-size: 13px; font-family: var(--mono); color: #a1a1aa; }
+.result-item.top { border-left: 3px solid var(--orange); }
+.result-item.top .score { color: var(--orange); }
+.result-item.mid { border-left: 3px solid var(--border); }
+.result-item.low { opacity: 0.35; }
+
+/* Interactive wiki graph */
+.graph-demo {
+  background: var(--bg-inset); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; margin: 24px 0;
+}
+.graph-demo h3 { margin-bottom: 16px; }
+svg.wiki-graph { width: 100%; height: 280px; }
+.node { cursor: pointer; transition: all 0.2s; }
+.node circle { transition: all 0.3s; }
+.node text { font-size: 11px; fill: var(--text-dim); text-anchor: middle; pointer-events: none; font-family: var(--sans); }
+.edge { stroke: var(--border); stroke-width: 1.5; transition: all 0.3s; }
+.edge.highlighted { stroke: var(--accent); stroke-width: 2.5; }
+.node.highlighted circle { stroke: var(--accent); stroke-width: 3; }
+.node.dimmed circle { opacity: 0.15; }
+.node.dimmed text { opacity: 0.15; }
+.edge.dimmed { opacity: 0.08; }
+
+/* Threshold slider */
+.threshold-demo {
+  background: var(--bg-inset); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; margin: 24px 0;
+}
+.threshold-slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.threshold-slider {
+  flex: 1; -webkit-appearance: none; height: 4px;
+  background: var(--border); border-radius: 2px; outline: none;
+}
+.threshold-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--orange); cursor: pointer;
+}
+.threshold-value { font-family: var(--mono); font-size: 16px; color: var(--orange); min-width: 36px; }
+.threshold-result {
+  position: relative; padding: 10px 14px; margin-bottom: 6px;
+  background: var(--bg-card); border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+  display: flex; justify-content: space-between; align-items: center;
+  transition: opacity 0.3s; overflow: hidden;
+}
+.threshold-result.below-threshold { opacity: 0.12; }
+.threshold-result-bar {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: var(--orange); opacity: 0.06;
+}
+.threshold-result-name { font-size: 14px; color: var(--text-dim); position: relative; z-index: 1; }
+.threshold-result-score { font-family: var(--mono); font-size: 13px; color: var(--orange); position: relative; z-index: 1; }
+
+/* Pillar cards */
+.pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+.pillar-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px;
+  border-top: 3px solid var(--border);
+}
+.pillar-card h3 { margin-bottom: 8px; }
+.pillar-card p { font-size: 13px; color: var(--text-dim); margin-bottom: 0; }
+
+/* Quiz */
+.quiz-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
+}
+.quiz-q { font-size: 15px; font-weight: 500; margin-bottom: 16px; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  padding: 12px 16px; font-size: 14px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--bg-inset);
+  color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.quiz-opt:hover { border-color: var(--text-dim); color: var(--text); }
+.quiz-opt.correct { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.1); cursor: default; }
+.quiz-opt.wrong { border-color: var(--red); color: var(--red); background: rgba(220,38,38,0.1); cursor: default; }
+.quiz-opt.disabled { pointer-events: none; }
+.quiz-explain {
+  margin-top: 12px; padding: 14px;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--bg-inset); font-size: 14px;
+  color: var(--text-dim); display: none;
+}
+.quiz-explain.visible { display: block; }
+
+
+@media (max-width: 700px) {
+  .card-grid, .pillar-grid, .metrics-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Wiki vs Vector Database</span></div>
+</div>
+
+<main>
+
+<h1>Wiki vs Vector Database</h1>
+<p class="subtitle">Two ways to store and retrieve knowledge for AI systems. Different tools, different layers of the stack.</p>
+
+<!-- ======== SECTION 1: CORE CONCEPT ======== -->
+<section id="s1">
+  <h2>The core question</h2>
+  <p class="subtitle">How does an LLM find the right information when it can't read everything at once?</p>
+
+  <p>LLMs have a context window — a limit on how much text they can process at once. If your knowledge base is bigger than that window, you need a way to select what goes in. Wikis and vector databases are two answers to this problem.</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-top: 3px solid var(--accent);">
+      <h3>Wiki</h3>
+      <p class="dim">A human pre-digests information into structured pages with explicit links between them. The human decided what's important and how things relate.</p>
+      <div><span class="tag">structured</span><span class="tag">human-curated</span><span class="tag">browsable</span></div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--orange);">
+      <h3>Vector Database</h3>
+      <p class="dim">Math pre-filters information by semantic similarity. Text is converted to numbers (embeddings), and "nearby" numbers mean "similar meaning."</p>
+      <div><span class="tag orange">unstructured</span><span class="tag orange">math-driven</span><span class="tag orange">searchable</span></div>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>Analogy:</strong> A wiki is a library with a card catalog — you organized the books, you wrote the catalog cards. A vector database is GPS coordinates for every sentence — points near each other mean similar things, but nobody labeled them.
+  </div>
+</section>
+
+<!-- ======== SECTION 2: WHAT THEY STORE ======== -->
+<section id="s2">
+  <h2>What they actually store</h2>
+  <p class="subtitle">The difference is concrete. One stores readable pages, the other stores arrays of numbers.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3 style="color:var(--accent)">Wiki stores this</h3>
+      <div style="font-family:var(--mono);font-size:13px;background:var(--bg-inset);padding:14px;border-radius:var(--radius);line-height:1.8;color:var(--text-dim)">
+        <span style="color:var(--accent)">title:</span> Vannevar Bush<br>
+        <span style="color:var(--accent)">type:</span> entity<br>
+        <span style="color:var(--accent)">tags:</span> [pioneer, memex]<br>
+        <span style="color:var(--accent)">body:</span> "Proposed the Memex in 1945..."
+      </div>
+      <p class="dim" style="margin-top:12px;margin-bottom:0">Human-readable text. Meaningful structure. Anyone can open this and understand it.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--orange)">Vector DB stores this</h3>
+      <div style="font-family:var(--mono);font-size:11px;background:var(--bg-inset);padding:14px;border-radius:var(--radius);line-height:1.6;color:var(--orange);word-break:break-all;opacity:0.7">
+        [0.023, -0.187, 0.442, 0.091, -0.334, 0.118, 0.267, -0.055, 0.401, -0.192, 0.078, 0.311, -0.445, 0.156, 0.023, -0.289, 0.167, 0.334, -0.091, 0.223, ...]
+      </div>
+      <p class="dim" style="margin-top:12px;margin-bottom:0">1,536 numbers. This encodes meaning as math. No human can read this — but two vectors close together mean the text was semantically similar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 3: INTERACTIVE DEMOS ======== -->
+<section id="s3">
+  <h2>How they work — interactive</h2>
+  <p class="subtitle">Try both retrieval mechanisms side by side.</p>
+
+  <div class="graph-demo">
+    <h3 style="color:var(--accent)">Wiki: Click a node to see its connections</h3>
+    <p class="dim">Explicit links. You see exactly why things are connected.</p>
+    <svg class="wiki-graph" viewBox="0 0 500 280">
+      <g class="edges">
+        <line class="edge" data-from="memex" data-to="bush" x1="250" y1="50" x2="130" y2="120"/>
+        <line class="edge" data-from="memex" data-to="hypertext" x1="250" y1="50" x2="370" y2="120"/>
+        <line class="edge" data-from="bush" data-to="aswemaythink" x1="130" y1="120" x2="80" y2="220"/>
+        <line class="edge" data-from="hypertext" data-to="nelson" x1="370" y1="120" x2="410" y2="220"/>
+        <line class="edge" data-from="hypertext" data-to="www" x1="370" y1="120" x2="280" y2="230"/>
+        <line class="edge" data-from="bush" data-to="nelson" x1="130" y1="120" x2="410" y2="220"/>
+        <line class="edge" data-from="www" data-to="bernerslee" x1="280" y1="230" x2="170" y2="255"/>
+      </g>
+      <g class="nodes">
+        <g class="node" data-id="memex"><circle cx="250" cy="50" r="24" fill="var(--bg-inset)" stroke="var(--accent)" stroke-width="2"/><text x="250" y="54">Memex</text></g>
+        <g class="node" data-id="bush"><circle cx="130" cy="120" r="22" fill="var(--bg-card)" stroke="var(--accent-dim)" stroke-width="1.5"/><text x="130" y="124">V. Bush</text></g>
+        <g class="node" data-id="hypertext"><circle cx="370" cy="120" r="24" fill="var(--bg-inset)" stroke="var(--accent)" stroke-width="2"/><text x="370" y="124">Hypertext</text></g>
+        <g class="node" data-id="aswemaythink"><circle cx="80" cy="220" r="20" fill="var(--bg-card)" stroke="var(--accent-dim)" stroke-width="1.5"/><text x="80" y="216">As We May</text><text x="80" y="228">Think</text></g>
+        <g class="node" data-id="nelson"><circle cx="410" cy="220" r="22" fill="var(--bg-card)" stroke="var(--accent-dim)" stroke-width="1.5"/><text x="410" y="224">T. Nelson</text></g>
+        <g class="node" data-id="www"><circle cx="280" cy="230" r="22" fill="var(--bg-inset)" stroke="var(--accent)" stroke-width="2"/><text x="280" y="234">WWW</text></g>
+        <g class="node" data-id="bernerslee"><circle cx="170" cy="255" r="20" fill="var(--bg-card)" stroke="var(--accent-dim)" stroke-width="1.5"/><text x="170" y="251">Berners-</text><text x="170" y="263">Lee</text></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="search-demo">
+    <h3 style="color:var(--orange)">Vector: Type to search by meaning</h3>
+    <p class="dim">Results ranked by similarity score. No structure — just "how close is this to your query?"</p>
+    <input class="search-input" type="text" placeholder='Try "information retrieval" or "web history"' />
+    <div class="search-results"></div>
+  </div>
+</section>
+
+<!-- ======== SECTION 4: SIDE BY SIDE ======== -->
+<section id="s4">
+  <h2>Head-to-head comparison</h2>
+  <p class="subtitle">Same dimensions, different strengths.</p>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Dimension</th><th>Wiki</th><th>Vector DB</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Structure</td><td>Explicit pages + links. Human-curated graph.</td><td>Flat chunks with embeddings. No explicit relationships.</td></tr>
+      <tr><td>Retrieval</td><td>Follow links, read index, browse by type.</td><td>Semantic search — "find things that mean something like X."</td></tr>
+      <tr><td>Auditability</td><td>Total. Every link is intentional and visible.</td><td>Low. Similarity scores are opaque. No "why."</td></tr>
+      <tr><td>Scale</td><td>Hundreds of pages. Needs curation effort.</td><td>Millions of chunks. No curation needed.</td></tr>
+      <tr><td>Stays current</td><td>Manual updates (or someone forgets).</td><td>Re-embed on every change — automatic.</td></tr>
+      <tr><td>Who interacts</td><td>Humans browse, read, edit, follow links.</td><td>Code queries it via API. Users never see it.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ======== SECTION 5: WHEN TO USE WHICH ======== -->
+<section id="s5">
+  <h2>When to use which</h2>
+  <p class="subtitle">The answer depends on your problem, not the technology.</p>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Scenario</th><th>Better fit</th><th>Why</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Research &amp; strategy</td><td style="color:var(--accent);font-weight:600">Wiki</td><td>Curated links = a thinking tool you can browse</td></tr>
+      <tr><td>10K+ support docs</td><td style="color:var(--orange);font-weight:600">Vector</td><td>Too many docs to curate. Embed and search.</td></tr>
+      <tr><td>Competitive intel</td><td style="color:var(--accent);font-weight:600">Wiki</td><td>Entities + synthesis = compounding insight</td></tr>
+      <tr><td>Chat with your docs (RAG)</td><td style="color:var(--orange);font-weight:600">Vector</td><td>Built for this. Retrieve relevant chunks, feed to LLM.</td></tr>
+      <tr><td>Onboarding a new teammate</td><td style="color:var(--accent);font-weight:600">Wiki</td><td>Browsable, readable, linkable. Humans can explore.</td></tr>
+      <tr><td>Finding a needle in a haystack</td><td style="color:var(--orange);font-weight:600">Vector</td><td>Semantic search finds things exact-match misses.</td></tr>
+      <tr><td>Person/entity matching</td><td style="color:var(--orange);font-weight:600">Vector</td><td>Fuzzy matching with confidence scores.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ======== SECTION 6: REAL PRODUCT EXAMPLE ======== -->
+<section id="s6">
+  <h2>Real product example: both in one stack</h2>
+  <p class="subtitle">A sales outreach tool that uses wiki for context and vectors for search — different layers, different jobs.</p>
+
+  <div class="card" style="border-top:3px solid var(--accent)">
+    <span class="tag">application layer</span>
+    <h3>Knowledge Base (wiki)</h3>
+    <p class="dim" style="margin-bottom:0">Account pages, contact profiles, sales playbooks. Reps browse this, read it, add notes after calls. Human-facing. Structured. Links between entities.</p>
+  </div>
+  <div class="card" style="border-top:3px solid var(--orange)">
+    <span class="tag orange">data layer</span>
+    <h3>Person Matching Engine (vector)</h3>
+    <p class="dim" style="margin-bottom:0">Input: "VP Engineering, fintech, Bay Area." Searches 200M profiles. Returns scored matches. Users never see the vectors — they see a ranked list of people.</p>
+  </div>
+
+  <div class="threshold-demo">
+    <h3 style="color:var(--orange)">Confidence threshold — drag to filter</h3>
+    <p class="dim">The score isn't about cost — it's about risk. High threshold = only near-certain matches. Low = cast a wider net.</p>
+    <div class="threshold-slider-row">
+      <input type="range" class="threshold-slider" min="0" max="100" value="70" />
+      <span class="threshold-value">0.70</span>
+    </div>
+    <div class="threshold-results">
+      <div class="threshold-result" data-score="94">
+        <div class="threshold-result-bar" style="width:94%"></div>
+        <span class="threshold-result-name">Jane Kim — VP Eng, Stripe</span>
+        <span class="threshold-result-score">0.94</span>
+      </div>
+      <div class="threshold-result" data-score="87">
+        <div class="threshold-result-bar" style="width:87%"></div>
+        <span class="threshold-result-name">Bob Chen — VP Eng, Plaid</span>
+        <span class="threshold-result-score">0.87</span>
+      </div>
+      <div class="threshold-result" data-score="71">
+        <div class="threshold-result-bar" style="width:71%"></div>
+        <span class="threshold-result-name">Lisa Park — Dir Eng, Marqeta</span>
+        <span class="threshold-result-score">0.71</span>
+      </div>
+      <div class="threshold-result" data-score="38">
+        <div class="threshold-result-bar" style="width:38%"></div>
+        <span class="threshold-result-name">Mike Torres — VP Eng, Nike (retail)</span>
+        <span class="threshold-result-score">0.38</span>
+      </div>
+      <div class="threshold-result" data-score="22">
+        <div class="threshold-result-bar" style="width:22%"></div>
+        <span class="threshold-result-name">Sarah Walsh — Eng Manager, Stripe</span>
+        <span class="threshold-result-score">0.22</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>How they connect:</strong> Vector finds candidates (scored) → you set a threshold based on risk tolerance → wiki has the context for each match (company intel, playbook, notes from last call) → wiki compounds as reps add notes.
+  </div>
+</section>
+
+<!-- ======== SECTION 7: COMMON MISCONCEPTIONS ======== -->
+<section id="s7">
+  <h2>Common misconceptions</h2>
+  <p class="subtitle">Things that sound right but aren't.</p>
+
+  <div class="card" style="border-left:3px solid var(--red)">
+    <h3>"Vector databases learn and grow connections over time"</h3>
+    <p class="dim" style="margin-bottom:0">They don't. You add data, it gets embedded. No "neural links" form between existing data. The embedding model ran once. After that, it's static math in storage.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--red)">
+    <h3>"Vector databases are like a brain"</h3>
+    <p class="dim" style="margin-bottom:0">They're indexed arrays of numbers. Not neural networks. The "neural" part happened once, when the embedding model converted text to vectors. The database itself is just a search index.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--red)">
+    <h3>"Wikis and vector DBs do the same thing"</h3>
+    <p class="dim" style="margin-bottom:0">They both store knowledge. But a wiki stores relationships you chose. A vector DB stores distances math calculated. One is a map you drew. The other is GPS coordinates.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--red)">
+    <h3>"You need a vector DB for an LLM to work"</h3>
+    <p class="dim" style="margin-bottom:0">LLMs use vectors internally (that's how neural nets work), but that's different from a vector database you build and host. If your data fits in the context window, you don't need one.</p>
+  </div>
+</section>
+
+<!-- ======== SECTION 8: SAME PROBLEMS, DIFFERENT SOLUTIONS ======== -->
+<section id="s8">
+  <h2>Same problems, different solutions</h2>
+  <p class="subtitle">Both approaches solve for memory, retrieval, and control. They just use different mechanisms at different cost points.</p>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Problem</th><th>Wiki approach</th><th>Vector approach</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Memory persistence</td><td>Wiki files survive between sessions</td><td>Vector DB survives between sessions</td></tr>
+      <tr><td>Retrieval</td><td>LLM reads index + pages <span class="tag" style="margin-left:4px">inference</span></td><td>Math finds similar chunks <span class="tag orange" style="margin-left:4px">no inference</span></td></tr>
+      <tr><td>Control / harness</td><td>Rules file in natural language <span class="tag" style="margin-left:4px">tokens</span></td><td>Code + API parameters <span class="tag orange" style="margin-left:4px">near-zero tokens</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="analogy">
+    <strong>The core similarity:</strong> Both are retrieval systems. They answer the same question — "out of everything I know, which pieces should the LLM look at right now?"
+  </div>
+</section>
+
+<!-- ======== SECTION 9: COST OF INFERENCE ======== -->
+<section id="s9">
+  <h2>Where the inference cost lives</h2>
+  <p class="subtitle">The wiki approach uses more inference at every step. The vector approach offloads search and control to cheaper layers.</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <h3>Wiki pipeline</h3>
+      <p class="dim" style="margin-bottom:8px">Every step uses inference (tokens):</p>
+      <div style="font-size:13px;color:var(--text-dim);line-height:2">
+        1. LLM reads rules file <span class="tag">inference</span><br>
+        2. LLM reads index <span class="tag">inference</span><br>
+        3. LLM reads relevant pages <span class="tag">inference</span><br>
+        4. LLM generates answer <span class="tag">inference</span>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--orange)">
+      <h3>Vector pipeline</h3>
+      <p class="dim" style="margin-bottom:8px">Search is cheap math. Only the answer uses inference:</p>
+      <div style="font-size:13px;color:var(--text-dim);line-height:2">
+        1. Embed query <span class="tag orange">~$0.0001</span><br>
+        2. Similarity search <span class="tag orange">free (math)</span><br>
+        3. LLM reads 5 chunks <span class="tag">inference</span><br>
+        4. LLM generates answer <span class="tag">inference</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning">
+    <strong>The vector DB doesn't skip inference — it reduces how much you need.</strong> Both approaches need the LLM for the final step (understanding and answering). The difference is that the wiki uses inference for search too, while the vector uses cheap math. More data = bigger gap in cost.
+  </div>
+
+  <div class="connection">
+    <strong>The tradeoff:</strong> The wiki approach costs more tokens but buys you structured output, citation chains, nuanced judgment, and human-readable knowledge that compounds over time. The vector approach is cheaper per query but gives you ranked chunks — no structure, no connections, no synthesis.
+  </div>
+</section>
+
+<!-- ======== SECTION 10: GOALS ======== -->
+<section id="s10">
+  <h2>Goals and control</h2>
+  <p class="subtitle">What each approach optimizes for, what's deterministic, and what's out of your hands.</p>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th></th><th>Wiki</th><th>Vector DB</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Primary goal</td><td>Control what the LLM knows and how it connects things</td><td>Find relevant stuff fast in data too big to read</td></tr>
+      <tr><td>Deterministic</td><td>What links to what, what pages exist, schema, what's immutable</td><td>The embedding math (same text = same vector, always)</td></tr>
+      <tr><td>Non-deterministic</td><td>LLM's synthesis — how it writes summaries, what it emphasizes</td><td>Which chunks score highest (can vary with embedding model), what LLM does with them</td></tr>
+      <tr><td>Out of control</td><td>LLM may interpret your rules differently session to session</td><td>Retrieval quality — might surface junk that scores high</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card" style="border-top:3px solid var(--purple)">
+    <h3>What's a harness?</h3>
+    <p class="dim" style="margin-bottom:8px">A harness is anything that wraps the LLM to constrain its behavior. It's not a specific technology. Both approaches need one.</p>
+    <table class="contrast-table" style="margin-bottom:0">
+      <thead><tr><th>Harness type</th><th>Medium</th><th>Token cost</th><th>What it can enforce</th></tr></thead>
+      <tbody>
+        <tr><td>Rules file (e.g. CLAUDE.md)</td><td>Natural language</td><td>Hundreds of tokens/session</td><td>Judgment calls, style, workflow, priorities</td></tr>
+        <tr><td>System prompt (API)</td><td>Natural language</td><td>Some tokens</td><td>Role, tone, constraints</td></tr>
+        <tr><td>Temperature setting</td><td>API parameter</td><td>Zero</td><td>Output randomness</td></tr>
+        <tr><td>Schema validation (code)</td><td>Code</td><td>Zero</td><td>Output format, required fields</td></tr>
+        <tr><td>Retry loop (code)</td><td>Code</td><td>Costs retries</td><td>Output correctness checks</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<div class="credit">
+  Part of a series: <a href="/notebook/llm-memory-and-retrieval.html">LLM Memory &amp; Retrieval</a> covers how context persists across sessions. <a href="/notebook/knowledge-system-architecture.html">Knowledge System Architecture</a> covers how to design the full system.
+</div>
+
+</main>
+
+<script>
+// Wiki graph interaction
+document.querySelectorAll('.node').forEach(node => {
+  node.addEventListener('click', () => {
+    const id = node.dataset.id;
+    const allNodes = document.querySelectorAll('.node');
+    const allEdges = document.querySelectorAll('.edge');
+    const isHighlighted = node.classList.contains('highlighted');
+    allNodes.forEach(n => n.classList.remove('highlighted', 'dimmed'));
+    allEdges.forEach(e => e.classList.remove('highlighted', 'dimmed'));
+    if (isHighlighted) return;
+    const connected = new Set([id]);
+    allEdges.forEach(e => {
+      if (e.dataset.from === id || e.dataset.to === id) {
+        e.classList.add('highlighted');
+        connected.add(e.dataset.from);
+        connected.add(e.dataset.to);
+      } else { e.classList.add('dimmed'); }
+    });
+    allNodes.forEach(n => {
+      if (connected.has(n.dataset.id)) n.classList.add('highlighted');
+      else n.classList.add('dimmed');
+    });
+  });
+});
+
+// Vector search simulation
+const chunks = [
+  { text: "Bush proposed the Memex as a device for storing and retrieving documents", tags: ["information","retrieval","memex","bush","device","storing","documents"] },
+  { text: "Nelson coined 'hypertext' for non-sequential writing linked by references", tags: ["hypertext","nelson","writing","linked","references","web","text"] },
+  { text: "The World Wide Web implemented hypertext over the internet at global scale", tags: ["web","www","hypertext","internet","global","history","scale"] },
+  { text: "As We May Think (1945) envisioned trails of association through knowledge", tags: ["association","knowledge","trails","think","bush","information","retrieval"] },
+  { text: "Berners-Lee built HTTP and HTML to share documents between physicists", tags: ["web","html","http","berners","documents","sharing","history"] },
+  { text: "Vector embeddings encode semantic meaning as high-dimensional numbers", tags: ["vector","embeddings","semantic","meaning","numbers","math","encoding"] },
+  { text: "Knowledge graphs use explicit typed edges between entities", tags: ["knowledge","graph","entities","structure","relationships","typed"] },
+];
+const searchInput = document.querySelector('.search-input');
+const searchResults = document.querySelector('.search-results');
+function scoreChunk(chunk, query) {
+  const words = query.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+  if (!words.length) return 0;
+  let score = 0;
+  const t = chunk.text.toLowerCase();
+  words.forEach(w => {
+    if (t.includes(w)) score += 0.3;
+    chunk.tags.forEach(tag => { if (tag.includes(w) || w.includes(tag)) score += 0.15; });
+  });
+  return Math.min(score, 0.97);
+}
+function renderSearch(q) {
+  if (!q.trim()) { searchResults.innerHTML = '<div style="color:#a1a1aa;font-size:14px;padding:16px 0;text-align:center">Results ranked by similarity score</div>'; return; }
+  const scored = chunks.map(c => ({...c, score: scoreChunk(c, q)})).sort((a,b) => b.score - a.score);
+  searchResults.innerHTML = scored.map(item => {
+    const cls = item.score > 0.4 ? 'top' : item.score > 0.2 ? 'mid' : 'low';
+    return `<div class="result-item ${cls}"><span class="text">${item.text}</span><span class="score">${item.score.toFixed(2)}</span></div>`;
+  }).join('');
+}
+searchInput.addEventListener('input', e => renderSearch(e.target.value));
+renderSearch('');
+
+// Threshold slider
+const slider = document.querySelector('.threshold-slider');
+const thresholdVal = document.querySelector('.threshold-value');
+const thresholdResults = document.querySelectorAll('.threshold-result');
+slider.addEventListener('input', () => {
+  const v = slider.value / 100;
+  thresholdVal.textContent = v.toFixed(2);
+  thresholdResults.forEach(r => r.classList.toggle('below-threshold', parseInt(r.dataset.score)/100 < v));
+});
+slider.dispatchEvent(new Event('input'));
+
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
