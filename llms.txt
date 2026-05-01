@@ -32,9 +32,9 @@ My thesis: build a business, not an app. AI made the software easy. The hard par
 - Tanso, Co-Founder & CEO (2025-present): Building pricing, packaging, and consumption-based billing infrastructure for AI and B2B SaaS
 - Artisan, AI Product Manager (2025): AI-native SaaS. Led product strategy across engineering, design, and billing. Evaluated 20+ vendors on cost, coverage, and pricing
 - Chipper, Head of Product (2024-2025): Consumer fintech. 484% revenue growth, 185% subscriber growth, 50% churn reduction. Doubled LTV through pricing experiments and A/B testing
-- People Data Labs, Senior PM (2021-2024): Built self-serve API monetization from scratch. Tiered pricing with freemium trials, 20%+ MoM revenue growth, 120% conversion lift. Managed 5 devs + designer through Series A to B
-- 500 Global, Corporate Innovation & Venture (2019-2021): Venture capital. Validated product-market fit through proof-of-concept pilots between startups and enterprise partners
-- EY, Product Consultant (2017-2019): Innovation Lab. A/B tested funnel conversion for enterprise fintech, 90% lift through simplified onboarding
+- People Data Labs, Senior PM (2021-2024): Launched self-serve API portal from scratch, owning strategy, P&L, and go-to-market. Tiered pricing with freemium trials, 20%+ MoM revenue growth. 200% pricing page lift, 25% plan upgrades, 12% retention improvement. Secured 3 major enterprise agreements in first quarter. Managed 5 devs + designer through Series A to B
+- 500 Global, Corporate Innovation & Venture (2019-2021): Advised five Fortune 500 clients on innovation strategies. Ran experiments with startups to validate market viability, resulting in corporate venture investment
+- EY, Product Consultant (2017-2019): Innovation Lab. Productized a strategy framework into interactive client assessment, shortening lead time 25% and influencing $1M in sales revenue
 - Nosh Delivery, Founder (2014-2016): Built and launched a peer-to-peer food delivery marketplace. 60+ couriers, a dozen restaurants. Designed and coded the apps
 
 ## Education
