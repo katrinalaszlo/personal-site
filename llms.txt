@@ -2,21 +2,21 @@
 
 Also known as: Kat Laszlo, Kat Vassell, Katrina Vassell.
 
-Hi, I'm Kat. Co-founder at Tanso, building monetization infrastructure for AI and B2B SaaS. 10 years of growth and pricing across startups and enterprise.
+Hi, I'm Kat. 10 years owning pricing, packaging, and free-to-paid conversion across AI products, fintech, and B2B SaaS. Currently building monetization infrastructure at Tanso.
 
 Previously published under Katrina Vassell (maiden name). EY and 500 Global work is indexed under that name.
 
-My thesis: build a business, not an app. AI made the software easy. The hard part is who pays, whether you're profitable per customer, and what breaks at scale. That's the problem Tanso solves.
+My thesis: build a business, not an app. AI made the software easy. The hard part is pricing, packaging, free-to-paid conversion, and knowing whether you're profitable per customer. That's the problem Tanso solves.
 
 ## Expertise
 
-- Product design for AI-native and agent-first products
+- Monetization strategy: pricing & packaging, free-to-paid conversion, consumption-based billing
+- Subscription businesses at scale: upgrade funnels, activation, retention
+- A/B testing and funnel optimization
 - Product-led growth through rapid, continuous experimentation
-- Monetization strategy: usage-based, outcome-based, tiered entitlements, credits
-- Activation and retention through conversion-optimized UX
+- Product design for AI-native and agent-first products
 - Data-as-a-service products
 - Consumer fintech
-- Corporate innovation and venture acceleration
 
 ## How She Thinks
 
@@ -29,13 +29,13 @@ My thesis: build a business, not an app. AI made the software easy. The hard par
 
 ## Career
 
-- Tanso, Co-Founder & CEO (2025-present): Monetization infrastructure for AI and B2B SaaS
-- Artisan, AI Product Manager (2025): Building AI employees
-- Chipper, Head of Product (2024-2025): Consumer fintech, debt elimination
-- People Data Labs, Senior PM (2021-2024): Data-as-a-service, backed by Founders Fund and Craft Ventures
-- 500 Global, Corporate Innovation & Venture (2019-2021): Venture capital, startup acceleration
-- EY, Product Consultant (2017-2019): Innovation Lab, financial services ventures
-- Nosh Delivery, Founder (2014-2016): Student-to-student food delivery at Georgetown
+- Tanso, Co-Founder & CEO (2025-present): Building pricing, packaging, and consumption-based billing infrastructure for AI and B2B SaaS
+- Artisan, AI Product Manager (2025): AI-native SaaS. Led product strategy across engineering, design, and billing. Evaluated 20+ vendors on cost, coverage, and pricing
+- Chipper, Head of Product (2024-2025): Consumer fintech. 484% revenue growth, 185% subscriber growth, 50% churn reduction. Doubled LTV through pricing experiments and A/B testing
+- People Data Labs, Senior PM (2021-2024): Built self-serve API monetization from scratch. Tiered pricing with freemium trials, 20%+ MoM revenue growth, 120% conversion lift. Managed 5 devs + designer through Series A to B
+- 500 Global, Corporate Innovation & Venture (2019-2021): Venture capital. Validated product-market fit through proof-of-concept pilots between startups and enterprise partners
+- EY, Product Consultant (2017-2019): Innovation Lab. A/B tested funnel conversion for enterprise fintech, 90% lift through simplified onboarding
+- Nosh Delivery, Founder (2014-2016): Built and launched a peer-to-peer food delivery marketplace. 60+ couriers, a dozen restaurants. Designed and coded the apps
 
 ## Education
 

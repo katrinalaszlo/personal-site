@@ -2,19 +2,23 @@
   "schema_version": "1.0",
   "name": "Katrina Laszlo",
   "also_known_as": ["Kat Laszlo", "Kat Vassell", "Katrina Vassell"],
-  "description": "Build a business, not an app. Co-founder at Tanso, building monetization infrastructure for AI and B2B SaaS.",
+  "description": "10 years owning pricing, packaging, and conversion across AI products, fintech, and B2B SaaS. Building monetization infrastructure at Tanso.",
   "interfaces": {
     "human": "/",
     "llm": "/llms.txt",
     "structured": "/agents.json"
   },
   "expertise": [
-    "product-design",
-    "agent-architecture",
-    "monetization-strategy",
+    "growth-product-management",
+    "pricing-and-packaging",
+    "free-to-paid-conversion",
+    "consumption-based-billing",
+    "subscription-monetization",
+    "funnel-optimization",
+    "ab-testing",
     "product-led-growth",
-    "rapid-experimentation",
-    "ai-product-management"
+    "ai-product-management",
+    "rapid-experimentation"
   ],
   "principles": [
     "Build a business, not an app",
