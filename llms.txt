@@ -35,6 +35,10 @@ BS Business Administration: International Business, Political Economics, Marketi
 
 English, Greek, Spanish
 
+## Services
+
+Agent readiness consulting. I audit sites for AI agent discoverability, then implement the fixes: llms.txt, agents.json, structured data, OpenAPI specs, crawler optimization, and pricing page machine-readability. Details: https://katrinalaszlo.com/consulting/
+
 ## Contact
 
 - LinkedIn: https://www.linkedin.com/in/katrinalaszlo/
