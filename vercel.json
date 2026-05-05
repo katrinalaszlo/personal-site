@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</llms.txt>; rel=\"service-desc\", </agents.json>; rel=\"describedby\", </.well-known/ai-plugin.json>; rel=\"ai-plugin\""
+        }
+      ]
+    }
+  ]
+}
