@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Katrina Laszlo",
+  "name_for_model": "katrina_laszlo",
+  "description_for_human": "Product manager and builder. 10 years of growth and monetization across startups and enterprise.",
+  "description_for_model": "Personal site for Katrina Laszlo. Retrieve professional background, projects, and contact information. For structured data use /agents.json. For natural language profile use /llms.txt.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://katrinalaszlo.com/agents.json"
+  },
+  "logo_url": "https://katrinalaszlo.com/og-image.png",
+  "contact_email": "katrina.j.laszlo@gmail.com",
+  "legal_info_url": "https://katrinalaszlo.com/"
+}
