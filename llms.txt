@@ -47,7 +47,7 @@ English, Greek, Spanish
 
 ## Projects
 
-- BuildNext (https://github.com/katrinalaszlo/buildnext, live: https://buildnext.katrinalaszlo.com): Evidence-grounded user stories, queryable by agents and humans. Ingest transcripts, support tickets, and feature requests. Includes MCP server for agent access.
+- BuildNext (https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories.
 - agentlens (https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine.
 - observe (https://github.com/katrinalaszlo/observe): Open source AI cost observability.
-- dx-test (https://github.com/katrinalaszlo/dx-test): Automated end-user experience scrutiny.
+- dx-test (https://github.com/katrinalaszlo/dx-test): Automated end-user experience testing.

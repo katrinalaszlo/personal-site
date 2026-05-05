@@ -43,12 +43,12 @@
     {
       "name": "buildnext",
       "url": "https://github.com/katrinalaszlo/buildnext-oss",
-      "description": "Karpathy-style evidence wiki for product development. Turn customer signal into grounded user stories. No database, no hosting. Just markdown and an LLM."
+      "description": "Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories."
     },
     {
       "name": "dx-test",
       "url": "https://github.com/katrinalaszlo/dx-test",
-      "description": "Automated end-user experience scrutiny"
+      "description": "Automated end-user experience testing"
     },
     {
       "name": "human-docs",
