@@ -473,5 +473,39 @@
             Katrina Laszlo, 2026
         </div>
     </footer>
+    <script>
+    if (navigator.modelContext) {
+        navigator.modelContext.provideContext({
+            tools: [
+                {
+                    name: "get_profile",
+                    description: "Get Katrina Laszlo's professional profile, career history, expertise, and contact information.",
+                    inputSchema: { type: "object", properties: {} },
+                    execute: async () => {
+                        const res = await fetch("/llms.txt");
+                        return { content: await res.text() };
+                    }
+                },
+                {
+                    name: "get_structured_data",
+                    description: "Get structured JSON data about expertise, projects, services, and contact.",
+                    inputSchema: { type: "object", properties: {} },
+                    execute: async () => {
+                        const res = await fetch("/agents.json");
+                        return { content: await res.text() };
+                    }
+                },
+                {
+                    name: "book_consultation",
+                    description: "Get the booking link for a 30-minute agent readiness consultation.",
+                    inputSchema: { type: "object", properties: {} },
+                    execute: async () => {
+                        return { content: "https://cal.com/katrina-laszlo/30-minute-meeting" };
+                    }
+                }
+            ]
+        });
+    }
+    </script>
 </body>
 </html>
