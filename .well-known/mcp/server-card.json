@@ -1,0 +1,30 @@
+{
+  "serverInfo": {
+    "name": "katrinalaszlo",
+    "version": "1.0.0",
+    "description": "Katrina Laszlo — product manager and builder. Agent readiness consulting and pricing intelligence."
+  },
+  "transport": {
+    "type": "streamable-http",
+    "url": "https://katrinalaszlo.com/.well-known/mcp"
+  },
+  "capabilities": {
+    "resources": true,
+    "tools": false,
+    "prompts": false
+  },
+  "resources": [
+    {
+      "uri": "https://katrinalaszlo.com/llms.txt",
+      "name": "Profile",
+      "description": "Natural language professional profile",
+      "mimeType": "text/plain"
+    },
+    {
+      "uri": "https://katrinalaszlo.com/agents.json",
+      "name": "Structured data",
+      "description": "Machine-readable expertise, projects, and contact",
+      "mimeType": "application/json"
+    }
+  ]
+}

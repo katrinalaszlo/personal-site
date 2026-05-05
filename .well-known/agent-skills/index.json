@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2.0/index.json",
+  "skills": [
+    {
+      "name": "get-profile",
+      "type": "resource",
+      "description": "Retrieve Katrina Laszlo's professional profile, expertise, career history, and contact information in natural language.",
+      "url": "https://katrinalaszlo.com/llms.txt"
+    },
+    {
+      "name": "get-structured-data",
+      "type": "resource",
+      "description": "Retrieve structured JSON data about expertise, projects, services, and contact information.",
+      "url": "https://katrinalaszlo.com/agents.json"
+    },
+    {
+      "name": "book-consultation",
+      "type": "action",
+      "description": "Schedule a 30-minute agent readiness consultation.",
+      "url": "https://cal.com/katrina-laszlo/30-minute-meeting"
+    }
+  ]
+}
