@@ -20,13 +20,6 @@
     "ai-product-management",
     "rapid-experimentation"
   ],
-  "services": [
-    {
-      "name": "Agent Readiness Consulting",
-      "url": "https://katrinalaszlo.com/consulting/",
-      "description": "Agent readiness audits and implementation. Structured data, llms.txt, crawler optimization, pricing page machine-readability."
-    }
-  ],
   "contact": {
     "email": "katrina.j.laszlo@gmail.com",
     "schedule": "https://cal.com/katrina-laszlo/30-minute-meeting",

@@ -36,23 +36,7 @@ BS Business Administration: International Business, Political Economics, Marketi
 
 English, Greek, Spanish
 
-## Services
-
-Agent readiness consulting. I audit sites for AI agent discoverability, then implement the fixes: llms.txt, agents.json, structured data, OpenAPI specs, crawler optimization, and pricing page machine-readability.
-
-Details: https://katrinalaszlo.com/consulting/
-
-### What's included
-
-- Agent readiness audit with before/after scoring
-- llms.txt and agents.json creation
-- Schema.org JSON-LD, .well-known/ai-plugin.json, MCP server card
-- Crawler optimization (robots.txt, sitemap, Content Signals, Link headers)
-- Pricing page machine-readability optimization
-- WebMCP tool definitions
-- Agent skills discovery index
-
-### Pricing Data Lab
+## Pricing Data Lab
 
 I maintain a pricing intelligence dataset at https://data.tansohq.com covering 123 verified SaaS companies. Every price, plan, and model is traced to its source. Each company is scored on agent pricing readiness (0-3):
 
