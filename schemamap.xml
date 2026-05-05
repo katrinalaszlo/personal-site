@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemamap xmlns="https://nlweb.ai/schemamap">
+  <feed>
+    <loc>https://katrinalaszlo.com/agents.json</loc>
+    <type>application/json</type>
+    <schema>Person</schema>
+  </feed>
+</schemamap>

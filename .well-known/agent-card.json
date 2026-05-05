@@ -1,0 +1,25 @@
+{
+  "name": "Katrina Laszlo",
+  "description": "Agent readiness consulting. Audits and fixes how AI agents discover, parse, and act on your product's pricing.",
+  "url": "https://katrinalaszlo.com",
+  "capabilities": ["consulting", "agent-readiness-audit", "pricing-analysis"],
+  "skills": [
+    {
+      "name": "agent-readiness-audit",
+      "description": "Score your site's agent readiness and implement fixes"
+    },
+    {
+      "name": "pricing-page-optimization",
+      "description": "Make pricing machine-readable for AI agents"
+    }
+  ],
+  "contact": {
+    "url": "https://cal.com/katrina-laszlo/30-minute-meeting",
+    "email": "katrina.j.laszlo@gmail.com"
+  },
+  "resources": {
+    "profile": "https://katrinalaszlo.com/llms.txt",
+    "structured": "https://katrinalaszlo.com/agents.json",
+    "data-lab": "https://data.tansohq.com"
+  }
+}

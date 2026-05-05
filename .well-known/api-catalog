@@ -1,0 +1,19 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://katrinalaszlo.com/",
+      "item": [
+        {
+          "href": "https://katrinalaszlo.com/agents.json",
+          "type": "application/json",
+          "rel": "describedby"
+        },
+        {
+          "href": "https://katrinalaszlo.com/llms.txt",
+          "type": "text/plain",
+          "rel": "service-desc"
+        }
+      ]
+    }
+  ]
+}

@@ -32,7 +32,7 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Person",
+        "@type": ["Person", "ProfessionalService"],
         "name": "Katrina Laszlo",
         "alternateName": "Katrina Vassell",
         "url": "https://katrinalaszlo.com",
@@ -69,7 +69,17 @@
             "Monetization Strategy",
             "Rapid Experimentation"
         ],
-        "knowsLanguage": ["English", "Greek", "Spanish"]
+        "knowsLanguage": ["English", "Greek", "Spanish"],
+        "makesOffer": {
+            "@type": "Offer",
+            "name": "Agent Readiness Consulting",
+            "description": "Audits and implementation for AI agent discoverability",
+            "url": "https://katrinalaszlo.com/consulting/"
+        },
+        "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": [".hero h1", ".hero .tagline", ".hero .intro"]
+        }
     }
     </script>
 
