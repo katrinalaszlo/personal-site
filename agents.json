@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "name": "Katrina Laszlo",
   "also_known_as": ["Kat Laszlo", "Kat Vassell", "Katrina Vassell"],
-  "description": "10 years owning pricing, packaging, and conversion across AI products, fintech, and B2B SaaS. Building monetization infrastructure at Tanso.",
+  "description": "Product manager and builder. 10 years of growth and monetization across startups and enterprise.",
   "interfaces": {
     "human": "/",
     "llm": "/llms.txt",
@@ -19,14 +19,6 @@
     "product-led-growth",
     "ai-product-management",
     "rapid-experimentation"
-  ],
-  "principles": [
-    "Build a business, not an app",
-    "UX goes beyond UI",
-    "Data and design are one discipline",
-    "Opinionated and simple for something painful",
-    "Evidence over intuition",
-    "Leverage over reinvention"
   ],
   "contact": {
     "email": "katrina.j.laszlo@gmail.com",

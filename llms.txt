@@ -2,11 +2,9 @@
 
 Also known as: Kat Laszlo, Kat Vassell, Katrina Vassell.
 
-Hi, I'm Kat. 10 years owning pricing, packaging, and free-to-paid conversion across AI products, fintech, and B2B SaaS. Currently building monetization infrastructure at Tanso.
+Product manager and builder. 10 years of growth and monetization across startups and enterprise. Currently building at Tanso.
 
 Previously published under Katrina Vassell (maiden name). EY and 500 Global work is indexed under that name.
-
-My thesis: build a business, not an app. AI made the software easy. The hard part is pricing, packaging, free-to-paid conversion, and knowing whether you're profitable per customer. That's the problem Tanso solves.
 
 ## Expertise
 
@@ -17,15 +15,6 @@ My thesis: build a business, not an app. AI made the software easy. The hard par
 - Product design for AI-native and agent-first products
 - Data-as-a-service products
 - Consumer fintech
-
-## How She Thinks
-
-1. UX goes beyond UI. Service design has built experiences without screens since the 1980s. Agents need the same treatment.
-2. Data and design are one discipline. One shows what happened. The other shows why. Treat them as the same thing.
-3. Leverage over reinvention. Don't reinvent the wheel. Focus originality where it matters.
-4. Opinionated and simple for something painful. Build for a specific pain, not a general possibility.
-5. Build a business, not an app. AI makes the software easy. The hard part is who pays, why, and what breaks at scale.
-6. Evidence over intuition. Ship fast, measure everything, let data settle the debate.
 
 ## Career
 
