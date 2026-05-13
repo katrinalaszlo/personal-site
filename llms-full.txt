@@ -91,6 +91,40 @@ Background in UX and product design applied to AI agents as users. Most agent re
 - Schedule: https://cal.com/katrina-laszlo/30-minute-meeting
 - Email: katrina.j.laszlo@gmail.com
 
+## Notebook: What I'm Learning
+
+13 interactive essays I use as reference while building. Available as Agent Skills and via MCP server.
+
+### Topics
+
+About AI: Model Architecture, Training Loops, Data Pipelines
+Knowledge Systems: Wiki vs Vector DB, LLM Memory & Retrieval, Knowledge Architecture
+Building AI Systems: AI System Design, Agent Teams, Agent Evaluation
+Agent Tools: OpenClaw Personal Agents, Hermes Orchestration
+Agent Experience: Agent Experience (AX), Agent-Readable Sites, Mutual Legibility, The Bifurcated Web, Agent Self-Serve
+
+### How to use these notes
+
+Query via MCP server:
+  POST https://katrinalaszlo.com/api/mcp
+  Tools: query_notebook (search by keyword), list_topics (index), get_skill (full content + references)
+
+Install as Agent Skills:
+  npx skills add https://github.com/katrinalaszlo/personal-site
+
+Available skills: ai-foundations, knowledge-systems, ai-system-design, agent-tools, agent-experience-design
+
+Each skill has a SKILL.md with trigger-rich descriptions and reference files with detailed content. The agent-experience-design skill covers AX four pillars, agent-readable standards (llms.txt, AgentReady, Lighthouse), mutual legibility (HCI research, three counterintuitive findings), the bifurcated web (visible vs invisible, brand-to-bot, AVIO), and agent self-serve implementation (programmatic signup, sandbox provisioning, capability keys, removing human gates).
+
+### Example MCP queries
+
+- "how to make a site agent-readable"
+- "what is mutual legibility"
+- "agent self-serve implementation checklist"
+- "four AX pillars"
+- "how to publish an MCP server"
+- "removing human gates from onboarding"
+
 ## Machine-Readable Endpoints
 
 - Profile: https://katrinalaszlo.com/llms.txt
