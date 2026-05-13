@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent-Readable Sites — Notebook — Katrina Laszlo</title>
+<meta name="description" content="How to make your website readable and usable by AI agents. Standards, scoring, and practical steps: llms.txt, AgentReady, markdown negotiation, self-serve for agents.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+.score-bar {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+}
+.score-label { font-size: 13px; font-weight: 500; min-width: 140px; }
+.score-track {
+  flex: 1; height: 8px; background: var(--bg-inset);
+  border-radius: 4px; overflow: hidden;
+}
+.score-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.score-value { font-family: var(--mono); font-size: 12px; color: var(--text-dim); min-width: 40px; text-align: right; }
+
+.checklist { margin: 24px 0; }
+.check-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 16px; margin-bottom: 2px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.check-icon {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0; font-weight: 700;
+}
+.check-icon.easy { background: rgba(22,163,74,0.1); color: var(--green); }
+.check-icon.medium { background: rgba(217,119,6,0.1); color: var(--orange); }
+.check-icon.hard { background: rgba(124,58,237,0.1); color: var(--purple); }
+.check-body h4 { font-size: 14px; margin-bottom: 4px; }
+.check-body p { font-size: 13px; color: var(--text-dim); margin-bottom: 0; }
+
+.file-example {
+  background: #18181b; color: #d4d4d8; padding: 16px 18px;
+  border-radius: var(--radius); font-family: var(--mono); font-size: 13px;
+  line-height: 1.5; overflow-x: auto; margin: 12px 0 16px; white-space: pre;
+}
+.file-example .c { color: #6a9955; }
+.file-example .k { color: #c586c0; }
+.file-example .s { color: #ce9178; }
+.file-example .n { color: #b5cea8; }
+
+@media (max-width: 700px) {
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Agent-Readable Sites</span></div>
+</div>
+
+<main>
+
+<h1>Agent-Readable Sites</h1>
+<p class="subtitle">Making your website discoverable, understandable, and usable by AI agents. Standards, scoring, and practical steps.</p>
+
+<!-- PART 1: THE PROBLEM -->
+<section>
+  <span class="section-num">PART 1</span>
+  <h2>The Invisible Half</h2>
+  <p class="subtitle">Your site has two audiences now. One of them can't see your CSS.</p>
+
+  <p>For 30 years, websites were designed for human eyes and clicks. AI agents are now reading, deciding, and acting on sites. They don't care about your hero section, your beautiful typography, or your "trusted by 10,000 companies" social proof. They parse structure. They need machine-readable data. Your site either gives them what they need or it doesn't exist to them.</p>
+
+  <p>This is not a future prediction. Netlify reports 96% of new signups come via AI tools. Vercel says 30% of deployments are agent-initiated. If your site is invisible to agents, you are invisible to a growing share of your market.</p>
+
+  <div class="analogy">
+    <strong>The SEO parallel:</strong> In 2005, companies optimized for Google crawlers: structured data, sitemaps, meta tags. The same shift is happening now for AI agents, but the requirements are different. Google needed links and keywords. Agents need structured context, clean APIs, and machine-readable documentation. The industry calls this AI Visibility Optimization (AVIO) or Generative Engine Optimization (GEO).
+  </div>
+
+  <table class="contrast-table">
+    <thead><tr><th>Layer</th><th>For Humans</th><th>For Agents</th></tr></thead>
+    <tbody>
+      <tr><td>Discovery</td><td>Google search, social links, word of mouth</td><td>robots.txt, sitemap.xml, Link headers, llms.txt</td></tr>
+      <tr><td>Documentation</td><td>Formatted HTML with visuals and navigation</td><td>Pure markdown, no presentation noise, structured for token windows</td></tr>
+      <tr><td>Onboarding</td><td>Demo videos, tutorials, "book a call"</td><td>Instant programmatic access, API keys, no gates</td></tr>
+      <tr><td>Pricing</td><td>Tiered cards with psychological anchoring</td><td>Structured data: plans, limits, rates, terms in machine-readable format</td></tr>
+      <tr><td>Trust signals</td><td>Logos, testimonials, case studies</td><td>Verified capabilities, compliance metadata, uptime data</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PART 2: THE STANDARDS -->
+<section>
+  <span class="section-num">PART 2</span>
+  <h2>The Standards Stack</h2>
+  <p class="subtitle">Four layers of agent readiness, from basic discoverability to full capability exposure.</p>
+
+  <h3>llms.txt</h3>
+  <p>Proposed by Jeremy Howard in September 2024. A simple text file at <code>/llms.txt</code> that provides documentation specifically structured for LLM consumption. Think of it as robots.txt for context: it tells agents what your product does, how to use it, and where to find detailed documentation, all in clean markdown that fits a token window.</p>
+
+  <div class="file-example"><span class="c"># Example llms.txt</span>
+
+<span class="k"># Acme API</span>
+
+<span class="s">> Acme provides usage-based billing for SaaS products.</span>
+
+Docs: https://docs.acme.com/llms-full.txt
+API Reference: https://docs.acme.com/api/llms-full.txt
+Quickstart: https://docs.acme.com/quickstart.md
+Authentication: https://docs.acme.com/auth.md
+Pricing: https://acme.com/pricing.md</div>
+
+  <h3>AGENTS.md</h3>
+  <p>A community specification for providing agents with project-level context. Over 60,000 files on GitHub as of mid-2026. Documented results across 124 PRs: 28% runtime reduction, 16% token reduction. Works alongside .cursorrules, .windsurfrules, and similar context files. The idea: ship a file that tells any agent how to work with your product.</p>
+
+  <h3>Markdown Negotiation</h3>
+  <p>HTTP content negotiation using <code>Accept: text/markdown</code>. When an agent requests a page with this header, your server returns the same content in clean markdown instead of HTML. The agent gets structured text without having to parse DOM trees, strip CSS, or guess at content hierarchy. Cloudflare's AgentReady Standard checks for this.</p>
+
+  <h3>MCP Server Cards</h3>
+  <p>Model Context Protocol servers expose your product's capabilities as structured tools that agents can discover and invoke. An MCP Server Card is metadata that describes what your MCP server offers: available tools, authentication requirements, rate limits. It makes your API surface discoverable without the agent having to read documentation first.</p>
+
+  <div class="connection">
+    <strong>The full stack:</strong> llms.txt for discovery. AGENTS.md for project context. Markdown negotiation for content access. MCP Server Cards for capability exposure. Each layer builds on the previous one. You don't need all four to start. Even llms.txt alone moves you from invisible to discoverable.
+  </div>
+</section>
+
+<!-- PART 3: AGENTREADY SCORING -->
+<section>
+  <span class="section-num">PART 3</span>
+  <h2>AgentReady Standard</h2>
+  <p class="subtitle">Cloudflare's scoring framework for agent-facing web infrastructure. Launched April 2026.</p>
+
+  <p>The AgentReady Standard scores websites across four dimensions, 0-100 total. Cloudflare built a free public scanner at isitagentready.com and tracks adoption across the internet's 200,000 most-visited domains via Cloudflare Radar.</p>
+
+  <div style="margin:24px 0">
+    <div class="score-bar">
+      <span class="score-label">Discoverability</span>
+      <div class="score-track"><div class="score-fill" style="width:25%;background:var(--accent)"></div></div>
+      <span class="score-value">/ 25</span>
+    </div>
+    <p class="dim" style="margin-left:152px;margin-top:-8px">robots.txt, sitemap.xml, Link Headers (RFC 8288)</p>
+
+    <div class="score-bar" style="margin-top:16px">
+      <span class="score-label">Content</span>
+      <div class="score-track"><div class="score-fill" style="width:25%;background:var(--green)"></div></div>
+      <span class="score-value">/ 25</span>
+    </div>
+    <p class="dim" style="margin-left:152px;margin-top:-8px">Markdown for Agents (text/markdown negotiation), llms.txt</p>
+
+    <div class="score-bar" style="margin-top:16px">
+      <span class="score-label">Bot Access Control</span>
+      <div class="score-track"><div class="score-fill" style="width:25%;background:var(--orange)"></div></div>
+      <span class="score-value">/ 25</span>
+    </div>
+    <p class="dim" style="margin-left:152px;margin-top:-8px">Content Signals in robots.txt, AI bot rules, Web Bot Auth</p>
+
+    <div class="score-bar" style="margin-top:16px">
+      <span class="score-label">Capabilities</span>
+      <div class="score-track"><div class="score-fill" style="width:25%;background:var(--purple)"></div></div>
+      <span class="score-value">/ 25</span>
+    </div>
+    <p class="dim" style="margin-left:152px;margin-top:-8px">Agent Skills index, API Catalogs (RFC 9727), OAuth/OIDC discovery, MCP Server Cards</p>
+  </div>
+
+  <p>Commerce protocols (x402, UCP, ACP) are checked but don't yet affect the score.</p>
+
+  <div class="warning">
+    <strong>A real baseline:</strong> When I scanned tansohq.com on isitagentready.com, it scored 25/100. katrinalaszlo.com scored 41/100 (D grade) on orank. Only 3% of sites score B or above. Most of the missing items are static files or response headers, not code changes.
+  </div>
+</section>
+
+<!-- PART 3B: OTHER SCORING TOOLS -->
+<section>
+  <span class="section-num">PART 3B</span>
+  <h2>More Scoring Tools</h2>
+  <p class="subtitle">Multiple tools now measure agent readiness from different angles.</p>
+
+  <h3>Lighthouse: Agentic Browsing (Chrome DevTools)</h3>
+  <p>Google added an experimental "Agentic Browsing" category to Lighthouse. Unlike other Lighthouse categories, it doesn't produce a traditional 0-100 score. Instead it shows a pass/fail ratio across deterministic audits. Google's framing: "Because the standards for the agentic web are still emerging, the current focus is to gather data and provide actionable signals rather than a definitive ranking."</p>
+
+  <p>Lighthouse checks three dimensions that the Cloudflare standard doesn't cover:</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <h3 style="margin-top:0;color:var(--accent)">WebMCP Integration</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Checks for declarative tools (defined in HTML) and imperative tools (defined in JavaScript) registered via WebMCP. Validates schema correctness and identifies forms that could be exposed as structured tools but aren't. This is the bridge between your existing forms and the agent layer.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h3 style="margin-top:0;color:var(--green)">Agent-Centric Accessibility</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">A filtered subset of accessibility audits critical for machine interaction: every interactive element has a programmatic name, roles and parent-child relationships are valid, content isn't hidden from the accessibility tree while being interactive. The a11y tree is the agent's view of your page.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--orange)">
+      <h3 style="margin-top:0;color:var(--orange)">Stability and Discoverability</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Cumulative Layout Shift (CLS) matters for agents: they identify an element, then try to interact with it. If the layout shifts between identification and interaction, the agent clicks the wrong thing. Also checks for llms.txt at the domain root.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>Why this matters:</strong> Lighthouse's angle is different from Cloudflare's. Cloudflare asks "can agents discover and understand your site?" Lighthouse asks "can agents reliably interact with your site?" Both are necessary. A site that's discoverable but unstable fails when the agent actually tries to use it.
+  </div>
+
+  <h3>orank (Era Labs)</h3>
+  <p>ora.run scores sites on whether "agents can find and use" them. Nearly 10,000 sites evaluated, average rank of 37, only 4% achieve a B grade or above. Grades combine a numeric score with a letter grade (e.g., 92A, 85B, 69C). The leaderboard spans nine sectors: Agent Tools, AI/ML, Developer Tools, News/Intelligence, Infrastructure, CRM, Payments/Fintech, E-commerce, and Productivity. Era Labs also offers methodology documentation, an API, and consulting for improving scores.</p>
+
+  <table class="contrast-table">
+    <thead><tr><th>Tool</th><th>What It Measures</th><th>Score Format</th></tr></thead>
+    <tbody>
+      <tr><td>isitagentready.com (Cloudflare)</td><td>Discovery, content, bot access, capabilities</td><td>0-100 numeric</td></tr>
+      <tr><td>Lighthouse Agentic Browsing</td><td>WebMCP, accessibility tree, layout stability</td><td>Pass/fail ratio (experimental)</td></tr>
+      <tr><td>orank (Era Labs)</td><td>Broad agent readiness</td><td>A-F letter grade</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PART 4: SELF-SERVE FOR AGENTS -->
+<section>
+  <span class="section-num">PART 4</span>
+  <h2>Self-Serve for Agents</h2>
+  <p class="subtitle">If your onboarding requires a human, agents will pick your competitor.</p>
+
+  <p>Traditional B2B self-serve means removing friction for human buyers: clear pricing, instant signup, no sales call required. Agent self-serve goes further. The agent needs to discover your product, evaluate it, sign up, configure it, and start using it, all programmatically. Every step that requires a human is a step where the agent bounces.</p>
+
+  <h3>What Agent Self-Serve Looks Like</h3>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h3 style="margin-top:0;color:var(--green)">Netlify: Deploy First, Claim Later</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Agents can deploy a site anonymously without any account. The human claims the project afterward. The agent is the first user, not the human. No signup form, no email verification, no "book a demo." ~10K agent-generated sites deploy this way per day.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <h3 style="margin-top:0;color:var(--accent)">Clerk: Full Agent Setup</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Agents can fully install, set up, and preview authentication without any human interaction. The entire auth flow is programmatically accessible. An agent building an app can add auth in one step.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--orange)">
+      <h3 style="margin-top:0;color:var(--orange)">Prisma: Database Claim Flow</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">API for agents with a database claim flow. An agent can create an app with data access instantly, no manual database setup required. The provisioning is part of the product surface.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--purple)">
+      <h3 style="margin-top:0;color:var(--purple)">Linear: Agent Collaboration</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">You can @mention external agents (like Devin) directly in issue tickets. The agent receives the context and can act on it. No integration setup, no webhook configuration. The agent is a first-class collaborator.</p>
+    </div>
+  </div>
+
+  <h3>The Pricing Discovery Problem</h3>
+  <p>Even when the product is agent-accessible, pricing rarely is. When an agent needs to buy software on behalf of a company, it has two options: scrape a pricing page (brittle, incomplete) or hand off to a human (slow, defeats the purpose). B2B pricing is especially bad: enterprise tiers live behind "contact sales," custom quotes require negotiation, and compliance requirements have no structured format.</p>
+
+  <p>The emerging solution: expose pricing as structured, machine-readable data. Available plans with feature matrices. Usage limits, overage rates, volume discounts. Contract terms. Trial and signup flows as agent-executable actions. Companies "publish" their pricing for agent consumption the way they publish APIs. MCP servers are the likely delivery mechanism.</p>
+
+  <div class="analogy">
+    <strong>The shift:</strong> "Book a demo" is a UX conversion win and an AX rejection. Instant programmatic signup with an optional human contact path is the resolution. Every human gate you add is a place where agent-mediated buyers drop off. The question is not "should we remove friction?" It's "which of our friction is accidentally blocking a growing channel?"
+  </div>
+</section>
+
+<!-- PART 5: PRACTICAL CHECKLIST -->
+<section>
+  <span class="section-num">PART 5</span>
+  <h2>Implementation Checklist</h2>
+  <p class="subtitle">Ordered by effort. Start at the top.</p>
+
+  <div class="checklist">
+    <div class="check-item">
+      <div class="check-icon easy">1</div>
+      <div class="check-body">
+        <h4>Add robots.txt and sitemap.xml</h4>
+        <p>Static files. No code changes. Tells agents (and crawlers) what exists on your site and what's accessible. If you don't have these, you're invisible to structured discovery.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon easy">2</div>
+      <div class="check-body">
+        <h4>Create llms.txt</h4>
+        <p>A single markdown file at /llms.txt describing your product, key docs, and API reference links. Takes 30 minutes. Moves you from invisible to discoverable for any LLM that checks for it.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon easy">3</div>
+      <div class="check-body">
+        <h4>Add Link headers (RFC 8288)</h4>
+        <p>HTTP response headers that point to related resources. A few lines of server config. Helps agents navigate your site without parsing HTML.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon medium">4</div>
+      <div class="check-body">
+        <h4>Support markdown content negotiation</h4>
+        <p>When a request includes <code>Accept: text/markdown</code>, return clean markdown instead of HTML. Requires server-side logic, but the content already exists. Cloudflare Workers or middleware can handle this.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon medium">5</div>
+      <div class="check-body">
+        <h4>Ship an AGENTS.md</h4>
+        <p>Context file telling agents how to work with your product. What it does, how to authenticate, common patterns, pitfalls. Ships in your repo or at a well-known URL.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon medium">6</div>
+      <div class="check-body">
+        <h4>Add "Copy as Markdown" to documentation</h4>
+        <p>A button on every doc page that copies the content as clean markdown. Stripe and Netlify already do this. Minimal engineering, immediate value for anyone using an LLM to integrate your product.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon medium">7</div>
+      <div class="check-body">
+        <h4>Remove human-gated onboarding for programmatic access</h4>
+        <p>If signup requires email verification before API access, add a path that grants sandbox access immediately. If "book a demo" is the only enterprise path, add a programmatic trial tier.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon medium">8</div>
+      <div class="check-body">
+        <h4>Add WebMCP to forms and interactive elements</h4>
+        <p>WebMCP exposes your site's forms and actions as structured tools that agents can invoke directly. Declarative (HTML attributes) or imperative (JavaScript). Lighthouse's agentic browsing audit checks for this. Start with your most important forms: signup, search, contact.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon hard">9</div>
+      <div class="check-body">
+        <h4>Publish an MCP server</h4>
+        <p>Expose your product's capabilities as structured tools. Requires building and maintaining the server, documenting tool descriptions (which function as the agent's UI), and handling auth.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon hard">10</div>
+      <div class="check-body">
+        <h4>Make pricing machine-readable</h4>
+        <p>Structured data for plans, limits, rates, terms. Accessible via API or MCP. The hardest item because B2B pricing is complex and often deliberately opaque.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>The scan-fix-rescan loop:</strong> Run isitagentready.com on your domain. Note your score. Fix the easiest items (robots.txt, llms.txt, sitemap). Rescan. Repeat. Each iteration is measurable. Items 1-3 can be done in an afternoon. Items 4-6 in a sprint. Items 7-9 are product decisions.
+  </div>
+</section>
+
+<div class="credit">
+  <strong>Sources:</strong> Cloudflare AgentReady Standard (April 2026), Google Lighthouse Agentic Browsing (experimental), Era Labs orank, Jeremy Howard's llms.txt proposal (September 2024), AGENTS.md community spec, Biilmann's AX framework, Netlify/Clerk/Prisma/Linear public product documentation.
+</div>
+
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mutual Legibility — Notebook — Katrina Laszlo</title>
+<meta name="description" content="The two-way communication problem at the heart of agent UX. How agents read human things, how humans read agent things, and three counterintuitive research findings.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+.direction-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 24px 0;
+}
+.direction-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; position: relative;
+}
+.direction-card h3 { margin-bottom: 8px; }
+.direction-card p { font-size: 14px; color: var(--text-dim); margin-bottom: 0; }
+
+.finding-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
+}
+.finding-card h4 { margin-bottom: 8px; font-size: 15px; }
+.finding-card p { font-size: 14px; color: var(--text-dim); }
+.finding-card .implication {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+  font-size: 13px; color: var(--text);
+}
+
+.antipattern-row {
+  display: grid; grid-template-columns: 140px 60px 1fr; gap: 12px;
+  padding: 12px 16px; margin-bottom: 2px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: 14px; align-items: start;
+}
+.antipattern-row .name { font-weight: 600; }
+.antipattern-row .dir {
+  font-family: var(--mono); font-size: 11px;
+  padding: 2px 8px; border-radius: 4px; text-align: center;
+}
+.antipattern-row .dir.a { background: rgba(79,70,229,0.1); color: var(--accent); }
+.antipattern-row .dir.b { background: rgba(22,163,74,0.1); color: var(--green); }
+.antipattern-row .desc { color: var(--text-dim); }
+
+@media (max-width: 700px) {
+  .direction-grid { grid-template-columns: 1fr; }
+  .antipattern-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Mutual Legibility</span></div>
+</div>
+
+<main>
+
+<h1>Mutual Legibility</h1>
+<p class="subtitle">The two-way communication problem at the heart of agent UX. Neither party has reliable access to the other's introspection. The interface stands in for missing telepathy.</p>
+
+<!-- PART 1: THE PROBLEM -->
+<section>
+  <span class="section-num">PART 1</span>
+  <h2>Two Directions</h2>
+  <p class="subtitle">Every agent UX decision bottoms out here.</p>
+
+  <p>When a human works with an AI agent, two things need to happen. The agent needs to understand the human's intent, context, and constraints. The human needs to understand the agent's plan, reasoning, and confidence. Both directions can fail. Products that invest in only one direction feel uncanny. Products investing in both are doing the actual design work.</p>
+
+  <div class="direction-grid">
+    <div class="direction-card" style="border-top:3px solid var(--accent)">
+      <h3 style="color:var(--accent)">Direction A: Human to Agent</h3>
+      <p>How does the agent read non-agent things? Ambiguous instructions, codebases, screenshots, environment state, prior conversation turns. The system that cannot ground its understanding will silently fail or confidently produce nonsense.</p>
+      <ul style="margin-top:12px;font-size:13px;color:var(--text-dim)">
+        <li>Tool documentation (the agent's actual UI)</li>
+        <li>Context files: CLAUDE.md, AGENTS.md, .cursorrules</li>
+        <li>Structured prompt scaffolding</li>
+        <li>User-driven context injection (@ mentions, file references)</li>
+      </ul>
+    </div>
+    <div class="direction-card" style="border-top:3px solid var(--green)">
+      <h3 style="color:var(--green)">Direction B: Agent to Human</h3>
+      <p>How does the human read the agent? Its plan, reasoning, tool calls, confidence, failures. The system that cannot make itself observable is a black box, and a black box that takes consequential action is a liability.</p>
+      <ul style="margin-top:12px;font-size:13px;color:var(--text-dim)">
+        <li>Plan-before-execute patterns</li>
+        <li>Live diffs and change previews</li>
+        <li>Confidence disclosure and hedging</li>
+        <li>Tool-call transparency and audit trails</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>Every surface-level agent UX question (should we show a plan? should we ask permission? should we display reasoning?) bottoms out at mutual legibility. The theoretical foundations are old: Horvitz on mixed-initiative interaction (1999), Clark and Brennan on grounding in communication (1991), Lee and See on trust in automation (2004). The application to LLM agents is new, and the empirical results are counterintuitive.</p>
+</section>
+
+<!-- PART 2: THREE FINDINGS -->
+<section>
+  <span class="section-num">PART 2</span>
+  <h2>Three Counterintuitive Findings</h2>
+  <p class="subtitle">Research results that rewrite conventional wisdom about agent UX.</p>
+
+  <div class="finding-card" style="border-left:3px solid var(--accent)">
+    <h4>1. First-person hedges work. Generic ones don't.</h4>
+    <p>"I'm not sure about this" reduces overreliance on wrong answers. "It's not clear" doesn't reach statistical significance. The model speaking as itself about its own uncertainty is more effective than abstract uncertainty language. This is not intuitive: both sentences express the same doubt. But humans respond to the agent's self-report differently than to a generic disclaimer.</p>
+    <div class="implication"><strong>Design implication:</strong> When an agent is uncertain, it should say "I" and own the uncertainty. Passive or generic hedging gets filtered out by the reader.</div>
+  </div>
+
+  <div class="finding-card" style="border-left:3px solid var(--orange)">
+    <h4>2. Explanations raise credibility uniformly, including for wrong answers.</h4>
+    <p>More explanation is not automatically better. When an agent provides detailed reasoning, humans rate both correct and incorrect answers as more credible. The explanation makes everything sound more convincing, which is exactly the wrong effect when the answer is wrong. The interventions that selectively improve trust calibration are different: showing sources and surfacing inconsistencies.</p>
+    <div class="implication"><strong>Design implication:</strong> AX products should show sources, not explanations. If you want users to catch errors, expose the evidence chain, not the reasoning narrative.</div>
+  </div>
+
+  <div class="finding-card" style="border-left:3px solid var(--green)">
+    <h4>3. Humans adapt down, not up.</h4>
+    <p>When paired with an AI that doesn't ground well (doesn't ask clarifying questions, doesn't confirm understanding), humans reduce their own grounding behavior rather than compensating. They provide less context, ask fewer questions, accept more outputs without checking. The interface must compensate because the human won't.</p>
+    <div class="implication"><strong>Design implication:</strong> The interface must compensate for poor grounding because users won't escalate. This is why bounded inputs (Apple Intelligence's buttons, Vercel v0's prompt framework) outperform open-ended text boxes. Specific prompts produced output 19-26 seconds faster in Vercel's data.</div>
+  </div>
+
+  <div class="warning">
+    <strong>The combined effect:</strong> These three findings together explain why "just add more explanation" is the wrong instinct. Explanations raise credibility for wrong answers (finding 2), users won't push back on bad outputs (finding 3), and generic uncertainty signals get ignored (finding 1). The interventions that work are specific: first-person hedges, source citations, inconsistency surfacing, and bounded inputs.
+  </div>
+</section>
+
+<!-- PART 3: THE GROUNDING PROBLEM -->
+<section>
+  <span class="section-num">PART 3</span>
+  <h2>The Grounding Problem</h2>
+  <p class="subtitle">How agents build (and lose) shared understanding with humans.</p>
+
+  <p>In linguistics, "grounding" is the process by which two parties establish mutual understanding. Clark and Brennan (1991) identified the mechanisms: acknowledgments, clarification requests, reformulations, confirmations. Humans do this automatically in conversation. LLMs do it poorly.</p>
+
+  <p>The products that have found traction are the ones that externalize grounding into persistent, editable artifacts:</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Externalized Memory Files</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">CLAUDE.md, replit.md, .cursorrules. The agent's knowledge base, made readable and editable by the human. Version-controlled, inspectable, local. These are grounding documents: they represent the shared understanding between human and agent. More powerful than chat history because they're curated rather than accumulated.</p>
+    </div>
+    <div class="card">
+      <h3>Structured Prompt Scaffolding</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Vercel's v0 uses a framework that nudges users toward inputs the agent can work with. Instead of an empty text box, it provides structure that guides the user's specification. The prompt becomes a teaching surface: it shows users what good input looks like while constraining the space of possible miscommunication.</p>
+    </div>
+    <div class="card">
+      <h3>User-Driven Context Injection</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Cursor's @ mentions let users explicitly inject files, docs, and context into the agent's window. This shifts grounding from implicit (the agent guesses what's relevant) to explicit (the user points at what matters). More work for the user, but dramatically better outcomes.</p>
+    </div>
+    <div class="card">
+      <h3>Bounded Inputs</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Apple Intelligence uses buttons instead of open-ended prompts. "Rewrite: Professional / Concise / Friendly." This constrains the space of possible instructions to the space of things the agent can reliably do. The UI communicates the agent's capabilities through its affordances.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PART 4: THE VERIFICATION TAX -->
+<section>
+  <span class="section-num">PART 4</span>
+  <h2>The Verification Tax</h2>
+  <p class="subtitle">The invisible cost of checking whether the agent did the right thing.</p>
+
+  <p>Mozannar et al. (CHI 2024) found that programmers using GitHub Copilot spend substantial time reading, simulating, and verifying suggestions. This time is invisible to acceptance-rate metrics. A high acceptance rate does not mean high productivity if every accepted suggestion requires 45 seconds of mental simulation to verify.</p>
+
+  <p>Reasoning displays (thinking traces, chain-of-thought) should support efficient verification, not just comprehension. Long thinking traces that no one reads are worse than no trace at all: they manufacture an appearance of legibility without the substance. The user sees "the agent thought about this" and lowers their guard.</p>
+
+  <div class="analogy">
+    <strong>The design question:</strong> Not "should we show reasoning?" but "does showing reasoning help the user verify faster?" If the thinking trace is 500 tokens and the code change is 3 lines, the trace is a tax, not an aid. The right display depends on what the human needs to check, not on what the agent did internally.
+  </div>
+</section>
+
+<!-- PART 5: ANTI-PATTERNS -->
+<section>
+  <span class="section-num">PART 5</span>
+  <h2>Anti-Patterns</h2>
+  <p class="subtitle">Legibility failures that show up in production agent products.</p>
+
+  <div style="margin:24px 0">
+    <div class="antipattern-row">
+      <span class="name">Silent failure</span>
+      <span class="dir b">B</span>
+      <span class="desc">Agent marks task complete without surfacing failures. The user thinks it worked. It didn't.</span>
+    </div>
+    <div class="antipattern-row">
+      <span class="name">Confidence theater</span>
+      <span class="dir b">B</span>
+      <span class="desc">Spinners and progress indicators without surfacing the plan or actual progress. Looks productive, communicates nothing.</span>
+    </div>
+    <div class="antipattern-row">
+      <span class="name">Explanation inflation</span>
+      <span class="dir b">B</span>
+      <span class="desc">Fluent, detailed explanations that uniformly raise credibility, including for wrong answers. More words, worse calibration.</span>
+    </div>
+    <div class="antipattern-row">
+      <span class="name">Chat as only interface</span>
+      <span class="dir b">B</span>
+      <span class="desc">No affordances, no comparison views, no persistence. The user can ask questions but can't see state.</span>
+    </div>
+    <div class="antipattern-row">
+      <span class="name">Context collapse</span>
+      <span class="dir a">A</span>
+      <span class="desc">Stale context carried across tasks without clean breaks. The agent acts on assumptions from three tasks ago.</span>
+    </div>
+    <div class="antipattern-row">
+      <span class="name">Permission fatigue</span>
+      <span class="dir b">B</span>
+      <span class="desc">Same approval prompt for every action. Users click through automatically. "The result is not security, it is liability documentation."</span>
+    </div>
+    <div class="antipattern-row">
+      <span class="name">Reasoning as decoration</span>
+      <span class="dir b">B</span>
+      <span class="desc">Long thinking traces no one reads. Manufactures the appearance of legibility without substance.</span>
+    </div>
+  </div>
+</section>
+
+<!-- PART 6: OPEN FRONTIERS -->
+<section>
+  <span class="section-num">PART 6</span>
+  <h2>Open Frontiers</h2>
+  <p class="subtitle">Problems no one has solved yet.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Common-Ground Tooling</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">No tool exists to measure or improve agent grounding behavior. You can't instrument how well an agent understands context, or how well a human understands agent output. The entire field of agent UX is flying without this metric.</p>
+    </div>
+    <div class="card">
+      <h3>Legibility vs Predictability</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Dragan and Srinivasa (HRI 2013) showed these are mathematically distinct: an efficient robot path may communicate poorly, and a legible path may be non-optimal. Applied to software agents: should an agent take a slightly less efficient path if it's easier for the human to follow? Untested in LLM contexts.</p>
+    </div>
+    <div class="card">
+      <h3>Supervision Overhead</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Designing for minimum supervision burden has almost no product traction. Current products either ask too much (permission fatigue) or too little (silent failure). The middle ground, asking at the right moments for the right things, is wide open.</p>
+    </div>
+    <div class="card">
+      <h3>Three-Way Legibility</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Customer-service AI adds a third party: the customer, the agent, and the support human. Sierra's "Jiminy Cricket" supervisory agents and Cresta's "whispering" (guidance visible to the AI but not the customer) are early patterns. No consumer-AI equivalent exists.</p>
+    </div>
+  </div>
+</section>
+
+<div class="credit">
+  <strong>Sources:</strong> Horvitz (1999), Clark &amp; Brennan (1991), Lee &amp; See (2004), Dragan &amp; Srinivasa (HRI 2013), Mozannar et al. (CHI 2024), Anthropic's ACI framework, Vercel v0 data, Biilmann's AX framework, Sierra and Cresta product documentation.
+</div>
+
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>

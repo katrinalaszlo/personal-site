@@ -14,6 +14,31 @@
     },
     { title: "AI System Design", href: "/notebook/ai-system-design.html" },
     { title: "Agent Teams", href: "/notebook/managing-agent-teams.html" },
+    { title: "Agent Evaluation", href: "/notebook/agent-evaluation.html" },
+    {
+      title: "OpenClaw Personal Agents",
+      href: "/notebook/openclaw-personal-agents.html",
+    },
+    {
+      title: "Hermes Orchestration",
+      href: "/notebook/hermes-orchestration.html",
+    },
+    {
+      title: "Agent Experience (AX)",
+      href: "/notebook/agent-experience.html",
+    },
+    {
+      title: "Agent-Readable Sites",
+      href: "/notebook/agent-readable-sites.html",
+    },
+    {
+      title: "Mutual Legibility",
+      href: "/notebook/mutual-legibility.html",
+    },
+    {
+      title: "The Bifurcated Web",
+      href: "/notebook/bifurcated-web.html",
+    },
   ];
 
   var path = window.location.pathname;

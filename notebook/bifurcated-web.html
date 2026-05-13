@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bifurcated Web — Notebook — Katrina Laszlo</title>
+<meta name="description" content="The web is splitting into two layers: a visible web for humans and an invisible web for agents. What this means for products, marketing, and discovery.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+.split-diagram {
+  display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; margin: 32px 0;
+  align-items: stretch;
+}
+.split-side {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px;
+}
+.split-center {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; color: var(--text-dim); font-weight: 700;
+}
+.split-side h3 { margin-bottom: 12px; }
+.split-side ul { margin: 0; padding-left: 16px; }
+.split-side li { font-size: 14px; color: var(--text-dim); margin-bottom: 6px; }
+
+.interaction-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
+}
+.interaction-card h4 { font-size: 15px; margin-bottom: 8px; }
+.interaction-card p { font-size: 14px; color: var(--text-dim); margin-bottom: 0; }
+
+.timeline { margin: 24px 0; }
+.timeline-item {
+  display: grid; grid-template-columns: 80px 1fr; gap: 16px;
+  padding: 12px 0; border-bottom: 1px solid var(--border-light);
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-year {
+  font-family: var(--mono); font-size: 13px; font-weight: 600;
+  color: var(--accent); padding-top: 2px;
+}
+.timeline-desc { font-size: 14px; }
+.timeline-desc strong { color: var(--text-bright); }
+
+@media (max-width: 700px) {
+  .split-diagram { grid-template-columns: 1fr; }
+  .split-center { padding: 8px 0; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">The Bifurcated Web</span></div>
+</div>
+
+<main>
+
+<h1>The Bifurcated Web</h1>
+<p class="subtitle">The web is splitting into two layers. A visible web for humans. An invisible web for agents. Both serve the same products through different interfaces.</p>
+
+<!-- PART 1: THE SPLIT -->
+<section>
+  <span class="section-num">PART 1</span>
+  <h2>Two Webs, One Product</h2>
+  <p class="subtitle">Not a replacement. A split.</p>
+
+  <p>For 30 years, the web had one audience: humans with browsers. AI agents introduce a second audience that reads the same web but consumes it completely differently. They don't render CSS. They don't click buttons. They don't respond to social proof or urgency cues. They parse structure, evaluate data, and take action.</p>
+
+  <p>The instinct is to ask: "Will agents replace the web?" The answer is no. The web is bifurcating. Both layers will persist, serving the same content and products through different interfaces optimized for different consumers.</p>
+
+  <div class="split-diagram">
+    <div class="split-side" style="border-top:3px solid var(--accent)">
+      <h3 style="color:var(--accent)">Visible Web</h3>
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">For humans. Continues evolving toward richer, more immersive experiences.</p>
+      <ul>
+        <li>HTML/CSS/JS rendered visually</li>
+        <li>Brand storytelling, hero sections, social proof</li>
+        <li>Psychological pricing, anchoring, urgency</li>
+        <li>SEO: keywords, backlinks, page speed</li>
+        <li>Conversion funnels, A/B tests, CTAs</li>
+        <li>Trust signals: logos, testimonials, case studies</li>
+      </ul>
+    </div>
+    <div class="split-center">/</div>
+    <div class="split-side" style="border-top:3px solid var(--green)">
+      <h3 style="color:var(--green)">Invisible Web</h3>
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">For agents. Built on different principles: machine-readable, API-first, structured data.</p>
+      <ul>
+        <li>llms.txt, AGENTS.md, markdown negotiation</li>
+        <li>Structured product data, capability metadata</li>
+        <li>Machine-readable pricing: plans, limits, terms</li>
+        <li>AVIO/GEO: agent visibility optimization</li>
+        <li>MCP servers, API catalogs, OAuth discovery</li>
+        <li>Trust signals: compliance metadata, uptime, SLAs</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>The precedent:</strong> This already happened once. When Google became the dominant discovery mechanism, companies built a second layer of their web presence: structured data, sitemaps, meta tags, page speed optimization. None of that was visible to human visitors. All of it determined whether humans could find the site. The same pattern is repeating with agents as the new discovery layer.
+  </div>
+</section>
+
+<!-- PART 2: BRAND TO BOT -->
+<section>
+  <span class="section-num">PART 2</span>
+  <h2>Brand-to-Bot</h2>
+  <p class="subtitle">Three new interaction dimensions that replace B2B and B2C.</p>
+
+  <p>Brent Turner's framework (presented at NEXT Conference, December 2025) reframes business interactions for the agent era. The traditional B2B/B2C categories assume humans on both sides. When agents mediate decisions, three new interaction patterns emerge:</p>
+
+  <div class="interaction-card" style="border-left:3px solid var(--accent)">
+    <h4 style="color:var(--accent)">1. Brand-to-Bot</h4>
+    <p>Brands must win over personal agents. Your customer's AI assistant is evaluating your product based on price, values, trust signals, and capability metadata. It's not reading your landing page copy. It's parsing structured data and comparing you against alternatives. The question shifts from "does our website convert?" to "does our structured data win agent evaluations?"</p>
+  </div>
+
+  <div class="interaction-card" style="border-left:3px solid var(--green)">
+    <h4 style="color:var(--green)">2. Bot-to-Brand</h4>
+    <p>Personal agents initiate interactions autonomously: booking, purchasing, registering, requesting quotes. The agent contacts your business on behalf of the human. Your product needs to be ready to receive and process agent-initiated requests. If your signup requires CAPTCHA, email verification, or "schedule a call," the agent bounces.</p>
+  </div>
+
+  <div class="interaction-card" style="border-left:3px solid var(--orange)">
+    <h4 style="color:var(--orange)">3. Bot-to-Bot</h4>
+    <p>Brand systems and personal agents transact directly: negotiating terms, validating compliance, confirming purchases. No human in the loop. This is where protocols like x402 (HTTP-native micropayments), MCP (capability discovery), and structured pricing data become infrastructure requirements, not nice-to-haves.</p>
+  </div>
+
+  <div class="connection">
+    <strong>The great decoupling:</strong> Andreas Cappell (Accenture Song) puts it bluntly: "You're using ChatGPT all day but only having brand contacts a few times a week." Agents are filtering decisions before they reach humans. If your brand isn't legible to the agent layer, you're not even in the consideration set by the time the human makes a choice.
+  </div>
+</section>
+
+<!-- PART 3: AVIO -->
+<section>
+  <span class="section-num">PART 3</span>
+  <h2>From SEO to AVIO</h2>
+  <p class="subtitle">AI Visibility Optimization is SEO for the agent layer.</p>
+
+  <p>Traditional SEO optimized for Google's crawlers: keywords, backlinks, page speed, structured data. AI Visibility Optimization (AVIO, also called GEO for Generative Engine Optimization) optimizes for a different set of consumers: LLMs and agents that read your content, evaluate it, and decide whether to recommend or use your product.</p>
+
+  <table class="contrast-table">
+    <thead><tr><th>Dimension</th><th>SEO (Google Era)</th><th>AVIO (Agent Era)</th></tr></thead>
+    <tbody>
+      <tr><td>Discovery mechanism</td><td>Keyword matching, PageRank</td><td>llms.txt, AGENTS.md, MCP Server Cards</td></tr>
+      <tr><td>Content format</td><td>HTML with meta tags</td><td>Clean markdown, structured data, API catalogs</td></tr>
+      <tr><td>Trust signals</td><td>Backlinks, domain authority</td><td>Capability metadata, compliance data, uptime SLAs</td></tr>
+      <tr><td>Conversion</td><td>Click-through rate, form fills</td><td>Agent task completion, programmatic signup success</td></tr>
+      <tr><td>Measurement</td><td>Rankings, organic traffic</td><td>Agent inclusion rate, recommendation frequency</td></tr>
+      <tr><td>Optimization target</td><td>Appear in search results</td><td>Be selected by agent evaluations</td></tr>
+    </tbody>
+  </table>
+
+  <p>The key difference: SEO is about being found. AVIO is about being chosen. An agent doesn't show a list of 10 results for the human to pick from. It evaluates options and either recommends one or acts on one directly. If your product isn't in the agent's context window during evaluation, you don't exist.</p>
+
+  <div class="warning">
+    <strong>The measurement gap:</strong> SEO has mature analytics: rankings, impressions, click-through rates. AVIO has almost nothing. You can't easily measure how often agents recommend your product, or how they score you against competitors. This gap is a problem and an opportunity. The first tools that provide "agent analytics" (how agents perceive and interact with your product) will define the category.
+  </div>
+</section>
+
+<!-- PART 4: TIMELINE -->
+<section>
+  <span class="section-num">PART 4</span>
+  <h2>How We Got Here</h2>
+  <p class="subtitle">The bifurcation didn't happen overnight.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <span class="timeline-year">Sep 2024</span>
+      <div class="timeline-desc"><strong>llms.txt proposed</strong> by Jeremy Howard. First standard specifically for LLM consumption of web content.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">Nov 2024</span>
+      <div class="timeline-desc"><strong>MCP released</strong> by Anthropic. Model Context Protocol becomes the standard for agent-tool integration, creating a formal invisible-web interface.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">Jan 2025</span>
+      <div class="timeline-desc"><strong>Biilmann coins AX</strong>. Agent Experience framed as parallel to UX and DX. The invisible web gets a design discipline.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">Mid 2025</span>
+      <div class="timeline-desc"><strong>Developer tools adopt AX</strong>. Clerk, Neon, Supabase, MongoDB, Daytona, TanStack, Vite build agent-facing interfaces. bolt.new and Lovable surge.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">Sep 2025</span>
+      <div class="timeline-desc"><strong>"3 Billion Developers"</strong>. Biilmann argues AI tools expand the developer TAM from 17M JavaScript developers to 3B people who can now build software. The invisible web's audience expands 100x.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">Dec 2025</span>
+      <div class="timeline-desc"><strong>NEXT Conference</strong>. Martin Recke names the bifurcated web. Brent Turner introduces brand-to-bot framework. Andreas Cappell describes "the great decoupling."</div>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">Jan 2026</span>
+      <div class="timeline-desc"><strong>"AX is the new UX"</strong>. Biilmann expands the frame beyond developer tools to all digital experiences.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">Feb 2026</span>
+      <div class="timeline-desc"><strong>Biilmann's agent gets banned</strong> by Google for "bot-like behavior." The visible web's fraud detection actively fights the invisible web's legitimate users.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">Apr 2026</span>
+      <div class="timeline-desc"><strong>AgentReady Standard launches</strong>. Cloudflare creates a scoring framework for the invisible web. Now measurable.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 5: WHAT THIS MEANS -->
+<section>
+  <span class="section-num">PART 5</span>
+  <h2>What This Means</h2>
+  <p class="subtitle">Practical implications for product teams.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Marketing splits in two</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Your marketing site serves humans. Your llms.txt, AGENTS.md, and MCP server serve agents. Both channels need attention. The agent channel is growing faster. Most marketing teams haven't started on it.</p>
+    </div>
+    <div class="card">
+      <h3>Documentation is product</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Netlify tests documentation quality by whether an agent can single-shot the feature from the markdown. If the agent fails, the docs are insufficient. The doc quality bar just got measurable and higher.</p>
+    </div>
+    <div class="card">
+      <h3>Fraud detection needs rethinking</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">When Biilmann's agent got banned by Google, it exposed a systemic problem: bot detection heuristics designed to block bad actors also block legitimate agents. The shift: from "is this a bot?" to "is this doing something bad?" Zeno Rocha (Resend) removed bot detection from login entirely.</p>
+    </div>
+    <div class="card">
+      <h3>Competitive moats change</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">When agents evaluate products, brand recognition and visual design matter less. Structured capability data, integration quality, and programmatic accessibility matter more. The invisible web rewards substance over surface.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>The question:</strong> Martin Recke's closing line at NEXT Conference: "The website isn't ending. The question is whether your digital presence is legible to the new readers of the web." The visible web continues. The invisible web is being built alongside it. Companies that serve both layers win. Companies that serve only one are half-visible.
+  </div>
+</section>
+
+<div class="credit">
+  <strong>Sources:</strong> Martin Recke at NEXT Conference (December 2025), Brent Turner's brand-to-bot framework, Andreas Cappell (Accenture Song), Biilmann's AX keynotes and blog posts (2025-2026), Cloudflare AgentReady Standard (April 2026), Netlify/Vercel adoption data.
+</div>
+
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>

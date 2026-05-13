@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Experience (AX) — Notebook — Katrina Laszlo</title>
+<meta name="description" content="Agent Experience is the design discipline for products that AI agents use. Four pillars, ten principles, and why PMs are well-positioned for this work.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+.pillar-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;
+}
+.pillar-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px;
+}
+.pillar-card h4 { margin-bottom: 6px; font-size: 15px; }
+.pillar-card p { font-size: 13px; color: var(--text-dim); margin-bottom: 0; }
+.principle-list {
+  counter-reset: principle;
+  margin: 24px 0;
+}
+.principle-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  margin-bottom: 2px; padding: 14px 16px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.principle-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg-inset); color: var(--text-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  flex-shrink: 0;
+}
+.principle-body h4 { font-size: 14px; margin-bottom: 4px; }
+.principle-body p { font-size: 13px; color: var(--text-dim); margin-bottom: 0; }
+.stat-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 24px 0;
+}
+.stat-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 16px; text-align: center;
+}
+.stat-card .num { font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.stat-card .label { font-size: 12px; color: var(--text-dim); }
+
+@media (max-width: 700px) {
+  .pillar-grid, .stat-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Agent Experience</span></div>
+</div>
+
+<main>
+
+<h1>Agent Experience (AX)</h1>
+<p class="subtitle">The design discipline for products that AI agents use. Not a chatbot feature. A new user class.</p>
+
+<!-- PART 1: WHAT IS AX -->
+<section>
+  <span class="section-num">PART 1</span>
+  <h2>A New Kind of User</h2>
+  <p class="subtitle">Agents don't click buttons, scan pages, or feel urgency. They parse structure, follow instructions, and fail silently.</p>
+
+  <p>In January 2025, Mathias Biilmann (CEO of Netlify) coined "Agent Experience" as a parallel to UX and DX. His definition: "the holistic experience AI agents will have as the user of a product or platform." Not about adding a chatbot to your product. About treating agents as a user persona with their own needs, constraints, and failure modes.</p>
+
+  <p>The core shift: when a human uses your product and hits a confusing label, they squint, re-read, maybe check the docs. When an agent hits ambiguity, it picks the most probable interpretation and moves forward with full confidence. There's no squinting. No second-guessing. No "this doesn't feel right." The agent either has enough clarity to act correctly, or it acts incorrectly and reports success.</p>
+
+  <div class="analogy">
+    <strong>The Compound Error Tax:</strong> Human operators absorb ambiguity. Agent operators amplify it. And the amplification is multiplicative, because each wrong step narrows the corridor of valid next steps until the only remaining path is the wrong one. "The model brings the intelligence. The interface must bring the clarity."
+  </div>
+
+  <p>A concrete example: a CLI with three sibling commands called <code>deploy</code>, <code>publish</code>, and <code>release</code>. An agent picked "publish" when the intent was "deploy," silently pushed a package to npm. The command succeeded. The agent reported success. A developer would have paused, read context, picked the right verb. The agent had none of those friction points working in its favor.</p>
+
+  <table class="contrast-table">
+    <thead><tr><th>Dimension</th><th>Human User</th><th>Agent User</th></tr></thead>
+    <tbody>
+      <tr><td>Ambiguity response</td><td>Squints, re-reads, checks docs</td><td>Picks most probable path, proceeds</td></tr>
+      <tr><td>Error recognition</td><td>"This doesn't feel right"</td><td>Reports success if command succeeded</td></tr>
+      <tr><td>Onboarding</td><td>Tolerates tutorials, demos, walkthroughs</td><td>Needs instant programmatic access</td></tr>
+      <tr><td>Documentation</td><td>Scannable HTML with visuals</td><td>Pure markdown, zero presentation noise</td></tr>
+      <tr><td>Defaults</td><td>Prefers execute, dislikes dry-run</td><td>Needs dry-run to verify before acting</td></tr>
+      <tr><td>Error format</td><td>Friendly prose with suggestions</td><td>Structured JSON with error codes</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PART 2: FOUR PILLARS -->
+<section>
+  <span class="section-num">PART 2</span>
+  <h2>Four Pillars</h2>
+  <p class="subtitle">Biilmann's framework for what makes a product agent-usable.</p>
+
+  <div class="pillar-grid">
+    <div class="pillar-card" style="border-top:3px solid var(--accent)">
+      <h4 style="color:var(--accent)">1. Access</h4>
+      <p>Can agents interact with your product at all? Are they allowed in? Do permissions support human-in-the-loop workflows? When Biilmann's own Google account was banned because agents triggered fraud detection, this pillar became personal. The shift: from "is this a bot?" to "is this doing something bad?"</p>
+    </div>
+    <div class="pillar-card" style="border-top:3px solid var(--green)">
+      <h4 style="color:var(--green)">2. Context</h4>
+      <p>Does the LLM have adequate product knowledge? This goes beyond prompt engineering into context engineering: llms.txt files, AGENTS.md, CLAUDE.md, documentation structured for machine consumption. If the agent can't ground its understanding in your product, it will hallucinate confidently.</p>
+    </div>
+    <div class="pillar-card" style="border-top:3px solid var(--orange)">
+      <h4 style="color:var(--orange)">3. Tools</h4>
+      <p>APIs, CLIs, MCP servers, file access, browser control. The capabilities agents need to take action. Tool documentation is literally the agent's UI: writing a tool description is interaction design, not API documentation. The quality of that description determines whether the agent picks the right tool.</p>
+    </div>
+    <div class="pillar-card" style="border-top:3px solid var(--purple)">
+      <h4 style="color:var(--purple)">4. Orchestration</h4>
+      <p>Can platforms enable agent triggering and workflow execution at scale? This includes async patterns, webhook callbacks, idempotency, and the infrastructure for agents to operate reliably across multi-step workflows without human babysitting.</p>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>The design lineage:</strong> AX sits in a clear sequence. Don Norman coined UX in 1993: the holistic experience humans have with products. Jeremiah Lee popularized DX in 2011: the experience developers have with platforms. Biilmann adds AX in 2025: the experience agents have. Same discipline, new user class. Each expansion unlocked a new design surface that the previous framing didn't address.
+  </div>
+</section>
+
+<!-- PART 3: UX WITHOUT UI -->
+<section>
+  <span class="section-num">PART 3</span>
+  <h2>UX Without UI</h2>
+  <p class="subtitle">When there's no screen, the design problem doesn't disappear. It changes form.</p>
+
+  <p>Most UX practitioners treat "UX" as synonymous with "UI." Remove the screen and the category seems to vanish. But the experience persists. A developer integrating your API has an experience. An agent parsing your pricing page has an experience. A terminal user running your CLI has an experience. The absence of a visual interface doesn't remove the design problem.</p>
+
+  <p>The right frame is service design, not interaction design. Service design has always dealt with experiences across channels, non-screen touchpoints, and systems rather than individual screens. UX Without UI is service design applied to software.</p>
+
+  <h3>Where This Shows Up</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>API Surfaces</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">How an API is structured <em>is</em> the UX. Parameter names, error messages, response shapes, rate limit behavior, documentation. When there's no dashboard to fall back on, the API design is the entire interface.</p>
+    </div>
+    <div class="card">
+      <h3>Agent Instructions</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Writing a CLAUDE.md, a system prompt, or a task spec is a design activity. What does the agent need to know? In what order? What can go wrong? What am I assuming? The medium is text. The design questions are identical to screen design.</p>
+    </div>
+    <div class="card">
+      <h3>CLI Tools</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">GitButler's research found agents use CLI differently from humans: they didn't use <code>--json</code>, they always ran status after mutable commands, they preferred <code>--status-after</code> flags. Designing for agents requires studying their actual behavior.</p>
+    </div>
+    <div class="card">
+      <h3>Pricing Pages</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">When the buyer is an agent evaluating tools programmatically, charm pricing and anchoring don't work. The constraint shifts from "what can a person understand" to "what is machine-readable." The pricing page is infrastructure, not marketing.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>Why PMs fit this work:</strong> Product managers already do UX Without UI constantly. Writing user stories is designing experience without building it. Specs are the interface between intent and execution. PRDs, acceptance criteria, API contracts: all design artifacts without a screen. As the "how" of software gets cheaper, the "what" and "why" get more valuable. The PM skill of translating intent into precise specification is exactly what agents need.
+  </div>
+</section>
+
+<!-- PART 4: ADOPTION -->
+<section>
+  <span class="section-num">PART 4</span>
+  <h2>Adoption, Mid-2026</h2>
+  <p class="subtitle">This is not a prediction. These are current numbers.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="num">30%</div>
+      <div class="label">Vercel deployments initiated by agents</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">96%</div>
+      <div class="label">Netlify new signups via AI tools</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">60K+</div>
+      <div class="label">AGENTS.md files on GitHub</div>
+    </div>
+  </div>
+
+  <ul>
+    <li><strong>Stripe</strong> has a formal "Agent Experience" team with a posted engineering manager role. Mission: "make Stripe as seamless and powerful for AI agent users as it is for human users."</li>
+    <li><strong>Salesforce</strong> has "Agentic Experience Specialist" job titles.</li>
+    <li><strong>Bessemer Venture Partners</strong> calls AX "Law #1" in their developer-platform thesis: "Today's developer platforms require equal attention to both AX and DX."</li>
+    <li><strong>Vercel</strong>: +1000% growth in agent deployments over 6 months. 75% from Claude Code alone. Agent-deployed projects are 20x more likely to call AI inference APIs.</li>
+    <li><strong>Netlify</strong>: ~10K agent-generated sites per day. Documentation quality is tested by whether an agent can single-shot a feature from the markdown.</li>
+  </ul>
+</section>
+
+<!-- PART 5: TEN PRINCIPLES -->
+<section>
+  <span class="section-num">PART 5</span>
+  <h2>Ten Principles</h2>
+  <p class="subtitle">Compiled from the Agent Experience Report 2026 (40+ primary sources).</p>
+
+  <div class="principle-list">
+    <div class="principle-item">
+      <div class="principle-num">1</div>
+      <div class="principle-body">
+        <h4>Treat agents as a first-class user persona</h4>
+        <p>Not an afterthought. Not a chatbot bolt-on. A separate persona with its own needs, tested with its own flows.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">2</div>
+      <div class="principle-body">
+        <h4>Let agents act first, humans claim later</h4>
+        <p>Netlify lets agents deploy anonymously, then the human claims the project. The agent is the first user, not the human.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">3</div>
+      <div class="principle-body">
+        <h4>Eliminate ambiguity at the interface, not at runtime</h4>
+        <p>If three CLI commands could be confused, the interface is wrong. Don't rely on the model to pick the right one.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">4</div>
+      <div class="principle-body">
+        <h4>Ship machine-readable docs alongside human docs</h4>
+        <p>llms.txt, AGENTS.md, pure markdown versions. The same content, stripped of presentation noise.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">5</div>
+      <div class="principle-body">
+        <h4>Make context engineering part of the product</h4>
+        <p>Context engineering, not prompt engineering. The product ships its own context: config files, agent rules, structured knowledge.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">6</div>
+      <div class="principle-body">
+        <h4>Design tools for agents' affordances</h4>
+        <p>Agents don't have eyes, hands, or spatial memory. They have token windows, tool descriptions, and structured outputs. Design for what they actually have.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">7</div>
+      <div class="principle-body">
+        <h4>Expose MCP as a first-class product surface</h4>
+        <p>Model Context Protocol is becoming the standard for agent-tool integration. An MCP server is a product interface, not a developer convenience.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">8</div>
+      <div class="principle-body">
+        <h4>Support granular, programmatic permissions</h4>
+        <p>Agents need scoped access, not all-or-nothing. Read vs write. Sandbox vs production. Per-resource, not per-account.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">9</div>
+      <div class="principle-body">
+        <h4>Make onboarding instant</h4>
+        <p>"Book a demo" is a UX win and an AX rejection. Instant programmatic signup, optional human contact. No gates.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">10</div>
+      <div class="principle-body">
+        <h4>Build for an open agent ecosystem</h4>
+        <p>Don't lock agents into your agent. Build for any agent: Claude, GPT, Gemini, open-source, custom. Open protocols win.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 6: THREE CONFLICTS -->
+<section>
+  <span class="section-num">PART 6</span>
+  <h2>Where AX and UX Collide</h2>
+  <p class="subtitle">Most of the time, investing in one pillar lifts the others. The conflicts are specific.</p>
+
+  <p>AX, UX, and DX are not the same discipline with three names. They are three disciplines that mostly align but diverge at specific, predictable points. The divergences are invisible until production.</p>
+
+  <table class="contrast-table">
+    <thead><tr><th>Conflict</th><th>What Happens</th><th>Resolution</th></tr></thead>
+    <tbody>
+      <tr><td>Default execution</td><td>Humans hate dry-run mode. Agents need it to verify before acting.</td><td>Ship two modes. Default to execute for humans, dry-run for agents.</td></tr>
+      <tr><td>Error messages</td><td>Humans need friendly prose. Agents need structured JSON with codes.</td><td>Return both in a single response.</td></tr>
+      <tr><td>Onboarding friction</td><td>"Book a demo" is a UX conversion win. For agents, it's a dead end.</td><td>Instant programmatic signup with optional human contact path.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warning">
+    <strong>The delegation wall:</strong> Autonomous task agents (Devin, Lindy, Manus) have hit a visible problem: users can't scope tasks. Lindy ships "Delegation 101" as onboarding material. Manus reviews are dominated by ambiguous-instruction complaints. The model can do the work. The user can't specify it. This is a UX design problem, not a model capability problem.
+  </div>
+</section>
+
+<div class="credit">
+  <strong>Sources:</strong> Biilmann's AX keynotes and blog posts (2025-2026), Agent Experience Report 2026 (Casys.ai), Martin Recke at NEXT Conference, Cloudflare AgentReady Standard, GitButler CLI agent research, Stripe/Vercel/Netlify public data.
+</div>
+
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>
