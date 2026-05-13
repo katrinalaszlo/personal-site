@@ -1,18 +1,32 @@
 {
   "serverInfo": {
-    "name": "katrinalaszlo",
+    "name": "katrinalaszlo-notebook",
     "version": "1.0.0",
-    "description": "Katrina Laszlo — product manager and builder. Agent readiness consulting and pricing intelligence."
+    "description": "Katrina Laszlo's notebook on AI systems and agent experience design. Query 13 lessons on AX, mutual legibility, agent-readable sites, agent self-serve, knowledge systems, and multi-agent patterns."
   },
   "transport": {
     "type": "streamable-http",
-    "url": "https://katrinalaszlo.com/.well-known/mcp"
+    "url": "https://katrinalaszlo.com/api/mcp"
   },
   "capabilities": {
     "resources": true,
-    "tools": false,
+    "tools": true,
     "prompts": false
   },
+  "tools": [
+    {
+      "name": "query_notebook",
+      "description": "Search notebook content by query and optional topic"
+    },
+    {
+      "name": "list_topics",
+      "description": "List all available skills and topics"
+    },
+    {
+      "name": "get_skill",
+      "description": "Get full skill content with optional references"
+    }
+  ],
   "resources": [
     {
       "uri": "https://katrinalaszlo.com/llms.txt",
