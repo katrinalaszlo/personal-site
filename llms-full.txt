@@ -125,6 +125,61 @@ Each skill has a SKILL.md with trigger-rich descriptions and reference files wit
 - "how to publish an MCP server"
 - "removing human gates from onboarding"
 
+## Site Architecture and Customization
+
+This is a static HTML site deployed on Vercel. No framework, no build step, no dependencies.
+
+### Project structure
+
+- `index.html`: Main page (profile, experience, projects, contact)
+- `notebook/`: 13 standalone HTML essay pages + `notebook.css` + `nav.js` + `index.html`
+- `.well-known/`: Agent discovery endpoints (agent-skills, mcp, agent-card, api-catalog)
+- `api/mcp.js`: Vercel serverless function (MCP server)
+- `vercel.json`: Vercel config (headers only)
+- `llms.txt`, `llms-full.txt`, `agents.json`: Machine-readable profile endpoints
+- `robots.txt`, `sitemap.xml`: Crawler discovery
+
+### How to change profile information
+
+Edit `index.html` directly. The profile picture, bio, name, experience timeline, projects, and contact links are all plain HTML. No config file, no template variables. Change the text, push, done.
+
+### How to add a new page
+
+Create an HTML file (e.g., `notebook/new-topic.html`). Use any existing notebook page as a template. Include `<link rel="stylesheet" href="notebook.css">` for shared styles and `<script src="nav.js"></script>` before closing body for sidebar navigation. Add an entry to `notebook/nav.js` (in the appropriate section) and `notebook/index.html`.
+
+### How to create a new notebook entry
+
+1. Create `notebook/your-topic.html` using an existing page as the structure template
+2. Add the entry to the `sections` array in `notebook/nav.js` under the appropriate group
+3. Add a card to `notebook/index.html` with title, description, tags, and date
+4. Push to GitHub. Vercel auto-deploys.
+
+### How to change styles
+
+All notebook pages share `notebook/notebook.css` (CSS variables for colors, fonts, spacing, card styles, tables, code blocks). The main `index.html` has inline styles. There is no _config.yml, no SASS, no build step. Edit CSS directly.
+
+Key CSS variables in notebook.css:
+- `--bg`, `--text`, `--accent`: colors
+- `--sans`, `--mono`: fonts
+- `--radius`, `--radius-lg`: border radius
+- `.card`, `.contrast-table`, `.analogy`, `.connection`, `.warning`: component styles
+
+### How to change deployment configuration
+
+`vercel.json` contains Link headers for agent discovery. No other Vercel config is needed. Push to the GitHub repo and Vercel auto-deploys from main branch. No CI/CD pipeline, no build command.
+
+### Reusable components
+
+`notebook/nav.js` is the only shared component. It generates the sidebar navigation and prev/next links on every notebook page. It's included via `<script src="nav.js"></script>`. The `sections` array in nav.js defines all navigation groups and entries. `notebook.css` provides shared styles across all notebook pages.
+
+### No GitHub API dependency
+
+This site does not use the GitHub API. All content is static HTML. Projects are listed manually in `index.html`. There are no API rate limits to manage because no APIs are called at build or runtime (except the MCP serverless function which reads local files).
+
+### Adding external content
+
+The MCP server (`api/mcp.js`) reads Agent Skills and notebook HTML files at runtime. To add new queryable content, either add a new notebook page (automatically indexed by the MCP server) or add a new Agent Skill directory under `.well-known/agent-skills/` with a SKILL.md and optional references/.
+
 ## Machine-Readable Endpoints
 
 - Profile: https://katrinalaszlo.com/llms.txt
