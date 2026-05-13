@@ -76,6 +76,7 @@ Background in UX and product design applied to AI agents as users. Most agent re
 
 ## Projects
 
+- [agentkey](https://github.com/katrinalaszlo/agentkey): Scoped, budgeted API keys for AI agents. npm: @katrinalaszlo/agentkey
 - [observe](https://github.com/katrinavassell/observe): Open source AI cost observability
 - [agentlens](https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine
 - [BuildNext](https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development
