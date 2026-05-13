@@ -1,7 +1,7 @@
 (function () {
   var sections = [
     {
-      label: "How AI Works",
+      label: "About AI",
       items: [
         {
           title: "Model Architecture",
