@@ -191,4 +191,3 @@ The MCP server (`api/mcp.js`) reads Agent Skills and notebook HTML files at runt
 - Agent skills: https://katrinalaszlo.com/.well-known/agent-skills/index.json
 - A2A agent card: https://katrinalaszlo.com/.well-known/agent-card.json
 - API catalog: https://katrinalaszlo.com/.well-known/api-catalog
-- Consulting pricing: https://katrinalaszlo.com/pricing.md
