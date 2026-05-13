@@ -1,23 +1,12 @@
 {
-  "$schema": "https://agentskills.io/schema/v0.2.0/index.json",
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
   "skills": [
     {
-      "name": "get-profile",
-      "type": "resource",
-      "description": "Retrieve Katrina Laszlo's professional profile, expertise, career history, and contact information in natural language.",
-      "url": "https://katrinalaszlo.com/llms.txt"
-    },
-    {
-      "name": "get-structured-data",
-      "type": "resource",
-      "description": "Retrieve structured JSON data about expertise, projects, services, and contact information.",
-      "url": "https://katrinalaszlo.com/agents.json"
-    },
-    {
-      "name": "book-consultation",
-      "type": "action",
-      "description": "Schedule a 30-minute agent readiness consultation.",
-      "url": "https://cal.com/katrina-laszlo/30-minute-meeting"
+      "name": "agent-experience-design",
+      "type": "skill-md",
+      "description": "Design products that AI agents can effectively use. AX four pillars, agent-readable standards, mutual legibility, bifurcated web, agent self-serve implementation. Use when building agent-facing APIs, MCP servers, agent auth, agent onboarding, or any product surface where AI agents are users.",
+      "url": "/.well-known/agent-skills/agent-experience-design/SKILL.md",
+      "digest": "sha256:b9b4b149c9bdc91b17a94b91981112890c26c2f5b01a13b8a2037b985c82b194"
     }
   ]
 }

@@ -1,49 +1,78 @@
 (function () {
-  var topics = [
-    { title: "Model Architecture", href: "/notebook/model-architecture.html" },
-    { title: "Training Loops", href: "/notebook/training-loop.html" },
-    { title: "Data Pipelines", href: "/notebook/data-pipeline.html" },
-    { title: "Wiki vs Vector DB", href: "/notebook/wiki-vs-vector.html" },
+  var sections = [
     {
-      title: "LLM Memory & Retrieval",
-      href: "/notebook/llm-memory-and-retrieval.html",
+      label: "How AI Works",
+      items: [
+        {
+          title: "Model Architecture",
+          href: "/notebook/model-architecture.html",
+        },
+        { title: "Training Loops", href: "/notebook/training-loop.html" },
+        { title: "Data Pipelines", href: "/notebook/data-pipeline.html" },
+      ],
     },
     {
-      title: "Knowledge Architecture",
-      href: "/notebook/knowledge-system-architecture.html",
-    },
-    { title: "AI System Design", href: "/notebook/ai-system-design.html" },
-    { title: "Agent Teams", href: "/notebook/managing-agent-teams.html" },
-    { title: "Agent Evaluation", href: "/notebook/agent-evaluation.html" },
-    {
-      title: "OpenClaw Personal Agents",
-      href: "/notebook/openclaw-personal-agents.html",
-    },
-    {
-      title: "Hermes Orchestration",
-      href: "/notebook/hermes-orchestration.html",
-    },
-    {
-      title: "Agent Experience (AX)",
-      href: "/notebook/agent-experience.html",
+      label: "Knowledge Systems",
+      items: [
+        { title: "Wiki vs Vector DB", href: "/notebook/wiki-vs-vector.html" },
+        {
+          title: "LLM Memory & Retrieval",
+          href: "/notebook/llm-memory-and-retrieval.html",
+        },
+        {
+          title: "Knowledge Architecture",
+          href: "/notebook/knowledge-system-architecture.html",
+        },
+      ],
     },
     {
-      title: "Agent-Readable Sites",
-      href: "/notebook/agent-readable-sites.html",
+      label: "Building AI Systems",
+      items: [
+        { title: "AI System Design", href: "/notebook/ai-system-design.html" },
+        { title: "Agent Teams", href: "/notebook/managing-agent-teams.html" },
+        { title: "Agent Evaluation", href: "/notebook/agent-evaluation.html" },
+      ],
     },
     {
-      title: "Mutual Legibility",
-      href: "/notebook/mutual-legibility.html",
+      label: "Agent Tools",
+      items: [
+        {
+          title: "OpenClaw Personal Agents",
+          href: "/notebook/openclaw-personal-agents.html",
+        },
+        {
+          title: "Hermes Orchestration",
+          href: "/notebook/hermes-orchestration.html",
+        },
+      ],
     },
     {
-      title: "The Bifurcated Web",
-      href: "/notebook/bifurcated-web.html",
-    },
-    {
-      title: "Agent Self-Serve",
-      href: "/notebook/agent-self-serve.html",
+      label: "Agent Experience",
+      items: [
+        {
+          title: "Agent Experience (AX)",
+          href: "/notebook/agent-experience.html",
+        },
+        {
+          title: "Agent-Readable Sites",
+          href: "/notebook/agent-readable-sites.html",
+        },
+        {
+          title: "Mutual Legibility",
+          href: "/notebook/mutual-legibility.html",
+        },
+        { title: "The Bifurcated Web", href: "/notebook/bifurcated-web.html" },
+        { title: "Agent Self-Serve", href: "/notebook/agent-self-serve.html" },
+      ],
     },
   ];
+
+  var topics = [];
+  sections.forEach(function (s) {
+    s.items.forEach(function (t) {
+      topics.push(t);
+    });
+  });
 
   var path = window.location.pathname;
   var currentIndex = topics.findIndex(function (t) {
@@ -65,14 +94,22 @@
   sidebar.appendChild(homeLink);
 
   var list = document.createElement("ul");
-  topics.forEach(function (t, i) {
-    var li = document.createElement("li");
-    var a = document.createElement("a");
-    a.href = t.href;
-    a.textContent = t.title;
-    if (i === currentIndex) a.className = "nb-active";
-    li.appendChild(a);
-    list.appendChild(li);
+  sections.forEach(function (s) {
+    var header = document.createElement("li");
+    header.className = "nb-section-label";
+    header.textContent = s.label;
+    list.appendChild(header);
+
+    s.items.forEach(function (t) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.href = t.href;
+      a.textContent = t.title;
+      var idx = topics.indexOf(t);
+      if (idx === currentIndex) a.className = "nb-active";
+      li.appendChild(a);
+      list.appendChild(li);
+    });
   });
   sidebar.appendChild(list);
 
@@ -110,6 +147,7 @@
         ".nb-sidebar-home { display:block; font-size:13px; font-weight:600; color:#58a6ff; text-decoration:none; margin-bottom:16px; letter-spacing:-0.3px; }",
         ".nb-sidebar ul { list-style:none; padding:0; margin:0; }",
         ".nb-sidebar li { margin-bottom:2px; }",
+        ".nb-sidebar .nb-section-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:#484f58; padding:12px 10px 4px; margin-top:4px; }",
         ".nb-sidebar a { display:block; padding:6px 10px; font-size:13px; color:#8b949e; text-decoration:none; border-radius:6px; transition:all 0.15s; }",
         ".nb-sidebar a:hover { color:#e6edf3; background:rgba(255,255,255,0.05); }",
         ".nb-sidebar a.nb-active { color:#e6edf3; background:rgba(88,166,255,0.12); }",
@@ -124,6 +162,7 @@
         ".nb-sidebar-home { display:block; font-size:13px; font-weight:600; color:#4f46e5; text-decoration:none; margin-bottom:16px; letter-spacing:-0.3px; }",
         ".nb-sidebar ul { list-style:none; padding:0; margin:0; }",
         ".nb-sidebar li { margin-bottom:2px; }",
+        ".nb-sidebar .nb-section-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:#a1a1aa; padding:12px 10px 4px; margin-top:4px; }",
         ".nb-sidebar a { display:block; padding:6px 10px; font-size:13px; color:#71717a; text-decoration:none; border-radius:6px; transition:all 0.15s; }",
         ".nb-sidebar a:hover { color:#0a0a0a; background:#f4f4f5; }",
         ".nb-sidebar a.nb-active { color:#0a0a0a; background:#f0f0ff; }",
