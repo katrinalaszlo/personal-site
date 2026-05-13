@@ -9,5 +9,12 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "mode", "value": "agent" }],
+      "destination": "/api/agent"
+    }
   ]
 }
