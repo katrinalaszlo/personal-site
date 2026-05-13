@@ -39,6 +39,10 @@
       title: "The Bifurcated Web",
       href: "/notebook/bifurcated-web.html",
     },
+    {
+      title: "Agent Self-Serve",
+      href: "/notebook/agent-self-serve.html",
+    },
   ];
 
   var path = window.location.pathname;
