@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Orchestration — Notebook — Katrina Laszlo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+/* Pillar tabs */
+.pillar-tabs {
+  display: flex; gap: 4px; margin-bottom: 20px;
+  border-bottom: 1px solid var(--border); padding-bottom: 0;
+}
+.pillar-tab {
+  padding: 10px 16px; font-family: var(--mono); font-size: 13px;
+  color: var(--text-dim); cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  background: none; border-top: none; border-left: none; border-right: none;
+}
+.pillar-tab:hover { color: var(--text); }
+.pillar-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.pillar-panel { display: none; }
+.pillar-panel.active { display: block; }
+
+/* Prompt stack */
+.prompt-stack { margin-top: 16px; }
+.prompt-layer {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 12px; margin-bottom: 2px;
+  border-radius: 4px; font-family: var(--mono); font-size: 12px;
+  color: var(--text-dim); background: var(--bg-inset);
+  border: 1px solid transparent;
+}
+.prompt-layer .num {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--border); color: var(--text-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; flex-shrink: 0;
+}
+.prompt-layer.lit {
+  border-color: var(--accent); background: rgba(79,70,229,0.06);
+  color: var(--accent);
+}
+.prompt-layer.lit .num { background: var(--accent-dim); color: var(--accent); }
+
+/* Loop diagram */
+.loop-ring {
+  display: flex; justify-content: center; gap: 8px; align-items: center;
+  flex-wrap: wrap; font-family: var(--mono); font-size: 13px;
+  margin: 20px 0;
+}
+
+/* Architecture boxes */
+.arch-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+  margin-top: 24px;
+}
+.arch-box {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; text-align: center;
+}
+.arch-box h4 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.arch-box .arch-items { display: flex; flex-direction: column; gap: 4px; }
+.arch-item {
+  font-family: var(--mono); font-size: 11px;
+  padding: 3px 8px; border-radius: 4px;
+  background: var(--bg-inset); border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+/* Comparison panels */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+.compare-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+.compare-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.compare-header h3 { margin: 0; }
+.compare-body { padding: 16px 20px; font-size: 13px; }
+.compare-body ul { margin: 0 0 0 16px; padding: 0; }
+.compare-body li { margin-bottom: 6px; color: var(--text-dim); }
+.compare-footer {
+  padding: 12px 20px; font-size: 13px; color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 700px) {
+  .card-grid, .arch-grid, .compare-grid { grid-template-columns: 1fr; }
+  .pillar-tabs { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Hermes Orchestration</span></div>
+</div>
+
+<main>
+
+<h1>Hermes Orchestration</h1>
+<p class="subtitle">Nous Research's always-on agent framework -- what it is, how it works, and where it fits next to Claude Code</p>
+
+<!-- ======== SECTION 1: WHAT IS HERMES AGENT ======== -->
+<section id="s1">
+  <h2>What is Hermes Agent?</h2>
+  <p class="subtitle">An open-source autonomous agent that lives on your server, remembers what it learns, and gets more capable the longer it runs.</p>
+
+  <p>Hermes Agent is built by <a href="https://nousresearch.com" style="color:var(--accent);text-decoration:none">Nous Research</a> and released under an MIT license. It launched in February 2026 and became one of the fastest-growing open-source agent projects of the year.</p>
+
+  <p>The core idea: instead of a per-session chat tool that forgets everything when you close the terminal, Hermes is an always-on service. It accumulates knowledge, builds skills from experience, and runs scheduled tasks unattended. You talk to it from wherever you already are -- CLI, Telegram, Discord, Slack, WhatsApp, Signal, Email, and 20+ other platforms.</p>
+
+  <div class="analogy">
+    <strong>PM frame:</strong> Claude Code is a contractor you hire per task. Hermes is a full-time employee who lives at the office, remembers every project, and proactively does work while you sleep.
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>Key facts</h3>
+    <ul>
+      <li><strong>License:</strong> MIT (free). You pay only for LLM API usage from your chosen provider.</li>
+      <li><strong>Model flexibility:</strong> Any model -- OpenRouter (200+ models), OpenAI, Nous Portal, NVIDIA NIM, Hugging Face, or your own endpoint. Switch with <code>hermes model</code>.</li>
+      <li><strong>Repo:</strong> <a href="https://github.com/NousResearch/hermes-agent" style="color:var(--accent);text-decoration:none">github.com/NousResearch/hermes-agent</a></li>
+      <li><strong>Docs:</strong> <a href="https://hermes-agent.nousresearch.com/docs/" style="color:var(--accent);text-decoration:none">hermes-agent.nousresearch.com/docs</a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======== SECTION 2: FIVE PILLARS ======== -->
+<section id="s2">
+  <h2>Five pillars</h2>
+  <p class="subtitle">Everything in Hermes is built on five concepts. Understand these and you understand the whole system.</p>
+
+  <div class="pillar-tabs" id="pillarTabs">
+    <button class="pillar-tab active" data-pillar="soul">Soul</button>
+    <button class="pillar-tab" data-pillar="memory">Memory</button>
+    <button class="pillar-tab" data-pillar="skills">Skills</button>
+    <button class="pillar-tab" data-pillar="crons">Crons</button>
+    <button class="pillar-tab" data-pillar="loop">Learning Loop</button>
+  </div>
+
+  <!-- SOUL -->
+  <div class="pillar-panel active" id="pillar-soul">
+    <h3 style="color:var(--purple)">SOUL.md -- Identity and personality</h3>
+    <p>SOUL.md is a markdown file that defines who the agent is. It occupies the first slot in the system prompt and sets the frame for everything else. Think of it as the agent's job description and personality profile combined.</p>
+
+    <div class="prompt-stack">
+      <div class="prompt-layer lit"><span class="num">1</span> SOUL.md -- How I behave (personality, communication style)</div>
+      <div class="prompt-layer lit"><span class="num">2</span> USER.md -- Who I'm talking to (your preferences)</div>
+      <div class="prompt-layer lit"><span class="num">3</span> AGENTS.md -- What we're working on (project context)</div>
+      <div class="prompt-layer lit"><span class="num">4</span> MEMORY.md -- What I know from past sessions (facts)</div>
+      <div class="prompt-layer lit"><span class="num">5</span> Session context -- What you're saying right now</div>
+    </div>
+
+    <p style="margin-top:16px">Hermes ships with built-in personalities you can switch using <code>/personality</code>. Or write your own SOUL.md from scratch.</p>
+
+    <div class="connection">
+      <strong>Claude Code parallel:</strong> SOUL.md maps to your global CLAUDE.md. USER.md maps to MEMORY.md auto-memory. The layering order matters the same way -- identity first, then user preferences, then project context.
+    </div>
+  </div>
+
+  <!-- MEMORY -->
+  <div class="pillar-panel" id="pillar-memory">
+    <h3 style="color:var(--green)">Memory -- Facts that persist across sessions</h3>
+    <p>MEMORY.md is where Hermes writes facts worth keeping: your name, tech stack, standing preferences, context that would be annoying to repeat every session. The agent writes here when it judges something worth persisting -- you do not have to tell it to.</p>
+
+    <p>Three memory layers:</p>
+    <ul>
+      <li><strong>MEMORY.md</strong> -- Factual context about your environment and projects. Written to disk during the session.</li>
+      <li><strong>Session history</strong> -- Every conversation, stored in a searchable database.</li>
+      <li><strong>Honcho</strong> (optional) -- External service for smarter cross-session recall.</li>
+    </ul>
+
+    <div class="warning">
+      <strong>Gotcha:</strong> When Hermes writes to MEMORY.md during a session, changes are persisted to disk immediately -- but they do not appear in the system prompt until the next session starts. The agent can "forget" something it just learned if you keep talking in the same session.
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="pillar-panel" id="pillar-skills">
+    <h3 style="color:var(--cyan)">Skills -- On-demand knowledge documents</h3>
+    <p>Skills are structured markdown documents with procedures, pitfalls, and verification steps. After a complex task (typically 5+ tool calls), Hermes can autonomously create a skill. Over time, skills get refined as the agent encounters edge cases.</p>
+
+    <p>Progressive disclosure keeps token usage low:</p>
+    <ul>
+      <li><strong>Level 0:</strong> Agent sees a list of skill names and descriptions (~3,000 tokens)</li>
+      <li><strong>Level 1:</strong> Full content of a specific skill loaded on demand</li>
+      <li><strong>Level 2:</strong> A specific reference file within a skill</li>
+    </ul>
+
+    <p>Installation is trivial. Drop a SKILL.md in <code>~/.hermes/skills/</code> and it is live immediately -- no registration needed. Every skill auto-registers as a slash command. You can also search and install community skills: <code>hermes skills search</code> and <code>hermes skills install</code>.</p>
+
+    <div class="connection">
+      <strong>Claude Code parallel:</strong> Hermes skills are equivalent to Claude Code skills (<code>~/.claude/skills/</code>), but with two differences: (1) Hermes auto-generates skills from its own work, and (2) skills use progressive disclosure to avoid bloating context.
+    </div>
+  </div>
+
+  <!-- CRONS -->
+  <div class="pillar-panel" id="pillar-crons">
+    <h3 style="color:var(--orange)">Crons -- Scheduled tasks that run unattended</h3>
+    <p>Natural language scheduling. Tell Hermes "every morning at 9am, check Hacker News for AI news and send me a summary on Telegram" and it creates a cron job that runs unattended.</p>
+
+    <p>Each cron job runs in a fresh agent session with no chat platform attached. The cron agent gets the toolset configured for the cron platform. Results get delivered to whatever platform you specified.</p>
+
+    <div class="analogy">
+      <strong>PM frame:</strong> This is the killer feature Claude Code does not have. Claude Code is reactive -- you invoke it. Hermes is proactive -- it does work on a schedule without being asked. Code review every 30 minutes, daily standups, weekly digests.
+    </div>
+
+    <p>Example production pattern: connect a GitHub MCP server, schedule a cron job that checks for new PRs every 30 minutes, let Hermes review the diff and create skills from its review patterns. It gets better at catching issues over time.</p>
+  </div>
+
+  <!-- LEARNING LOOP -->
+  <div class="pillar-panel" id="pillar-loop">
+    <h3 style="color:var(--accent)">Learning Loop -- Self-improvement over time</h3>
+    <p>This is the mechanism that ties the other four pillars together. The loop:</p>
+
+    <div class="loop-ring">
+      <span class="tag">Do task</span> &rarr;
+      <span class="tag green">Create skill</span> &rarr;
+      <span class="tag purple">Retrieve on similar task</span> &rarr;
+      <span class="tag orange">Refine from experience</span> &rarr;
+      <span class="tag" style="background:rgba(13,148,136,0.1);color:var(--cyan)">Nudge to persist</span> &rarr;
+      <span class="tag">Repeat</span>
+    </div>
+
+    <p>The nudge mechanism is what makes this different from simple persistent memory. Hermes actively prompts itself to persist knowledge rather than waiting for explicit instruction. Skill accumulation happens automatically rather than requiring manual curation.</p>
+
+    <div class="warning">
+      <strong>Reality check:</strong> The companion project <code>hermes-agent-self-evolution</code> (which applies DSPy + GEPA to optimize skills and prompts against benchmarks) is experimental. It is not integrated into the main agent and should not be relied on for production workflows. The built-in skill creation and refinement is production-ready; the meta-optimization layer is research.
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 3: ARCHITECTURE ======== -->
+<section id="s3">
+  <h2>Architecture</h2>
+  <p class="subtitle">How the pieces fit together at runtime.</p>
+
+  <div class="arch-grid">
+    <div class="arch-box">
+      <h4>Entry Points</h4>
+      <div class="arch-items">
+        <span class="arch-item">hermes (CLI)</span>
+        <span class="arch-item">hermes --tui</span>
+        <span class="arch-item">Gateway (messaging)</span>
+      </div>
+    </div>
+    <div class="arch-box">
+      <h4>Terminal Backends</h4>
+      <div class="arch-items">
+        <span class="arch-item">Local</span>
+        <span class="arch-item">Docker</span>
+        <span class="arch-item">SSH</span>
+        <span class="arch-item">Daytona</span>
+        <span class="arch-item">Modal</span>
+        <span class="arch-item">Singularity</span>
+        <span class="arch-item">Vercel Sandbox</span>
+      </div>
+    </div>
+    <div class="arch-box">
+      <h4>Storage</h4>
+      <div class="arch-items">
+        <span class="arch-item">SOUL.md / USER.md</span>
+        <span class="arch-item">MEMORY.md</span>
+        <span class="arch-item">Skills (*.md)</span>
+        <span class="arch-item">Session DB</span>
+        <span class="arch-item">Kanban (SQLite)</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:32px">Multi-agent: Kanban board</h3>
+  <p>Hermes ships a Kanban multi-agent system where agents -- each with their own tools, skills, and personality profiles -- claim tasks off a shared board, fan out work through linked dependencies, and pass files via shared workspaces or git worktrees.</p>
+
+  <div class="card">
+    <div style="font-family:var(--mono);font-size:12px">
+      <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+        <div style="text-align:center">
+          <div class="tag">Board</div>
+          <p class="dim" style="font-size:11px;margin:4px 0 0">SQLite-backed task list</p>
+        </div>
+        <div style="color:var(--text-dim)">&rarr;</div>
+        <div style="text-align:center">
+          <div class="tag green">Dispatcher</div>
+          <p class="dim" style="font-size:11px;margin:4px 0 0">Claims + spawns agents</p>
+        </div>
+        <div style="color:var(--text-dim)">&rarr;</div>
+        <div style="text-align:center">
+          <div class="tag purple">Workers</div>
+          <p class="dim" style="font-size:11px;margin:4px 0 0">Execute in parallel</p>
+        </div>
+        <div style="color:var(--text-dim)">&rarr;</div>
+        <div style="text-align:center">
+          <div class="tag orange">Heartbeat</div>
+          <p class="dim" style="font-size:11px;margin:4px 0 0">Liveness + zombie detect</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>The dispatcher runs a long-lived loop (default every 60 seconds) that reclaims stale claims, promotes ready tasks, atomically claims work, and spawns assigned agent profiles. Missed heartbeats trigger reclaim. Zombie detection catches workers that stopped responding.</p>
+
+  <h3 style="margin-top:32px">Goal planning</h3>
+  <p><code>/goal</code> sets a standing objective and starts the first turn. After each turn, an auxiliary judge model checks whether the goal is done. If not, the agent continues -- up to a 20-turn budget. This is the equivalent of setting a definition of done and letting the agent loop until it ships.</p>
+</section>
+
+<!-- ======== SECTION 4: MCP ======== -->
+<section id="s4">
+  <h2>MCP integration</h2>
+  <p class="subtitle">Hermes is both an MCP client and an MCP server.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3 style="color:var(--green)">As MCP Client</h3>
+      <p>Hermes discovers MCP servers at startup and registers their tools into the normal tool registry. Connect it to GitHub, databases, file systems, browser stacks, or internal APIs.</p>
+      <p class="dim">When a server's tools change at runtime, Hermes automatically re-fetches the tool list -- no manual reload needed.</p>
+      <p class="dim">The <code>allowed_tools</code> field is the primary security control. Only list the tools the agent actually needs.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--purple)">As MCP Server</h3>
+      <p>Hermes can expose itself as an MCP server, letting other MCP-capable agents (Claude Code, Cursor, Codex) use its messaging capabilities -- list conversations, read history, and send messages across connected platforms.</p>
+      <p class="dim">This means you can use Claude Code as your coding agent and Hermes as your communication layer, without switching tools.</p>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>Practical pattern:</strong> Run Claude Code for coding work. Connect Hermes as an MCP server to Claude Code. Now Claude Code can send you a Telegram message when a long task finishes, check your Slack for context, or post results to Discord -- all through Hermes.
+  </div>
+</section>
+
+<!-- ======== SECTION 5: GETTING STARTED ======== -->
+<section id="s5">
+  <h2>Getting started</h2>
+  <p class="subtitle">Zero to running in under two minutes.</p>
+
+  <div class="sequence">
+    <div class="seq-step">
+      <div class="seq-num">1</div>
+      <div class="seq-body">
+        <h4>Install</h4>
+        <p>One-line installer handles all dependencies (Python, Node.js, ripgrep, ffmpeg), repo clone, venv, and global <code>hermes</code> command.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">2</div>
+      <div class="seq-body">
+        <h4>Choose a model</h4>
+        <p>Run <code>hermes model</code> to pick a provider interactively. Accept defaults unless you know why you are changing them.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">3</div>
+      <div class="seq-body">
+        <h4>Start</h4>
+        <p><code>hermes</code> for CLI, <code>hermes --tui</code> for the modern terminal UI. Both share sessions, slash commands, and config.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">4</div>
+      <div class="seq-body">
+        <h4>Get one clean conversation working</h4>
+        <p>Then layer on gateway (messaging), cron (scheduling), skills, voice, or routing. Do not configure everything at once.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="c"># Linux / macOS / WSL2</span>
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+
+<span class="c"># Windows (early beta)</span>
+irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1 | iex</div>
+
+  <div class="warning">
+    <strong>Note:</strong> Hermes does not support native Windows environments outside the early beta PowerShell installer. WSL2 is the recommended path for Windows users.
+  </div>
+</section>
+
+<!-- ======== SECTION 6: THREE-WAY COMPARISON ======== -->
+<section id="s6">
+  <h2>Claude Code vs Hermes vs OpenClaw</h2>
+  <p class="subtitle">Three different answers to "what should my AI agent do?"</p>
+
+  <div class="compare-grid">
+    <div class="compare-panel">
+      <div class="compare-header">
+        <h3 style="color:var(--accent)">Claude Code</h3>
+        <span class="tag">session-based</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li>Best-in-class code reasoning</li>
+          <li>No persistent memory -- each session starts fresh</li>
+          <li>Context managed via CLAUDE.md files</li>
+          <li>VS Code, JetBrains, GitHub Actions</li>
+          <li>No scheduled tasks, no messaging</li>
+          <li>Predictable, consistent behavior</li>
+        </ul>
+      </div>
+      <div class="compare-footer">Best for: coding, code review, refactoring, debugging</div>
+    </div>
+
+    <div class="compare-panel">
+      <div class="compare-header">
+        <h3 style="color:var(--green)">Hermes Agent</h3>
+        <span class="tag green">always-on</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li>Autonomous memory + self-nudging</li>
+          <li>Auto-generates skills from work</li>
+          <li>Cron scheduling, goal planning</li>
+          <li>20+ messaging platforms</li>
+          <li>Multi-agent Kanban board</li>
+          <li>Any LLM provider, no lock-in</li>
+        </ul>
+      </div>
+      <div class="compare-footer">Best for: recurring tasks, cross-platform ops, workflows that compound</div>
+    </div>
+
+    <div class="compare-panel">
+      <div class="compare-header">
+        <h3 style="color:var(--orange)">OpenClaw</h3>
+        <span class="tag orange">orchestrator</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li>File-based memory (MEMORY.md + diary)</li>
+          <li>Static skills, manually updated</li>
+          <li>Cron + messaging integrations</li>
+          <li>50+ messaging integrations</li>
+          <li>Largest community skill library</li>
+          <li>More mature ecosystem</li>
+        </ul>
+      </div>
+      <div class="compare-footer">Best for: daily life automation, broad integration reach</div>
+    </div>
+  </div>
+
+  <table class="contrast-table" style="margin-top:24px">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Claude Code</th>
+        <th>Hermes</th>
+        <th>OpenClaw</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Memory</td>
+        <td>None (CLAUDE.md is static config)</td>
+        <td>Autonomous + self-nudging</td>
+        <td>File-based, explicit logging</td>
+      </tr>
+      <tr>
+        <td>Learning</td>
+        <td>None (by design)</td>
+        <td>Auto-creates + refines skills</td>
+        <td>None (manual skill updates)</td>
+      </tr>
+      <tr>
+        <td>Scheduling</td>
+        <td>None</td>
+        <td>Built-in cron, natural language</td>
+        <td>Built-in cron</td>
+      </tr>
+      <tr>
+        <td>Coding ability</td>
+        <td>Best in class</td>
+        <td>Model-dependent</td>
+        <td>Model-dependent</td>
+      </tr>
+      <tr>
+        <td>Multi-agent</td>
+        <td>Subagents (ephemeral)</td>
+        <td>Kanban board (durable)</td>
+        <td>Orchestrator pattern</td>
+      </tr>
+      <tr>
+        <td>Model lock-in</td>
+        <td>Claude only</td>
+        <td>Any provider</td>
+        <td>Any provider</td>
+      </tr>
+      <tr>
+        <td>Pricing</td>
+        <td>Subscription + API</td>
+        <td>Free (MIT), pay for LLM API</td>
+        <td>Free (AGPL), pay for LLM API</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="analogy">
+    <strong>PM frame:</strong> Claude Code is the best individual contributor on the planet but has no memory and clocks out every night. Hermes is a junior employee who is always on, remembers everything, and gets meaningfully better every week. OpenClaw is the office manager who connects to every system but does not learn on its own. The experienced move is to run Claude Code for coding and Hermes for everything else.
+  </div>
+</section>
+
+<!-- ======== SECTION 7: KEY PATTERNS ======== -->
+<section id="s7">
+  <h2>Key patterns</h2>
+  <p class="subtitle">How people actually use Hermes in production.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3 style="color:var(--green)">Automated code review</h3>
+      <p class="dim">Connect GitHub MCP server with <code>allowed_tools</code> set to <code>get_file_contents</code>, <code>create_issue</code>, <code>create_review</code>. Schedule a cron job that checks for new PRs every 30 minutes. Hermes reviews the diff, creates skills from its review patterns, and improves over time.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--purple)">Cross-platform relay</h3>
+      <p class="dim">Run Hermes as an MCP server for Claude Code. When Claude Code finishes a long task, it calls Hermes to send you a Telegram message. Hermes becomes the communication layer between your coding agent and your phone.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--orange)">Daily intelligence brief</h3>
+      <p class="dim">Cron job at 8am: scan Hacker News, relevant subreddits, and competitor feeds. Filter by your interests (stored in MEMORY.md). Deliver a summary to Slack or Email. The agent learns what you click on and refines the filter over time.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--cyan)">Multi-agent project execution</h3>
+      <p class="dim">Use <code>/goal</code> to set a standing objective. Break it into Kanban tasks. Hermes dispatches workers to claim tasks in parallel, each with scoped tools and context. You unblock from one view instead of juggling terminals.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 8: LIMITATIONS ======== -->
+<section id="s8">
+  <h2>Limitations</h2>
+  <p class="subtitle">What to know before investing time.</p>
+
+  <div class="card" style="border-color:var(--orange)">
+    <h3 style="color:var(--orange)">Honest assessment</h3>
+    <ul>
+      <li><strong>Token costs at scale.</strong> Gateway (Telegram, Discord) adds 2-3x overhead vs CLI -- 15-20K tokens per message vs 6-8K. Heavy users feel this on the API bill.</li>
+      <li><strong>Memory lag.</strong> MEMORY.md changes are written to disk immediately but do not appear in the system prompt until the next session. Same-session "forgetting" is a real edge case.</li>
+      <li><strong>No web UI.</strong> Community projects are building GUIs, but nothing is merged into main yet. You need comfort with a terminal.</li>
+      <li><strong>Self-evolution is research.</strong> The DSPy/GEPA self-evolution pipeline is experimental and not integrated into the main agent. The built-in skill creation works; the meta-optimization does not ship.</li>
+      <li><strong>Windows support is early beta.</strong> Native Windows is not recommended. Use WSL2.</li>
+      <li><strong>API stability.</strong> Between v0.x releases, breaking changes are expected. Documentation is incomplete, the community is young.</li>
+      <li><strong>Coding quality is model-dependent.</strong> Hermes is a harness, not a model. Its coding output is exactly as good as whatever LLM you connect. If you connect a weaker model, you get weaker code.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>When NOT to use Hermes</h3>
+    <ul>
+      <li>If your work is pure coding and you want the best reasoning model -- use Claude Code.</li>
+      <li>If you need enterprise-grade stability and SLAs -- wait for a more mature release.</li>
+      <li>If you want zero setup -- Hermes requires CLI comfort, VPS configuration, and API key management.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======== SECTION 9: THE QUESTION ======== -->
+<section id="s9">
+  <h2>The question for a PM</h2>
+  <p class="subtitle">When does adding Hermes to your stack actually pay off?</p>
+
+  <p>If you already use Claude Code daily, Hermes is not a replacement. It is a complement. The decision framework:</p>
+
+  <div class="card">
+    <p style="margin-bottom:12px"><strong>Add Hermes when you have recurring agent work.</strong> Code review on a schedule. Daily digests. Automated triage. Anything where "I wish Claude Code would just do this every morning without me asking" is a thought you have had.</p>
+    <p style="margin-bottom:12px"><strong>Add Hermes when you want cross-platform reach.</strong> If you need an agent that lives in Telegram, Slack, and Email simultaneously -- not just in your terminal -- Hermes does this natively.</p>
+    <p style="margin-bottom:0"><strong>Skip Hermes if your work is pure coding sessions.</strong> Claude Code's reasoning on Claude models is materially better than Hermes running the same models through OpenRouter. And Claude Code's session model (no persistent state, deterministic behavior) is a feature, not a bug, for code work.</p>
+  </div>
+
+  <div class="credit">
+    <p style="margin-bottom:0">Written May 2026. Based on the Hermes Agent <a href="https://hermes-agent.nousresearch.com/docs/">official documentation</a> and <a href="https://github.com/NousResearch/hermes-agent">GitHub repo</a>. Stats and adoption figures from secondary sources and should be verified against primary data.</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Pillar tabs
+const pillarTabs = document.querySelectorAll('.pillar-tab');
+pillarTabs.forEach(tab => {
+  tab.onclick = () => {
+    pillarTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.pillar-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('pillar-' + tab.dataset.pillar).classList.add('active');
+  };
+});
+</script>
+
+<script src="nav.js"></script>
+</body>
+</html>

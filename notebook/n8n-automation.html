@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>n8n Workflow Automation — Notebook — Katrina Laszlo</title>
+<meta name="description" content="Visual workflow automation with code escape hatches. What n8n is, how it compares, core concepts, AI nodes, and when to use it over raw code.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+/* Flow diagrams */
+.pipeline-flow {
+  display: flex; align-items: center; gap: 0; margin: 24px 0; flex-wrap: wrap;
+}
+.pipe-box {
+  padding: 12px 16px; border-radius: var(--radius);
+  border: 2px solid var(--border); background: var(--bg-inset);
+  text-align: center; font-size: 13px; min-width: 120px;
+}
+.pipe-box strong { display: block; font-size: 12px; margin-bottom: 4px; }
+.pipe-box.accent { border-color: var(--accent); background: rgba(79,70,229,0.05); }
+.pipe-box.purple { border-color: var(--purple); background: rgba(124,58,237,0.05); }
+.pipe-box.green { border-color: var(--green); background: rgba(22,163,74,0.05); }
+.pipe-box.orange { border-color: var(--orange); background: rgba(217,119,6,0.05); }
+.pipe-box.red { border-color: var(--red); background: rgba(220,38,38,0.05); }
+.pipe-arrow { font-size: 20px; color: #999; padding: 0 6px; }
+
+/* Config grid */
+.config-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  margin: 16px 0;
+  font-size: 14px;
+  align-items: baseline;
+}
+.config-label { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 500; }
+.config-desc { color: var(--text-dim); }
+
+/* Branch diagram */
+.branch-diagram {
+  display: flex; flex-direction: column; gap: 8px; margin: 20px 0;
+  padding: 20px; background: var(--bg-inset); border-radius: var(--radius);
+  font-family: var(--mono); font-size: 13px; color: var(--text-dim);
+}
+.branch-line { display: flex; align-items: center; gap: 8px; }
+.branch-line .node-label {
+  display: inline-block; padding: 4px 10px; border-radius: 4px;
+  font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+.node-trigger { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; }
+.node-action { background: #eef2ff; color: #3730a3; border: 1px solid #a5b4fc; }
+.node-ai { background: #f5f3ff; color: #5b21b6; border: 1px solid #c4b5fd; }
+.node-logic { background: #fff7ed; color: #c2410c; border: 1px solid #fdba74; }
+.node-output { background: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+/* Bottom nav */
+.bottom-nav {
+  display: flex; justify-content: space-between; align-items: stretch;
+  padding: 3rem 0 4rem; gap: 1rem;
+}
+.bottom-nav-link {
+  display: flex; flex-direction: column;
+  padding: 1rem 1.25rem; border: 1px solid var(--border);
+  border-radius: var(--radius); text-decoration: none;
+  color: var(--text-bright); transition: border-color 0.15s;
+  min-width: 0; flex: 1; max-width: 50%;
+}
+.bottom-nav-link:hover { border-color: var(--accent); }
+
+footer {
+  padding: 2rem 0; font-size: 13px; color: #a1a1aa;
+  border-top: 1px solid var(--border-light);
+  max-width: 900px; margin: 0 auto; padding-left: 2rem;
+}
+
+@media (max-width: 640px) {
+  main { padding: 1.25rem 1.25rem 3rem; }
+  h1 { font-size: 24px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .pipeline-flow { gap: 4px; }
+  .config-grid { grid-template-columns: 1fr; gap: 4px; }
+  .config-label { margin-top: 8px; }
+  .branch-diagram { font-size: 11px; padding: 14px; }
+}
+</style>
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">n8n Workflow Automation</span></div>
+</div>
+
+<main>
+
+<h1>n8n Workflow Automation</h1>
+<p class="subtitle">Visual workflow builder with code escape hatches. What it is, how it compares to Zapier and Make, core concepts, AI nodes, and when to skip it and write code instead.</p>
+
+<!-- ======== WHAT IS N8N ======== -->
+<section id="what">
+  <h2>What n8n is</h2>
+  <p class="subtitle">A source-available workflow automation platform. Think "if this, then that" with branching, loops, custom code, and self-hosting.</p>
+
+  <p>n8n (pronounced "nodemation") is a workflow automation tool where you connect nodes on a visual canvas to build automations. Each node represents an action: fetch data from an API, transform JSON, send a Slack message, query a database, call an LLM. You wire them together, and n8n executes the chain.</p>
+
+  <p>The distinguishing trait: it is <strong>fair-code licensed</strong> and can run on your own infrastructure. The source code is public on GitHub. You can self-host on a $5/month VPS with unlimited executions, or use their managed cloud. Your data never has to leave your servers.</p>
+
+  <p>n8n ships with 1,000+ native integrations (called nodes), plus thousands more built by the community. But the real power is the <strong>HTTP Request node</strong> and the <strong>Code node</strong>. If an API exists, you can call it. If the built-in nodes don't do what you need, you drop into JavaScript or Python inline.</p>
+
+  <div class="analogy">
+    <strong>Mental model:</strong> n8n sits between no-code tools (Zapier) and writing everything from scratch. The canvas gives you speed for the 80% of automation that's just "fetch, transform, route, deliver." The Code node gives you an escape hatch for the 20% that needs real logic.
+  </div>
+</section>
+
+<!-- ======== VS ZAPIER / MAKE ======== -->
+<section id="comparison">
+  <h2>How it differs from Zapier and Make</h2>
+  <p class="subtitle">Three tools, three philosophies. The tradeoffs matter more than the feature lists.</p>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Dimension</th><th>Zapier</th><th>Make</th><th>n8n</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Philosophy</td>
+        <td>Simplest path for non-technical users</td>
+        <td>Visual builder with more control than Zapier</td>
+        <td>Developer-first, visual when useful</td>
+      </tr>
+      <tr>
+        <td>Integrations</td>
+        <td>7,000+ native apps</td>
+        <td>2,000+ apps</td>
+        <td>1,000+ native, plus HTTP/Code for anything</td>
+      </tr>
+      <tr>
+        <td>Hosting</td>
+        <td>Cloud only</td>
+        <td>Cloud only</td>
+        <td>Cloud or self-hosted</td>
+      </tr>
+      <tr>
+        <td>Pricing unit</td>
+        <td>"Tasks" (each step counts)</td>
+        <td>"Operations" (each step counts)</td>
+        <td>"Executions" (entire workflow run = 1)</td>
+      </tr>
+      <tr>
+        <td>Custom code</td>
+        <td>Limited (Code by Zapier steps)</td>
+        <td>Some (custom modules, JavaScript)</td>
+        <td>Full JavaScript/Python inline at any node</td>
+      </tr>
+      <tr>
+        <td>AI capabilities</td>
+        <td>Zapier Agents, Copilot (NL builder)</td>
+        <td>Maia assistant, Make AI Agents</td>
+        <td>LangChain integration, AI Agent node, LLM chains, RAG support</td>
+      </tr>
+      <tr>
+        <td>Data sovereignty</td>
+        <td>Data on Zapier servers</td>
+        <td>Data on Make servers</td>
+        <td>Self-host: data never leaves your infrastructure</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warning">
+    <strong>The pricing unit matters.</strong> A 20-step workflow that runs 1,000 times costs 20,000 "tasks" on Zapier (each step is a task). On n8n, the same thing costs 1,000 executions (one per run, regardless of steps). For complex workflows, n8n can be 10-20x cheaper. This is the biggest practical difference for anyone building real automations.
+  </div>
+
+  <p>Zapier wins on breadth of integrations and speed of setup for simple automations. Make wins on visual complexity at a mid-range price. n8n wins when you need code flexibility, self-hosting, data control, or AI workflows.</p>
+</section>
+
+<!-- ======== SELF-HOSTED VS CLOUD ======== -->
+<section id="hosting">
+  <h2>Self-hosted vs. cloud</h2>
+  <p class="subtitle">The choice is about operations burden vs. cost and control.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>n8n Cloud</h3>
+      <div class="config-grid">
+        <span class="config-label">Starter</span>
+        <span class="config-desc">~$24/mo, 2,500 executions</span>
+        <span class="config-label">Pro</span>
+        <span class="config-desc">~$60/mo, 10,000 executions</span>
+        <span class="config-label">Business</span>
+        <span class="config-desc">~$800/mo, SSO, 40,000 executions</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-dim)">Managed infrastructure, automatic updates, zero ops work. No permanent free tier (14-day trial only).</p>
+    </div>
+    <div class="card">
+      <h3>Self-hosted</h3>
+      <div class="config-grid">
+        <span class="config-label">License</span>
+        <span class="config-desc">Free (Community Edition)</span>
+        <span class="config-label">Infra</span>
+        <span class="config-desc">$5-20/mo VPS (Hetzner, DigitalOcean, etc.)</span>
+        <span class="config-label">Executions</span>
+        <span class="config-desc">Unlimited</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-dim)">You own the server. Updates, backups, SSL are on you. Docker Compose is the standard deployment method.</p>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>Recommendation for developers:</strong> Start self-hosted. A basic Docker Compose setup on a $6/mo VPS gives you unlimited executions and full data control. The setup takes about 30 minutes. Move to cloud only if you need team features (SSO, audit logs) or don't want to maintain a server.
+  </div>
+</section>
+
+<!-- ======== CORE CONCEPTS ======== -->
+<section id="concepts">
+  <h2>Core concepts</h2>
+  <p class="subtitle">Five things to understand before you build anything.</p>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Nodes</h3>
+    <p style="margin-bottom:0">The building blocks. Each node is a function: <code>items_out = f(items_in, config, credentials)</code>. A node might call an API, transform data, apply logic, or produce output. n8n ships with three categories:</p>
+    <ul>
+      <li><strong>App nodes</strong> connect to specific services (Slack, GitHub, Postgres, Google Sheets).</li>
+      <li><strong>Core nodes</strong> handle infrastructure: HTTP Request, Code, IF, Switch, Merge, Set.</li>
+      <li><strong>Trigger nodes</strong> start a workflow (Webhook, Schedule, app-specific triggers like "new email").</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Triggers</h3>
+    <p style="margin-bottom:0">Every workflow starts with a trigger. There are three patterns:</p>
+    <ul>
+      <li><strong>Webhook:</strong> the workflow exposes a URL. When something hits it, the workflow runs. Use for incoming events from external services.</li>
+      <li><strong>Schedule:</strong> cron-style. Run every 5 minutes, every Monday at 9am, etc.</li>
+      <li><strong>App trigger:</strong> polls or subscribes to events in a specific service (e.g., "new row in Google Sheet").</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Connections</h3>
+    <p style="margin-bottom:0">Wires between nodes on the canvas. Data flows along connections as <strong>items</strong>: an array of JSON objects. Each node receives items, processes them, and passes new items downstream. A node can have multiple outputs (like an IF node that routes to "true" or "false" branches).</p>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Credentials</h3>
+    <p style="margin-bottom:0">Stored authentication for external services. API keys, OAuth tokens, database connection strings. Credentials are encrypted at rest and shared across workflows, so you configure them once and reuse them. Each node type knows which credential type it needs.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Executions</h3>
+    <p style="margin-bottom:0">One execution = one complete run of the workflow, from trigger to end. The execution log shows every node's input/output, making debugging straightforward: click any node in a past execution and see exactly what data flowed through it. Failed executions can be configured to retry automatically.</p>
+  </div>
+
+  <div class="analogy">
+    <strong>How it fits together:</strong> A trigger fires and produces items. Those items flow through connected nodes, each transforming or routing them. Nodes use credentials to authenticate with external services. The whole run is logged as a single execution. That's it.
+  </div>
+</section>
+
+<!-- ======== AI / LLM NODES ======== -->
+<section id="ai">
+  <h2>AI and LLM nodes</h2>
+  <p class="subtitle">n8n has deep LangChain integration. You can build AI agent workflows on the canvas without writing orchestration code.</p>
+
+  <p>The AI capabilities break down into three layers:</p>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Basic LLM Chain</h3>
+    <p style="margin-bottom:0">The simplest AI node. Send a prompt to a language model, get a response. Use it for summarization, classification, extraction, rewriting. Supports system messages, output parsing (JSON mode), and chaining multiple calls. This handles most "add AI to this workflow" use cases.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>AI Agent Node</h3>
+    <p style="margin-bottom:0">The orchestrator. An autonomous agent that can use tools, maintain memory across turns, and decide which actions to take. You give it a set of tool nodes (HTTP requests, database queries, other sub-workflows), and the agent decides when to call them. This is how you build ReAct-style agents on the canvas.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>LangChain Integration</h3>
+    <p style="margin-bottom:0">Under the hood, the AI nodes use LangChain. This means you get access to vector stores, retrieval chains, document loaders, and text splitters as visual nodes. Build RAG pipelines by dragging nodes onto a canvas instead of writing LangChain Python.</p>
+  </div>
+
+  <p><strong>Supported LLM providers:</strong></p>
+  <ul>
+    <li>OpenAI (GPT-4o, o1 series), Anthropic (Claude 3 and 4 families), Google Gemini</li>
+    <li>Cohere, HuggingFace Inference, Mistral</li>
+    <li>Local models via Ollama (run on your own hardware, no API costs)</li>
+  </ul>
+
+  <div class="connection">
+    <strong>Why this matters:</strong> Most automation platforms bolt AI on as an afterthought (call OpenAI, get text back). n8n treats AI agents as first-class workflow participants with memory, tool use, and decision-making. The difference is the gap between "summarize this text" and "research this topic, decide which sources matter, extract structured data, and file it."
+  </div>
+</section>
+
+<!-- ======== COMMON PATTERNS ======== -->
+<section id="patterns">
+  <h2>Common patterns and a practical example</h2>
+  <p class="subtitle">Recurring shapes that show up in real workflows.</p>
+
+  <h3>Pattern 1: Webhook to action</h3>
+  <p>The simplest useful workflow. An external event hits your webhook URL, n8n processes the payload and does something with it. Stripe payment received, form submitted, GitHub PR opened.</p>
+  <div class="pipeline-flow">
+    <div class="pipe-box green"><strong>Webhook</strong>incoming event</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box accent"><strong>Transform</strong>extract fields</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box"><strong>Action</strong>Slack / DB / email</div>
+  </div>
+
+  <h3>Pattern 2: Scheduled sync</h3>
+  <p>Poll a source on a schedule, compare against what you already have, update the delta. Classic ETL shape.</p>
+  <div class="pipeline-flow">
+    <div class="pipe-box green"><strong>Schedule</strong>every 15 min</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box accent"><strong>Fetch</strong>API / spreadsheet</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box accent"><strong>Compare</strong>deduplicate</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box"><strong>Upsert</strong>database / CRM</div>
+  </div>
+
+  <h3>Pattern 3: AI classify and route</h3>
+  <p>Feed incoming data through an LLM to classify it, then branch based on the classification. This is where n8n's AI nodes shine.</p>
+  <div class="pipeline-flow">
+    <div class="pipe-box green"><strong>Webhook</strong>support ticket</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box purple"><strong>LLM Chain</strong>classify intent</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box orange"><strong>Switch</strong>route by label</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box"><strong>Actions</strong>per category</div>
+  </div>
+
+  <h3>Practical example: AI-powered support triage</h3>
+  <p>Here is a concrete workflow you could build in about 20 minutes. A customer submits a support form. n8n classifies it with an LLM, routes it to the right channel, and logs it.</p>
+
+  <div class="branch-diagram">
+    <div class="branch-line">
+      <span class="node-label node-trigger">Webhook</span>
+      <span>&rarr;</span>
+      <span class="node-label node-action">Set</span>
+      <span>&rarr;</span>
+      <span class="node-label node-ai">Basic LLM Chain</span>
+      <span>&rarr;</span>
+      <span class="node-label node-logic">Switch</span>
+    </div>
+    <div class="branch-line" style="padding-left:40px">
+      <span style="color:var(--text-dim)">bug &rarr;</span>
+      <span class="node-label node-output">Linear: Create Issue</span>
+      <span>&rarr;</span>
+      <span class="node-label node-action">Slack: #eng-bugs</span>
+    </div>
+    <div class="branch-line" style="padding-left:40px">
+      <span style="color:var(--text-dim)">billing &rarr;</span>
+      <span class="node-label node-action">Slack: #billing</span>
+      <span>&rarr;</span>
+      <span class="node-label node-action">Gmail: Send template</span>
+    </div>
+    <div class="branch-line" style="padding-left:40px">
+      <span style="color:var(--text-dim)">feature &rarr;</span>
+      <span class="node-label node-action">Airtable: Add row</span>
+    </div>
+    <div class="branch-line" style="padding-left:40px">
+      <span style="color:var(--text-dim)">other &rarr;</span>
+      <span class="node-label node-action">Slack: #support-general</span>
+    </div>
+  </div>
+
+  <p>The node breakdown:</p>
+  <ol>
+    <li><strong>Webhook</strong> receives the form POST with <code>email</code>, <code>subject</code>, and <code>body</code> fields.</li>
+    <li><strong>Set</strong> extracts and renames fields into a clean shape.</li>
+    <li><strong>Basic LLM Chain</strong> sends the subject + body to Claude or GPT-4 with a system prompt: "Classify this support request as one of: bug, billing, feature, other. Respond with only the label." Output parsing is set to expect a single word.</li>
+    <li><strong>Switch</strong> routes on the LLM output to four branches.</li>
+    <li>Each branch performs the right action(s) for that category.</li>
+  </ol>
+
+  <p>Total nodes: 9. No custom code. The LLM prompt is the only thing that requires tuning. The rest is point-and-click configuration of existing nodes.</p>
+</section>
+
+<!-- ======== GETTING STARTED ======== -->
+<section id="start">
+  <h2>Getting started</h2>
+  <p class="subtitle">Fastest path from zero to a running workflow.</p>
+
+  <div class="sequence">
+    <div class="seq-step">
+      <div class="seq-num">1</div>
+      <div class="seq-body">
+        <h4>Run n8n locally</h4>
+        <p>One command: <code>npx n8n</code> (requires Node.js 18+). Opens the editor at <code>localhost:5678</code>. Good for exploration. For persistent use, run via Docker.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">2</div>
+      <div class="seq-body">
+        <h4>Build a test workflow</h4>
+        <p>Start with Schedule Trigger + HTTP Request + Set. Fetch a public API (weather, HN top stories) every minute. Watch items flow through the canvas. Click each node to inspect its output.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">3</div>
+      <div class="seq-body">
+        <h4>Add branching</h4>
+        <p>Drop an IF node after your HTTP Request. Route based on a condition (temperature > 30, score > 100). Each branch gets its own downstream nodes. This is where n8n clicks: visual branching is genuinely faster than writing conditionals.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">4</div>
+      <div class="seq-body">
+        <h4>Connect a real service</h4>
+        <p>Add a Slack or email node. Configure credentials. Send yourself the filtered output. Now you have a real automation running.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">5</div>
+      <div class="seq-body">
+        <h4>Deploy for production</h4>
+        <p>For self-hosted: Docker Compose with n8n + Postgres, behind a reverse proxy (Caddy or nginx) for SSL. For cloud: sign up and import your workflow JSON. Activate the workflow so triggers fire automatically.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="c"># Quickstart: run n8n locally</span>
+npx n8n
+
+<span class="c"># Or via Docker (persistent, production-ready)</span>
+docker run -it --rm \
+  --name n8n \
+  -p 5678:5678 \
+  -v n8n_data:/home/node/.n8n \
+  docker.n8n.io/n8nio/n8n</div>
+</section>
+
+<!-- ======== N8N VS CODE ======== -->
+<section id="vs-code">
+  <h2>n8n vs. writing code</h2>
+  <p class="subtitle">Honest take on when the visual canvas is the right tool and when it's not.</p>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Use n8n when...</th><th>Write code when...</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>The workflow is "fetch, transform, route, deliver"</td>
+        <td>You need complex state management across steps</td>
+      </tr>
+      <tr>
+        <td>You want non-developers to understand and modify flows</td>
+        <td>You need extensive unit testing and CI coverage</td>
+      </tr>
+      <tr>
+        <td>You're integrating 3+ services with standard APIs</td>
+        <td>Performance is critical (sub-100ms processing)</td>
+      </tr>
+      <tr>
+        <td>The logic is mostly conditional routing, not computation</td>
+        <td>You need complex data structures (trees, graphs, recursion)</td>
+      </tr>
+      <tr>
+        <td>You want visual debugging (click a node, see its data)</td>
+        <td>Version control and code review are non-negotiable</td>
+      </tr>
+      <tr>
+        <td>You're prototyping and speed matters more than polish</td>
+        <td>You're building a library or reusable module</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warning">
+    <strong>The Code node is a crutch, not a solution.</strong> If you find yourself writing 50+ lines of JavaScript in a Code node, stop. That logic belongs in a proper codebase with tests, types, and version control. Call it from n8n via HTTP Request to your own API endpoint. n8n is the orchestrator, not the execution engine.
+  </div>
+
+  <p>n8n does support version control via Git integration, and you can export workflows as JSON. But the diff experience is poor: workflow JSON is machine-generated and hard to review line-by-line. If your team's workflow is "PR review every change," n8n will feel awkward. If your workflow is "deploy and iterate," n8n is fast.</p>
+
+  <div class="analogy">
+    <strong>The right framing:</strong> n8n replaces glue code, not application code. It replaces the 200-line script that polls an API, reformats the data, and posts to Slack. It does not replace your backend service. Use both: n8n for orchestration, your codebase for business logic.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>&copy; 2026 Katrina Laszlo</span>
+</footer>
+
+<script src="nav.js"></script>
+</body>
+</html>

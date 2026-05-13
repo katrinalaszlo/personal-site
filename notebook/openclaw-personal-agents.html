@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Personal Agents — Notebook — Katrina Laszlo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">OpenClaw Personal Agents</span></div>
+</div>
+
+<main>
+
+<h1>OpenClaw Personal Agents</h1>
+<p class="subtitle">What it is, how it works, when to use it vs. Claude+MCP or Letta. Evaluated from the perspective of a PM who already lives inside Claude Code.</p>
+
+<!-- ======== SECTION 1: WHAT IT IS ======== -->
+<section id="s1">
+  <h2>What OpenClaw actually is</h2>
+  <p class="subtitle">An open-source personal AI assistant you self-host. It talks to you over the channels you already use.</p>
+
+  <p>OpenClaw is a self-hosted agent framework. You run a single Gateway process on your machine (or a server). That gateway connects to messaging channels like WhatsApp, Telegram, Slack, Discord, iMessage, Signal, and a web UI. You talk to your agent wherever you already are. The agent reasons with an LLM of your choice, uses tools to act on the world, and persists memory across sessions.</p>
+
+  <p>It is not a coding agent. It is not a chatbot wrapper. It is closer to a personal operating system for an LLM, with a messaging interface instead of a terminal.</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-top: 3px solid var(--accent);">
+      <h3>What it does well</h3>
+      <ul>
+        <li>Multi-channel inbox: one agent, many surfaces</li>
+        <li>Model-agnostic: Claude, GPT, Gemini, DeepSeek, local models</li>
+        <li>Proactive scheduling via heartbeat and cron</li>
+        <li>Skills and tool ecosystem with clear override layers</li>
+        <li>Runs on your hardware. Your data stays local.</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--orange);">
+      <h3>What it does not do</h3>
+      <ul>
+        <li>No managed hosting. You run it yourself (or pay a third-party host).</li>
+        <li>Memory is LLM-directed, not guaranteed. The model decides what to save.</li>
+        <li>Broad permissions surface creates security exposure.</li>
+        <li>Not a coding agent. For code, you want Claude Code or Codex.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 2: ARCHITECTURE ======== -->
+<section id="s2">
+  <h2>Architecture: three layers</h2>
+  <p class="subtitle">Channel, brain, body. Clean separation of messaging, reasoning, and action.</p>
+
+  <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <h3>Channel</h3>
+      <p class="dim" style="margin-bottom:0">Messaging adapters. WhatsApp (Baileys), Telegram (grammY), Slack, Discord, iMessage, Signal, web. Each adapter normalizes input into a standard message object: sender, body, attachments, channel metadata.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--orange)">
+      <h3>Brain</h3>
+      <p class="dim" style="margin-bottom:0">The LLM. Makes API calls to your chosen provider. Handles multi-step reasoning and task decomposition. Model-agnostic: swap providers without changing your setup.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h3>Body</h3>
+      <p class="dim" style="margin-bottom:0">Tools and execution. Browser automation, file access, long-term memory, canvas rendering. This layer turns conversation into action.</p>
+    </div>
+  </div>
+
+  <p>The Gateway sits at the center as the control plane: it manages sessions, routes messages, loads tools, and orchestrates events. Everything flows through it.</p>
+
+  <h3>The agentic loop</h3>
+  <p>Every message triggers the same seven-stage loop:</p>
+
+  <div class="sequence">
+    <div class="seq-step">
+      <div class="seq-num">1</div>
+      <div class="seq-body">
+        <h4>Normalize</h4>
+        <p>Channel adapter converts platform-specific message into a standard format.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">2</div>
+      <div class="seq-body">
+        <h4>Route</h4>
+        <p>Gateway identifies the session and determines which agent handles the message.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">3</div>
+      <div class="seq-body">
+        <h4>Assemble context</h4>
+        <p>Loads SOUL.md, conversation history, relevant memory, and skill instructions.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">4</div>
+      <div class="seq-body">
+        <h4>Infer</h4>
+        <p>LLM generates a response or decides to use a tool.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">5</div>
+      <div class="seq-body">
+        <h4>ReAct loop</h4>
+        <p>If the model called a tool, execute it, feed results back, let the model reason again. Repeat until the model produces a final response.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">6</div>
+      <div class="seq-body">
+        <h4>Load skills</h4>
+        <p>On-demand skill activation based on the task at hand.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">7</div>
+      <div class="seq-body">
+        <h4>Persist memory</h4>
+        <p>Save relevant facts to MEMORY.md or daily memory files for future sessions.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>If you use Claude Code:</strong> This loop will feel familiar. Claude Code does something similar (read context, reason, tool-call, iterate). The difference is that OpenClaw wraps this in a persistent gateway serving multiple channels, rather than a terminal session that ends when you close it.
+  </div>
+</section>
+
+<!-- ======== SECTION 3: CORE CONCEPTS ======== -->
+<section id="s3">
+  <h2>Core concepts: the workspace files</h2>
+  <p class="subtitle">OpenClaw is configured with plain Markdown files, not YAML or JSON schemas. You write instructions in English.</p>
+
+  <p>The workspace lives at <code>~/.openclaw/workspace</code> by default. These are the files that matter:</p>
+
+  <div class="card" style="border-left:3px solid var(--accent)">
+    <h3>SOUL.md</h3>
+    <p class="dim" style="margin-bottom:8px">Defines the agent's identity, communication style, values, and boundaries. Injected into the system prompt at the start of every session. Does not control which tools are available (that is handled by <code>openclaw.json</code> and MCP config). Controls how the agent uses them.</p>
+    <p class="dim" style="margin-bottom:0">Five sections: Identity, Communication Style, Values, Boundaries, Example Responses. Keep it under 2,000 words.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--green)">
+    <h3>MEMORY.md</h3>
+    <p class="dim" style="margin-bottom:8px">Long-term memory. Durable facts, preferences, and decisions. Loaded at session start. The LLM also has access to <code>memory_search</code> and <code>memory_get</code> tools for retrieval during a session.</p>
+    <p class="dim" style="margin-bottom:0">Daily notes are auto-generated as separate Markdown files in the <code>memory/</code> directory.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--orange)">
+    <h3>HEARTBEAT.md</h3>
+    <p class="dim" style="margin-bottom:8px">Turns the agent from reactive to proactive. A checklist the agent reviews every 30 minutes (configurable). If nothing needs attention, the agent replies <code>HEARTBEAT_OK</code> and stays silent.</p>
+    <p class="dim" style="margin-bottom:0">Use heartbeat for periodic awareness (inbox, calendar, notifications). Use cron for exact-time jobs (daily reports, weekly reviews).</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--purple)">
+    <h3>AGENTS.md</h3>
+    <p class="dim" style="margin-bottom:0">Defines multi-agent configurations. If you run multiple specialized agents (e.g., a research agent and a scheduling agent), this file tells the gateway how to route between them.</p>
+  </div>
+
+  <div class="warning">
+    <strong>Memory caveat:</strong> OpenClaw's default memory system does not guarantee persistence. Memory storage and retrieval are LLM-directed, meaning the model decides what to save based on prompts and heuristics. There is no hidden state. If the model does not write a fact to disk, it is gone. Third-party plugins like Mem0 and AgentMemory offer more structured persistence.
+  </div>
+</section>
+
+<!-- ======== SECTION 4: SKILLS AND TOOLS ======== -->
+<section id="s4">
+  <h2>Skills and tools</h2>
+  <p class="subtitle">Skills are prompt-based capabilities loaded on demand. Tools are executable actions. They are separate layers.</p>
+
+  <p><strong>Tools</strong> are the execution surface: browser automation, file read/write, shell commands, MCP servers. Core tools (read, exec, edit, write) are always available. Additional tools are configured via <code>openclaw.json</code> and MCP.</p>
+
+  <p><strong>Skills</strong> are Markdown files (<code>SKILL.md</code>) that inject domain-specific instructions when activated. They follow a three-tier override model:</p>
+
+  <div class="sequence">
+    <div class="seq-step">
+      <div class="seq-num">1</div>
+      <div class="seq-body">
+        <h4>Bundled skills</h4>
+        <p>Ship with the installation. Cover common capabilities.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">2</div>
+      <div class="seq-body">
+        <h4>Local skills <span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;margin-left:8px" class="tag">~/.openclaw/skills/</span></h4>
+        <p>Override or extend bundled defaults for your setup.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">3</div>
+      <div class="seq-body">
+        <h4>Workspace skills <span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;margin-left:8px" class="tag orange">highest precedence</span></h4>
+        <p>Scoped to a specific agent or project. Override everything.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>Connection to Claude Code:</strong> If you use CLAUDE.md project files and skills, you already know this pattern. OpenClaw's SOUL.md is analogous to CLAUDE.md. OpenClaw skills work like Claude Code skills. The difference is that OpenClaw's skill system is designed for an always-on agent, not a session-based CLI.
+  </div>
+</section>
+
+<!-- ======== SECTION 5: INSTALLATION ======== -->
+<section id="s5">
+  <h2>Installation on macOS</h2>
+  <p class="subtitle">Node 22+, one command, 10 minutes to first message.</p>
+
+  <h3>Prerequisites</h3>
+  <ul>
+    <li>macOS 12 Monterey or later (Apple Silicon and Intel both supported)</li>
+    <li>Node.js 22 or newer</li>
+  </ul>
+
+  <h3>One-line installer</h3>
+  <div class="code-block"><span class="c"># Detects OS, installs Node if needed, installs OpenClaw, launches onboarding</span>
+curl -fsSL https://get.openclaw.ai | bash</div>
+
+  <h3>Manual install</h3>
+  <div class="code-block"><span class="c"># If you already have Node 22+</span>
+npm install -g openclaw@latest</div>
+
+  <h3>What happens next</h3>
+  <p>The onboarding wizard walks you through:</p>
+  <ol>
+    <li>Authentication and gateway settings</li>
+    <li>Choosing your LLM provider (Anthropic, OpenAI, OpenRouter, local)</li>
+    <li>Connecting your first channel (Telegram and WebChat are easiest to start with)</li>
+    <li>Creating your initial SOUL.md</li>
+  </ol>
+
+  <p>The installer sets up OpenClaw as a background service so the gateway stays running after you close Terminal.</p>
+
+  <h3>Key paths</h3>
+  <div class="code-block">~/.openclaw/workspace/           <span class="c"># Workspace root</span>
+~/.openclaw/workspace/SOUL.md     <span class="c"># Agent identity</span>
+~/.openclaw/workspace/MEMORY.md   <span class="c"># Long-term memory</span>
+~/.openclaw/workspace/HEARTBEAT.md<span class="c"># Proactive scheduling</span>
+~/.openclaw/workspace/AGENTS.md   <span class="c"># Multi-agent config</span>
+~/.openclaw/skills/               <span class="c"># Local skill overrides</span></div>
+
+  <div class="analogy">
+    <strong>Time to first value:</strong> About 10-15 minutes for the install. Another 10-20 minutes to configure SOUL.md and connect a channel. You will be talking to your agent within 30 minutes.
+  </div>
+</section>
+
+<!-- ======== SECTION 6: COMPARISON ======== -->
+<section id="s6">
+  <h2>OpenClaw vs. Letta vs. custom Claude+MCP</h2>
+  <p class="subtitle">Three different tools solving different problems. They are not direct substitutes.</p>
+
+  <p>These are not apples-to-apples comparisons. OpenClaw is a packaged personal assistant with multi-channel messaging. Letta (formerly MemGPT) is a stateful agent framework for developers building memory-rich applications. Claude+MCP (Claude Code, Managed Agents, or a custom harness) is an LLM with a tool protocol. They overlap in capabilities but diverge in what they optimize for.</p>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Dimension</th><th>OpenClaw</th><th>Letta</th><th>Custom Claude+MCP</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>What it is</td>
+        <td>Packaged personal assistant</td>
+        <td>Stateful agent framework / runtime</td>
+        <td>LLM + tool protocol (you build the rest)</td>
+      </tr>
+      <tr>
+        <td>Primary interface</td>
+        <td>Messaging channels (WhatsApp, Slack, Telegram, web)</td>
+        <td>API / developer console</td>
+        <td>Terminal (Claude Code) or API</td>
+      </tr>
+      <tr>
+        <td>Hosting</td>
+        <td>Self-hosted (your machine or VPS)</td>
+        <td>Self-hosted or Letta Cloud</td>
+        <td>Anthropic-hosted (Managed Agents) or local (Claude Code)</td>
+      </tr>
+      <tr>
+        <td>Model lock-in</td>
+        <td style="color:var(--green)">None. Claude, GPT, Gemini, DeepSeek, local.</td>
+        <td style="color:var(--green)">None. Model-agnostic.</td>
+        <td style="color:var(--red)">Claude only</td>
+      </tr>
+      <tr>
+        <td>Memory model</td>
+        <td>LLM-directed Markdown files + plugins (Mem0, AgentMemory)</td>
+        <td>OS-inspired tiers: core (RAM), recall (conversation), archival (vector store). Agent manages its own memory via function calls.</td>
+        <td>Session context + CLAUDE.md. No native cross-session memory beyond file system.</td>
+      </tr>
+      <tr>
+        <td>Proactive behavior</td>
+        <td style="color:var(--green)">Yes. Heartbeat (30-min periodic checks) + cron jobs.</td>
+        <td>Possible via custom scheduling</td>
+        <td>Not built-in. Requires external orchestration.</td>
+      </tr>
+      <tr>
+        <td>MCP support</td>
+        <td>Native</td>
+        <td>Native</td>
+        <td>Native (Anthropic built MCP)</td>
+      </tr>
+      <tr>
+        <td>Setup effort</td>
+        <td>30 minutes to working agent</td>
+        <td>Hours to days (developer-oriented)</td>
+        <td>Minutes for Claude Code. Days for a custom harness.</td>
+      </tr>
+      <tr>
+        <td>Best for</td>
+        <td>Personal assistant across messaging platforms</td>
+        <td>Building customer-facing apps with persistent agent memory</td>
+        <td>Coding, analysis, terminal-based workflows</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <h3>Pick OpenClaw when</h3>
+      <ul>
+        <li>You want an always-on assistant across multiple messaging channels</li>
+        <li>Model flexibility matters (switching providers without re-architecting)</li>
+        <li>You want proactive behavior (monitoring, scheduled tasks)</li>
+        <li>You prefer self-hosting and data sovereignty</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid var(--purple)">
+      <h3>Pick Letta when</h3>
+      <ul>
+        <li>You are building an application where agents need structured long-term memory</li>
+        <li>You want the agent to explicitly manage its own memory (paging data in and out)</li>
+        <li>Your use case is customer-facing, not personal</li>
+        <li>You need a framework, not a finished product</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--green)">
+    <h3>Stick with Claude+MCP when</h3>
+    <p class="dim" style="margin-bottom:8px">You are a PM or developer who works primarily in the terminal. Your workflows are code-centric: reading repos, writing features, running tests, analyzing data. Claude Code with MCP servers already gives you tools, context, and session memory scoped to projects.</p>
+    <p class="dim" style="margin-bottom:0">OpenClaw adds value when you want the same intelligence available on your phone via Telegram, or running tasks while you sleep. If you never need that, Claude Code is simpler and already working.</p>
+  </div>
+</section>
+
+<!-- ======== SECTION 7: KEY WORKFLOWS ======== -->
+<section id="s7">
+  <h2>Key workflows</h2>
+  <p class="subtitle">What you actually do with a personal agent once it is running.</p>
+
+  <div class="card" style="border-left:3px solid var(--accent)">
+    <h3>Triage and inbox management</h3>
+    <p class="dim" style="margin-bottom:8px">Connect your email, calendar, and Slack. The agent monitors via heartbeat, surfaces what needs attention, and stays quiet otherwise. The HEARTBEAT_OK protocol means it does not spam you with "all clear" messages.</p>
+    <p class="dim" style="margin-bottom:0"><strong>Example HEARTBEAT.md:</strong> "Check email for anything from investors or customers. Check calendar for meetings in the next 2 hours. If Slack has unread DMs, summarize them. Otherwise, HEARTBEAT_OK."</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--orange)">
+    <h3>Research and synthesis</h3>
+    <p class="dim" style="margin-bottom:8px">Send a question via Telegram while away from your desk. The agent uses browser tools and web search to gather information, synthesizes it, and sends back a structured answer. Memory persists, so follow-up questions build on prior context.</p>
+    <p class="dim" style="margin-bottom:0">This is where multi-channel matters: you can start a research thread on your phone and pick it up on desktop later.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--green)">
+    <h3>Scheduled reports and cron jobs</h3>
+    <p class="dim" style="margin-bottom:8px">Cron is for exact-time, isolated tasks. "Every Monday at 9am, pull my GitHub notifications and summarize open PRs." "Every evening, check HN for posts about agent frameworks."</p>
+    <p class="dim" style="margin-bottom:0">Cron tasks run in separate sessions from the main conversation, so they do not pollute your chat history.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--purple)">
+    <h3>Multi-agent routing</h3>
+    <p class="dim" style="margin-bottom:0">If one agent is not enough, AGENTS.md lets you define specialized agents (research, scheduling, coding) with routing rules. The gateway classifies intent and dispatches to the right specialist. Same pattern as the orchestration layer in <a href="/notebook/ai-system-design.html" style="color:var(--accent);text-decoration:none">AI System Design</a>.</p>
+  </div>
+</section>
+
+<!-- ======== SECTION 8: SECURITY ======== -->
+<section id="s8">
+  <h2>Security considerations</h2>
+  <p class="subtitle">Broad permissions are the feature and the risk.</p>
+
+  <p>OpenClaw's value comes from deep access: email, calendar, messaging, browser, file system. That same access surface is a security concern.</p>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Risk</th><th>What it means</th><th>Mitigation</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Prompt injection</td>
+        <td>Malicious instructions embedded in emails, messages, or web pages can hijack the agent.</td>
+        <td>SOUL.md boundaries. Tool policy in openclaw.json. Restrict write tools to specific paths.</td>
+      </tr>
+      <tr>
+        <td>Credential exposure</td>
+        <td>API keys and tokens stored in config files on disk.</td>
+        <td>Environment variables. Never commit openclaw.json to version control.</td>
+      </tr>
+      <tr>
+        <td>Overprivileged tools</td>
+        <td>The agent can do anything its tools allow. No granular permission gates by default.</td>
+        <td>Audit your tool list. Remove tools the agent does not need. Use MCP scoping.</td>
+      </tr>
+      <tr>
+        <td>Public exposure</td>
+        <td>If the gateway is reachable from the internet without auth, anyone can talk to your agent.</td>
+        <td>Run behind a firewall. Use auth tokens on all channel adapters.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warning">
+    <strong>The honest assessment:</strong> OpenClaw gives an LLM the keys to your digital life. The architecture does not enforce least-privilege by default. You need to configure boundaries yourself. If you are not comfortable doing that, a session-based tool like Claude Code is safer because it only has access while you are actively using it.
+  </div>
+</section>
+
+<!-- ======== SECTION 9: WHEN TO USE ======== -->
+<section id="s9">
+  <h2>Decision framework</h2>
+  <p class="subtitle">Do you actually need a personal agent? Or is a good CLI session enough?</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-top: 3px solid var(--green);">
+      <span class="tag green">OpenClaw adds value</span>
+      <ul style="margin-top:12px">
+        <li>You want AI accessible from your phone, not just your terminal</li>
+        <li>You need proactive monitoring (inbox triage, calendar alerts, web watching)</li>
+        <li>You want one agent identity across multiple platforms</li>
+        <li>You switch LLM providers and do not want to rebuild your setup</li>
+        <li>You are building a personal knowledge system that the agent maintains</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--red);">
+      <span class="tag red">OpenClaw is overhead</span>
+      <ul style="margin-top:12px">
+        <li>Your work is code-centric and terminal-based (Claude Code is better)</li>
+        <li>You only need AI during active work sessions, not 24/7</li>
+        <li>You are not comfortable self-hosting and managing a background service</li>
+        <li>Your security posture requires explicit permission prompts for every action</li>
+        <li>You are building a product, not a personal tool (use Letta or a custom harness)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="connection">
+    <strong>The honest test:</strong> If you already use Claude Code daily and your workflows are project-scoped terminal sessions, OpenClaw mostly adds a messaging layer you may not need. It becomes compelling when you want the agent to do things while you are not at your desk, or when you want non-technical family members to interact with it via a chat app.
+  </div>
+</section>
+
+<div class="credit">
+  Sources: <a href="https://docs.openclaw.ai/">OpenClaw Docs</a>, <a href="https://github.com/openclaw/openclaw">openclaw/openclaw on GitHub</a>, <a href="https://www.freecodecamp.org/news/how-to-build-and-secure-a-personal-ai-agent-with-openclaw/">freeCodeCamp</a>, <a href="https://www.letta.com/blog/agent-memory">Letta: Agent Memory</a>, <a href="https://developer.nvidia.com/blog/build-a-secure-always-on-local-ai-agent-with-nvidia-nemoclaw-and-openclaw/">NVIDIA Technical Blog</a>.
+</div>
+
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude API — Notebook — Katrina Laszlo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="stylesheet" href="notebook.css">
+<style>
+.model-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+.model-card {
+  background: var(--bg-inset); border: 2px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px 16px;
+}
+.model-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.model-card .price { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+.model-card .ctx { font-size: 12px; color: var(--accent); font-weight: 600; }
+.model-card.opus { border-color: var(--purple); }
+.model-card.opus h4 { color: var(--purple); }
+.model-card.sonnet { border-color: var(--accent); }
+.model-card.sonnet h4 { color: var(--accent); }
+.model-card.haiku { border-color: var(--green); }
+.model-card.haiku h4 { color: var(--green); }
+
+.surface-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+.surface-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 16px;
+}
+.surface-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.surface-card p { font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
+.surface-card ul { font-size: 12px; margin-left: 16px; }
+
+.cost-bar { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.cost-label { font-size: 13px; width: 140px; flex-shrink: 0; }
+.cost-fill { height: 20px; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-family: var(--mono); color: #fff; }
+
+@media (max-width: 700px) {
+  .model-grid, .surface-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook/" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">Claude API</span></div>
+</div>
+
+<main>
+
+<h1>Claude API</h1>
+<p class="subtitle">From Claude Code user to raw API caller</p>
+
+<section>
+  <h2>Three Ways to Use Claude</h2>
+
+  <p>If you use Claude Code every day, you already know what Claude can do. But Claude Code is one of three surfaces. Each talks to the same models through different interfaces, with different tradeoffs.</p>
+
+  <div class="surface-grid">
+    <div class="surface-card">
+      <h4>Claude.ai / Desktop</h4>
+      <p>The consumer chat interface. You type, Claude responds. Anthropic manages the conversation, context, and billing.</p>
+      <ul>
+        <li>No code required</li>
+        <li>Flat monthly subscription</li>
+        <li>No programmatic access</li>
+      </ul>
+    </div>
+    <div class="surface-card">
+      <h4>Claude Code</h4>
+      <p>The agentic coding CLI. It reads your codebase, runs tools, edits files. Under the hood, it makes API calls on your behalf.</p>
+      <ul>
+        <li>Manages conversation for you</li>
+        <li>Tool execution built in</li>
+        <li>Pay-per-token (via API key)</li>
+      </ul>
+    </div>
+    <div class="surface-card">
+      <h4>The API</h4>
+      <p>The raw HTTP endpoint. You send JSON, you get JSON back. You control everything: prompts, tools, context, retries.</p>
+      <ul>
+        <li>Full control over every parameter</li>
+        <li>Build any product on top</li>
+        <li>Pay-per-token, you manage costs</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <strong>When to use the API directly</strong>
+    Claude Code is an opinionated wrapper. The API is the raw material. You want the API when you're building a product that uses Claude (a chatbot, a classifier, a data pipeline), when you need precise control over system prompts and tool definitions, or when you want to integrate Claude into an existing application. If you're just coding, Claude Code is better. If you're building something that uses Claude as a component, you want the API.
+  </div>
+</section>
+
+<section>
+  <h2>Authentication</h2>
+
+  <p>Everything starts with an API key from the <a href="https://console.anthropic.com" style="color:var(--accent)">Anthropic Console</a>. The key goes in the <code>x-api-key</code> header on every request.</p>
+
+  <h3>Raw HTTP</h3>
+  <div class="code-block">curl https://api.anthropic.com/v1/messages \
+  --header <span class="s">"x-api-key: $ANTHROPIC_API_KEY"</span> \
+  --header <span class="s">"anthropic-version: 2023-06-01"</span> \
+  --header <span class="s">"content-type: application/json"</span> \
+  --data <span class="s">'{ "model": "claude-sonnet-4-5-20241022", "max_tokens": 1024, "messages": [{"role": "user", "content": "Hello"}] }'</span></div>
+
+  <h3>With the SDKs</h3>
+  <p>Both SDKs read <code>ANTHROPIC_API_KEY</code> from your environment automatically. You never have to pass the key in code if the env var is set.</p>
+
+  <div class="code-block"><span class="c"># Python</span>
+<span class="k">import</span> anthropic
+client = anthropic.Anthropic()  <span class="c"># reads ANTHROPIC_API_KEY from env</span>
+
+<span class="c"># Or pass it explicitly</span>
+client = anthropic.Anthropic(api_key=<span class="s">"sk-ant-..."</span>)</div>
+
+  <div class="code-block"><span class="c">// TypeScript</span>
+<span class="k">import</span> Anthropic <span class="k">from</span> <span class="s">"@anthropic-ai/sdk"</span>;
+<span class="k">const</span> client = <span class="k">new</span> Anthropic();  <span class="c">// reads ANTHROPIC_API_KEY from env</span></div>
+
+  <div class="warning">
+    <strong>Never commit API keys.</strong>
+    Use environment variables or a secrets manager. The key has no scope restrictions. Anyone with it can make requests as you, at your cost. Rotate immediately if exposed.
+  </div>
+</section>
+
+<section>
+  <h2>The Messages Endpoint</h2>
+
+  <p>The API has one core endpoint: <code>POST /v1/messages</code>. Every interaction with Claude goes through it. The API is stateless. There is no session, no memory, no conversation ID. You send the full conversation history every time.</p>
+
+  <h3>Minimal request</h3>
+  <div class="code-block"><span class="k">import</span> anthropic
+
+client = anthropic.Anthropic()
+message = client.messages.create(
+    model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens=<span class="n">1024</span>,
+    messages=[
+        {<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"What is the capital of France?"</span>}
+    ]
+)
+print(message.content[<span class="n">0</span>].text)</div>
+
+  <h3>Multi-turn conversation</h3>
+  <p>The API doesn't remember anything. You maintain the conversation by appending messages to the array and sending the whole thing back.</p>
+
+  <div class="code-block">messages = [
+    {<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"What's the tallest mountain?"</span>},
+    {<span class="s">"role"</span>: <span class="s">"assistant"</span>, <span class="s">"content"</span>: <span class="s">"Mount Everest, at 8,849 meters."</span>},
+    {<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"How long does it take to climb it?"</span>}
+]
+
+message = client.messages.create(
+    model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens=<span class="n">1024</span>,
+    messages=messages
+)</div>
+
+  <h3>System prompt</h3>
+  <p>The system prompt sets Claude's behavior. It's a top-level parameter, not a message in the array.</p>
+
+  <div class="code-block">message = client.messages.create(
+    model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens=<span class="n">1024</span>,
+    system=<span class="s">"You are a senior backend engineer. Be concise. Use code examples."</span>,
+    messages=[
+        {<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"How do I handle rate limiting in a REST API?"</span>}
+    ]
+)</div>
+
+  <h3>The response object</h3>
+  <div class="code-block"><span class="c"># message.model_dump() returns something like:</span>
+{
+    <span class="s">"id"</span>: <span class="s">"msg_01XFDUDYJgAACzvnptvVoYEL"</span>,
+    <span class="s">"type"</span>: <span class="s">"message"</span>,
+    <span class="s">"role"</span>: <span class="s">"assistant"</span>,
+    <span class="s">"content"</span>: [{<span class="s">"type"</span>: <span class="s">"text"</span>, <span class="s">"text"</span>: <span class="s">"The capital of France is Paris."</span>}],
+    <span class="s">"model"</span>: <span class="s">"claude-sonnet-4-5-20241022"</span>,
+    <span class="s">"stop_reason"</span>: <span class="s">"end_turn"</span>,
+    <span class="s">"usage"</span>: {
+        <span class="s">"input_tokens"</span>: <span class="n">14</span>,
+        <span class="s">"output_tokens"</span>: <span class="n">10</span>
+    }
+}</div>
+
+  <p>Key fields: <code>content</code> is always an array (it can contain text blocks and tool-use blocks). <code>stop_reason</code> tells you why Claude stopped: <code>"end_turn"</code> means it finished, <code>"max_tokens"</code> means you hit your limit, <code>"tool_use"</code> means it wants to call a tool. <code>usage</code> is how you track costs.</p>
+</section>
+
+<section>
+  <h2>Model Selection</h2>
+
+  <p>Anthropic maintains three model tiers. Same architecture, different size-speed-cost tradeoffs. Pick the cheapest model that handles your task.</p>
+
+  <div class="model-grid">
+    <div class="model-card opus">
+      <h4>Opus</h4>
+      <div class="price">$5 / $25 per 1M tokens</div>
+      <div class="ctx">1M context</div>
+      <p style="font-size:12px; margin-top:8px; color:var(--text-dim)">Most capable. Complex reasoning, nuanced writing, multi-step analysis. Use when quality matters most and cost is secondary.</p>
+    </div>
+    <div class="model-card sonnet">
+      <h4>Sonnet</h4>
+      <div class="price">$3 / $15 per 1M tokens</div>
+      <div class="ctx">200K context</div>
+      <p style="font-size:12px; margin-top:8px; color:var(--text-dim)">Best balance. Strong at coding, analysis, and general tasks. The workhorse for most applications.</p>
+    </div>
+    <div class="model-card haiku">
+      <h4>Haiku</h4>
+      <div class="price">$1 / $5 per 1M tokens</div>
+      <div class="ctx">200K context</div>
+      <p style="font-size:12px; margin-top:8px; color:var(--text-dim)">Fastest, cheapest. Classification, extraction, simple Q&A. Use for high-volume, low-complexity tasks.</p>
+    </div>
+  </div>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Model ID</th><th>Tier</th><th>Context</th><th>Best for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>claude-opus-4-7-20250506</code></td><td>Opus</td><td>1M</td><td>Hardest problems, agentic tasks</td></tr>
+      <tr><td><code>claude-opus-4-6-20250414</code></td><td>Opus</td><td>1M</td><td>Complex reasoning, coding</td></tr>
+      <tr><td><code>claude-sonnet-4-5-20241022</code></td><td>Sonnet</td><td>200K</td><td>General-purpose workhorse</td></tr>
+      <tr><td><code>claude-haiku-4-5-20250414</code></td><td>Haiku</td><td>200K</td><td>High-volume, low-latency</td></tr>
+    </tbody>
+  </table>
+
+  <div class="analogy">
+    <strong>Practical model selection</strong>
+    Start with Sonnet. If the output quality isn't sufficient, move up to Opus. If Sonnet is overkill (simple classification, yes/no decisions), move down to Haiku. Most production systems use Sonnet for the main path and Haiku for preprocessing or routing.
+  </div>
+</section>
+
+<section>
+  <h2>Streaming</h2>
+
+  <p>By default, the API waits until Claude finishes the entire response before returning. For anything user-facing, you want streaming: tokens arrive as they're generated, so the user sees text appearing in real time.</p>
+
+  <h3>Python streaming</h3>
+  <div class="code-block"><span class="k">with</span> client.messages.stream(
+    model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens=<span class="n">1024</span>,
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"Explain TCP handshake"</span>}]
+) <span class="k">as</span> stream:
+    <span class="k">for</span> text <span class="k">in</span> stream.text_stream:
+        print(text, end=<span class="s">""</span>, flush=True)
+
+<span class="c"># After the stream ends, get the full message</span>
+final = stream.get_final_message()
+print(f<span class="s">"\n\nTokens used: {final.usage.input_tokens} in, {final.usage.output_tokens} out"</span>)</div>
+
+  <h3>TypeScript streaming</h3>
+  <div class="code-block"><span class="k">const</span> stream = client.messages.stream({
+  model: <span class="s">"claude-sonnet-4-5-20241022"</span>,
+  max_tokens: <span class="n">1024</span>,
+  messages: [{ role: <span class="s">"user"</span>, content: <span class="s">"Explain TCP handshake"</span> }],
+});
+
+<span class="k">for await</span> (<span class="k">const</span> event <span class="k">of</span> stream) {
+  <span class="k">if</span> (event.type === <span class="s">"content_block_delta"</span> && event.delta.type === <span class="s">"text_delta"</span>) {
+    process.stdout.write(event.delta.text);
+  }
+}
+
+<span class="k">const</span> final = <span class="k">await</span> stream.finalMessage();
+console.log(<span class="s">`\nTokens: ${final.usage.input_tokens} in, ${final.usage.output_tokens} out`</span>);</div>
+
+  <p>Under the hood, streaming uses Server-Sent Events (SSE). The SDK handles the connection management. Each event has a type: <code>message_start</code>, <code>content_block_start</code>, <code>content_block_delta</code> (the actual tokens), <code>content_block_stop</code>, <code>message_stop</code>.</p>
+
+  <div class="warning">
+    <strong>Always stream for user-facing apps.</strong>
+    A non-streaming request for a long response can take 10-30 seconds of silence before anything appears. Streaming gives perceived latency under 1 second. The total time is the same, but the user experience is dramatically better.
+  </div>
+</section>
+
+<section>
+  <h2>Tool Use (Function Calling)</h2>
+
+  <p>This is how Claude Code works under the hood. You define tools (functions) with names, descriptions, and input schemas. Claude decides when to call them and returns structured arguments. You execute the function and feed the result back.</p>
+
+  <h3>The tool-use loop</h3>
+
+  <div class="sequence">
+    <div class="seq-step">
+      <div class="seq-num">1</div>
+      <div class="seq-body">
+        <h4>Define tools + send message</h4>
+        <p>You describe available tools with JSON Schema. Claude sees the descriptions and decides whether to use them.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">2</div>
+      <div class="seq-body">
+        <h4>Claude returns a tool_use block</h4>
+        <p>Instead of (or alongside) text, the response contains a tool call with structured input. <code>stop_reason</code> will be <code>"tool_use"</code>.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">3</div>
+      <div class="seq-body">
+        <h4>You execute the function</h4>
+        <p>Your code runs the actual function with the provided arguments. This happens on your side, not Anthropic's.</p>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-num">4</div>
+      <div class="seq-body">
+        <h4>Send the result back</h4>
+        <p>You add the tool result to the messages array and call the API again. Claude uses the result to formulate its final answer.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Full example: weather tool</h3>
+  <div class="code-block"><span class="k">import</span> anthropic, json
+
+client = anthropic.Anthropic()
+
+<span class="c"># Step 1: Define tools</span>
+tools = [{
+    <span class="s">"name"</span>: <span class="s">"get_weather"</span>,
+    <span class="s">"description"</span>: <span class="s">"Get current weather for a city"</span>,
+    <span class="s">"input_schema"</span>: {
+        <span class="s">"type"</span>: <span class="s">"object"</span>,
+        <span class="s">"properties"</span>: {
+            <span class="s">"city"</span>: {<span class="s">"type"</span>: <span class="s">"string"</span>, <span class="s">"description"</span>: <span class="s">"City name"</span>}
+        },
+        <span class="s">"required"</span>: [<span class="s">"city"</span>]
+    }
+}]
+
+<span class="c"># Step 2: Send message with tools</span>
+response = client.messages.create(
+    model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens=<span class="n">1024</span>,
+    tools=tools,
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"What's the weather in Tokyo?"</span>}]
+)
+
+<span class="c"># Step 3: Check if Claude wants to use a tool</span>
+<span class="k">if</span> response.stop_reason == <span class="s">"tool_use"</span>:
+    tool_block = next(b <span class="k">for</span> b <span class="k">in</span> response.content <span class="k">if</span> b.type == <span class="s">"tool_use"</span>)
+
+    <span class="c"># Step 4: Execute the function (your code)</span>
+    result = get_weather(tool_block.input[<span class="s">"city"</span>])  <span class="c"># your implementation</span>
+
+    <span class="c"># Step 5: Send the result back</span>
+    followup = client.messages.create(
+        model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+        max_tokens=<span class="n">1024</span>,
+        tools=tools,
+        messages=[
+            {<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"What's the weather in Tokyo?"</span>},
+            {<span class="s">"role"</span>: <span class="s">"assistant"</span>, <span class="s">"content"</span>: response.content},
+            {<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: [{
+                <span class="s">"type"</span>: <span class="s">"tool_result"</span>,
+                <span class="s">"tool_use_id"</span>: tool_block.id,
+                <span class="s">"content"</span>: json.dumps(result)
+            }]}
+        ]
+    )
+    print(followup.content[<span class="n">0</span>].text)</div>
+
+  <p>The <code>tool_choice</code> parameter controls when Claude uses tools:</p>
+  <ul>
+    <li><code>{"type": "auto"}</code> -- Claude decides (default)</li>
+    <li><code>{"type": "any"}</code> -- Claude must call at least one tool</li>
+    <li><code>{"type": "tool", "name": "get_weather"}</code> -- force a specific tool</li>
+    <li><code>{"type": "none"}</code> -- disable tools for this call</li>
+  </ul>
+
+  <div class="connection">
+    <strong>This is exactly what Claude Code does.</strong>
+    Claude Code defines tools like <code>Read</code>, <code>Edit</code>, <code>Bash</code>, and <code>Write</code>. When you ask it to fix a bug, it calls the API with those tool definitions. Claude responds with tool_use blocks. Claude Code executes them (reads files, runs commands) and sends results back. The loop continues until Claude stops calling tools. You're building the same loop when you use the API directly.
+  </div>
+</section>
+
+<section>
+  <h2>Prompt Caching</h2>
+
+  <p>Prompt caching is the single most impactful cost optimization. If you send the same system prompt or context on every request, you're paying full input price every time. With caching, the repeated prefix is stored and reused at 10% of the input cost.</p>
+
+  <h3>How it works</h3>
+  <p>Mark content blocks with <code>cache_control</code> to tell the API to cache them. On subsequent requests with the same prefix, cached tokens are read from cache instead of reprocessed.</p>
+
+  <div class="code-block">response = client.messages.create(
+    model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens=<span class="n">1024</span>,
+    system=[{
+        <span class="s">"type"</span>: <span class="s">"text"</span>,
+        <span class="s">"text"</span>: <span class="s">"You are a legal assistant specializing in contract review..."</span>,  <span class="c"># long system prompt</span>
+        <span class="s">"cache_control"</span>: {<span class="s">"type"</span>: <span class="s">"ephemeral"</span>}  <span class="c"># cache this block</span>
+    }],
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"Review clause 4.2 of this agreement."</span>}]
+)</div>
+
+  <h3>Cost breakdown</h3>
+  <div style="margin: 16px 0;">
+    <div class="cost-bar">
+      <div class="cost-label">Uncached input</div>
+      <div class="cost-fill" style="width:100%; background:var(--red);">$3.00 / 1M tokens</div>
+    </div>
+    <div class="cost-bar">
+      <div class="cost-label">Cache write (first)</div>
+      <div class="cost-fill" style="width:125%; background:var(--orange);">$3.75 / 1M (1.25x)</div>
+    </div>
+    <div class="cost-bar">
+      <div class="cost-label">Cache read (reuse)</div>
+      <div class="cost-fill" style="width:10%; background:var(--green); min-width:100px;">$0.30 / 1M (0.1x)</div>
+    </div>
+  </div>
+  <p class="dim">Prices shown for Sonnet. Same ratios apply across all models.</p>
+
+  <h3>Cache rules</h3>
+  <ul>
+    <li>Minimum cache lifetime: 5 minutes (standard) or 60 minutes (extended, at 2x write cost)</li>
+    <li>Caching works on system prompts, tool definitions, and message content</li>
+    <li>Claude reads from the longest previously cached prefix automatically</li>
+    <li>Cached content must be at the beginning of the prompt (system prompt, then tools, then early messages)</li>
+    <li>Cache read tokens don't count against your input tokens per minute (ITPM) rate limit</li>
+  </ul>
+
+  <div class="analogy">
+    <strong>When caching saves real money</strong>
+    If your system prompt is 4,000 tokens and you make 1,000 requests/day: without caching, that's 4M input tokens/day just for the system prompt. With caching, the first request costs 1.25x, but the remaining 999 cost 0.1x each. You go from ~$12/day to ~$1.20/day on system prompt alone. The savings grow linearly with request volume and prompt length.
+  </div>
+</section>
+
+<section>
+  <h2>Extended Thinking</h2>
+
+  <p>Extended thinking lets Claude reason through a problem step by step before responding. The thinking process is visible in the response but billed as output tokens. This improves quality on hard problems: math, logic, multi-step analysis, code architecture.</p>
+
+  <h3>Adaptive thinking (current approach)</h3>
+  <div class="code-block">response = client.messages.create(
+    model=<span class="s">"claude-opus-4-7-20250506"</span>,
+    max_tokens=<span class="n">16000</span>,
+    thinking={
+        <span class="s">"type"</span>: <span class="s">"enabled"</span>,
+        <span class="s">"budget_tokens"</span>: <span class="n">10000</span>  <span class="c"># max tokens Claude can spend thinking</span>
+    },
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"Design a rate limiter that handles distributed systems."</span>}]
+)
+
+<span class="c"># The response has thinking blocks + text blocks</span>
+<span class="k">for</span> block <span class="k">in</span> response.content:
+    <span class="k">if</span> block.type == <span class="s">"thinking"</span>:
+        print(f<span class="s">"Thinking ({len(block.thinking)} chars): {block.thinking[:200]}..."</span>)
+    <span class="k">elif</span> block.type == <span class="s">"text"</span>:
+        print(f<span class="s">"Response: {block.text}"</span>)</div>
+
+  <p>On Opus 4.6+ and Sonnet 4.6+, you can also use adaptive thinking, where Claude decides how much to think based on query complexity:</p>
+
+  <div class="code-block">response = client.messages.create(
+    model=<span class="s">"claude-opus-4-7-20250506"</span>,
+    max_tokens=<span class="n">16000</span>,
+    thinking={<span class="s">"type"</span>: <span class="s">"adaptive"</span>},  <span class="c"># Claude calibrates thinking depth</span>
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"What's 2+2?"</span>}]  <span class="c"># simple query = minimal thinking</span>
+)</div>
+
+  <div class="warning">
+    <strong>Thinking tokens are billed as output tokens.</strong>
+    A <code>budget_tokens</code> of 10,000 on Opus means up to $0.25 in thinking alone per request. For high-volume applications, start with a small budget and increase only if quality needs it. Adaptive thinking helps because Claude won't waste tokens thinking about simple questions.
+  </div>
+</section>
+
+<section>
+  <h2>Structured Output</h2>
+
+  <p>Two ways to get structured data out of Claude: the <code>tool</code> trick, or native structured output.</p>
+
+  <h3>The tool trick (works everywhere)</h3>
+  <p>Define a "tool" that's really just a schema. Force Claude to call it. The tool input is your structured data.</p>
+
+  <div class="code-block">response = client.messages.create(
+    model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens=<span class="n">1024</span>,
+    tools=[{
+        <span class="s">"name"</span>: <span class="s">"extract_contact"</span>,
+        <span class="s">"description"</span>: <span class="s">"Extract contact information from text"</span>,
+        <span class="s">"input_schema"</span>: {
+            <span class="s">"type"</span>: <span class="s">"object"</span>,
+            <span class="s">"properties"</span>: {
+                <span class="s">"name"</span>: {<span class="s">"type"</span>: <span class="s">"string"</span>},
+                <span class="s">"email"</span>: {<span class="s">"type"</span>: <span class="s">"string"</span>},
+                <span class="s">"phone"</span>: {<span class="s">"type"</span>: <span class="s">"string"</span>}
+            },
+            <span class="s">"required"</span>: [<span class="s">"name"</span>, <span class="s">"email"</span>]
+        }
+    }],
+    tool_choice={<span class="s">"type"</span>: <span class="s">"tool"</span>, <span class="s">"name"</span>: <span class="s">"extract_contact"</span>},
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"John Smith, john@example.com, 555-0123"</span>}]
+)
+
+tool_block = response.content[<span class="n">0</span>]
+contact = tool_block.input  <span class="c"># {"name": "John Smith", "email": "john@example.com", "phone": "555-0123"}</span></div>
+
+  <h3>Native structured output</h3>
+  <p>For newer models, you can use <code>output_config.format</code> to get schema-validated JSON directly without the tool workaround.</p>
+
+  <div class="code-block">response = client.messages.create(
+    model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens=<span class="n">1024</span>,
+    output_config={
+        <span class="s">"format"</span>: {
+            <span class="s">"type"</span>: <span class="s">"json"</span>,
+            <span class="s">"schema"</span>: {
+                <span class="s">"type"</span>: <span class="s">"object"</span>,
+                <span class="s">"properties"</span>: {
+                    <span class="s">"sentiment"</span>: {<span class="s">"type"</span>: <span class="s">"string"</span>, <span class="s">"enum"</span>: [<span class="s">"positive"</span>, <span class="s">"negative"</span>, <span class="s">"neutral"</span>]},
+                    <span class="s">"confidence"</span>: {<span class="s">"type"</span>: <span class="s">"number"</span>}
+                },
+                <span class="s">"required"</span>: [<span class="s">"sentiment"</span>, <span class="s">"confidence"</span>]
+            }
+        }
+    },
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"This product is amazing, best purchase I've made!"</span>}]
+)</div>
+</section>
+
+<section>
+  <h2>Common Patterns</h2>
+
+  <h3>Pattern 1: Agentic loop</h3>
+  <p>The fundamental pattern behind Claude Code and every AI agent. Keep calling the API until Claude stops requesting tools.</p>
+
+  <div class="code-block"><span class="k">def</span> run_agent(user_message, tools, system_prompt):
+    messages = [{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: user_message}]
+
+    <span class="k">while</span> True:
+        response = client.messages.create(
+            model=<span class="s">"claude-sonnet-4-5-20241022"</span>,
+            max_tokens=<span class="n">4096</span>,
+            system=system_prompt,
+            tools=tools,
+            messages=messages
+        )
+
+        <span class="c"># Add Claude's response to conversation</span>
+        messages.append({<span class="s">"role"</span>: <span class="s">"assistant"</span>, <span class="s">"content"</span>: response.content})
+
+        <span class="c"># If Claude didn't call any tools, we're done</span>
+        <span class="k">if</span> response.stop_reason != <span class="s">"tool_use"</span>:
+            <span class="k">return</span> response
+
+        <span class="c"># Execute each tool call and collect results</span>
+        tool_results = []
+        <span class="k">for</span> block <span class="k">in</span> response.content:
+            <span class="k">if</span> block.type == <span class="s">"tool_use"</span>:
+                result = execute_tool(block.name, block.input)  <span class="c"># your dispatch</span>
+                tool_results.append({
+                    <span class="s">"type"</span>: <span class="s">"tool_result"</span>,
+                    <span class="s">"tool_use_id"</span>: block.id,
+                    <span class="s">"content"</span>: json.dumps(result)
+                })
+
+        <span class="c"># Feed results back</span>
+        messages.append({<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: tool_results})</div>
+
+  <h3>Pattern 2: Classification pipeline</h3>
+  <p>Use Haiku for cheap, fast classification. Force a tool call to guarantee structured output.</p>
+
+  <div class="code-block"><span class="k">def</span> classify_ticket(text):
+    response = client.messages.create(
+        model=<span class="s">"claude-haiku-4-5-20250414"</span>,   <span class="c"># cheap and fast</span>
+        max_tokens=<span class="n">256</span>,
+        tools=[{
+            <span class="s">"name"</span>: <span class="s">"classify"</span>,
+            <span class="s">"description"</span>: <span class="s">"Classify a support ticket"</span>,
+            <span class="s">"input_schema"</span>: {
+                <span class="s">"type"</span>: <span class="s">"object"</span>,
+                <span class="s">"properties"</span>: {
+                    <span class="s">"category"</span>: {<span class="s">"type"</span>: <span class="s">"string"</span>, <span class="s">"enum"</span>: [<span class="s">"billing"</span>, <span class="s">"technical"</span>, <span class="s">"account"</span>, <span class="s">"other"</span>]},
+                    <span class="s">"urgency"</span>: {<span class="s">"type"</span>: <span class="s">"string"</span>, <span class="s">"enum"</span>: [<span class="s">"low"</span>, <span class="s">"medium"</span>, <span class="s">"high"</span>]},
+                    <span class="s">"summary"</span>: {<span class="s">"type"</span>: <span class="s">"string"</span>}
+                },
+                <span class="s">"required"</span>: [<span class="s">"category"</span>, <span class="s">"urgency"</span>, <span class="s">"summary"</span>]
+            }
+        }],
+        tool_choice={<span class="s">"type"</span>: <span class="s">"tool"</span>, <span class="s">"name"</span>: <span class="s">"classify"</span>},
+        messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: text}]
+    )
+    <span class="k">return</span> response.content[<span class="n">0</span>].input</div>
+
+  <h3>Pattern 3: Batch processing</h3>
+  <p>For non-time-sensitive work (analytics, bulk classification, content generation), the Message Batches API gives 50% cost savings. You submit a batch of requests, and results are available within 24 hours.</p>
+
+  <div class="code-block"><span class="c"># Submit a batch</span>
+batch = client.messages.batches.create(
+    requests=[
+        {
+            <span class="s">"custom_id"</span>: f<span class="s">"ticket-{i}"</span>,
+            <span class="s">"params"</span>: {
+                <span class="s">"model"</span>: <span class="s">"claude-haiku-4-5-20250414"</span>,
+                <span class="s">"max_tokens"</span>: <span class="n">256</span>,
+                <span class="s">"messages"</span>: [{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: ticket}]
+            }
+        }
+        <span class="k">for</span> i, ticket <span class="k">in</span> enumerate(tickets)
+    ]
+)
+
+<span class="c"># Poll for results</span>
+<span class="k">while</span> batch.processing_status != <span class="s">"ended"</span>:
+    batch = client.messages.batches.retrieve(batch.id)
+    time.sleep(<span class="n">60</span>)</div>
+</section>
+
+<section>
+  <h2>Cost Awareness</h2>
+
+  <p>Every API call returns <code>usage.input_tokens</code> and <code>usage.output_tokens</code>. Track them. A runaway agentic loop or an accidentally large context can burn through budget fast.</p>
+
+  <h3>Cost per request (Sonnet, no caching)</h3>
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Scenario</th><th>Input tokens</th><th>Output tokens</th><th>Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Simple question</td><td>~100</td><td>~200</td><td>$0.003</td></tr>
+      <tr><td>Code review (1 file)</td><td>~2,000</td><td>~500</td><td>$0.014</td></tr>
+      <tr><td>Full codebase context</td><td>~50,000</td><td>~1,000</td><td>$0.165</td></tr>
+      <tr><td>Agentic loop (10 turns)</td><td>~100,000</td><td>~10,000</td><td>$0.450</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Cost reduction strategies</h3>
+  <ul>
+    <li><strong>Prompt caching:</strong> up to 90% savings on repeated context (system prompts, tool defs, documents)</li>
+    <li><strong>Batch API:</strong> 50% savings for non-real-time work</li>
+    <li><strong>Model selection:</strong> Haiku is 3x cheaper than Sonnet input, 3x cheaper output</li>
+    <li><strong>Shorter prompts:</strong> Every token in your system prompt is charged on every request (unless cached)</li>
+    <li><strong>Max tokens:</strong> Set <code>max_tokens</code> to the minimum you need. Don't default to 4096 for a yes/no question</li>
+    <li><strong>Token counting:</strong> Use <code>client.messages.count_tokens()</code> before sending to estimate cost</li>
+  </ul>
+
+  <div class="warning">
+    <strong>The agentic loop cost trap.</strong>
+    In an agentic loop, each turn resends the entire conversation. By turn 10, you're sending all previous messages plus all previous tool results plus all previous Claude responses as input. Context grows quadratically. Set a maximum turn count. Summarize or truncate history when it gets long. Use prompt caching so at least the system prompt and tool definitions aren't re-charged at full price.
+  </div>
+</section>
+
+<section>
+  <h2>SDK Installation</h2>
+
+  <h3>Python</h3>
+  <div class="code-block">pip install anthropic</div>
+
+  <h3>TypeScript / Node.js</h3>
+  <div class="code-block">npm install @anthropic-ai/sdk</div>
+
+  <p>Both SDKs are thin wrappers over the HTTP API. They handle authentication, retries, streaming, and type safety. The Python SDK uses Pydantic models. The TypeScript SDK is fully typed.</p>
+
+  <h3>TypeScript: full example</h3>
+  <div class="code-block"><span class="k">import</span> Anthropic <span class="k">from</span> <span class="s">"@anthropic-ai/sdk"</span>;
+
+<span class="k">const</span> client = <span class="k">new</span> Anthropic();
+
+<span class="k">async function</span> main() {
+  <span class="k">const</span> message = <span class="k">await</span> client.messages.create({
+    model: <span class="s">"claude-sonnet-4-5-20241022"</span>,
+    max_tokens: <span class="n">1024</span>,
+    system: <span class="s">"You are a helpful coding assistant."</span>,
+    messages: [
+      { role: <span class="s">"user"</span>, content: <span class="s">"Write a TypeScript function to debounce."</span> }
+    ],
+  });
+
+  <span class="k">if</span> (message.content[<span class="n">0</span>].type === <span class="s">"text"</span>) {
+    console.log(message.content[<span class="n">0</span>].text);
+  }
+
+  console.log(<span class="s">`Cost: ${message.usage.input_tokens} input + ${message.usage.output_tokens} output tokens`</span>);
+}
+
+main();</div>
+</section>
+
+<section>
+  <h2>Quick Reference</h2>
+
+  <table class="contrast-table">
+    <thead>
+      <tr><th>Parameter</th><th>Required</th><th>What it does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>model</code></td><td>Yes</td><td>Which Claude model to use</td></tr>
+      <tr><td><code>max_tokens</code></td><td>Yes</td><td>Maximum output tokens (caps cost + length)</td></tr>
+      <tr><td><code>messages</code></td><td>Yes</td><td>The conversation history array</td></tr>
+      <tr><td><code>system</code></td><td>No</td><td>System prompt (string or content blocks with caching)</td></tr>
+      <tr><td><code>tools</code></td><td>No</td><td>Array of tool definitions</td></tr>
+      <tr><td><code>tool_choice</code></td><td>No</td><td>Control tool calling (auto, any, specific, none)</td></tr>
+      <tr><td><code>stream</code></td><td>No</td><td>Enable SSE streaming (SDKs have <code>.stream()</code>)</td></tr>
+      <tr><td><code>thinking</code></td><td>No</td><td>Enable extended/adaptive thinking</td></tr>
+      <tr><td><code>temperature</code></td><td>No</td><td>Randomness (0.0-1.0, default 1.0)</td></tr>
+      <tr><td><code>output_config</code></td><td>No</td><td>Structured output format (JSON schema)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Stop reasons</h3>
+  <table class="contrast-table">
+    <thead>
+      <tr><th>stop_reason</th><th>Meaning</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>end_turn</code></td><td>Claude finished normally</td><td>Read the response</td></tr>
+      <tr><td><code>tool_use</code></td><td>Claude wants to call a tool</td><td>Execute tool, send result back</td></tr>
+      <tr><td><code>max_tokens</code></td><td>Hit the output limit</td><td>Increase max_tokens or handle truncation</td></tr>
+      <tr><td><code>stop_sequence</code></td><td>Hit a custom stop sequence</td><td>Process partial response</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>From Claude Code User to API Builder</h2>
+
+  <p>The mental model shift is small. In Claude Code, you type a prompt and the system handles everything: reading files, running tools, managing conversation state. With the API, you do all of that yourself. But the core interaction is identical: you send messages, Claude responds with text or tool calls, you handle the results.</p>
+
+  <p>Start with the simplest possible thing: a single <code>messages.create()</code> call. Get that working. Then add a system prompt. Then add a tool. Then add streaming. Then add prompt caching. Each layer is independent. You don't need all of them at once.</p>
+
+  <ol>
+    <li><strong>Day 1:</strong> Install SDK, make one API call, print the response</li>
+    <li><strong>Day 2:</strong> Add a system prompt, build a multi-turn conversation loop</li>
+    <li><strong>Day 3:</strong> Define a tool, implement the tool-use loop</li>
+    <li><strong>Day 4:</strong> Add streaming for real-time output</li>
+    <li><strong>Day 5:</strong> Add prompt caching, monitor costs with <code>usage</code> fields</li>
+  </ol>
+
+  <p>The API docs live at <a href="https://docs.anthropic.com" style="color:var(--accent)">docs.anthropic.com</a>. The Python SDK is on <a href="https://github.com/anthropics/anthropic-sdk-python" style="color:var(--accent)">GitHub</a>. The TypeScript SDK is at <a href="https://github.com/anthropics/anthropic-sdk-typescript" style="color:var(--accent)">anthropic-sdk-typescript</a>.</p>
+</section>
+
+</main>
+<script src="nav.js"></script>
+</body>
+</html>
