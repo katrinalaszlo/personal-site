@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developers — Katrina Laszlo</title>
+<meta name="description" content="Developer resources: MCP server, Agent Skills, API endpoints, and machine-readable profiles for AI agents.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, Inter, system-ui, sans-serif; color: #0a0a0a; background: #fff; line-height: 1.6; }
+.container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+header { padding: 1.5rem 0; }
+header nav { display: flex; justify-content: space-between; align-items: center; }
+h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+h2 { font-size: 1.25rem; font-weight: 600; margin: 2.5rem 0 0.75rem; }
+p { margin-bottom: 1rem; color: #52525b; font-size: 0.9375rem; }
+code { font-family: ui-monospace, monospace; font-size: 0.8125rem; background: #f4f4f5; padding: 2px 6px; border-radius: 4px; color: #0d9488; }
+pre { background: #18181b; color: #d4d4d8; padding: 16px 18px; border-radius: 8px; font-family: ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.5; overflow-x: auto; margin: 0.75rem 0 1.5rem; }
+.endpoint { display: flex; gap: 0.75rem; align-items: baseline; padding: 0.75rem 1rem; border: 1px solid #e4e4e7; border-radius: 8px; margin-bottom: 0.5rem; font-size: 0.875rem; }
+.endpoint .method { font-family: ui-monospace, monospace; font-size: 0.75rem; font-weight: 600; color: #16a34a; min-width: 36px; }
+.endpoint .path { font-family: ui-monospace, monospace; color: #0a0a0a; }
+.endpoint .desc { color: #71717a; margin-left: auto; font-size: 0.8125rem; }
+a { color: #4f46e5; text-decoration: none; }
+footer { padding: 2rem 0; font-size: 0.8125rem; color: #a1a1aa; border-top: 1px solid #f4f4f5; margin-top: 3rem; }
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem">
+        <a href="/notebook/" style="font-size:0.875rem;color:#71717a;text-decoration:none">Notebook</a>
+        <a href="/developers/" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Developers</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="padding-top:3rem;padding-bottom:4rem">
+  <h1>Developer Resources</h1>
+  <p>Everything you need to integrate with this site programmatically. MCP server, Agent Skills, and machine-readable endpoints.</p>
+
+  <h2>MCP Server</h2>
+  <p>Query notebook content via Model Context Protocol. Three tools: search, list topics, get full skill content.</p>
+  <pre>curl -X POST https://katrinalaszlo.com/api/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'</pre>
+  <p>Add to your MCP client config:</p>
+  <pre>{
+  "katrinalaszlo-notebook": {
+    "type": "url",
+    "url": "https://katrinalaszlo.com/api/mcp"
+  }
+}</pre>
+
+  <h2>Agent Skills</h2>
+  <p>Install all 5 skills (ai-foundations, knowledge-systems, ai-system-design, agent-tools, agent-experience-design):</p>
+  <pre>npx skills add https://github.com/katrinalaszlo/personal-site</pre>
+  <p>16 reference files covering model architecture, training loops, data pipelines, wiki vs vector, LLM memory, knowledge architecture, AI system design, agent teams, agent evaluation, OpenClaw, Hermes, AX framework, agent-readable sites, mutual legibility, bifurcated web, and agent self-serve.</p>
+
+  <h2>Endpoints</h2>
+  <div class="endpoint"><span class="method">POST</span><span class="path">/api/mcp</span><span class="desc">MCP JSON-RPC server</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/llms.txt</span><span class="desc">LLM-readable profile</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/llms-full.txt</span><span class="desc">Extended profile + notebook index</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/agents.json</span><span class="desc">Structured capability data</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/openapi.json</span><span class="desc">OpenAPI 3.1 spec</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/.well-known/agent-skills/index.json</span><span class="desc">Skills index (5 skills)</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/.well-known/mcp/server-card.json</span><span class="desc">MCP Server Card</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/.well-known/agent-card.json</span><span class="desc">A2A Agent Card</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/.well-known/ai-plugin.json</span><span class="desc">OpenAI plugin manifest</span></div>
+  <div class="endpoint"><span class="method">GET</span><span class="path">/.well-known/api-catalog</span><span class="desc">RFC 9264 API catalog</span></div>
+
+  <h2>OpenAPI Spec</h2>
+  <p>Full spec at <a href="/openapi.json">/openapi.json</a>. Describes the MCP endpoint with request/response schemas and examples.</p>
+
+  <h2>No Auth Required</h2>
+  <p>All endpoints are public. No API key, no OAuth, no signup. The MCP server is read-only.</p>
+</main>
+
+<footer>
+  <div class="container"><a href="/" style="color:#a1a1aa;text-decoration:none">katrinalaszlo.com</a></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,158 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Katrina Laszlo Notebook API",
+    "description": "MCP server exposing notebook content on AI systems, agent experience design, and related topics. Query 13 lessons, 5 Agent Skills, and 16 reference files.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Katrina Laszlo",
+      "email": "katrina.j.laszlo@gmail.com",
+      "url": "https://katrinalaszlo.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://katrinalaszlo.com",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/api/mcp": {
+      "post": {
+        "operationId": "mcpRequest",
+        "summary": "MCP JSON-RPC endpoint",
+        "description": "Model Context Protocol server. Supports initialize, tools/list, and tools/call methods. Three tools: query_notebook (search content), list_topics (skill index), get_skill (full skill content with optional references).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonrpc": { "type": "string", "enum": ["2.0"] },
+                  "id": { "type": "integer" },
+                  "method": {
+                    "type": "string",
+                    "enum": [
+                      "initialize",
+                      "tools/list",
+                      "tools/call",
+                      "notifications/initialized"
+                    ]
+                  },
+                  "params": { "type": "object" }
+                },
+                "required": ["jsonrpc", "id", "method"]
+              },
+              "examples": {
+                "list_tools": {
+                  "summary": "List available tools",
+                  "value": { "jsonrpc": "2.0", "id": 1, "method": "tools/list" }
+                },
+                "query": {
+                  "summary": "Search notebook content",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 2,
+                    "method": "tools/call",
+                    "params": {
+                      "name": "query_notebook",
+                      "arguments": {
+                        "query": "how to make a site agent-readable"
+                      }
+                    }
+                  }
+                },
+                "get_skill": {
+                  "summary": "Get full skill content",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 3,
+                    "method": "tools/call",
+                    "params": {
+                      "name": "get_skill",
+                      "arguments": {
+                        "skill_name": "agent-experience-design",
+                        "include_references": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON-RPC response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": { "type": "string" },
+                    "id": { "type": "integer" },
+                    "result": { "type": "object" },
+                    "error": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms.txt": {
+      "get": {
+        "operationId": "getLlmsTxt",
+        "summary": "LLM-readable profile",
+        "description": "Plain text profile structured for LLM consumption. Contains expertise, career history, contact info.",
+        "responses": {
+          "200": {
+            "description": "Plain text profile",
+            "content": { "text/plain": {} }
+          }
+        }
+      }
+    },
+    "/llms-full.txt": {
+      "get": {
+        "operationId": "getLlmsFullTxt",
+        "summary": "Extended LLM profile",
+        "description": "Full profile with notebook content index, pricing data lab findings, MCP usage instructions, skills install commands.",
+        "responses": {
+          "200": {
+            "description": "Extended plain text profile",
+            "content": { "text/plain": {} }
+          }
+        }
+      }
+    },
+    "/agents.json": {
+      "get": {
+        "operationId": "getAgentsJson",
+        "summary": "Structured capability data",
+        "description": "JSON manifest with identity, expertise tags, projects, and contact channels.",
+        "responses": {
+          "200": {
+            "description": "Structured agent data",
+            "content": { "application/json": {} }
+          }
+        }
+      }
+    },
+    "/.well-known/agent-skills/index.json": {
+      "get": {
+        "operationId": "getSkillsIndex",
+        "summary": "Agent Skills index",
+        "description": "Lists 5 installable skills: ai-foundations, knowledge-systems, ai-system-design, agent-tools, agent-experience-design.",
+        "responses": {
+          "200": {
+            "description": "Skills index",
+            "content": { "application/json": {} }
+          }
+        }
+      }
+    }
+  }
+}
