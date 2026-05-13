@@ -2,9 +2,37 @@
   "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
   "skills": [
     {
+      "name": "ai-foundations",
+      "type": "skill-md",
+      "description": "How neural networks work: transformer architecture, embeddings, attention, training loops, gradients, data pipelines, tokenization. Use when learning or explaining how LLMs work internally.",
+      "url": "/.well-known/agent-skills/ai-foundations/SKILL.md",
+      "digest": "sha256:a364fbdb3ebd90587da155eff4e24f7ee4cc60a118383daac92dc6ca190b12a0"
+    },
+    {
+      "name": "knowledge-systems",
+      "type": "skill-md",
+      "description": "Wiki vs vector database tradeoffs, LLM memory and retrieval, knowledge architecture pipelines. Use when building RAG, choosing retrieval strategies, or designing memory for agents.",
+      "url": "/.well-known/agent-skills/knowledge-systems/SKILL.md",
+      "digest": "sha256:45e4cad6edeca8f760e120bb4b7d68fe113c3aa5cf3f41e95ce675eaab9554c1"
+    },
+    {
+      "name": "ai-system-design",
+      "type": "skill-md",
+      "description": "Eight decisions for AI products, multi-agent team patterns (pipeline, fan-out, checker), agent evaluation (unit, trajectory, LLM-as-judge). Use when designing AI systems or multi-agent architectures.",
+      "url": "/.well-known/agent-skills/ai-system-design/SKILL.md",
+      "digest": "sha256:1e1001e7f5648fd03b3ae3b5f6c4e662eabffda5c48edd09409c34312ac4d337"
+    },
+    {
+      "name": "agent-tools",
+      "type": "skill-md",
+      "description": "OpenClaw personal agents and Hermes orchestration. Use when building personal AI agents or setting up agent-to-agent coordination infrastructure.",
+      "url": "/.well-known/agent-skills/agent-tools/SKILL.md",
+      "digest": "sha256:1315b0ab5bbacb7a7d08893e6c8c116f3e3ff9e55c4c1da55f4e3ffc67511974"
+    },
+    {
       "name": "agent-experience-design",
       "type": "skill-md",
-      "description": "Design products that AI agents can effectively use. AX four pillars, agent-readable standards, mutual legibility, bifurcated web, agent self-serve implementation. Use when building agent-facing APIs, MCP servers, agent auth, agent onboarding, or any product surface where AI agents are users.",
+      "description": "Design products that AI agents can use. AX four pillars, agent-readable standards, mutual legibility, bifurcated web, agent self-serve implementation. Use when building agent-facing APIs, MCP servers, agent auth, or agent onboarding.",
       "url": "/.well-known/agent-skills/agent-experience-design/SKILL.md",
       "digest": "sha256:b9b4b149c9bdc91b17a94b91981112890c26c2f5b01a13b8a2037b985c82b194"
     }
