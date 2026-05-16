@@ -290,17 +290,40 @@ function handleToolCall(id, name, args) {
 
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Mcp-Session-Id",
+  );
+  res.setHeader("Access-Control-Expose-Headers", "Mcp-Session-Id");
 
   if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST")
-    return res.status(405).json({ error: "POST only" });
+
+  if (req.method === "DELETE") {
+    return res.status(200).end();
+  }
+
+  if (req.method === "GET") {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.status(200);
+    res.write(":ok\n\n");
+    res.end();
+    return;
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
   const body = req.body;
   if (!body || !body.method) {
     return res.status(400).json({ error: "Invalid JSON-RPC request" });
   }
+
+  const sessionId = "katrinalaszlo-notebook-static";
+  res.setHeader("Mcp-Session-Id", sessionId);
 
   let response;
   switch (body.method) {
