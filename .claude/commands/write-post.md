@@ -71,6 +71,25 @@ Follow this arc (adapt as needed, not every post needs every section):
 - Keep paragraphs short (2-4 sentences max)
 - Use `---` between major sections for visual breathing room
 
+### Illustrations
+
+Create illustrations as HTML using `notebook/notebook.css` components, then screenshot as PNG.
+Use these notebook components for illustrations:
+
+- **Sequences/funnels**: `.sequence` with `.seq-step` cards and `.seq-num` numbered circles
+- **Comparison tables**: `.contrast-table` with `.tag.green` / `.tag.red` pills
+- **Callouts**: `.analogy` (indigo), `.connection` (green), `.warning` (orange) border-left boxes
+- **Cards**: `.card` with `.card-grid` for side-by-side layouts
+- **Code**: `.code-block` with dark background
+
+Process:
+1. Build the illustration as a standalone HTML file linking to `notebook/notebook.css`
+2. Set body max-width to 660px with 32px padding
+3. Open in `/browse`, measure actual height with `document.body.scrollHeight`
+4. Screenshot at full height: `--clip 0,0,660,{height}`
+5. Save to `blog/images/{slug}-{name}.png`
+6. Embed in markdown as `![alt](/blog/images/{slug}-{name}.png)`
+
 ### Frontmatter
 
 ```yaml
