@@ -17,14 +17,6 @@
     </item>
 
     <item>
-      <title>My Experience Setting Up OpenClaw</title>
-      <link>https://katrinalaszlo.com/blog/always-on-ai-memory</link>
-      <description>How I set up an always-on AI assistant that runs on a $6 droplet, posts to Slack while I sleep, and once accidentally replied to someone's WhatsApp message.</description>
-      <pubDate>Sat, 16 May 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/always-on-ai-memory</guid>
-    </item>
-
-    <item>
       <title>Building a Pricing Database</title>
       <link>https://katrinalaszlo.com/blog/building-a-pricing-database</link>
       <description>Human-directed, AI-driven research and insights. An LLM does all the writing, cross-referencing, and maintenance while I curate what goes in.</description>

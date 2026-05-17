@@ -45,7 +45,7 @@ Agent-readiness is a funnel. Most scanners only check the top layer.
 
 ![The agent self-serve funnel](/blog/images/agent-self-serve-funnel.png)
 
-Cloudflare, Fern, and every other scanner checks discovery. Do you have llms.txt? Score.
+Most scanners check the top layer. Cloudflare checks discovery signals and protocol adoption. Fern checks whether agents can actually fetch and parse your docs. Neither checks whether an agent can sign up, pay, or manage its own account.
 
 agent-serve checks the rest.
 
@@ -83,15 +83,13 @@ The signals that matter depend on what you're solving for. Discovery or capabili
 
 ---
 
-## Nobody has agents.json
+## Discovery is catching up. Capability isn't.
 
-Not Stripe. Not Vercel. Not Linear. Not Notion.
+Vercel, Linear, Cloudflare, and Telnyx have agents.json. Stripe and Notion don't. llms.txt adoption is spreading fast — most major developer tools have it now.
 
-Everyone has robots.txt. Most developer tools now have llms.txt. MCP servers are spreading. But agents.json, the machine-readable manifest that tells an agent what you are and what you can do? Zero third-party sites.
+But discovery is the easy part. An llms.txt file takes 10 minutes. An agents.json manifest takes 30. The hard part is everything below discovery in the funnel: can an agent sign up, authenticate, pay, and manage its own account?
 
-[AgentMail](https://www.agentmail.to/), whose entire product is infrastructure for AI agents, doesn't have llms.txt on their marketing site. Their customers find them through SDK installs, not web crawling.
-
-Discovery signals matter when agents need to find you by crawling. Capability signals matter when agents need to use you. Most companies are building the capability layer and skipping discovery.
+Almost nobody has wired that up. The companies investing in agent readiness are building the discovery layer and stopping there.
 
 ---
 

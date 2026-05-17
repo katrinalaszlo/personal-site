@@ -315,8 +315,8 @@
             transition: border-color 0.15s ease;
         }
         .proj-install:hover { border-color: #4f46e5; }
-        .proj-install-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .proj-install svg { width: 12px; height: 12px; flex-shrink: 0; color: #a1a1aa; }
+        .proj-install-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+        .proj-install svg { width: 12px; height: 12px; flex-shrink: 0; color: #71717a; }
 
         .links {
             display: grid;
@@ -414,9 +414,11 @@
         <section data-agent="experience">
             <h2>Experience</h2>
             <div class="timeline-wrap">
+                <!-- UX/DX/AX lines — parked, revisit with proper design
                 <div class="xp-line ux" style="top:0;bottom:0"><span class="xp-line-label">User Experience</span></div>
                 <div class="xp-line dx" style="top:0;bottom:44%"><span class="xp-line-label">Developer Experience</span></div>
                 <div class="xp-line ax" style="top:0;bottom:67%"><span class="xp-line-label">Agent Experience</span></div>
+                -->
                 <div class="timeline">
                     <div class="t-entry">
                         <span class="t-date">2025 &ndash; Present</span>
