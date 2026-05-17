@@ -53,6 +53,32 @@ header nav {
 .nav-link:hover {
   color: #0a0a0a;
 }
+.nav-social {
+  display: inline-flex;
+  align-items: center;
+  color: #c4c4c9;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.nav-social:hover {
+  color: #0a0a0a;
+}
+.nav-social svg {
+  width: 14px;
+  height: 14px;
+}
+.nav-social[href*="linkedin"] svg {
+  width: 13px;
+  height: 13px;
+}
+.nav-social[href*="x.com"] svg {
+  width: 12px;
+  height: 12px;
+}
+.nav-social[href*="mailto"] svg {
+  width: 15px;
+  height: 15px;
+}
 
 article {
   padding: 4rem 0 3rem;
@@ -204,13 +230,9 @@ article td {
   color: #0a0a0a;
 }
 .share-btn svg {
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
-}
-.share-btn svg[fill="currentColor"] {
-  width: 13px;
-  height: 13px;
 }
 
 .subscribe-section {
