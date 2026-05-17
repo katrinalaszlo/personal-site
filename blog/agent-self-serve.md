@@ -74,7 +74,7 @@ Eleven route groups accepting SDK keys. The middleware tries Clerk JWT first, fa
 
 ![Agent-readiness scores across companies](/blog/images/agent-self-serve-scorecard.png)
 
-Stripe scores 6/10 on a flat rubric despite having an [MCP server](https://mcp.stripe.com), a published [OpenAPI spec](https://github.com/stripe/openapi), and an [agent toolkit](https://docs.stripe.com/agents) supporting five frameworks.
+Stripe scores 6/10 on a flat rubric despite having a published [OpenAPI spec](https://github.com/stripe/openapi) and an [agent toolkit](https://docs.stripe.com/agents) supporting five frameworks.
 
 The flat score doesn't capture capability depth. Nobody's does. Not Cloudflare's, not Fern's, not mine.
 
