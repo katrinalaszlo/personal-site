@@ -274,14 +274,33 @@ article td {
 footer {
   padding: 2rem 0;
   border-top: 1px solid #f4f4f5;
-  text-align: center;
+  font-size: 0.8125rem;
+  color: #a1a1aa;
 }
 footer a {
-  font-size: 0.8125rem;
-  color: #71717a;
   text-decoration: none;
-  margin: 0 0.75rem;
 }
-footer a:hover {
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  color: #a1a1aa;
+  transition: color 0.15s ease;
+}
+.footer-links a:hover {
   color: #0a0a0a;
+}
+.footer-links svg {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
 }
