@@ -378,3 +378,10 @@ footer a {
   height: 14px;
   vertical-align: middle;
 }
+
+@media (max-width: 640px) {
+  .nav-social,
+  .nav-divider {
+    display: none;
+  }
+}
