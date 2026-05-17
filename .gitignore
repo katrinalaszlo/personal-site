@@ -1,3 +1,6 @@
 .vercel
 .gstack/
 blog/distro/
+.env*.local
+node_modules/
+.claude/settings.local.json

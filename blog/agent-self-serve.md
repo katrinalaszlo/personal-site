@@ -7,11 +7,9 @@ author: Kat Laszlo
 
 # I Made My Sites Self-Serve for AI Agents
 
-If you're running a SaaS product and haven't thought about whether an agent can sign up, pay, and use it without a human... you're about to lose deals you'll never know existed.
+I wanted to know if an AI agent could sign up for my product, pick a plan, pay, and start using it without a human involved. Not "AI-powered features." The other kind of agent-ready. Where an agent is the customer.
 
-I spent the last few months making two of my properties fully agent-accessible. Not "AI-powered features" agent-ready. The other kind. The kind where an agent lands on your site, understands what you sell, creates an account, picks a plan, pays, and starts using the product. No browser. No human. No support ticket.
-
-I captured the process as two open-source Claude Code skills.
+I spent a few months making two of my properties fully agent-accessible. A personal site and a B2B product. I captured the process as two open-source Claude Code skills.
 
 ---
 
