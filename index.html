@@ -309,14 +309,16 @@
             border: 1px solid #f4f4f5;
             border-radius: 6px;
             font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
-            font-size: 0.6875rem;
+            font-size: 0.625rem;
             color: #52525b;
             cursor: pointer;
             transition: border-color 0.15s ease;
+            overflow: hidden;
+            width: 100%;
         }
         .proj-install:hover { border-color: #4f46e5; }
         .proj-install-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-        .proj-install svg { width: 12px; height: 12px; flex-shrink: 0; color: #71717a; }
+        .proj-install svg { width: 14px; height: 14px; flex-shrink: 0; color: #52525b; }
 
         .links {
             display: grid;
