@@ -41,7 +41,7 @@ function mdToHtml(md) {
       .split("|")
       .filter((c) => c.trim())
       .forEach((c) => {
-        t += `<th>${c.trim()}</th>`;
+        t += `<th>${inline(c.trim())}</th>`;
       });
     t += "</tr></thead><tbody>";
     body.forEach((row) => {
@@ -50,7 +50,7 @@ function mdToHtml(md) {
         .split("|")
         .filter((c) => c.trim())
         .forEach((c) => {
-          t += `<td>${c.trim()}</td>`;
+          t += `<td>${inline(c.trim())}</td>`;
         });
       t += "</tr>";
     });
@@ -87,7 +87,17 @@ function mdToHtml(md) {
       inTable = false;
     }
 
-    if (line.startsWith("# ")) {
+    if (line.trim() === "---") {
+      if (inList) {
+        html += "</ul>";
+        inList = false;
+      }
+      if (inOl) {
+        html += "</ol>";
+        inOl = false;
+      }
+      html += "<hr>";
+    } else if (line.startsWith("# ")) {
       html += `<h1>${inline(line.slice(2))}</h1>`;
     } else if (line.startsWith("## ")) {
       html += `<h2>${inline(line.slice(3))}</h2>`;
@@ -113,19 +123,26 @@ function mdToHtml(md) {
         inList = false;
       }
       if (inOl) {
-        html += "</ol>";
-        inOl = false;
+        const next = lines.slice(i + 1).find((l) => l.trim() !== "");
+        if (!next || (!next.match(/^\d+\. /) && !next.match(/^ {2,}/))) {
+          html += "</ol>";
+          inOl = false;
+        }
       }
     } else {
       if (inList) {
         html += "</ul>";
         inList = false;
       }
-      if (inOl) {
-        html += "</ol>";
-        inOl = false;
+      if (inOl && line.match(/^ {2,}/)) {
+        html = html.replace(/<\/li>$/, ` ${inline(line.trim())}</li>`);
+      } else {
+        if (inOl) {
+          html += "</ol>";
+          inOl = false;
+        }
+        html += `<p>${inline(line)}</p>`;
       }
-      html += `<p>${inline(line)}</p>`;
     }
   }
   if (inList) html += "</ul>";
