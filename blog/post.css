@@ -67,18 +67,6 @@ header nav {
   width: 14px;
   height: 14px;
 }
-.nav-social[href*="linkedin"] svg {
-  width: 13px;
-  height: 13px;
-}
-.nav-social[href*="x.com"] svg {
-  width: 12px;
-  height: 12px;
-}
-.nav-social[href*="mailto"] svg {
-  width: 15px;
-  height: 15px;
-}
 
 article {
   padding: 4rem 0 3rem;
