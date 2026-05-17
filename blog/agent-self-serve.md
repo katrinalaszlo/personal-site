@@ -27,10 +27,13 @@ I kept running these checks manually after every deploy. So I built the tool.
 
 **[agent-web](https://github.com/katrinalaszlo/agent-web)** scores your site on three layers (discoverable, parseable, actionable), then generates the missing files directly into your repo.
 
+```bash
+npx skills add katrinalaszlo/agent-web
+```
+
 **[agent-serve](https://github.com/katrinalaszlo/agent-serve)** audits whether an agent can actually be your customer. Five dimensions: onboarding, authentication, purchasing, usage monitoring, self-management.
 
 ```bash
-npx skills add katrinalaszlo/agent-web
 npx skills add katrinalaszlo/agent-serve
 ```
 
@@ -112,5 +115,8 @@ The deeper question: what does self-serve for agents look like end-to-end? Not j
 
 ```bash
 npx skills add katrinalaszlo/agent-web
+```
+
+```bash
 npx skills add katrinalaszlo/agent-serve
 ```
