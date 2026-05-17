@@ -272,20 +272,7 @@
             height: 14px;
             flex-shrink: 0;
         }
-        .proj-type {
-            display: inline-block;
-            font-size: 0.6875rem;
-            font-weight: 500;
-            padding: 0.125rem 0.5rem;
-            border-radius: 9999px;
-            margin-bottom: 0.375rem;
-            letter-spacing: 0.01em;
-        }
-        .proj-type-npm { background: #fef2f2; color: #b91c1c; }
-        .proj-type-skill { background: #f0f0ff; color: #4f46e5; }
-        .proj-type-cli { background: #f0fdf4; color: #15803d; }
-        .proj-type-app { background: #f4f4f5; color: #52525b; }
-        .proj-install {
+.proj-install {
             display: flex;
             align-items: center;
             gap: 0.375rem;
@@ -467,7 +454,7 @@
             <p class="section-sub">Tools I've built.</p>
             <div class="projects">
                 <div class="proj-card">
-                    <span class="proj-type proj-type-npm">npm package</span>
+
                     <div class="proj-name">agentkey</div>
                     <div class="proj-desc">Scoped, budgeted API keys for AI agents. The auth layer between Clerk and Stripe.</div>
                     <div class="proj-install" onclick="navigator.clipboard.writeText('npm install agentkey');this.querySelector('.proj-install-text').textContent='Copied!';setTimeout(()=>this.querySelector('.proj-install-text').textContent='npm install agentkey',2000)">
@@ -480,7 +467,6 @@
                     </div>
                 </div>
                 <div class="proj-card">
-                    <span class="proj-type proj-type-skill">claude code skill</span>
                     <div class="proj-name">agent-web</div>
                     <div class="proj-desc">Audit and fix your site's agent-readiness. Opinionated by site type.</div>
                     <div class="proj-install" onclick="navigator.clipboard.writeText('npx skills add katrinalaszlo/agent-web');this.querySelector('.proj-install-text').textContent='Copied!';setTimeout(()=>this.querySelector('.proj-install-text').textContent='npx skills add katrinalaszlo/agent-web',2000)">
@@ -492,7 +478,6 @@
                     </div>
                 </div>
                 <div class="proj-card">
-                    <span class="proj-type proj-type-skill">claude code skill</span>
                     <div class="proj-name">agent-serve</div>
                     <div class="proj-desc">Can AI agents buy and use your product without a human? Audit skill for SaaS agent-readiness.</div>
                     <div class="proj-install" onclick="navigator.clipboard.writeText('npx skills add katrinalaszlo/agent-serve');this.querySelector('.proj-install-text').textContent='Copied!';setTimeout(()=>this.querySelector('.proj-install-text').textContent='npx skills add katrinalaszlo/agent-serve',2000)">
@@ -504,7 +489,6 @@
                     </div>
                 </div>
                 <div class="proj-card">
-                    <span class="proj-type proj-type-cli">cli tool</span>
                     <div class="proj-name">agentlens</div>
                     <div class="proj-desc">See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts.</div>
                     <div class="proj-install" onclick="navigator.clipboard.writeText('npx agentlens scan');this.querySelector('.proj-install-text').textContent='Copied!';setTimeout(()=>this.querySelector('.proj-install-text').textContent='npx agentlens scan',2000)">
@@ -521,7 +505,6 @@
             </div>
             <div id="more-projects" class="projects" style="display: none; margin-top: 0.75rem;">
                 <div class="proj-card">
-                    <span class="proj-type proj-type-app">web app</span>
                     <div class="proj-name">observe</div>
                     <div class="proj-desc">AI cost observability. See which customers and features are unprofitable.</div>
                     <div class="proj-links">
@@ -530,7 +513,6 @@
                     </div>
                 </div>
                 <div class="proj-card">
-                    <span class="proj-type proj-type-app">web app</span>
                     <div class="proj-name">buildnext</div>
                     <div class="proj-desc">Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories.</div>
                     <div class="proj-links">
@@ -538,7 +520,6 @@
                     </div>
                 </div>
                 <div class="proj-card">
-                    <span class="proj-type proj-type-app">template</span>
                     <div class="proj-name">human-docs</div>
                     <div class="proj-desc">Single-file HTML architecture docs. Readable by humans in a browser and by AI agents via section markers.</div>
                     <div class="proj-links">
