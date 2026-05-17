@@ -4,7 +4,8 @@ const AGENT_MAIL_KEY = process.env.AGENT_MAIL_KEY;
 const INBOX_ID = process.env.AGENT_MAIL_INBOX_ID;
 const ADMIN_SECRET = process.env.NEWSLETTER_ADMIN_SECRET;
 
-function buildEmailHtml({ title, url, content }) {
+function buildEmailHtml({ title, url, content, email }) {
+  const unsubUrl = `https://katrinalaszlo.com/api/unsubscribe?email=${Buffer.from(email).toString("base64")}`;
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
@@ -29,7 +30,7 @@ function buildEmailHtml({ title, url, content }) {
       <a href="https://github.com/katrinalaszlo" style="color:#71717a;text-decoration:none;margin:0 8px;">GitHub</a>
       <a href="https://katrinalaszlo.com/blog/" style="color:#71717a;text-decoration:none;margin:0 8px;">Blog</a>
     </p>
-    <p style="margin:0;font-size:12px;color:#a1a1aa;">You received this because you subscribed at katrinalaszlo.com</p>
+    <p style="margin:0;font-size:12px;color:#a1a1aa;">You received this because you subscribed at katrinalaszlo.com &middot; <a href="${unsubUrl}" style="color:#a1a1aa;text-decoration:underline;">Unsubscribe</a></p>
   </div>
 </div>
 </body>
@@ -71,10 +72,10 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ message: "No subscribers", sent: 0 });
   }
 
-  const html = buildEmailHtml({ title, url, content });
   const results = [];
 
   for (const email of subscribers) {
+    const html = buildEmailHtml({ title, url, content, email });
     try {
       const resp = await fetch(
         `https://api.agentmail.to/inboxes/${INBOX_ID}/messages/send`,
