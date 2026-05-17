@@ -205,6 +205,39 @@
             line-height: 1.5;
         }
 
+        .xp-phase {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 1rem;
+        }
+        .xp-phase::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            border-radius: 1px;
+        }
+        .xp-phase.ax::before { background: #4f46e5; }
+        .xp-phase.dx::before { background: #16a34a; }
+        .xp-phase.ux::before { background: #d97706; }
+        .xp-label {
+            position: absolute;
+            left: -6px;
+            top: 50%;
+            transform: rotate(-90deg) translateX(-50%);
+            transform-origin: left center;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+            color: #a1a1aa;
+        }
+        .xp-phase.ax .xp-label { color: #4f46e5; }
+        .xp-phase.dx .xp-label { color: #16a34a; }
+        .xp-phase.ux .xp-label { color: #d97706; }
+
         .education {
             margin-top: 2.5rem;
             padding-top: 2rem;
@@ -387,53 +420,62 @@
         <section data-agent="experience">
             <h2>Experience</h2>
             <div class="timeline">
-                <div class="t-entry">
-                    <span class="t-date">2025 &ndash; Present</span>
-                    <div>
-                        <div class="t-role">Co-Founder, CEO <span class="t-co">at Tanso</span></div>
-                        <div class="t-desc">Monetization infrastructure for AI and SaaS companies.</div>
+                <div class="xp-phase ax">
+                    <span class="xp-label">Agent Experience</span>
+                    <div class="t-entry">
+                        <span class="t-date">2025 &ndash; Present</span>
+                        <div>
+                            <div class="t-role">Co-Founder, CEO <span class="t-co">at Tanso</span></div>
+                            <div class="t-desc">Monetization infrastructure for AI and SaaS companies.</div>
+                        </div>
+                    </div>
+                    <div class="t-entry">
+                        <span class="t-date">2025</span>
+                        <div>
+                            <div class="t-role">AI Product Manager <span class="t-co">at Artisan</span></div>
+                            <div class="t-desc">AI employees. Worked across product, engineering, and design.</div>
+                        </div>
                     </div>
                 </div>
-                <div class="t-entry">
-                    <span class="t-date">2025</span>
-                    <div>
-                        <div class="t-role">AI Product Manager <span class="t-co">at Artisan</span></div>
-                        <div class="t-desc">AI employees. Worked across product, engineering, and design.</div>
+                <div class="xp-phase dx">
+                    <span class="xp-label">Developer Experience</span>
+                    <div class="t-entry">
+                        <span class="t-date">2024 &ndash; 2025</span>
+                        <div>
+                            <div class="t-role">Head of Product <span class="t-co">at Chipper</span></div>
+                            <div class="t-desc">Consumer fintech. Ran pricing experiments and grew the subscription business.</div>
+                        </div>
+                    </div>
+                    <div class="t-entry">
+                        <span class="t-date">2021 &ndash; 2024</span>
+                        <div>
+                            <div class="t-role">Senior PM, Web &amp; Apps <span class="t-co">at People Data Labs</span></div>
+                            <div class="t-desc">B2B data. Built the self-serve business from scratch. Pricing, packaging, the whole conversion funnel.</div>
+                        </div>
                     </div>
                 </div>
-                <div class="t-entry">
-                    <span class="t-date">2024 &ndash; 2025</span>
-                    <div>
-                        <div class="t-role">Head of Product <span class="t-co">at Chipper</span></div>
-                        <div class="t-desc">Consumer fintech. Ran pricing experiments and grew the subscription business.</div>
+                <div class="xp-phase ux">
+                    <span class="xp-label">User Experience</span>
+                    <div class="t-entry">
+                        <span class="t-date">2019 &ndash; 2021</span>
+                        <div>
+                            <div class="t-role">Corporate Innovation <span class="t-co">at 500 Global</span></div>
+                            <div class="t-desc">Venture capital. Ran proof-of-concept pilots for startups and corporates.</div>
+                        </div>
                     </div>
-                </div>
-                <div class="t-entry">
-                    <span class="t-date">2021 &ndash; 2024</span>
-                    <div>
-                        <div class="t-role">Senior PM, Web &amp; Apps <span class="t-co">at People Data Labs</span></div>
-                        <div class="t-desc">B2B data. Built the self-serve business from scratch. Pricing, packaging, the whole conversion funnel.</div>
+                    <div class="t-entry">
+                        <span class="t-date">2017 &ndash; 2019</span>
+                        <div>
+                            <div class="t-role">Product Consultant <span class="t-co">at EY</span></div>
+                            <div class="t-desc">Innovation Lab. Built and tested fintech products for enterprise banks.</div>
+                        </div>
                     </div>
-                </div>
-                <div class="t-entry">
-                    <span class="t-date">2019 &ndash; 2021</span>
-                    <div>
-                        <div class="t-role">Corporate Innovation <span class="t-co">at 500 Global</span></div>
-                        <div class="t-desc">Venture capital. Ran proof-of-concept pilots for startups and corporates.</div>
-                    </div>
-                </div>
-                <div class="t-entry">
-                    <span class="t-date">2017 &ndash; 2019</span>
-                    <div>
-                        <div class="t-role">Product Consultant <span class="t-co">at EY</span></div>
-                        <div class="t-desc">Innovation Lab. Built and tested fintech products for enterprise banks.</div>
-                    </div>
-                </div>
-                <div class="t-entry">
-                    <span class="t-date">2014 &ndash; 2016</span>
-                    <div>
-                        <div class="t-role">Founder <span class="t-co">of Nosh Delivery</span></div>
-                        <div class="t-desc">Campus food delivery. Built and coded the apps myself.</div>
+                    <div class="t-entry">
+                        <span class="t-date">2014 &ndash; 2016</span>
+                        <div>
+                            <div class="t-role">Founder <span class="t-co">of Nosh Delivery</span></div>
+                            <div class="t-desc">Campus food delivery. Built and coded the apps myself.</div>
+                        </div>
                     </div>
                 </div>
             </div>
