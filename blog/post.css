@@ -195,8 +195,13 @@ article td {
   color: #0a0a0a;
 }
 .share-btn svg {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+.share-btn svg[fill="currentColor"] {
+  width: 13px;
+  height: 13px;
 }
 
 .subscribe-section {
