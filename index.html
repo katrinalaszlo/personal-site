@@ -207,7 +207,7 @@
 
         .timeline-wrap {
             position: relative;
-            padding-left: 36px;
+            padding-left: 32px;
         }
         .xp-line {
             position: absolute;
@@ -215,23 +215,22 @@
             border-radius: 1px;
         }
         .xp-line.ux { left: 0; background: #d97706; }
-        .xp-line.dx { left: 10px; background: #16a34a; }
-        .xp-line.ax { left: 20px; background: #4f46e5; }
+        .xp-line.dx { left: 8px; background: #16a34a; }
+        .xp-line.ax { left: 16px; background: #4f46e5; }
         .xp-line-label {
             position: absolute;
-            top: 50%;
             left: -4px;
             transform: rotate(-90deg);
-            transform-origin: center center;
-            font-size: 9px;
+            transform-origin: left top;
+            font-size: 8px;
             font-weight: 600;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
             white-space: nowrap;
-            opacity: 0.7;
+            opacity: 0.6;
         }
-        .xp-line.ux .xp-line-label { color: #d97706; }
-        .xp-line.dx .xp-line-label { color: #16a34a; }
-        .xp-line.ax .xp-line-label { color: #4f46e5; }
+        .xp-line.ux .xp-line-label { color: #d97706; bottom: 10px; }
+        .xp-line.dx .xp-line-label { color: #16a34a; bottom: 10px; }
+        .xp-line.ax .xp-line-label { color: #4f46e5; bottom: 10px; }
 
         .education {
             margin-top: 2.5rem;
@@ -416,8 +415,8 @@
             <h2>Experience</h2>
             <div class="timeline-wrap">
                 <div class="xp-line ux" style="top:0;bottom:0"><span class="xp-line-label">User Experience</span></div>
-                <div class="xp-line dx" style="top:0;bottom:43%"><span class="xp-line-label">Developer Experience</span></div>
-                <div class="xp-line ax" style="top:0;bottom:71%"><span class="xp-line-label">Agent Experience</span></div>
+                <div class="xp-line dx" style="top:0;bottom:44%"><span class="xp-line-label">Developer Experience</span></div>
+                <div class="xp-line ax" style="top:0;bottom:78%"><span class="xp-line-label">Agent Experience</span></div>
                 <div class="timeline">
                     <div class="t-entry">
                         <span class="t-date">2025 &ndash; Present</span>
