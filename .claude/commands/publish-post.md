@@ -1,3 +1,7 @@
+---
+description: "QA a blog post before publishing. Validates metadata, OG image, rendering, agent readiness, links, and visual quality using 4 parallel subagents."
+---
+
 # /publish-post — Blog Post Publish QA
 
 Run after writing a new blog post (or updating an existing one). Validates metadata,
