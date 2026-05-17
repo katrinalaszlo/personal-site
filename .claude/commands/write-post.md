@@ -102,11 +102,12 @@ Apply their feedback in one revision pass. Don't over-explain the changes.
 After user approves:
 
 1. **Save the .md file** to `blog/{slug}.md`
-2. **Generate OG image** — create `blog/og/{slug}.png`:
-   - Build as SVG first (1200x630, white bg, 4px indigo #4f46e5 top stripe)
+2. **Generate OG image** — MUST be PNG at `blog/og/{slug}.png` (LinkedIn/Twitter won't render SVG):
+   - Build as temporary SVG (1200x630, white bg, 4px indigo #4f46e5 top stripe)
    - Title text wrapped at ~25 chars/line, Inter font, 48px weight 700, fill #0a0a0a
    - "Kat Laszlo" bottom-left, "katrinalaszlo.com" bottom-right, 20px, fill #71717a
-   - Convert to PNG if tools available. If not, keep SVG and flag.
+   - Convert to PNG: open SVG in `/browse` at 1200x630 viewport and screenshot, or use `npx sharp-cli` / `rsvg-convert`.
+   - Delete the temporary SVG after PNG is confirmed. Never ship SVG as the final OG image.
 3. **Update build.js ogMap** if needed for the new slug
 4. **Run `node blog/build.js`** to generate HTML
 5. **Run /publish-post** (the QA skill) to validate metadata, rendering, agent readiness

@@ -27,7 +27,12 @@ Check and fix metadata + generate OG image if missing.
 
 1. Verify frontmatter has: title, date, description, author.
 2. Check if `blog/og/{slug}.png` exists (or if it's a canonical/Tanso post with an external OG URL).
-3. If OG image is missing, generate it as PNG (not SVG — LinkedIn/Twitter won't render SVG OGs):
+3. If `blog/og/{slug}.svg` exists but `.png` does not, convert it:
+   a. Open the SVG in `/browse` at 1200x630 viewport and screenshot to `blog/og/{slug}.png`.
+   b. If `/browse` unavailable, try `npx sharp-cli` or `rsvg-convert`.
+   c. If no conversion tool works, flag as BLOCKER: "OG image is SVG — LinkedIn/Twitter won't render it."
+   d. After PNG confirmed, delete the SVG.
+4. If no OG image exists at all, generate it as PNG (not SVG — LinkedIn/Twitter won't render SVG OGs):
    a. Create a temporary SVG at `blog/og/{slug}.svg` matching the existing style:
       - 1200x630, white background, 4px indigo (#4f46e5) top stripe
       - Title text wrapped at ~25 chars/line, Inter font, 48px, weight 700, fill #0a0a0a
