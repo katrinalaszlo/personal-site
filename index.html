@@ -205,38 +205,33 @@
             line-height: 1.5;
         }
 
-        .xp-phase {
+        .timeline-wrap {
             position: relative;
-            padding-left: 24px;
-            margin-bottom: 1rem;
+            padding-left: 36px;
         }
-        .xp-phase::before {
-            content: '';
+        .xp-line {
             position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
             width: 2px;
             border-radius: 1px;
         }
-        .xp-phase.ax::before { background: #4f46e5; }
-        .xp-phase.dx::before { background: #16a34a; }
-        .xp-phase.ux::before { background: #d97706; }
-        .xp-label {
+        .xp-line.ux { left: 0; background: #d97706; }
+        .xp-line.dx { left: 10px; background: #16a34a; }
+        .xp-line.ax { left: 20px; background: #4f46e5; }
+        .xp-line-label {
             position: absolute;
-            left: -6px;
             top: 50%;
-            transform: rotate(-90deg) translateX(-50%);
-            transform-origin: left center;
-            font-size: 10px;
+            left: -4px;
+            transform: rotate(-90deg);
+            transform-origin: center center;
+            font-size: 9px;
             font-weight: 600;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             white-space: nowrap;
-            color: #a1a1aa;
+            opacity: 0.7;
         }
-        .xp-phase.ax .xp-label { color: #4f46e5; }
-        .xp-phase.dx .xp-label { color: #16a34a; }
-        .xp-phase.ux .xp-label { color: #d97706; }
+        .xp-line.ux .xp-line-label { color: #d97706; }
+        .xp-line.dx .xp-line-label { color: #16a34a; }
+        .xp-line.ax .xp-line-label { color: #4f46e5; }
 
         .education {
             margin-top: 2.5rem;
@@ -419,9 +414,11 @@
 
         <section data-agent="experience">
             <h2>Experience</h2>
-            <div class="timeline">
-                <div class="xp-phase ax">
-                    <span class="xp-label">Agent Experience</span>
+            <div class="timeline-wrap">
+                <div class="xp-line ux" style="top:0;bottom:0"><span class="xp-line-label">User Experience</span></div>
+                <div class="xp-line dx" style="top:0;bottom:57%"><span class="xp-line-label">Developer Experience</span></div>
+                <div class="xp-line ax" style="top:0;bottom:71%"><span class="xp-line-label">Agent Experience</span></div>
+                <div class="timeline">
                     <div class="t-entry">
                         <span class="t-date">2025 &ndash; Present</span>
                         <div>
@@ -436,9 +433,6 @@
                             <div class="t-desc">AI employees. Worked across product, engineering, and design.</div>
                         </div>
                     </div>
-                </div>
-                <div class="xp-phase dx">
-                    <span class="xp-label">Developer Experience</span>
                     <div class="t-entry">
                         <span class="t-date">2024 &ndash; 2025</span>
                         <div>
@@ -453,9 +447,6 @@
                             <div class="t-desc">B2B data. Built the self-serve business from scratch. Pricing, packaging, the whole conversion funnel.</div>
                         </div>
                     </div>
-                </div>
-                <div class="xp-phase ux">
-                    <span class="xp-label">User Experience</span>
                     <div class="t-entry">
                         <span class="t-date">2019 &ndash; 2021</span>
                         <div>
