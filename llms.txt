@@ -82,11 +82,27 @@ Background in UX and product design applied to AI agents as users. Most agent re
 - [BuildNext](https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development
 - [human-docs](https://github.com/katrinalaszlo/human-docs): Single-file HTML architecture docs for humans and agents
 
+## Blog
+
+Writing about pricing, product discovery, and building for AI agents. All posts available as markdown at the same URL with .md extension.
+
+- [Building a Pricing Database](https://katrinalaszlo.com/blog/building-a-pricing-database) (2026-05-05): Wiki-as-living-system approach to pricing research, free at data.tansohq.com
+- [Product Discovery with Karpathy's LLM Wiki](https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki) (2026-04-27): Repurposed LLM Wiki for customer interview synthesis
+- [If you're rethinking your pricing because of AI, read this first](https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai) (2026-04-18): Floor vs ceiling framework; attribution spectrum; pricing as a loop
+- [Is Outcome-Based Pricing Real, or Just Marketing Hype?](https://katrinalaszlo.com/blog/is-outcome-based-pricing-real) (2026-02-15): 2% to 18% adoption; where it works and where it doesn't
+- [The "AI Included" Era Was Never Going to Last Forever](https://katrinalaszlo.com/blog/ai-included) (2026-02-25): Flat pricing vs variable AI costs; the unbundling wave
+- [Why Falling Costs Don't Mean Better Margins](https://katrinalaszlo.com/blog/more-customers-bigger-losses) (2026-01-10): Cost variance, revenue deflation, per-customer visibility gap
+- [Pricing Is a Real Moat in AI SaaS](https://katrinalaszlo.com/blog/pricing-moat-ai-saas) (2026-01-08): How pricing becomes durable competitive advantage
+- [Why Pricing Infrastructure Gets Hard Fast](https://katrinalaszlo.com/blog/pricing-infrastructure-complexity) (2025-12-08): From simple plans to system-wide complexity
+- [What's Actually Different About AI Pricing](https://katrinalaszlo.com/blog/ai-pricing-differences) (2025-11-28): What changed vs what's the same; table of AI-era labels mapped to PLG equivalents
+
+RSS feed: https://katrinalaszlo.com/blog/feed.xml
+
 ## Contact
 
 - [LinkedIn](https://www.linkedin.com/in/katrinalaszlo/)
 - [GitHub](https://github.com/katrinalaszlo)
 - [X](https://x.com/Katlaszlo)
-- [Substack](https://itskatlaszlo.substack.com)
+- [Blog](https://katrinalaszlo.com/blog/)
 - [Schedule a call](https://cal.com/katrina-laszlo/30-minute-meeting)
 - [Email](mailto:katrina.j.laszlo@gmail.com)

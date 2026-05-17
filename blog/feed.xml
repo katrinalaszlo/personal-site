@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kat Laszlo</title>
+    <description>Writing about pricing, product discovery, and building for AI agents.</description>
+    <link>https://katrinalaszlo.com/blog/</link>
+    <atom:link href="https://katrinalaszlo.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 May 2026 00:00:00 GMT</lastBuildDate>
+
+    <item>
+      <title>Building a Pricing Database</title>
+      <link>https://katrinalaszlo.com/blog/building-a-pricing-database</link>
+      <description>Human-directed, AI-driven research and insights. An LLM does all the writing, cross-referencing, and maintenance while I curate what goes in.</description>
+      <pubDate>Mon, 05 May 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/building-a-pricing-database</guid>
+    </item>
+
+    <item>
+      <title>Product Discovery with Karpathy's LLM Wiki</title>
+      <link>https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki</link>
+      <description>I repurposed Karpathy's LLM Wiki for product discovery. It worked surprisingly well.</description>
+      <pubDate>Sun, 27 Apr 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki</guid>
+    </item>
+
+    <item>
+      <title>If you're rethinking your pricing because of AI, read this first</title>
+      <link>https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai</link>
+      <description>The most common mistake: teams look at their AI COGS, panic, and mark it up. That's cost-plus pricing wearing an AI hat.</description>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai</guid>
+    </item>
+
+    <item>
+      <title>Is Outcome-Based Pricing Real, or Just Marketing Hype?</title>
+      <link>https://katrinalaszlo.com/blog/is-outcome-based-pricing-real</link>
+      <description>Only 2% of companies used outcome-based pricing in mid-2025. By December it was 18%. The gap between the narrative and reality tells you something important about where AI pricing actually is.</description>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/is-outcome-based-pricing-real</guid>
+    </item>
+
+    <item>
+      <title>The "AI Included" Era Was Never Going to Last Forever</title>
+      <link>https://katrinalaszlo.com/blog/ai-included</link>
+      <description>The mismatch between flat pricing and variable AI costs didn't start with AI-native startups. It's coming for every SaaS company that shipped an AI feature in the last two years.</description>
+      <pubDate>Tue, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/ai-included</guid>
+    </item>
+
+    <item>
+      <title>Why Falling Costs Don't Mean Better Margins</title>
+      <link>https://katrinalaszlo.com/blog/more-customers-bigger-losses</link>
+      <description>Inference costs are dropping 5-10x per year. But seat-based pricing can't handle cost variance, and usage-based pricing deflates your revenue.</description>
+      <pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/more-customers-bigger-losses</guid>
+    </item>
+
+    <item>
+      <title>Pricing Is a Real Moat in AI SaaS</title>
+      <link>https://katrinalaszlo.com/blog/pricing-moat-ai-saas</link>
+      <description>How pricing became a source of durable advantage in AI SaaS.</description>
+      <pubDate>Wed, 08 Jan 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/pricing-moat-ai-saas</guid>
+    </item>
+
+    <item>
+      <title>Why Pricing Infrastructure Gets Hard Fast for AI Startups</title>
+      <link>https://katrinalaszlo.com/blog/pricing-infrastructure-complexity</link>
+      <description>Early teams usually start the same way. Add a few plans, connect Stripe, and move on. Then usage grows, customers scale, and one-off exceptions turn into system-wide behavior.</description>
+      <pubDate>Mon, 08 Dec 2025 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/pricing-infrastructure-complexity</guid>
+    </item>
+
+    <item>
+      <title>What's Actually Different About AI Pricing</title>
+      <link>https://katrinalaszlo.com/blog/ai-pricing-differences</link>
+      <description>AI pricing looks new. New labels. New meters. New behaviors. Some things genuinely changed: costs and attribution work differently now. But fundamentals haven't.</description>
+      <pubDate>Fri, 28 Nov 2025 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/ai-pricing-differences</guid>
+    </item>
+  </channel>
+</rss>

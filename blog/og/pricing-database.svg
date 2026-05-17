@@ -1,0 +1,10 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="4" fill="#4f46e5"/>
+  <text x="100" y="290" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="48" font-weight="700" fill="#0a0a0a">
+    <tspan x="100" dy="0">Building a</tspan>
+    <tspan x="100" dy="64">Pricing Database</tspan>
+  </text>
+  <text x="100" y="540" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="20" fill="#71717a">Kat Laszlo</text>
+  <text x="1100" y="540" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="20" fill="#71717a" text-anchor="end">katrinalaszlo.com</text>
+</svg>

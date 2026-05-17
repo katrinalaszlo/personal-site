@@ -1,0 +1,11 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="4" fill="#4f46e5"/>
+  <text x="100" y="260" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="48" font-weight="700" fill="#0a0a0a" width="1000">
+    <tspan x="100" dy="0">If you're rethinking your</tspan>
+    <tspan x="100" dy="64">pricing because of AI,</tspan>
+    <tspan x="100" dy="64">read this first</tspan>
+  </text>
+  <text x="100" y="540" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="20" fill="#71717a">Kat Laszlo</text>
+  <text x="1100" y="540" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="20" fill="#71717a" text-anchor="end">katrinalaszlo.com</text>
+</svg>
