@@ -26,7 +26,6 @@
     <link rel="me" href="https://www.linkedin.com/in/katrinalaszlo/">
     <link rel="me" href="https://x.com/Katlaszlo">
     <link rel="me" href="https://dev.to/kat_laszlo">
-    <link rel="me" href="https://itskatlaszlo.substack.com">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
 
     <script type="application/ld+json">
@@ -48,8 +47,7 @@
             "https://www.linkedin.com/in/katrinalaszlo/",
             "https://github.com/katrinalaszlo",
             "https://x.com/Katlaszlo",
-            "https://dev.to/kat_laszlo",
-            "https://itskatlaszlo.substack.com"
+            "https://dev.to/kat_laszlo"
         ],
         "alumniOf": {
             "@type": "EducationalOrganization",
@@ -126,6 +124,14 @@
         .nav-link:hover {
             color: #0a0a0a;
         }
+        .nav-social {
+            display: inline-flex;
+            align-items: center;
+            color: #c4c4c9;
+            transition: color 0.15s ease;
+        }
+        .nav-social:hover { color: #0a0a0a; }
+        .nav-social svg { width: 13px; height: 13px; }
 
         .hero {
             padding: 5rem 0 4rem;
@@ -266,6 +272,36 @@
             height: 14px;
             flex-shrink: 0;
         }
+        .proj-type {
+            display: inline-block;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            margin-bottom: 0.375rem;
+            letter-spacing: 0.01em;
+        }
+        .proj-type-npm { background: #fef2f2; color: #b91c1c; }
+        .proj-type-skill { background: #f0f0ff; color: #4f46e5; }
+        .proj-type-cli { background: #f0fdf4; color: #15803d; }
+        .proj-install {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            margin-top: 0.5rem;
+            padding: 0.375rem 0.625rem;
+            background: #fafafa;
+            border: 1px solid #f4f4f5;
+            border-radius: 6px;
+            font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+            font-size: 0.6875rem;
+            color: #52525b;
+            cursor: pointer;
+            transition: border-color 0.15s ease;
+        }
+        .proj-install:hover { border-color: #4f46e5; }
+        .proj-install-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .proj-install svg { width: 12px; height: 12px; flex-shrink: 0; color: #a1a1aa; }
 
         .links {
             display: grid;
@@ -303,6 +339,24 @@
             color: #a1a1aa;
             border-top: 1px solid #f4f4f5;
         }
+        footer .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        footer .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        footer .footer-links a {
+            display: inline-flex;
+            align-items: center;
+            color: #a1a1aa;
+            transition: color 0.15s ease;
+        }
+        footer .footer-links a:hover { color: #0a0a0a; }
+        footer .footer-links svg { width: 14px; height: 14px; vertical-align: middle; }
 
         @media (max-width: 640px) {
             .hero { padding: 3.5rem 0 3rem; }
@@ -325,10 +379,16 @@
         <div class="container">
             <nav>
                 <a href="/" class="nav-name">Katrina Laszlo</a>
-                <div style="display: flex; gap: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
                     <a href="/notebook/" class="nav-link">Notebook</a>
                     <a href="/blog/" class="nav-link">Blog</a>
-                    <a href="#connect" class="nav-link">Connect</a>
+                    <span style="width: 1px; height: 14px; background: #e4e4e7;"></span>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <a href="https://x.com/Katlaszlo" class="nav-social" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="https://www.linkedin.com/in/katrinalaszlo/" class="nav-social" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                        <a href="https://github.com/katrinalaszlo" class="nav-social" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                        <a href="mailto:katrina.j.laszlo@gmail.com" class="nav-social"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -406,30 +466,50 @@
             <p class="section-sub">Tools I've built.</p>
             <div class="projects">
                 <div class="proj-card">
+                    <span class="proj-type proj-type-npm">npm package</span>
                     <div class="proj-name">agentkey</div>
                     <div class="proj-desc">Scoped, budgeted API keys for AI agents. The auth layer between Clerk and Stripe.</div>
+                    <div class="proj-install" onclick="navigator.clipboard.writeText('npm install agentkey');this.querySelector('.proj-install-text').textContent='Copied!';setTimeout(()=>this.querySelector('.proj-install-text').textContent='npm install agentkey',2000)">
+                        <span class="proj-install-text">npm install agentkey</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </div>
                     <div class="proj-links">
                         <span onclick="window.open('https://github.com/katrinalaszlo/agentkey','_blank')"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</span>
                         <span onclick="window.open('https://www.npmjs.com/package/@katrinalaszlo/agentkey','_blank')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331zM10.665 10H12v2.667h-1.335V10z"/></svg>npm</span>
                     </div>
                 </div>
                 <div class="proj-card">
+                    <span class="proj-type proj-type-skill">claude code skill</span>
                     <div class="proj-name">agent-web</div>
-                    <div class="proj-desc">Audit and fix your site's agent-readiness. Claude Code skill. Opinionated by site type.</div>
+                    <div class="proj-desc">Audit and fix your site's agent-readiness. Opinionated by site type.</div>
+                    <div class="proj-install" onclick="navigator.clipboard.writeText('npx skills add katrinalaszlo/agent-web');this.querySelector('.proj-install-text').textContent='Copied!';setTimeout(()=>this.querySelector('.proj-install-text').textContent='npx skills add katrinalaszlo/agent-web',2000)">
+                        <span class="proj-install-text">npx skills add katrinalaszlo/agent-web</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </div>
                     <div class="proj-links">
                         <span onclick="window.open('https://github.com/katrinalaszlo/agent-web','_blank')"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</span>
                     </div>
                 </div>
                 <div class="proj-card">
+                    <span class="proj-type proj-type-skill">claude code skill</span>
                     <div class="proj-name">agent-serve</div>
                     <div class="proj-desc">Can AI agents buy and use your product without a human? Audit skill for SaaS agent-readiness.</div>
+                    <div class="proj-install" onclick="navigator.clipboard.writeText('npx skills add katrinalaszlo/agent-serve');this.querySelector('.proj-install-text').textContent='Copied!';setTimeout(()=>this.querySelector('.proj-install-text').textContent='npx skills add katrinalaszlo/agent-serve',2000)">
+                        <span class="proj-install-text">npx skills add katrinalaszlo/agent-serve</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </div>
                     <div class="proj-links">
                         <span onclick="window.open('https://github.com/katrinalaszlo/agent-serve','_blank')"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</span>
                     </div>
                 </div>
                 <div class="proj-card">
+                    <span class="proj-type proj-type-cli">cli tool</span>
                     <div class="proj-name">agentlens</div>
                     <div class="proj-desc">See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts.</div>
+                    <div class="proj-install" onclick="navigator.clipboard.writeText('npx agentlens scan');this.querySelector('.proj-install-text').textContent='Copied!';setTimeout(()=>this.querySelector('.proj-install-text').textContent='npx agentlens scan',2000)">
+                        <span class="proj-install-text">npx agentlens scan</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </div>
                     <div class="proj-links">
                         <span onclick="window.open('https://github.com/katrinalaszlo/agentlens','_blank')"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</span>
                     </div>
@@ -483,10 +563,6 @@
                     <span class="link-label">DEV</span>
                     kat_laszlo
                 </a>
-                <a href="https://itskatlaszlo.substack.com" target="_blank" rel="noopener">
-                    <span class="link-label">Substack</span>
-                    itskatlaszlo
-                </a>
                 <a href="https://cal.com/katrina-laszlo/30-minute-meeting" target="_blank" rel="noopener">
                     <span class="link-label">Schedule</span>
                     30-minute call
@@ -502,7 +578,15 @@
 
     <footer>
         <div class="container">
-            Katrina Laszlo, 2026
+            <div class="footer-inner">
+                <span>Katrina Laszlo, 2026</span>
+                <div class="footer-links">
+                    <a href="https://x.com/Katlaszlo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="https://www.linkedin.com/in/katrinalaszlo/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    <a href="https://github.com/katrinalaszlo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                    <a href="mailto:katrina.j.laszlo@gmail.com"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                </div>
+            </div>
         </div>
     </footer>
     <script>

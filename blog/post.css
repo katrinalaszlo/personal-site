@@ -121,6 +121,15 @@ article a:hover {
 article strong {
   font-weight: 600;
 }
+article img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: 1.5rem 0;
+}
+article img[alt] {
+  display: block;
+}
 article ul,
 article ol {
   margin-bottom: 1.25rem;
