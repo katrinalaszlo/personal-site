@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "description": "Agent access permissions for katrinalaszlo.com",
+  "interactions": {
+    "read": {
+      "allowed": true,
+      "paths": [
+        "/llms.txt",
+        "/llms-full.txt",
+        "/agents.json",
+        "/openapi.json",
+        "/skill.md",
+        "/blog/*",
+        "/notebook/*",
+        "/developers/*",
+        "/.well-known/*"
+      ]
+    },
+    "api": {
+      "allowed": true,
+      "endpoints": ["/api/mcp", "/api/agent"],
+      "authentication": "none",
+      "rateLimits": {
+        "default": "100/minute"
+      }
+    }
+  },
+  "rateLimits": {
+    "default": "100/minute",
+    "authenticated": "unlimited"
+  },
+  "contact": "katrina.j.laszlo@gmail.com"
+}
