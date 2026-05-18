@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "name": "Katrina Laszlo",
   "also_known_as": ["Kat Laszlo", "Kat Vassell", "Katrina Vassell"],
-  "description": "Product manager and builder. 10 years of growth and monetization across startups and enterprise.",
+  "description": "Product and growth. 10 years of monetization across startups and enterprise.",
   "interfaces": {
     "human": "/",
     "llm": "/llms.txt",

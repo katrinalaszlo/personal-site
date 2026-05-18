@@ -2,7 +2,7 @@
 
 > Machine-readable version of this page: [llms.txt](/llms.txt)
 
-**Product manager and builder.**
+**Product and growth.**
 
 Building products for the shift where agents are the user. 10 years of growth and monetization across startups and enterprise. Currently building at [Tanso](https://tansohq.com).
 
