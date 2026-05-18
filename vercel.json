@@ -14,20 +14,6 @@
   "rewrites": [
     {
       "source": "/",
-      "has": [
-        { "type": "header", "key": "accept", "value": "text/markdown(.*)" }
-      ],
-      "destination": "/index.md"
-    },
-    {
-      "source": "/blog/:slug",
-      "has": [
-        { "type": "header", "key": "accept", "value": "text/markdown(.*)" }
-      ],
-      "destination": "/blog/:slug.md"
-    },
-    {
-      "source": "/",
       "has": [{ "type": "query", "key": "mode", "value": "agent" }],
       "destination": "/api/agent"
     }
