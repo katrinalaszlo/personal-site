@@ -25,10 +25,10 @@ I started by running third-party scanners. [Cloudflare's isitagentready.com](htt
 
 I kept running these checks manually after every deploy. So I built the tool.
 
-**[agent-web](https://github.com/katrinalaszlo/agent-web)** scores your site on three layers (discoverable, parseable, actionable), then generates the missing files directly into your repo.
+**[aeo-ready](https://github.com/katrinalaszlo/aeo-ready)** — is your site AEO ready? Two scorecards (Agent Readiness + AI Visibility), one score. Scans, fixes, and tracks.
 
 ```bash
-npx skills add katrinalaszlo/agent-web
+npx aeo-ready scan https://yoursite.com
 ```
 
 **[agent-serve](https://github.com/katrinalaszlo/agent-serve)** audits whether an agent can actually be your customer. Five dimensions: onboarding, authentication, purchasing, usage monitoring, self-management.
@@ -112,7 +112,7 @@ I'm adding a benchmark mode that hits Cloudflare's scanner and Fern's Agent Scor
 The deeper question: what does self-serve for agents look like end-to-end? Not just discovery. The full funnel. Evaluate, sign up, pay, use, manage. The companies that wire this up first will have a distribution channel that's invisible to everyone else.
 
 ```bash
-npx skills add katrinalaszlo/agent-web
+npx aeo-ready scan https://yoursite.com
 ```
 
 ```bash
