@@ -1,41 +1,51 @@
-const fs = require("fs");
-const path = require("path");
+const SKILL_REFS = {
+  "ai-foundations": ["data-pipelines", "model-architecture", "training-loops"],
+  "knowledge-systems": [
+    "knowledge-architecture",
+    "llm-memory",
+    "wiki-vs-vector",
+  ],
+  "ai-system-design": ["agent-evaluation", "agent-teams", "eight-decisions"],
+  "agent-tools": ["hermes", "openclaw"],
+  "agent-experience-design": [
+    "agent-experience-ax",
+    "agent-readable-sites",
+    "agent-self-serve",
+    "bifurcated-web",
+    "mutual-legibility",
+  ],
+};
 
-const SKILLS_DIR = path.join(
-  process.cwd(),
-  "public",
-  ".well-known",
-  "agent-skills",
-);
-const NOTEBOOK_DIR = path.join(process.cwd(), "public", "notebook");
+const NOTEBOOK_PAGES = [
+  "agent-evaluation",
+  "agent-experience",
+  "agent-readable-sites",
+  "agent-self-serve",
+  "ai-system-design",
+  "bifurcated-web",
+  "claude-api",
+  "data-pipeline",
+  "hermes-orchestration",
+  "knowledge-system-architecture",
+  "llm-memory-and-retrieval",
+  "managing-agent-teams",
+  "model-architecture",
+  "mutual-legibility",
+  "n8n-automation",
+  "openclaw-personal-agents",
+  "training-loop",
+  "wiki-vs-vector",
+];
 
-function loadSkills() {
-  const index = JSON.parse(
-    fs.readFileSync(path.join(SKILLS_DIR, "index.json"), "utf8"),
-  );
-  const skills = {};
-  for (const entry of index.skills) {
-    const skillDir = path.join(SKILLS_DIR, entry.name);
-    const skillMd = fs.readFileSync(path.join(skillDir, "SKILL.md"), "utf8");
-    const refsDir = path.join(skillDir, "references");
-    const refs = {};
-    if (fs.existsSync(refsDir)) {
-      for (const f of fs.readdirSync(refsDir)) {
-        if (f.endsWith(".md")) {
-          refs[f.replace(".md", "")] = fs.readFileSync(
-            path.join(refsDir, f),
-            "utf8",
-          );
-        }
-      }
-    }
-    skills[entry.name] = {
-      description: entry.description,
-      content: skillMd,
-      references: refs,
-    };
-  }
-  return skills;
+function getBaseUrl(req) {
+  const proto = req.headers["x-forwarded-proto"] || "https";
+  return `${proto}://${req.headers.host}`;
+}
+
+async function fetchText(baseUrl, path) {
+  const res = await fetch(`${baseUrl}${path}`);
+  if (!res.ok) return null;
+  return res.text();
 }
 
 function stripHtml(html) {
@@ -51,18 +61,47 @@ function stripHtml(html) {
     .trim();
 }
 
-function loadNotebookPages() {
-  const pages = {};
-  if (!fs.existsSync(NOTEBOOK_DIR)) return pages;
-  for (const f of fs.readdirSync(NOTEBOOK_DIR)) {
-    if (f.endsWith(".html") && f !== "index.html") {
-      const html = fs.readFileSync(path.join(NOTEBOOK_DIR, f), "utf8");
-      const titleMatch = html.match(/<title>([^<]+)/);
-      const title = titleMatch
-        ? titleMatch[1].replace(/ — Notebook.*/, "")
-        : f.replace(".html", "");
-      pages[f.replace(".html", "")] = { title, content: stripHtml(html) };
+async function loadSkills(baseUrl) {
+  const indexText = await fetchText(
+    baseUrl,
+    "/.well-known/agent-skills/index.json",
+  );
+  if (!indexText) return {};
+  const index = JSON.parse(indexText);
+  const skills = {};
+  for (const entry of index.skills) {
+    const skillMd = await fetchText(
+      baseUrl,
+      `/.well-known/agent-skills/${entry.name}/SKILL.md`,
+    );
+    const refs = {};
+    const refNames = SKILL_REFS[entry.name] || [];
+    for (const refName of refNames) {
+      const content = await fetchText(
+        baseUrl,
+        `/.well-known/agent-skills/${entry.name}/references/${refName}.md`,
+      );
+      if (content) refs[refName] = content;
     }
+    skills[entry.name] = {
+      description: entry.description,
+      content: skillMd || "",
+      references: refs,
+    };
+  }
+  return skills;
+}
+
+async function loadNotebookPages(baseUrl) {
+  const pages = {};
+  for (const slug of NOTEBOOK_PAGES) {
+    const html = await fetchText(baseUrl, `/notebook/${slug}.html`);
+    if (!html) continue;
+    const titleMatch = html.match(/<title>([^<]+)/);
+    const title = titleMatch
+      ? titleMatch[1].replace(/ — Notebook.*/, "")
+      : slug;
+    pages[slug] = { title, content: stripHtml(html) };
   }
   return pages;
 }
@@ -70,13 +109,13 @@ function loadNotebookPages() {
 let skillsCache = null;
 let pagesCache = null;
 
-function getSkills() {
-  if (!skillsCache) skillsCache = loadSkills();
+async function getSkills(baseUrl) {
+  if (!skillsCache) skillsCache = await loadSkills(baseUrl);
   return skillsCache;
 }
 
-function getPages() {
-  if (!pagesCache) pagesCache = loadNotebookPages();
+async function getPages(baseUrl) {
+  if (!pagesCache) pagesCache = await loadNotebookPages(baseUrl);
   return pagesCache;
 }
 
@@ -112,8 +151,7 @@ function handleToolsList(id) {
               },
               topic: {
                 type: "string",
-                description:
-                  "Optional: specific topic to search within. One of: agent-experience-design, ai-foundations, knowledge-systems, ai-system-design, agent-tools",
+                description: "Optional: specific topic to search within.",
                 enum: [
                   "agent-experience-design",
                   "ai-foundations",
@@ -153,7 +191,7 @@ function handleToolsList(id) {
               include_references: {
                 type: "boolean",
                 description:
-                  "Include full reference files (more tokens, more detail). Default false for concise response.",
+                  "Include full reference files (more tokens, more detail). Default false.",
               },
             },
             required: ["skill_name"],
@@ -164,31 +202,27 @@ function handleToolsList(id) {
   };
 }
 
-function searchContent(query, topic) {
+function searchContent(skills, pages, query, topic) {
   const terms = query.toLowerCase().split(/\s+/);
   const results = [];
-
-  const skills = getSkills();
-  const pages = getPages();
-
   const searchIn = topic ? { [topic]: skills[topic] } : skills;
 
   for (const [name, skill] of Object.entries(searchIn)) {
     if (!skill) continue;
     const text = (skill.content + " " + skill.description).toLowerCase();
     const score = terms.filter((t) => text.includes(t)).length;
-    if (score > 0) {
+    if (score > 0)
       results.push({
         type: "skill",
         name,
         description: skill.description,
         score,
       });
-    }
     for (const [refName, refContent] of Object.entries(skill.references)) {
-      const refText = refContent.toLowerCase();
-      const refScore = terms.filter((t) => refText.includes(t)).length;
-      if (refScore > 0) {
+      const refScore = terms.filter((t) =>
+        refContent.toLowerCase().includes(t),
+      ).length;
+      if (refScore > 0)
         results.push({
           type: "reference",
           skill: name,
@@ -196,7 +230,6 @@ function searchContent(query, topic) {
           content: refContent.slice(0, 2000),
           score: refScore,
         });
-      }
     }
   }
 
@@ -204,7 +237,7 @@ function searchContent(query, topic) {
     for (const [name, page] of Object.entries(pages)) {
       const text = (page.title + " " + page.content).toLowerCase();
       const score = terms.filter((t) => text.includes(t)).length;
-      if (score > 0) {
+      if (score > 0)
         results.push({
           type: "page",
           name,
@@ -212,7 +245,6 @@ function searchContent(query, topic) {
           content: page.content.slice(0, 2000),
           score,
         });
-      }
     }
   }
 
@@ -220,9 +252,10 @@ function searchContent(query, topic) {
   return results.slice(0, 5);
 }
 
-function handleToolCall(id, name, args) {
+async function handleToolCall(id, name, args, baseUrl) {
+  const skills = await getSkills(baseUrl);
+
   if (name === "list_topics") {
-    const skills = getSkills();
     const topics = Object.entries(skills).map(([k, v]) => ({
       name: k,
       description: v.description,
@@ -238,9 +271,8 @@ function handleToolCall(id, name, args) {
   }
 
   if (name === "get_skill") {
-    const skills = getSkills();
     const skill = skills[args.skill_name];
-    if (!skill) {
+    if (!skill)
       return {
         jsonrpc: "2.0",
         id,
@@ -250,7 +282,6 @@ function handleToolCall(id, name, args) {
           ],
         },
       };
-    }
     let text = skill.content;
     if (args.include_references) {
       for (const [refName, refContent] of Object.entries(skill.references)) {
@@ -265,8 +296,9 @@ function handleToolCall(id, name, args) {
   }
 
   if (name === "query_notebook") {
-    const results = searchContent(args.query, args.topic);
-    if (results.length === 0) {
+    const pages = await getPages(baseUrl);
+    const results = searchContent(skills, pages, args.query, args.topic);
+    if (results.length === 0)
       return {
         jsonrpc: "2.0",
         id,
@@ -276,7 +308,6 @@ function handleToolCall(id, name, args) {
           ],
         },
       };
-    }
     return {
       jsonrpc: "2.0",
       id,
@@ -303,10 +334,7 @@ module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Expose-Headers", "Mcp-Session-Id");
 
   if (req.method === "OPTIONS") return res.status(200).end();
-
-  if (req.method === "DELETE") {
-    return res.status(200).end();
-  }
+  if (req.method === "DELETE") return res.status(200).end();
 
   if (req.method === "GET") {
     res.setHeader("Content-Type", "text/event-stream");
@@ -318,17 +346,15 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  if (req.method !== "POST") {
+  if (req.method !== "POST")
     return res.status(405).json({ error: "Method not allowed" });
-  }
 
   const body = req.body;
-  if (!body || !body.method) {
+  if (!body || !body.method)
     return res.status(400).json({ error: "Invalid JSON-RPC request" });
-  }
 
-  const sessionId = "katrinalaszlo-notebook-static";
-  res.setHeader("Mcp-Session-Id", sessionId);
+  res.setHeader("Mcp-Session-Id", "katrinalaszlo-notebook-static");
+  const baseUrl = getBaseUrl(req);
 
   let response;
   switch (body.method) {
@@ -339,10 +365,11 @@ module.exports = async function handler(req, res) {
       response = handleToolsList(body.id);
       break;
     case "tools/call":
-      response = handleToolCall(
+      response = await handleToolCall(
         body.id,
         body.params?.name,
         body.params?.arguments || {},
+        baseUrl,
       );
       break;
     case "notifications/initialized":
