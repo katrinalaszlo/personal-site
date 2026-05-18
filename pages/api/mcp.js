@@ -324,7 +324,7 @@ async function handleToolCall(id, name, args, baseUrl) {
   };
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
   res.setHeader(
@@ -383,4 +383,4 @@ module.exports = async function handler(req, res) {
   }
 
   return res.status(200).json(response);
-};
+}

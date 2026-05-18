@@ -1,4 +1,4 @@
-const { list } = require("@vercel/blob");
+import { list } from "@vercel/blob";
 
 const AGENT_MAIL_KEY = process.env.AGENT_MAIL_KEY;
 const INBOX_ID = process.env.AGENT_MAIL_INBOX_ID;
@@ -37,7 +37,7 @@ function buildEmailHtml({ title, url, content, email }) {
 </html>`;
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST")
     return res.status(405).json({ error: "POST only" });
 

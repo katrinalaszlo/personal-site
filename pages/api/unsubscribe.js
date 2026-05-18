@@ -1,6 +1,6 @@
-const { put, list } = require("@vercel/blob");
+import { put, list } from "@vercel/blob";
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   const email = req.query.email

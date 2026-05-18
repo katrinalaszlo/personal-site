@@ -1,9 +1,9 @@
-const { put, list } = require("@vercel/blob");
+import { put, list } from "@vercel/blob";
 
 const AGENT_MAIL_KEY = process.env.AGENT_MAIL_KEY;
 const INBOX_ID = process.env.AGENT_MAIL_INBOX_ID;
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
