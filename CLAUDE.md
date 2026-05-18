@@ -4,22 +4,23 @@ Static site hosted on Vercel. No build step — push to GitHub and it deploys.
 
 ## Architecture
 
-Pure HTML/CSS/JS. No framework, no dependencies, no build tool.
+Next.js wrapper around static HTML. Static files in `public/`, API routes in `pages/api/`, middleware at root for content negotiation.
 
 ```
-index.html          # Homepage
-notebook/           # Learning notebook — deployed
-sitemap.xml         # SEO sitemap
-llms.txt            # LLM-readable profile
-agents.json         # Machine-readable capabilities manifest
-robots.txt          # Crawler permissions
-og-image.png        # Open Graph image
+public/index.html   # Homepage
+public/notebook/     # Learning notebook
+public/blog/         # Blog posts (.html + .md)
+public/llms.txt      # LLM-readable profile
+public/agents.json   # Machine-readable capabilities manifest
+middleware.js        # Content negotiation (Accept: text/markdown)
+next.config.js       # Rewrites for clean URLs + headers
+pages/api/           # Serverless functions (mcp, agent, subscribe)
 ```
 
 ## Blog
 
-Posts live in `blog/` as `.md` files with YAML frontmatter (title, date, description, author).
-`blog/build.js` converts them to static HTML. Run `node blog/build.js` after any post changes.
+Posts live in `public/blog/` as `.md` files with YAML frontmatter (title, date, description, author).
+`public/blog/build.js` converts them to static HTML. Run `node public/blog/build.js` after any post changes.
 
 - **OG images**: `blog/og/{slug}.png` — 1200x630, white bg, indigo stripe, title + author
 - **Styles**: `blog/post.css` — shared across all posts
@@ -31,8 +32,8 @@ and visual quality. The skill runs 4 parallel subagents and produces a ship-read
 
 ## What NOT to change
 
-- `og-image.png` — only update if branding changes
-- `robots.txt` — already allows all AI crawlers
+- `public/og-image.png` — only update if branding changes
+- `public/robots.txt` — already allows all AI crawlers
 - `.vercel/` — managed by Vercel, don't touch
 
 ## Skill routing

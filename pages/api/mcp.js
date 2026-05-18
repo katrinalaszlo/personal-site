@@ -1,8 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 
-const SKILLS_DIR = path.join(process.cwd(), ".well-known", "agent-skills");
-const NOTEBOOK_DIR = path.join(process.cwd(), "notebook");
+const SKILLS_DIR = path.join(
+  process.cwd(),
+  "public",
+  ".well-known",
+  "agent-skills",
+);
+const NOTEBOOK_DIR = path.join(process.cwd(), "public", "notebook");
 
 function loadSkills() {
   const index = JSON.parse(
