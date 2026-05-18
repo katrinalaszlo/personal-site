@@ -111,19 +111,19 @@
 
   <div class="pillar-grid">
     <div class="pillar-card" style="border-top:3px solid var(--accent)">
-      <h4 style="color:var(--accent)">1. Access</h4>
+      <h3 style="color:var(--accent)">1. Access</h3>
       <p>Can agents interact with your product at all? Are they allowed in? Do permissions support human-in-the-loop workflows? When Biilmann's own Google account was banned because agents triggered fraud detection, this pillar became personal. The shift: from "is this a bot?" to "is this doing something bad?"</p>
     </div>
     <div class="pillar-card" style="border-top:3px solid var(--green)">
-      <h4 style="color:var(--green)">2. Context</h4>
+      <h3 style="color:var(--green)">2. Context</h3>
       <p>Does the LLM have adequate product knowledge? This goes beyond prompt engineering into context engineering: llms.txt files, AGENTS.md, CLAUDE.md, documentation structured for machine consumption. If the agent can't ground its understanding in your product, it will hallucinate confidently.</p>
     </div>
     <div class="pillar-card" style="border-top:3px solid var(--orange)">
-      <h4 style="color:var(--orange)">3. Tools</h4>
+      <h3 style="color:var(--orange)">3. Tools</h3>
       <p>APIs, CLIs, MCP servers, file access, browser control. The capabilities agents need to take action. Tool documentation is literally the agent's UI: writing a tool description is interaction design, not API documentation. The quality of that description determines whether the agent picks the right tool.</p>
     </div>
     <div class="pillar-card" style="border-top:3px solid var(--purple)">
-      <h4 style="color:var(--purple)">4. Orchestration</h4>
+      <h3 style="color:var(--purple)">4. Orchestration</h3>
       <p>Can platforms enable agent triggering and workflow execution at scale? This includes async patterns, webhook callbacks, idempotency, and the infrastructure for agents to operate reliably across multi-step workflows without human babysitting.</p>
     </div>
   </div>
@@ -209,70 +209,70 @@
     <div class="principle-item">
       <div class="principle-num">1</div>
       <div class="principle-body">
-        <h4>Treat agents as a first-class user persona</h4>
+        <h3>Treat agents as a first-class user persona</h3>
         <p>Not an afterthought. Not a chatbot bolt-on. A separate persona with its own needs, tested with its own flows.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">2</div>
       <div class="principle-body">
-        <h4>Let agents act first, humans claim later</h4>
+        <h3>Let agents act first, humans claim later</h3>
         <p>Netlify lets agents deploy anonymously, then the human claims the project. The agent is the first user, not the human.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">3</div>
       <div class="principle-body">
-        <h4>Eliminate ambiguity at the interface, not at runtime</h4>
+        <h3>Eliminate ambiguity at the interface, not at runtime</h3>
         <p>If three CLI commands could be confused, the interface is wrong. Don't rely on the model to pick the right one.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">4</div>
       <div class="principle-body">
-        <h4>Ship machine-readable docs alongside human docs</h4>
+        <h3>Ship machine-readable docs alongside human docs</h3>
         <p>llms.txt, AGENTS.md, pure markdown versions. The same content, stripped of presentation noise.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">5</div>
       <div class="principle-body">
-        <h4>Make context engineering part of the product</h4>
+        <h3>Make context engineering part of the product</h3>
         <p>Context engineering, not prompt engineering. The product ships its own context: config files, agent rules, structured knowledge.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">6</div>
       <div class="principle-body">
-        <h4>Design tools for agents' affordances</h4>
+        <h3>Design tools for agents' affordances</h3>
         <p>Agents don't have eyes, hands, or spatial memory. They have token windows, tool descriptions, and structured outputs. Design for what they actually have.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">7</div>
       <div class="principle-body">
-        <h4>Expose MCP as a first-class product surface</h4>
+        <h3>Expose MCP as a first-class product surface</h3>
         <p>Model Context Protocol is becoming the standard for agent-tool integration. An MCP server is a product interface, not a developer convenience.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">8</div>
       <div class="principle-body">
-        <h4>Support granular, programmatic permissions</h4>
+        <h3>Support granular, programmatic permissions</h3>
         <p>Agents need scoped access, not all-or-nothing. Read vs write. Sandbox vs production. Per-resource, not per-account.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">9</div>
       <div class="principle-body">
-        <h4>Make onboarding instant</h4>
+        <h3>Make onboarding instant</h3>
         <p>"Book a demo" is a UX win and an AX rejection. Instant programmatic signup, optional human contact. No gates.</p>
       </div>
     </div>
     <div class="principle-item">
       <div class="principle-num">10</div>
       <div class="principle-body">
-        <h4>Build for an open agent ecosystem</h4>
+        <h3>Build for an open agent ecosystem</h3>
         <p>Don't lock agents into your agent. Build for any agent: Claude, GPT, Gemini, open-source, custom. Open protocols win.</p>
       </div>
     </div>

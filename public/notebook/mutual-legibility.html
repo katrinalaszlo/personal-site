@@ -115,19 +115,19 @@
   <p class="subtitle">Research results that rewrite conventional wisdom about agent UX.</p>
 
   <div class="finding-card" style="border-left:3px solid var(--accent)">
-    <h4>1. First-person hedges work. Generic ones don't.</h4>
+    <h3>1. First-person hedges work. Generic ones don't.</h3>
     <p>"I'm not sure about this" reduces overreliance on wrong answers. "It's not clear" doesn't reach statistical significance. The model speaking as itself about its own uncertainty is more effective than abstract uncertainty language. This is not intuitive: both sentences express the same doubt. But humans respond to the agent's self-report differently than to a generic disclaimer.</p>
     <div class="implication"><strong>Design implication:</strong> When an agent is uncertain, it should say "I" and own the uncertainty. Passive or generic hedging gets filtered out by the reader.</div>
   </div>
 
   <div class="finding-card" style="border-left:3px solid var(--orange)">
-    <h4>2. Explanations raise credibility uniformly, including for wrong answers.</h4>
+    <h3>2. Explanations raise credibility uniformly, including for wrong answers.</h3>
     <p>More explanation is not automatically better. When an agent provides detailed reasoning, humans rate both correct and incorrect answers as more credible. The explanation makes everything sound more convincing, which is exactly the wrong effect when the answer is wrong. The interventions that selectively improve trust calibration are different: showing sources and surfacing inconsistencies.</p>
     <div class="implication"><strong>Design implication:</strong> AX products should show sources, not explanations. If you want users to catch errors, expose the evidence chain, not the reasoning narrative.</div>
   </div>
 
   <div class="finding-card" style="border-left:3px solid var(--green)">
-    <h4>3. Humans adapt down, not up.</h4>
+    <h3>3. Humans adapt down, not up.</h3>
     <p>When paired with an AI that doesn't ground well (doesn't ask clarifying questions, doesn't confirm understanding), humans reduce their own grounding behavior rather than compensating. They provide less context, ask fewer questions, accept more outputs without checking. The interface must compensate because the human won't.</p>
     <div class="implication"><strong>Design implication:</strong> The interface must compensate for poor grounding because users won't escalate. This is why bounded inputs (Apple Intelligence's buttons, Vercel v0's prompt framework) outperform open-ended text boxes. Specific prompts produced output 19-26 seconds faster in Vercel's data.</div>
   </div>

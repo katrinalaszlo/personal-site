@@ -98,15 +98,15 @@
         <div class="sys-label">Instructions file controls everything inside</div>
         <div class="sys-row">
           <div class="sys-box immutable">
-            <h4>Sources (immutable)</h4>
+            <h3>Sources (immutable)</h3>
             <p>Transcripts, PDFs, research. Never modified. Referenced by output pages.</p>
           </div>
           <div class="sys-box rules">
-            <h4>Rules</h4>
+            <h3>Rules</h3>
             <p>Schema, page types, frontmatter format, cross-referencing conventions, behavioral constraints.</p>
           </div>
           <div class="sys-box output">
-            <h4>Output</h4>
+            <h3>Output</h3>
             <p>Source summaries, entity pages, concept pages, synthesis, index. Grows over time.</p>
           </div>
         </div>
@@ -136,19 +136,19 @@
     <div class="system-visual" style="background:var(--bg-card)">
       <div class="sys-row">
         <div class="sys-box immutable">
-          <h4>Sources</h4>
+          <h3>Sources</h3>
           <p>Same documents, but chunked and embedded as vectors. Stored in a vector database.</p>
         </div>
         <div class="sys-box" style="border-left:3px solid var(--orange)">
-          <h4>Retrieval</h4>
+          <h3>Retrieval</h3>
           <p>Query → embed → similarity search → top 5-10 chunks returned.</p>
         </div>
         <div class="sys-box rules">
-          <h4>Rules (prompt)</h4>
+          <h3>Rules (prompt)</h3>
           <p>System prompt tells LLM how to use retrieved chunks. Still needed.</p>
         </div>
         <div class="sys-box output">
-          <h4>Output</h4>
+          <h3>Output</h3>
           <p>Generated answer. Often ephemeral (in a chat), not always persisted.</p>
         </div>
       </div>
@@ -173,19 +173,19 @@
     <div class="system-visual" style="background:var(--bg-card)">
       <div class="sys-row">
         <div class="sys-box immutable">
-          <h4>Sources</h4>
+          <h3>Sources</h3>
           <p>Embedded in vector DB for retrieval.</p>
         </div>
         <div class="sys-box" style="border-left:3px solid var(--orange)">
-          <h4>Vector retrieval</h4>
+          <h3>Vector retrieval</h3>
           <p>Finds relevant chunks from massive corpus.</p>
         </div>
         <div class="sys-box rules">
-          <h4>Rules</h4>
+          <h3>Rules</h3>
           <p>Schema for structured output. Same as wiki approach.</p>
         </div>
         <div class="sys-box output">
-          <h4>Structured output</h4>
+          <h3>Structured output</h3>
           <p>Wiki pages with citations. Compounds over time.</p>
         </div>
       </div>
@@ -234,28 +234,28 @@
     <div class="seq-step">
       <div class="seq-num" style="background:rgba(79,70,229,0.15);color:var(--accent)">1</div>
       <div class="seq-body">
-        <h4>Session starts — LLM reads the rules</h4>
+        <h3>Session starts — LLM reads the rules</h3>
         <p>Now it knows: folder structure, page types, frontmatter format, what's immutable, what to update. This loads before anything else.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num" style="background:rgba(217,119,6,0.15);color:var(--orange)">2</div>
       <div class="seq-body">
-        <h4>Query — rules define how to search</h4>
+        <h3>Query — rules define how to search</h3>
         <p>"Read the index to find relevant pages." This is the retrieval step. The rules tell the LLM WHERE to look — which is the same job a vector DB does at larger scale.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num" style="background:rgba(22,163,74,0.15);color:var(--green)">3</div>
       <div class="seq-body">
-        <h4>Ingest — rules define how to write</h4>
+        <h3>Ingest — rules define how to write</h3>
         <p>"Create a source summary, use this frontmatter, link to entities, cite everything." Consistent structure every time.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num" style="background:rgba(124,58,237,0.15);color:var(--purple)">4</div>
       <div class="seq-body">
-        <h4>Throughout — rules constrain behavior</h4>
+        <h3>Throughout — rules constrain behavior</h3>
         <p>"Never modify sources. Flag contradictions. Prefer updating to creating." Guardrails that prevent drift and hallucination.</p>
       </div>
     </div>
@@ -275,19 +275,19 @@
   <div class="sequence">
     <div class="seq-step">
       <div class="seq-num">1</div>
-      <div class="seq-body"><h4>A commit lands</h4><p>New code, changed API, updated schema.</p></div>
+      <div class="seq-body"><h3>A commit lands</h3><p>New code, changed API, updated schema.</p></div>
     </div>
     <div class="seq-step">
       <div class="seq-num">2</div>
-      <div class="seq-body"><h4>Hook reads the diff</h4><p>Which files changed? What was added, removed, modified?</p></div>
+      <div class="seq-body"><h3>Hook reads the diff</h3><p>Which files changed? What was added, removed, modified?</p></div>
     </div>
     <div class="seq-step">
       <div class="seq-num">3</div>
-      <div class="seq-body"><h4>LLM reads changed files + current docs</h4><p>Targeted inference — only reads what's relevant.</p></div>
+      <div class="seq-body"><h3>LLM reads changed files + current docs</h3><p>Targeted inference — only reads what's relevant.</p></div>
     </div>
     <div class="seq-step">
       <div class="seq-num">4</div>
-      <div class="seq-body"><h4>LLM makes surgical doc updates</h4><p>"The billing API added a new endpoint. Update the API section."</p></div>
+      <div class="seq-body"><h3>LLM makes surgical doc updates</h3><p>"The billing API added a new endpoint. Update the API section."</p></div>
     </div>
   </div>
 

@@ -70,7 +70,7 @@
 
   <div class="surface-grid">
     <div class="surface-card">
-      <h4>Claude.ai / Desktop</h4>
+      <h3>Claude.ai / Desktop</h3>
       <p>The consumer chat interface. You type, Claude responds. Anthropic manages the conversation, context, and billing.</p>
       <ul>
         <li>No code required</li>
@@ -79,7 +79,7 @@
       </ul>
     </div>
     <div class="surface-card">
-      <h4>Claude Code</h4>
+      <h3>Claude Code</h3>
       <p>The agentic coding CLI. It reads your codebase, runs tools, edits files. Under the hood, it makes API calls on your behalf.</p>
       <ul>
         <li>Manages conversation for you</li>
@@ -88,7 +88,7 @@
       </ul>
     </div>
     <div class="surface-card">
-      <h4>The API</h4>
+      <h3>The API</h3>
       <p>The raw HTTP endpoint. You send JSON, you get JSON back. You control everything: prompts, tools, context, retries.</p>
       <ul>
         <li>Full control over every parameter</li>
@@ -206,19 +206,19 @@ message = client.messages.create(
 
   <div class="model-grid">
     <div class="model-card opus">
-      <h4>Opus</h4>
+      <h3>Opus</h3>
       <div class="price">$5 / $25 per 1M tokens</div>
       <div class="ctx">1M context</div>
       <p style="font-size:12px; margin-top:8px; color:var(--text-dim)">Most capable. Complex reasoning, nuanced writing, multi-step analysis. Use when quality matters most and cost is secondary.</p>
     </div>
     <div class="model-card sonnet">
-      <h4>Sonnet</h4>
+      <h3>Sonnet</h3>
       <div class="price">$3 / $15 per 1M tokens</div>
       <div class="ctx">200K context</div>
       <p style="font-size:12px; margin-top:8px; color:var(--text-dim)">Best balance. Strong at coding, analysis, and general tasks. The workhorse for most applications.</p>
     </div>
     <div class="model-card haiku">
-      <h4>Haiku</h4>
+      <h3>Haiku</h3>
       <div class="price">$1 / $5 per 1M tokens</div>
       <div class="ctx">200K context</div>
       <p style="font-size:12px; margin-top:8px; color:var(--text-dim)">Fastest, cheapest. Classification, extraction, simple Q&A. Use for high-volume, low-complexity tasks.</p>
@@ -296,28 +296,28 @@ console.log(<span class="s">`\nTokens: ${final.usage.input_tokens} in, ${final.u
     <div class="seq-step">
       <div class="seq-num">1</div>
       <div class="seq-body">
-        <h4>Define tools + send message</h4>
+        <h3>Define tools + send message</h3>
         <p>You describe available tools with JSON Schema. Claude sees the descriptions and decides whether to use them.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">2</div>
       <div class="seq-body">
-        <h4>Claude returns a tool_use block</h4>
+        <h3>Claude returns a tool_use block</h3>
         <p>Instead of (or alongside) text, the response contains a tool call with structured input. <code>stop_reason</code> will be <code>"tool_use"</code>.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">3</div>
       <div class="seq-body">
-        <h4>You execute the function</h4>
+        <h3>You execute the function</h3>
         <p>Your code runs the actual function with the provided arguments. This happens on your side, not Anthropic's.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">4</div>
       <div class="seq-body">
-        <h4>Send the result back</h4>
+        <h3>Send the result back</h3>
         <p>You add the tool result to the messages array and call the API again. Claude uses the result to formulate its final answer.</p>
       </div>
     </div>

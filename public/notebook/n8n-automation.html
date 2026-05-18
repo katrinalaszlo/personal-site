@@ -396,35 +396,35 @@ footer {
     <div class="seq-step">
       <div class="seq-num">1</div>
       <div class="seq-body">
-        <h4>Run n8n locally</h4>
+        <h3>Run n8n locally</h3>
         <p>One command: <code>npx n8n</code> (requires Node.js 18+). Opens the editor at <code>localhost:5678</code>. Good for exploration. For persistent use, run via Docker.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">2</div>
       <div class="seq-body">
-        <h4>Build a test workflow</h4>
+        <h3>Build a test workflow</h3>
         <p>Start with Schedule Trigger + HTTP Request + Set. Fetch a public API (weather, HN top stories) every minute. Watch items flow through the canvas. Click each node to inspect its output.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">3</div>
       <div class="seq-body">
-        <h4>Add branching</h4>
+        <h3>Add branching</h3>
         <p>Drop an IF node after your HTTP Request. Route based on a condition (temperature > 30, score > 100). Each branch gets its own downstream nodes. This is where n8n clicks: visual branching is genuinely faster than writing conditionals.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">4</div>
       <div class="seq-body">
-        <h4>Connect a real service</h4>
+        <h3>Connect a real service</h3>
         <p>Add a Slack or email node. Configure credentials. Send yourself the filtered output. Now you have a real automation running.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">5</div>
       <div class="seq-body">
-        <h4>Deploy for production</h4>
+        <h3>Deploy for production</h3>
         <p>For self-hosted: Docker Compose with n8n + Postgres, behind a reverse proxy (Caddy or nginx) for SSL. For cloud: sign up and import your workflow JSON. Activate the workflow so triggers fire automatically.</p>
       </div>
     </div>

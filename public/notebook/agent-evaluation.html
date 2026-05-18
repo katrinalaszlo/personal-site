@@ -218,27 +218,27 @@ then give the numeric score.
 
   <div class="card-grid">
     <div class="metric-card" style="border-top:3px solid var(--accent)">
-      <h4>Task Completion Rate</h4>
+      <h3>Task Completion Rate</h3>
       <p>Did the agent achieve the stated goal? Binary pass/fail, aggregated as a percentage. The single most important metric for any agent.</p>
     </div>
     <div class="metric-card" style="border-top:3px solid var(--green)">
-      <h4>Tool Selection Accuracy</h4>
+      <h3>Tool Selection Accuracy</h3>
       <p>Did the agent call the right tools? Measures whether the reasoning layer correctly mapped the user's intent to available actions.</p>
     </div>
     <div class="metric-card" style="border-top:3px solid var(--orange)">
-      <h4>Faithfulness / Groundedness</h4>
+      <h3>Faithfulness / Groundedness</h3>
       <p>Are the agent's claims supported by the retrieved context? Critical for RAG-based agents. Measures hallucination rate against source material.</p>
     </div>
     <div class="metric-card" style="border-top:3px solid var(--purple)">
-      <h4>Answer Relevancy</h4>
+      <h3>Answer Relevancy</h3>
       <p>Does the response actually address what was asked? Catches the "technically correct but useless" failure mode where agents produce accurate but off-topic responses.</p>
     </div>
     <div class="metric-card" style="border-top:3px solid var(--red)">
-      <h4>Latency / Cost per Task</h4>
+      <h3>Latency / Cost per Task</h3>
       <p>How long and how much? An agent that takes 45 seconds and costs $0.30 per query has a different product surface than one at 3 seconds and $0.01. Track both as first-class metrics.</p>
     </div>
     <div class="metric-card" style="border-top:3px solid var(--cyan)">
-      <h4>Error Recovery Rate</h4>
+      <h3>Error Recovery Rate</h3>
       <p>When a tool call fails or returns unexpected data, does the agent recover gracefully? Measures resilience. Especially important for multi-step workflows.</p>
     </div>
   </div>
@@ -424,21 +424,21 @@ print(<span class="s">f"Passed: {passed}/{len(results)}"</span>)</div>
     <div class="seq-step">
       <div class="seq-num">1</div>
       <div class="seq-body">
-        <h4>Deterministic checks (fast, cheap)</h4>
+        <h3>Deterministic checks (fast, cheap)</h3>
         <p>Tool selection, required fields, banned phrases, response format. Run on every commit.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">2</div>
       <div class="seq-body">
-        <h4>LLM-as-judge (slower, costs money)</h4>
+        <h3>LLM-as-judge (slower, costs money)</h3>
         <p>Helpfulness, empathy, completeness. Run on PRs that touch prompts or agent logic.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">3</div>
       <div class="seq-body">
-        <h4>Human review (slowest, most accurate)</h4>
+        <h3>Human review (slowest, most accurate)</h3>
         <p>Weekly sample of 20-30 production conversations, scored against the same rubric. Calibrates everything above.</p>
       </div>
     </div>

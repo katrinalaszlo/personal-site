@@ -212,7 +212,7 @@ grad_accum_steps = TOTAL_BATCH_SIZE // tokens_per_fwdbwd  <span class="c"># 524,
 
   <div class="opt-grid">
     <div class="opt-card adamw">
-      <h4>AdamW</h4>
+      <h3>AdamW</h3>
       <p>The industry standard. Used for:</p>
       <ul>
         <li><strong>Token embeddings</strong> (wte), lr: 0.6</li>
@@ -223,7 +223,7 @@ grad_accum_steps = TOTAL_BATCH_SIZE // tokens_per_fwdbwd  <span class="c"># 524,
       <p style="margin-top:8px; font-size:12px; color:var(--text-dim);">Tracks a running average of gradients AND a running average of squared gradients. Parameters that have been getting consistent gradients get bigger updates. Parameters with noisy gradients get smaller, more cautious updates.</p>
     </div>
     <div class="opt-card muon">
-      <h4>Muon</h4>
+      <h3>Muon</h3>
       <p>A newer optimizer. Used for:</p>
       <ul>
         <li><strong>All matrix parameters</strong> inside the 8 transformer blocks (Q, K, V, projections, MLP weights), lr: 0.04</li>

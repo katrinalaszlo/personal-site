@@ -91,49 +91,49 @@
     <div class="seq-step">
       <div class="seq-num">1</div>
       <div class="seq-body">
-        <h4>Normalize</h4>
+        <h3>Normalize</h3>
         <p>Channel adapter converts platform-specific message into a standard format.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">2</div>
       <div class="seq-body">
-        <h4>Route</h4>
+        <h3>Route</h3>
         <p>Gateway identifies the session and determines which agent handles the message.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">3</div>
       <div class="seq-body">
-        <h4>Assemble context</h4>
+        <h3>Assemble context</h3>
         <p>Loads SOUL.md, conversation history, relevant memory, and skill instructions.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">4</div>
       <div class="seq-body">
-        <h4>Infer</h4>
+        <h3>Infer</h3>
         <p>LLM generates a response or decides to use a tool.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">5</div>
       <div class="seq-body">
-        <h4>ReAct loop</h4>
+        <h3>ReAct loop</h3>
         <p>If the model called a tool, execute it, feed results back, let the model reason again. Repeat until the model produces a final response.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">6</div>
       <div class="seq-body">
-        <h4>Load skills</h4>
+        <h3>Load skills</h3>
         <p>On-demand skill activation based on the task at hand.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">7</div>
       <div class="seq-body">
-        <h4>Persist memory</h4>
+        <h3>Persist memory</h3>
         <p>Save relevant facts to MEMORY.md or daily memory files for future sessions.</p>
       </div>
     </div>
@@ -192,21 +192,21 @@
     <div class="seq-step">
       <div class="seq-num">1</div>
       <div class="seq-body">
-        <h4>Bundled skills</h4>
+        <h3>Bundled skills</h3>
         <p>Ship with the installation. Cover common capabilities.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">2</div>
       <div class="seq-body">
-        <h4>Local skills <span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;margin-left:8px" class="tag">~/.openclaw/skills/</span></h4>
+        <h3>Local skills <span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;margin-left:8px" class="tag">~/.openclaw/skills/</span></h3>
         <p>Override or extend bundled defaults for your setup.</p>
       </div>
     </div>
     <div class="seq-step">
       <div class="seq-num">3</div>
       <div class="seq-body">
-        <h4>Workspace skills <span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;margin-left:8px" class="tag orange">highest precedence</span></h4>
+        <h3>Workspace skills <span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;margin-left:8px" class="tag orange">highest precedence</span></h3>
         <p>Scoped to a specific agent or project. Override everything.</p>
       </div>
     </div>

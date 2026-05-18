@@ -273,70 +273,70 @@ Pricing: https://acme.com/pricing.md</div>
     <div class="check-item">
       <div class="check-icon easy">1</div>
       <div class="check-body">
-        <h4>Add robots.txt and sitemap.xml</h4>
+        <h3>Add robots.txt and sitemap.xml</h3>
         <p>Static files. No code changes. Tells agents (and crawlers) what exists on your site and what's accessible. If you don't have these, you're invisible to structured discovery.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon easy">2</div>
       <div class="check-body">
-        <h4>Create llms.txt</h4>
+        <h3>Create llms.txt</h3>
         <p>A single markdown file at /llms.txt describing your product, key docs, and API reference links. Takes 30 minutes. Moves you from invisible to discoverable for any LLM that checks for it.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon easy">3</div>
       <div class="check-body">
-        <h4>Add Link headers (RFC 8288)</h4>
+        <h3>Add Link headers (RFC 8288)</h3>
         <p>HTTP response headers that point to related resources. A few lines of server config. Helps agents navigate your site without parsing HTML.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon medium">4</div>
       <div class="check-body">
-        <h4>Support markdown content negotiation</h4>
+        <h3>Support markdown content negotiation</h3>
         <p>When a request includes <code>Accept: text/markdown</code>, return clean markdown instead of HTML. Requires server-side logic, but the content already exists. Cloudflare Workers or middleware can handle this.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon medium">5</div>
       <div class="check-body">
-        <h4>Ship an AGENTS.md</h4>
+        <h3>Ship an AGENTS.md</h3>
         <p>Context file telling agents how to work with your product. What it does, how to authenticate, common patterns, pitfalls. Ships in your repo or at a well-known URL.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon medium">6</div>
       <div class="check-body">
-        <h4>Add "Copy as Markdown" to documentation</h4>
+        <h3>Add "Copy as Markdown" to documentation</h3>
         <p>A button on every doc page that copies the content as clean markdown. Stripe and Netlify already do this. Minimal engineering, immediate value for anyone using an LLM to integrate your product.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon medium">7</div>
       <div class="check-body">
-        <h4>Remove human-gated onboarding for programmatic access</h4>
+        <h3>Remove human-gated onboarding for programmatic access</h3>
         <p>If signup requires email verification before API access, add a path that grants sandbox access immediately. If "book a demo" is the only enterprise path, add a programmatic trial tier.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon medium">8</div>
       <div class="check-body">
-        <h4>Add WebMCP to forms and interactive elements</h4>
+        <h3>Add WebMCP to forms and interactive elements</h3>
         <p>WebMCP exposes your site's forms and actions as structured tools that agents can invoke directly. Declarative (HTML attributes) or imperative (JavaScript). Lighthouse's agentic browsing audit checks for this. Start with your most important forms: signup, search, contact.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon hard">9</div>
       <div class="check-body">
-        <h4>Publish an MCP server</h4>
+        <h3>Publish an MCP server</h3>
         <p>Expose your product's capabilities as structured tools. Requires building and maintaining the server, documenting tool descriptions (which function as the agent's UI), and handling auth.</p>
       </div>
     </div>
     <div class="check-item">
       <div class="check-icon hard">10</div>
       <div class="check-body">
-        <h4>Make pricing machine-readable</h4>
+        <h3>Make pricing machine-readable</h3>
         <p>Structured data for plans, limits, rates, terms. Accessible via API or MCP. The hardest item because B2B pricing is complex and often deliberately opaque.</p>
       </div>
     </div>

@@ -77,14 +77,14 @@
   <p>When an AI agent evaluates your product, it follows a predictable path. Each step either works programmatically or the agent bounces. Most products fail at step 2 or 3.</p>
 
   <div class="sequence">
-    <div class="seq-step"><div class="seq-num">1</div><div class="seq-body"><h4>Discover</h4><p>Agent finds the product exists. llms.txt, AgentReady scoring, search APIs.</p></div></div>
-    <div class="seq-step"><div class="seq-num">2</div><div class="seq-body"><h4>Learn</h4><p>Agent understands what it does. Docs, pricing, capabilities in machine-readable format.</p></div></div>
-    <div class="seq-step"><div class="seq-num">3</div><div class="seq-body"><h4>Evaluate</h4><p>Agent compares against alternatives. Needs structured, normalized data.</p></div></div>
-    <div class="seq-step"><div class="seq-num">4</div><div class="seq-body"><h4>Ask questions</h4><p>Agent clarifies specifics. MCP-accessible knowledge base, agent-to-agent Q&A.</p></div></div>
-    <div class="seq-step"><div class="seq-num">5</div><div class="seq-body"><h4>Try</h4><p>Agent tests the product. Instant sandbox, no auth required, API keys on demand.</p></div></div>
-    <div class="seq-step"><div class="seq-num">6</div><div class="seq-body"><h4>Sign up</h4><p>Agent creates an account. Programmatic signup, no CAPTCHA, no email loop.</p></div></div>
-    <div class="seq-step"><div class="seq-num">7</div><div class="seq-body"><h4>Integrate</h4><p>Agent builds with it. AGENTS.md, MCP server, agent-optimized docs.</p></div></div>
-    <div class="seq-step"><div class="seq-num">8</div><div class="seq-body"><h4>Pay</h4><p>Agent purchases. Machine-readable pricing, programmatic checkout.</p></div></div>
+    <div class="seq-step"><div class="seq-num">1</div><div class="seq-body"><h3>Discover</h3><p>Agent finds the product exists. llms.txt, AgentReady scoring, search APIs.</p></div></div>
+    <div class="seq-step"><div class="seq-num">2</div><div class="seq-body"><h3>Learn</h3><p>Agent understands what it does. Docs, pricing, capabilities in machine-readable format.</p></div></div>
+    <div class="seq-step"><div class="seq-num">3</div><div class="seq-body"><h3>Evaluate</h3><p>Agent compares against alternatives. Needs structured, normalized data.</p></div></div>
+    <div class="seq-step"><div class="seq-num">4</div><div class="seq-body"><h3>Ask questions</h3><p>Agent clarifies specifics. MCP-accessible knowledge base, agent-to-agent Q&A.</p></div></div>
+    <div class="seq-step"><div class="seq-num">5</div><div class="seq-body"><h3>Try</h3><p>Agent tests the product. Instant sandbox, no auth required, API keys on demand.</p></div></div>
+    <div class="seq-step"><div class="seq-num">6</div><div class="seq-body"><h3>Sign up</h3><p>Agent creates an account. Programmatic signup, no CAPTCHA, no email loop.</p></div></div>
+    <div class="seq-step"><div class="seq-num">7</div><div class="seq-body"><h3>Integrate</h3><p>Agent builds with it. AGENTS.md, MCP server, agent-optimized docs.</p></div></div>
+    <div class="seq-step"><div class="seq-num">8</div><div class="seq-body"><h3>Pay</h3><p>Agent purchases. Machine-readable pricing, programmatic checkout.</p></div></div>
   </div>
 </section>
 
@@ -281,25 +281,25 @@
   <div class="timeline-grid">
     <div class="tl-label" style="color:var(--green)">Week 1</div>
     <div class="tl-content">
-      <h4>Zero code changes</h4>
+      <h3>Zero code changes</h3>
       <p>Audit robots.txt (remove blanket Disallow for agents). Add Content-Signal directives (search=yes, ai-input=yes, ai-train=no). Create llms.txt. Add Link headers for llms.txt, sitemap, skills index. Run isitagentready.com + Lighthouse agentic browsing audit. Fix what they flag.</p>
     </div>
 
     <div class="tl-label" style="color:var(--accent)">Week 2-3</div>
     <div class="tl-content">
-      <h4>Auth + provisioning</h4>
+      <h3>Auth + provisioning</h3>
       <p>Add API-key-based signup path (POST /api/signup, returns key, no UI required). Ship M2M token endpoint for service-to-service auth. Build /v1/sandboxes endpoint (returns scoped credentials + TTL, no signup gate). Implement claim flow (sandbox to claim URL to permanent account). Remove CAPTCHA from API paths. Remove email verification for API-only access.</p>
     </div>
 
     <div class="tl-label" style="color:var(--orange)">Week 4</div>
     <div class="tl-content">
-      <h4>Agent UX polish</h4>
+      <h3>Agent UX polish</h3>
       <p>Annotate key forms with WebMCP attributes (toolname, tooldescription, toolautosubmit). Serve markdown variants on Accept: text/markdown. Publish Agent Skills (SKILL.md + references/). Add "Copy as Markdown" button to docs.</p>
     </div>
 
     <div class="tl-label" style="color:var(--purple)">Week 5+</div>
     <div class="tl-content">
-      <h4>Full agent surface</h4>
+      <h3>Full agent surface</h3>
       <p>Publish MCP server (remote + npm). Serve Server Card at .well-known/mcp-server-card. Register on MCP Registry + directories. Publish skills index at .well-known/agent-skills/index.json. Monitor agent traffic separately from human traffic.</p>
     </div>
   </div>

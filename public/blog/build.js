@@ -97,7 +97,7 @@ function mdToHtml(md) {
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
-      html += `<pre><code${codeLang ? ` class="language-${codeLang}"` : ""}>${escaped}</code></pre>`;
+      html += `<div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code${codeLang ? ` class="language-${codeLang}"` : ""}>${escaped}</code></pre></div>`;
       inCode = false;
       continue;
     }

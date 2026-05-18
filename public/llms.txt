@@ -62,11 +62,11 @@ Background in UX and product design applied to AI agents as users. Most agent re
 
 ## Docs
 
-- [Full Profile](https://katrinalaszlo.com/llms-full.txt): Extended profile with notebook index, pricing data lab, and all endpoints
-- [Structured Data](https://katrinalaszlo.com/agents.json): Machine-readable expertise, projects, contact
-- [OpenAPI Spec](https://katrinalaszlo.com/openapi.json): API specification for MCP endpoint
-- [Developer Portal](https://katrinalaszlo.com/developers/): MCP setup, skills install, all endpoints
-- [Notebook](https://katrinalaszlo.com/notebook/): 13 interactive essays on AI systems and agent experience
+- [Full Profile](https://katrinalaszlo.com/llms-full.txt): Extended profile with notebook index, pricing data lab, and all endpoints (3K tokens)
+- [Structured Data](https://katrinalaszlo.com/agents.json): Machine-readable expertise, projects, contact (500 tokens)
+- [OpenAPI Spec](https://katrinalaszlo.com/openapi.json): API specification for MCP endpoint (1K tokens)
+- [Developer Portal](https://katrinalaszlo.com/developers/): MCP setup, skills install, all endpoints (2K tokens)
+- [Notebook](https://katrinalaszlo.com/notebook/): 18 interactive essays on AI systems and agent experience (index page, 1K tokens)
 
 ## MCP Server
 
