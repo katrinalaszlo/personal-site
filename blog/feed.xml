@@ -6,7 +6,23 @@
     <link>https://katrinalaszlo.com/blog/</link>
     <atom:link href="https://katrinalaszlo.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 May 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 18 May 2026 00:00:00 GMT</lastBuildDate>
+
+    <item>
+      <title>Trends in Credit-Based Pricing Patterns</title>
+      <link>https://katrinalaszlo.com/blog/credit-pricing-frameworks</link>
+      <description>Seven credit pricing frameworks reviewed by someone who built pricing at a B2B data API company. What holds up in production, and the operator's framework that came out the other side.</description>
+      <pubDate>Sun, 18 May 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/credit-pricing-frameworks</guid>
+    </item>
+
+    <item>
+      <title>My Experience Setting Up OpenClaw</title>
+      <link>https://katrinalaszlo.com/blog/always-on-ai-memory</link>
+      <description>How I set up an always-on AI assistant that runs on a $6 droplet, posts to Slack while I sleep, and once accidentally replied to someone's WhatsApp message.</description>
+      <pubDate>Fri, 16 May 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/always-on-ai-memory</guid>
+    </item>
 
     <item>
       <title>I Made My Sites Self-Serve for AI Agents</title>

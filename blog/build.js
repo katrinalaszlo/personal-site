@@ -267,6 +267,7 @@ function buildPost(mdFile) {
 <meta name="twitter:description" content="${description}">
 <meta name="twitter:image" content="${ogImage}">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 ${canonicalTag}
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
