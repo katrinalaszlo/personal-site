@@ -86,7 +86,6 @@ Background in UX and product design applied to AI agents as users. Most agent re
 
 Writing about pricing, product discovery, and building for AI agents. All posts available as markdown at the same URL with .md extension.
 
-- [My Experience Setting Up OpenClaw](https://katrinalaszlo.com/blog/always-on-ai-memory.md) (2026-05-16): Always-on AI assistant on a $6 droplet, Slack integration, persistent memory
 - [I Made My Sites Self-Serve for AI Agents](https://katrinalaszlo.com/blog/agent-self-serve.md) (2026-05-16): Agent self-serve funnel, Clerk + Stripe integration, third-party audit scores
 - [Building a Pricing Database](https://katrinalaszlo.com/blog/building-a-pricing-database.md) (2026-05-05): Wiki-as-living-system approach to pricing research, free at data.tansohq.com
 - [Product Discovery with Karpathy's LLM Wiki](https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki.md) (2026-04-27): Repurposed LLM Wiki for customer interview synthesis

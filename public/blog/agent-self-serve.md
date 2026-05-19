@@ -25,10 +25,40 @@ I started by running third-party scanners. [Cloudflare's isitagentready.com](htt
 
 I kept running these checks manually after every deploy. So I built the tool.
 
-**[aeo-ready](https://github.com/katrinalaszlo/aeo-ready)** — is your site AEO ready? Two scorecards (Agent Readiness + AI Visibility), one score. Scans, fixes, and tracks.
+**[aeo-ready](https://github.com/katrinalaszlo/aeo-ready)** — one command, three benchmarks. Aggregates [agentic-seo](https://github.com/nicholasgriffintn/agentic-seo) (Addy Osmani), [Cloudflare's isitagentready.com](https://isitagentready.com), and [Fern's afdocs](https://buildwithfern.com/agent-score) into a single scan with 52 checks.
 
 ```bash
 npx aeo-ready scan https://yoursite.com
+```
+
+```
+  aeo-ready — yoursite.com
+
+  agentic-seo ·································· 91/100 A
+    ✓ Discovery              25/25
+    ◑ Content Structure      18/25
+    ✓ Token Economics        25/25
+    ✓ Capability Signaling   15/15
+    ✓ UX Bridge               8/10
+    vs Cloudflare 55 · Supabase 52 · Vercel 48 · Stripe 17
+
+  Cloudflare ···································· 4/5 B
+    10 passed  2 failed
+    ✗ robotsTxtAiRules  No rules for AI bots found
+    vs Cloudflare 5 · Vercel 4 · Supabase 3 · Stripe 2
+
+  Fern ········································ 83/100 B
+    9 passed  4 failed
+    ✗ llms-txt-links-markdown  Links point to HTML, no markdown
+    ✗ llms-txt-coverage        Covers 67% of sitemap
+    vs Stripe 85 · Supabase 78 · Anthropic 72 · Vercel 60
+
+  ──────────────────────────────────────────────────
+  Overall                                     85/100
+
+  Next steps
+    npx agentic-seo init                          scaffold llms.txt, AGENTS.md
+    npx skills add katrinalaszlo/agent-serve      make your product agent-ready
 ```
 
 **[agent-serve](https://github.com/katrinalaszlo/agent-serve)** audits whether an agent can actually be your customer. Five dimensions: onboarding, authentication, purchasing, usage monitoring, self-management.
@@ -73,13 +103,9 @@ Eleven route groups accepting SDK keys. The middleware tries Clerk JWT first, fa
 
 ## Running it on other companies
 
-![Agent-readiness scores across companies](/blog/images/agent-self-serve-scorecard.png)
+The three benchmarks don't always agree. Stripe has a published [OpenAPI spec](https://github.com/stripe/openapi) and an [agent toolkit](https://docs.stripe.com/agents) supporting five frameworks — it scores well on Fern (85/100) but poorly on agentic-seo (17/100) and Cloudflare (2/5). Cloudflare scores 5/5 on their own scanner but only 55/100 on agentic-seo.
 
-Stripe scores 6/10 on a flat rubric despite having a published [OpenAPI spec](https://github.com/stripe/openapi) and an [agent toolkit](https://docs.stripe.com/agents) supporting five frameworks.
-
-The flat score doesn't capture capability depth. Nobody's does. Not Cloudflare's, not Fern's, not mine.
-
-The signals that matter depend on what you're solving for. Discovery or capability. Can agents find you, or can agents use you.
+That's the point of aggregating. A single benchmark rewards what it measures. Three benchmarks triangulate what actually matters: can agents find you, read your docs, and use your APIs.
 
 ---
 
@@ -107,7 +133,7 @@ Almost nobody has wired that up. The companies investing in agent readiness are 
 
 ## What's next
 
-I'm adding a benchmark mode that hits Cloudflare's scanner and Fern's Agent Score as external validation.
+aeo-ready now aggregates all three benchmarks — agentic-seo, Cloudflare, and Fern — in a single scan. 52 checks, company comparisons, score history.
 
 The deeper question: what does self-serve for agents look like end-to-end? Not just discovery. The full funnel. Evaluate, sign up, pay, use, manage. The companies that wire this up first will have a distribution channel that's invisible to everyone else.
 
