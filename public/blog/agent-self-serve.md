@@ -1,11 +1,11 @@
 ---
-title: "I Made My Sites Self-Serve for AI Agents"
+title: "Self-Serve for AI Agents"
 date: 2026-05-16
 description: "Two Claude Code skills born from making my own sites agent-ready. Discovery, onboarding, and purchase... without a human in the loop."
 author: Kat Laszlo
 ---
 
-# I Made My Sites Self-Serve for AI Agents
+# Self-Serve for AI Agents
 
 I wanted to know if an AI agent could sign up for my product, pick a plan, pay, and start using it without a human involved. Not "AI-powered features." The other kind of agent-ready. Where an agent is the customer.
 
