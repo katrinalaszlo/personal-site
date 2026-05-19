@@ -7,9 +7,15 @@ author: Kat Laszlo
 
 # Self-Serve for AI Agents
 
-I wanted to know if an AI agent could sign up for my product, pick a plan, pay, and start using it without a human involved. Not "AI-powered features." The other kind of agent-ready. Where an agent is the customer.
+My background is in product management and self-serve optimization. I spent years on the human version of this problem: conversion funnels, AB testing with tools like Mutiny, analytics for every step from landing page to paid account. The playbook for getting humans through a self-serve funnel is mature.
 
-I spent a few months making two of my properties fully agent-accessible. A personal site and a B2B product. I captured the process as two open-source Claude Code skills.
+Agents don't care about any of it. They don't see your hero section. They don't respond to social proof. They can't click through a Stripe Checkout page. The entire conversion toolkit built for humans is irrelevant when the buyer is software.
+
+I wanted to know what the agent version looks like. Can an AI agent find my product, evaluate it, sign up, pick a plan, pay, and start using it without a human involved? Not "AI-powered features." The other kind of agent-ready. Where an agent is the customer.
+
+I manage two sites. A personal site and a B2B product. I started researching best practices for agent accessibility, found people building tools for different pieces of the problem, and kept going back and forth between their sites and mine, implementing changes one benchmark at a time.
+
+That got old fast. So I built the tools.
 
 ---
 
@@ -23,7 +29,7 @@ For Tanso, the question is deeper. Can an agent evaluate the product, sign up, c
 
 I started by running third-party scanners. [Cloudflare's isitagentready.com](https://blog.cloudflare.com/agent-readiness/) checks for robots.txt, llms.txt, MCP servers, API catalogs. [Fern's Agent Score](https://buildwithfern.com/agent-score) grades documentation on 22 checks. A [lilAgents study](https://lilagents.com/blog/how-the-fortune-500-scores-on-ai-agent-readiness/) scanned the Fortune 500 and found the average score was 25%.
 
-I kept running these checks manually after every deploy. So I built the tool.
+I kept running these checks manually after every deploy. Each tool checked different things, had different output formats, and none of them talked to each other. I wanted one command that ran all the benchmarks and told me what to fix. So I built it.
 
 **[aeo-ready](https://github.com/katrinalaszlo/aeo-ready)** — one command, three benchmarks. Aggregates [agentic-seo](https://github.com/nicholasgriffintn/agentic-seo) (Addy Osmani), [Cloudflare's isitagentready.com](https://isitagentready.com), and [Fern's afdocs](https://buildwithfern.com/agent-score) into a single scan with 52 checks.
 
@@ -85,9 +91,9 @@ agent-serve checks the rest.
 
 ---
 
-## How I wired it for Observe
+## How I wired it for Tanso
 
-[Observe](https://github.com/katrinalaszlo/observe) is my open-source AI cost observability tool. It already had Stripe billing and Clerk auth for humans. Making it agent-accessible meant opening the same infrastructure through a different door.
+[Tanso](https://www.tansohq.com) is a B2B monetization platform. It already had Stripe billing and Clerk auth for humans. Making it agent-accessible meant opening the same infrastructure through a different door.
 
 **Signup.** One endpoint: `POST /signup`. Creates a Clerk user, local account, and SDK key in a single call. No browser, no email verification, no OAuth dance. Rate-limited to 3/hr. If the DB insert fails, a compensating delete removes the Clerk user. Agent gets back a scoped API key immediately.
 
@@ -137,9 +143,13 @@ Almost nobody has wired that up. The companies investing in agent readiness are 
 
 ## What's next
 
-aeo-ready now aggregates all three benchmarks — agentic-seo, Cloudflare, and Fern — in a single scan. 52 checks, company comparisons, score history.
+aeo-ready now aggregates all three benchmarks — agentic-seo, Cloudflare, and Fern — in a single scan. 52 checks, company comparisons, score history. I keep adding benchmarks as new ones emerge.
+
+agent-serve covers the rest of the funnel. Five dimensions, scored 0-10, with specific fixes for each gap. Both tools are open source and both are things I use on my own sites. They'll keep evolving as the standards do.
 
 The deeper question: what does self-serve for agents look like end-to-end? Not just discovery. The full funnel. Evaluate, sign up, pay, use, manage. The companies that wire this up first will have a distribution channel that's invisible to everyone else.
+
+If you're working on agent accessibility for your own product, or you've found benchmarks or patterns I'm missing, I'd love contributions to either tool.
 
 ```bash
 npx aeo-ready scan https://yoursite.com
