@@ -59,7 +59,11 @@ npx aeo-ready scan https://yoursite.com
   Next steps
     npx agentic-seo init                          scaffold llms.txt, AGENTS.md
     npx skills add katrinalaszlo/agent-serve      make your product agent-ready
+
+  Fix now? [y/N]
 ```
+
+Say `y` and it scaffolds missing files — llms.txt, AGENTS.md, skill.md — then runs Fern diagnostics. Scan again to track improvement.
 
 **[agent-serve](https://github.com/katrinalaszlo/agent-serve)** audits whether an agent can actually be your customer. Five dimensions: onboarding, authentication, purchasing, usage monitoring, self-management.
 
