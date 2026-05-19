@@ -68,7 +68,6 @@ Background in UX and product design applied to AI agents as users. Most agent re
 
 Writing about pricing, product discovery, and building for AI agents. All posts available as markdown at the same URL with .md extension.
 
-- Trends in Credit-Based Pricing Patterns (2026-05-18): https://katrinalaszlo.com/blog/credit-pricing-frameworks
 - My Experience Setting Up OpenClaw (2026-05-16): https://katrinalaszlo.com/blog/always-on-ai-memory
 - I Made My Sites Self-Serve for AI Agents (2026-05-16): https://katrinalaszlo.com/blog/agent-self-serve
 - Building a Pricing Database (2026-05-05): https://katrinalaszlo.com/blog/building-a-pricing-database

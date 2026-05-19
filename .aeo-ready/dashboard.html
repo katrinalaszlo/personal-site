@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>aeo-ready — AEO Benchmark Dashboard</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #c9d1d9; display: flex; }
+nav { position: fixed; top: 0; left: 0; width: 200px; height: 100vh; background: #010409; border-right: 1px solid #21262d; padding: 0; overflow-y: auto; z-index: 10; }
+nav h2 { color: #f0f6fc; font-size: 13px; letter-spacing: 0.02em; padding: 20px 16px 14px; border-bottom: 1px solid #21262d; margin: 0 0 8px; }
+nav a { display: block; padding: 6px 16px; font-size: 12px; color: #8b949e; text-decoration: none; transition: color 0.15s; }
+nav a:hover { color: #f0f6fc; }
+nav a.section-head { color: #c9d1d9; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 12px; }
+main { margin-left: 200px; padding: 32px 40px; max-width: 900px; width: 100%; }
+h1 { color: #f0f6fc; font-size: 24px; margin-bottom: 4px; }
+.subtitle { color: #8b949e; font-size: 13px; margin-bottom: 32px; }
+h2 { color: #f0f6fc; font-size: 18px; margin-top: 40px; margin-bottom: 16px; padding-top: 16px; border-top: 1px solid #21262d; }
+h3 { color: #f0f6fc; font-size: 14px; margin-top: 16px; margin-bottom: 8px; }
+.scores { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
+.score-card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 20px; flex: 1; min-width: 180px; text-align: center; }
+.score-card .name { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #8b949e; margin-bottom: 8px; }
+.score-card .grade { font-size: 36px; font-weight: 700; }
+.score-card .number { font-size: 14px; color: #8b949e; margin-top: 4px; }
+.score-card .bar { margin: 8px auto; width: 100%; height: 4px; background: #21262d; border-radius: 2px; overflow: hidden; }
+.score-card .bar-fill { height: 100%; border-radius: 2px; }
+.grade-a { color: #3fb950; } .grade-b { color: #79c0ff; } .grade-c { color: #d29922; } .grade-d { color: #f85149; } .grade-f { color: #f85149; }
+.bar-a { background: #3fb950; } .bar-b { background: #79c0ff; } .bar-c { background: #d29922; } .bar-d { background: #f85149; } .bar-f { background: #f85149; }
+details { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 16px; margin: 12px 0; cursor: pointer; }
+details summary { font-size: 14px; font-weight: 500; color: #f0f6fc; display: flex; justify-content: space-between; }
+.check { font-size: 12px; padding: 2px 0 2px 16px; color: #8b949e; }
+.check.pass { color: #3fb950; }
+.check.fail { color: #f85149; }
+.compare { font-size: 11px; color: #8b949e; margin-top: 8px; padding-top: 8px; border-top: 1px solid #21262d; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th, td { text-align: left; padding: 8px 12px; font-size: 12px; border-bottom: 1px solid #21262d; }
+th { color: #8b949e; font-weight: 600; }
+.trend { color: #3fb950; } .regression { color: #f85149; }
+svg { display: block; margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <h2>aeo-ready</h2>
+  <a href="#overall" class="section-head">Scores</a>
+  <a href="#details" class="section-head">Benchmark Details</a>
+  <a href="#trends" class="section-head">Trends</a>
+  <a href="#history" class="section-head">History</a>
+</nav>
+
+<main>
+
+<h1>AEO Benchmark Dashboard</h1>
+<p class="subtitle">https://katrinalaszlo.com · 2026-05-18</p>
+
+<!-- SECTION:overall-score -->
+<div id="overall" class="scores">
+  <div class="score-card">
+    <div class="name">agentic-seo</div>
+    <div class="grade grade-a">91/100</div>
+    <div class="number">A</div>
+    <div class="bar"><div class="bar-fill bar-a" style="width:91%"></div></div>
+  </div>
+  <div class="score-card">
+    <div class="name">Cloudflare</div>
+    <div class="grade grade-b">4/5</div>
+    <div class="number">B</div>
+    <div class="bar"><div class="bar-fill bar-b" style="width:80%"></div></div>
+  </div>
+  <div class="score-card">
+    <div class="name">Fern</div>
+    <div class="grade grade-b">83/100</div>
+    <div class="number">B</div>
+    <div class="bar"><div class="bar-fill bar-b" style="width:83%"></div></div>
+  </div></div><div style="text-align:center;margin:16px 0;font-size:14px;color:#8b949e;">Average across sources: <strong class="grade-a">85/100</strong></div>
+<!-- /SECTION:overall-score -->
+
+<!-- SECTION:benchmark-details -->
+<h2 id="details">Benchmark Details</h2>
+<p style="color:#8b949e;font-size:12px;margin-bottom:12px;">Expand each source to see per-check results and how other companies score.</p>
+<details>
+  <summary>
+    <span>agentic-seo</span>
+    <span style="color:#8b949e;">91/100 (A)</span>
+  </summary>
+  <div style="margin-top:12px;">
+    <div class="check pass">+ Discovery 25/25</div>
+    <div class="check fail">~ Content Structure 18/25</div>
+    <div class="check pass">+ Token Economics 25/25</div>
+    <div class="check pass">+ Capability Signaling 15/15</div>
+    <div class="check pass">+ UX Bridge 8/10</div>
+    <div class="compare">Others: Cloudflare: 55 · Supabase: 52 · Vercel: 48 · Average: 25 · Stripe: 17</div>
+  </div>
+</details>
+<details>
+  <summary>
+    <span>Cloudflare</span>
+    <span style="color:#8b949e;">4/5 (B)</span>
+  </summary>
+  <div style="margin-top:12px;">
+    <div class="check pass">+ robotsTxt <span style="color:#8b949e;font-size:11px;">robots.txt exists with valid format</span></div>
+    <div class="check pass">+ sitemap <span style="color:#8b949e;font-size:11px;">sitemap.xml exists with valid structure (url: https://katrinalaszlo.com/sitemap.</span></div>
+    <div class="check pass">+ linkHeaders <span style="color:#8b949e;font-size:11px;">Found agent-useful Link relations: service-desc, describedby (relationsFound: [o</span></div>
+    <div class="check pass">+ markdownNegotiation <span style="color:#8b949e;font-size:11px;">Site supports Markdown for Agents (contentType: text/markdown; charset=utf-8)</span></div>
+    <div class="check pass">+ robotsTxtAiRules <span style="color:#8b949e;font-size:11px;">Found rules for AI bots: gptbot, chatgpt-user, google-extended, ccbot, bytespide</span></div>
+    <div class="check pass">+ contentSignals <span style="color:#8b949e;font-size:11px;">Content Signals found in robots.txt (signals: [object Object], signalCount: 1)</span></div>
+    <div class="check pass">+ apiCatalog <span style="color:#8b949e;font-size:11px;">API Catalog found with 2 APIs listed (apiCount: 2, linksetEntries: 1, has items)</span></div>
+    <div class="check pass">+ mcpServerCard <span style="color:#8b949e;font-size:11px;">MCP Server Card found at /.well-known/mcp/server-card.json (path: /.well-known/m</span></div>
+    <div class="check pass">+ agentSkills <span style="color:#8b949e;font-size:11px;">Agent Skills index exists with valid JSON (skillCount: 5, specVersion: 0.2.0, pa</span></div>
+    <div class="check pass">+ webMcp <span style="color:#8b949e;font-size:11px;">Found 3 WebMCP tools via imperative_api (toolCount: 3, tools: [object Object], [</span></div>
+    <div class="compare">Others: Cloudflare: 5 · Vercel: 4 · Supabase: 3 · Stripe: 2 · Average: 2</div>
+  </div>
+</details>
+<details>
+  <summary>
+    <span>Fern</span>
+    <span style="color:#8b949e;">83/100 (B)</span>
+  </summary>
+  <div style="margin-top:12px;">
+    <div class="check pass">+ llms-txt-exists <span style="color:#8b949e;font-size:11px;">llms.txt found at https://katrinalaszlo.com/llms.txt</span></div>
+    <div class="check pass">+ llms-txt-size <span style="color:#8b949e;font-size:11px;">llms.txt is 8,366 characters (under 50,000 threshold)</span></div>
+    <div class="check fail">- llms-txt-links-markdown <span style="color:#8b949e;font-size:11px;">Same-origin links point to HTML and no markdown alternatives detected (9 externa</span></div>
+    <div class="check pass">+ page-size-markdown <span style="color:#8b949e;font-size:11px;">All 13 pages under 50K chars (median 5K, max 13K)</span></div>
+    <div class="check pass">+ page-size-html <span style="color:#8b949e;font-size:11px;">All 24 pages under 50K chars (median 12K HTML → 5K markdown (43% boilerplate))</span></div>
+    <div class="check fail">- content-start-position <span style="color:#8b949e;font-size:11px;">2 of 24 pages have content starting past 50% (worst 120%)</span></div>
+    <div class="check pass">+ tabbed-content-serialization <span style="color:#8b949e;font-size:11px;">No tabbed content detected across 24 pages</span></div>
+    <div class="check pass">+ section-header-quality <span style="color:#8b949e;font-size:11px;">No tabbed content found; header quality check not applicable</span></div>
+    <div class="check pass">+ markdown-code-fence-validity <span style="color:#8b949e;font-size:11px;">All 4 code fences properly closed across 14 pages</span></div>
+    <div class="check pass">+ http-status-codes <span style="color:#8b949e;font-size:11px;">All 24 pages return proper error codes for bad URLs</span></div>
+    <div class="check pass">+ redirect-behavior <span style="color:#8b949e;font-size:11px;">All 3 redirect(s) across 24 pages are same-host HTTP redirects</span></div>
+    <div class="check fail">- llms-txt-coverage <span style="color:#8b949e;font-size:11px;">llms.txt covers 2/3 sitemap doc pages (67%); 1 missing; 5 llms.txt links not in </span></div>
+    <div class="check fail">- markdown-content-parity <span style="color:#8b949e;font-size:11px;">4 of 13 pages have substantive content differences between markdown and HTML (av</span></div>
+    <div class="check pass">+ cache-header-hygiene <span style="color:#8b949e;font-size:11px;">All 24 endpoints have appropriate cache headers</span></div>
+    <div class="check pass">+ auth-gate-detection <span style="color:#8b949e;font-size:11px;">All 24 pages are publicly accessible</span></div>
+    <div class="compare">Others: Stripe: 85 · Supabase: 78 · Anthropic: 72 · Vercel: 60 · Average: 45</div>
+  </div>
+</details>
+<!-- /SECTION:benchmark-details -->
+
+<!-- SECTION:trend-chart -->
+<h2 id="trends">Score Trends</h2>
+<svg width="700" height="200" xmlns="http://www.w3.org/2000/svg">
+<line x1="40" y1="170" x2="680" y2="170" stroke="#21262d"/><text x="32" y="174" text-anchor="end" fill="#8b949e" font-size="10">0</text>
+<line x1="40" y1="132.5" x2="680" y2="132.5" stroke="#21262d"/><text x="32" y="136.5" text-anchor="end" fill="#8b949e" font-size="10">25</text>
+<line x1="40" y1="95" x2="680" y2="95" stroke="#21262d"/><text x="32" y="99" text-anchor="end" fill="#8b949e" font-size="10">50</text>
+<line x1="40" y1="57.5" x2="680" y2="57.5" stroke="#21262d"/><text x="32" y="61.5" text-anchor="end" fill="#8b949e" font-size="10">75</text>
+<line x1="40" y1="20" x2="680" y2="20" stroke="#21262d"/><text x="32" y="24" text-anchor="end" fill="#8b949e" font-size="10">100</text>
+<text x="40" y="195" text-anchor="middle" fill="#8b949e" font-size="10">05-18</text>
+<text x="253.33333333333334" y="195" text-anchor="middle" fill="#8b949e" font-size="10">05-18</text>
+<text x="466.6666666666667" y="195" text-anchor="middle" fill="#8b949e" font-size="10">05-18</text>
+<text x="680" y="195" text-anchor="middle" fill="#8b949e" font-size="10">05-18</text>
+<path d="M 40.0 135.5 L 253.3 135.5 L 466.7 134.0 L 680.0 33.5" fill="none" stroke="#f85149" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 40.0 110.0 L 253.3 50.0 L 466.7 50.0 L 680.0 50.0" fill="none" stroke="#3fb950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 40.0 54.5 L 253.3 45.5 L 466.7 45.5 L 680.0 45.5" fill="none" stroke="#79c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="680" y="15" text-anchor="end" fill="#f85149" font-size="10">agentic-seo</text>
+<text x="590" y="15" text-anchor="end" fill="#3fb950" font-size="10">Cloudflare</text>
+<text x="510" y="15" text-anchor="end" fill="#79c0ff" font-size="10">Fern</text>
+</svg>
+<!-- /SECTION:trend-chart -->
+
+<!-- SECTION:history-table -->
+<h2 id="history">Scan History</h2>
+<table>
+<tr><th>Date</th><th>agentic-seo</th><th>Cloudflare</th><th>Fern</th><th>Avg</th><th>Delta</th></tr>
+<tr>
+  <td>2026-05-18</td>
+  <td>91</td>
+  <td>4/5</td>
+  <td>83</td>
+  <td>85</td>
+  <td><span class="trend">+23</span></td>
+</tr>
+<tr>
+  <td>2026-05-18</td>
+  <td>24</td>
+  <td>4/5</td>
+  <td>83</td>
+  <td>62</td>
+  <td><span style="color:#8b949e">—</span></td>
+</tr>
+<tr>
+  <td>2026-05-18</td>
+  <td>23</td>
+  <td>4/5</td>
+  <td>83</td>
+  <td>62</td>
+  <td><span class="trend">+15</span></td>
+</tr>
+<tr>
+  <td>2026-05-18</td>
+  <td>23</td>
+  <td>2/5</td>
+  <td>77</td>
+  <td>47</td>
+  <td><span style="color:#8b949e">—</span></td>
+</tr>
+</table>
+<!-- /SECTION:history-table -->
+
+</main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "scans": [
+    {
+      "id": "mpbkl1l8juybsn",
+      "timestamp": "2026-05-18T19:01:10.601Z",
+      "url": "https://katrinalaszlo.com",
+      "averageScore": 47,
+      "agenticSeo": 23,
+      "cloudflare": 2,
+      "cloudflareMax": 5,
+      "fern": 77
+    },
+    {
+      "id": "mpbljhi9eaqy0k",
+      "timestamp": "2026-05-18T19:27:57.533Z",
+      "url": "https://katrinalaszlo.com",
+      "averageScore": 62,
+      "agenticSeo": 23,
+      "cloudflare": 4,
+      "cloudflareMax": 5,
+      "fern": 83
+    },
+    {
+      "id": "mpblr1b5cpgvdq",
+      "timestamp": "2026-05-18T19:33:49.789Z",
+      "url": "https://katrinalaszlo.com",
+      "averageScore": 62,
+      "agenticSeo": 24,
+      "cloudflare": 4,
+      "cloudflareMax": 5,
+      "fern": 83
+    },
+    {
+      "id": "mpbmgda0pmepxi",
+      "timestamp": "2026-05-18T19:53:31.700Z",
+      "url": "https://katrinalaszlo.com",
+      "averageScore": 85,
+      "agenticSeo": 91,
+      "cloudflare": 4,
+      "cloudflareMax": 5,
+      "fern": 83
+    }
+  ]
+}
