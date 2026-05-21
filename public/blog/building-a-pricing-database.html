@@ -70,22 +70,26 @@
         <a href="/">Kat Laszlo</a> &middot; May 5, 2026
       </p>
       <div class="share-bar share-bar-top">
-        <a class="share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fbuilding-a-pricing-database&text=Building%20a%20Pricing%20Database" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fbuilding-a-pricing-database" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <button class="share-btn" data-copy-ai onclick="fetch('/blog/building-a-pricing-database.md').then(r=>r.text()).then(t=>{navigator.clipboard.writeText(t);this.innerHTML='Copied!'})">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy for AI
-        </button>
-        <a class="share-btn" href="/blog/building-a-pricing-database.md">View source</a>
-        <button class="share-btn" onclick="navigator.clipboard.writeText('https://katrinalaszlo.com/blog/building-a-pricing-database').then(()=>this.textContent='Copied!')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-        </button>
-        <a class="share-btn" href="#subscribe" onclick="event.preventDefault();document.getElementById('subscribe').scrollIntoView({behavior:'smooth'})">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        </a>
+        <div class="share-group share-icons">
+          <a class="share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fbuilding-a-pricing-database&text=Building%20a%20Pricing%20Database" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fbuilding-a-pricing-database" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <button class="share-btn" onclick="navigator.clipboard.writeText('https://katrinalaszlo.com/blog/building-a-pricing-database').then(()=>this.textContent='Copied!')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          </button>
+          <a class="share-btn" href="#subscribe" onclick="event.preventDefault();document.getElementById('subscribe').scrollIntoView({behavior:'smooth'})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+        <div class="share-group share-actions">
+          <button class="share-btn" data-copy-ai onclick="fetch('/blog/building-a-pricing-database.md').then(r=>r.text()).then(t=>{navigator.clipboard.writeText(t);this.innerHTML='Copied!'})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy for AI
+          </button>
+          <a class="share-btn" href="/blog/building-a-pricing-database.md">View source</a>
+        </div>
       </div>
     </div>
     <p>Several months ago I shared a pricing database on Tanso and got positive feedback from founders and pricing people.</p><p>Since then I've been using a wiki-as-living-system approach to knowledge management: an LLM does all the writing, cross-referencing, and maintenance while I curate what goes in. I applied that pattern to my pricing research and decided to make it free: <a href="https://data.tansohq.com">data.tansohq.com</a></p><p>Here's how it works.</p><h2>Input</h2><p>Company pricing pages are ingested into structured markdown with YAML frontmatter. Every field cites its source &mdash; pricing page, blog post, or press release. Nothing goes in without attribution.</p><h2>Output</h2><p>Each company gets a structured profile: plans, pricing models, AI packaging, credit mechanics, value metrics, overage handling, and more. All queryable and filterable.</p><p>The dataset currently covers companies across 14 categories (dev tools, AI infrastructure, fintech, collaboration, security, HR, marketing, and others). Six canonical pricing models &mdash; per-seat, usage-based, hybrid, flat-rate, per-transaction, credit-based &mdash; with full breakdowns.</p><h2>Synthesis</h2><p>The system generates cross-company analysis automatically: AI bundling patterns, free tier economics, credit-based pricing shifts. Each synthesis page traces back to the company data it's built from.</p><h2>Changelog</h2><p>Every pricing change is tracked over time. Who raised prices, who bundled AI into their core product, who killed their free tier. The changelog is append-only and timestamped &mdash; you can see exactly when things shifted.</p><h2>Relationship Map</h2><p>Wikilinks connect companies, pricing models, and trends into a browsable graph. You can see which companies share pricing patterns, which trends connect to which categories, and how the landscape fits together.</p><h2>Data Quality</h2><p>Every data point carries a confidence score (high, medium, or low) based on source quality and recency. A company profile verified yesterday from their pricing page scores differently than one pieced together from a year-old blog post.</p><h2>MCP Server</h2><p>The dataset is also available as an MCP server. Plug it into Claude or any AI assistant and query it conversationally &mdash; "which usage-based companies in dev tools offer rollover credits?" &mdash; and get structured answers backed by real data.</p><p>I built this because I needed it for my own work on Tanso, and had been maintaining similar systems manually for years. It turned out to be useful enough that keeping it private didn't make sense. I use Obsidian when running this locally and added a UI layer so it's easier for anyone to access.</p><p>If you work in pricing, product, or investing and want synthesis reports as we publish them, there's a newsletter signup on the site. We'll send updates when new companies are added or when we spot interesting pricing changes.</p><p>Check it out: <a href="https://data.tansohq.com">data.tansohq.com</a></p><p>Let me know what you think, or if there are companies or dimensions you'd like to see. The dataset grows based on what people actually find useful.</p>
