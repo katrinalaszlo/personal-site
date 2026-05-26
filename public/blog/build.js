@@ -70,8 +70,7 @@ function mdToHtml(md) {
       )
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.+?)\*/g, "<em>$1</em>")
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-      .replace(/--/g, "&mdash;");
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
   }
 
   for (let i = 0; i < lines.length; i++) {
@@ -205,6 +204,8 @@ function buildPost(mdFile) {
   const date = meta.date || "2026-01-01";
   const description = meta.description || "";
   const author = meta.author || "Kat Laszlo";
+  const series = meta.series || "";
+  const part = meta.part || "";
   const canonical = meta.canonical || "";
   const url = `https://katrinalaszlo.com/blog/${slug}`;
 
@@ -231,7 +232,7 @@ function buildPost(mdFile) {
       "rethinking-pricing-because-of-ai": "/blog/og/rethinking-pricing.svg",
       "product-discovery-with-llm-wiki": "/blog/og/product-discovery.svg",
       "building-a-pricing-database": "/blog/og/pricing-database.svg",
-      "agent-self-serve": "/blog/og/agent-self-serve.png",
+      "agent-self-serve": "/blog/og/agent-self-serve.svg",
       "always-on-ai-memory": "/blog/og/always-on-ai-memory.png",
     };
     ogImage = ogMap[slug] || "/og-image.png";
@@ -305,41 +306,32 @@ ${JSON.stringify(
   <header>
     <nav>
       <a href="/" class="nav-name">Katrina Laszlo</a>
-      <div style="display:flex;gap:1.5rem;">
+      <div style="display:flex;gap:1.5rem;align-items:center;">
         <a href="/notebook/" class="nav-link">Notebook</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/#connect" class="nav-link">Connect</a>
+        <button class="subscribe-btn" onclick="document.getElementById('subscribe-modal').style.display='flex'">Subscribe</button>
       </div>
     </nav>
   </header>
 
   <article>
-    <h1>${title}</h1>
+    ${series ? `<p class="series-label">${series}</p>` : ""}
+    <h1>${part ? `Part ${part}: ` : ""}${title}</h1>
     <div class="post-meta-row">
       <p class="post-meta">
         <a href="/">${author}</a> &middot; ${formatDate(date)}
       </p>
-      <div class="share-bar share-bar-top">
-        <div class="share-group share-icons">
-          <a class="share-btn" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <button class="share-btn" onclick="navigator.clipboard.writeText('${url}').then(()=>this.textContent='Copied!')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-          </button>
-          <a class="share-btn" href="#subscribe" onclick="event.preventDefault();document.getElementById('subscribe').scrollIntoView({behavior:'smooth'})">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </a>
-        </div>
-        <div class="share-group share-actions">
-          <button class="share-btn" data-copy-ai onclick="fetch('/blog/${slug}.md').then(r=>r.text()).then(t=>{navigator.clipboard.writeText(t);this.innerHTML='Copied!'})">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy for AI
-          </button>
-          <a class="share-btn" href="/blog/${slug}.md">View source</a>
-        </div>
+      <div class="post-actions">
+        <a class="action-icon" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}" target="_blank" rel="noopener" title="Share on X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a class="action-icon" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" target="_blank" rel="noopener" title="Share on LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <button class="action-icon" onclick="navigator.clipboard.writeText('${url}').then(()=>{this.title='Copied!';setTimeout(()=>this.title='Copy link',2000)})" title="Copy link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        </button>
       </div>
     </div>
     ${articleHtml}
@@ -356,6 +348,12 @@ ${JSON.stringify(
   </div>
 
   <footer>
+    <div class="article-footer">
+      <button class="share-btn" onclick="fetch('/blog/${slug}.md').then(r=>r.text()).then(t=>{navigator.clipboard.writeText(t);this.innerHTML='Copied!'})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy for AI
+      </button>
+      <a class="share-btn" href="/blog/${slug}.md">View source</a>
+    </div>
     <div class="footer-inner">
       <span>Katrina Laszlo, 2026</span>
       <div class="footer-links">
@@ -366,6 +364,17 @@ ${JSON.stringify(
       </div>
     </div>
   </footer>
+</div>
+<div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
+    <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>
+    <h3 style="margin:0 0 0.5rem;font-size:1.25rem">Get new posts by email</h3>
+    <p style="margin:0 0 1rem;color:#666;font-size:0.9rem">No spam. Unsubscribe anytime.</p>
+    <form onsubmit="event.preventDefault();const e=this.querySelector('input');const b=this.querySelector('button');b.disabled=true;b.textContent='...';fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e.value})}).then(r=>r.json()).then(()=>{b.textContent='Subscribed!';e.value='';setTimeout(()=>document.getElementById('subscribe-modal').style.display='none',1500)}).catch(()=>{b.textContent='Try again';b.disabled=false})" style="display:flex;gap:0.5rem">
+      <input type="email" placeholder="you@example.com" required style="flex:1;padding:0.6rem 0.75rem;border:1px solid #d1d5db;border-radius:6px;font-size:0.9rem">
+      <button type="submit" style="padding:0.6rem 1.25rem;background:#111;color:#fff;border:none;border-radius:6px;font-size:0.9rem;cursor:pointer">Subscribe</button>
+    </form>
+  </div>
 </div>
 </body>
 </html>`;

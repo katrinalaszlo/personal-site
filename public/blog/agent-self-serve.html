@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Self-Serve for AI Agents — Kat Laszlo</title>
-<meta name="description" content="Two Claude Code skills born from making my own sites agent-ready. Discovery, onboarding, and purchase... without a human in the loop.">
-<meta name="ai:token-count" content="2208">
+<title>The Human Behind the Agent — Kat Laszlo</title>
+<meta name="description" content="Agents are reshaping how people buy, but the human is still in the loop. Here's what the experience actually looks like right now, for consumers and for B2B.">
+<meta name="ai:token-count" content="1440">
 <meta name="ai:page-type" content="article">
-<meta property="og:title" content="Self-Serve for AI Agents">
-<meta property="og:description" content="Two Claude Code skills born from making my own sites agent-ready. Discovery, onboarding, and purchase... without a human in the loop.">
+<meta property="og:title" content="The Human Behind the Agent">
+<meta property="og:description" content="Agents are reshaping how people buy, but the human is still in the loop. Here's what the experience actually looks like right now, for consumers and for B2B.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://katrinalaszlo.com/blog/agent-self-serve">
-<meta property="og:image" content="/blog/og/agent-self-serve.png">
+<meta property="og:image" content="/blog/og/agent-self-serve.svg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="article:published_time" content="2026-05-16">
+<meta property="article:published_time" content="2026-05-26">
 <meta property="article:author" content="Kat Laszlo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@Katlaszlo">
-<meta name="twitter:title" content="Self-Serve for AI Agents">
-<meta name="twitter:description" content="Two Claude Code skills born from making my own sites agent-ready. Discovery, onboarding, and purchase... without a human in the loop.">
-<meta name="twitter:image" content="/blog/og/agent-self-serve.png">
+<meta name="twitter:title" content="The Human Behind the Agent">
+<meta name="twitter:description" content="Agents are reshaping how people buy, but the human is still in the loop. Here's what the experience actually looks like right now, for consumers and for B2B.">
+<meta name="twitter:image" content="/blog/og/agent-self-serve.svg">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/markdown" href="/blog/agent-self-serve.md" title="Markdown version">
@@ -34,15 +34,15 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Self-Serve for AI Agents",
-  "description": "Two Claude Code skills born from making my own sites agent-ready. Discovery, onboarding, and purchase... without a human in the loop.",
-  "image": "/blog/og/agent-self-serve.png",
+  "headline": "The Human Behind the Agent",
+  "description": "Agents are reshaping how people buy, but the human is still in the loop. Here's what the experience actually looks like right now, for consumers and for B2B.",
+  "image": "/blog/og/agent-self-serve.svg",
   "author": {
     "@type": "Person",
     "name": "Kat Laszlo",
     "url": "https://katrinalaszlo.com"
   },
-  "datePublished": "2026-05-16",
+  "datePublished": "2026-05-26",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://katrinalaszlo.com/blog/agent-self-serve"
@@ -55,72 +55,35 @@
   <header>
     <nav>
       <a href="/" class="nav-name">Katrina Laszlo</a>
-      <div style="display:flex;gap:1.5rem;">
+      <div style="display:flex;gap:1.5rem;align-items:center;">
         <a href="/notebook/" class="nav-link">Notebook</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/#connect" class="nav-link">Connect</a>
+        <button class="subscribe-btn" onclick="document.getElementById('subscribe-modal').style.display='flex'">Subscribe</button>
       </div>
     </nav>
   </header>
 
   <article>
-    <h1>Self-Serve for AI Agents</h1>
+    <p class="series-label">PLG for the Agent Era</p>
+    <h1>Part 1: The Human Behind the Agent</h1>
     <div class="post-meta-row">
       <p class="post-meta">
-        <a href="/">Kat Laszlo</a> &middot; May 16, 2026
+        <a href="/">Kat Laszlo</a> &middot; May 26, 2026
       </p>
-      <div class="share-bar share-bar-top">
-        <div class="share-group share-icons">
-          <a class="share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fagent-self-serve&text=Self-Serve%20for%20AI%20Agents" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fagent-self-serve" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <button class="share-btn" onclick="navigator.clipboard.writeText('https://katrinalaszlo.com/blog/agent-self-serve').then(()=>this.textContent='Copied!')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-          </button>
-          <a class="share-btn" href="#subscribe" onclick="event.preventDefault();document.getElementById('subscribe').scrollIntoView({behavior:'smooth'})">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </a>
-        </div>
-        <div class="share-group share-actions">
-          <button class="share-btn" data-copy-ai onclick="fetch('/blog/agent-self-serve.md').then(r=>r.text()).then(t=>{navigator.clipboard.writeText(t);this.innerHTML='Copied!'})">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy for AI
-          </button>
-          <a class="share-btn" href="/blog/agent-self-serve.md">View source</a>
-        </div>
+      <div class="post-actions">
+        <a class="action-icon" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fagent-self-serve&text=The%20Human%20Behind%20the%20Agent" target="_blank" rel="noopener" title="Share on X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a class="action-icon" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fagent-self-serve" target="_blank" rel="noopener" title="Share on LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <button class="action-icon" onclick="navigator.clipboard.writeText('https://katrinalaszlo.com/blog/agent-self-serve').then(()=>{this.title='Copied!';setTimeout(()=>this.title='Copy link',2000)})" title="Copy link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        </button>
       </div>
     </div>
-    <p>My background is in product management and self-serve optimization. I spent years on the human version of this problem: conversion funnels, AB testing with tools like Mutiny, analytics for every step from landing page to paid account. The playbook for getting humans through a self-serve funnel is mature.</p><p>Agents don't care about any of it. They don't see your hero section. They don't respond to social proof. They can't click through a Stripe Checkout page. The entire conversion toolkit built for humans is irrelevant when the buyer is software.</p><p>I wanted to know what the agent version looks like. Can an AI agent find my product, evaluate it, sign up, pick a plan, pay, and start using it without a human involved? Not "AI-powered features." The other kind of agent-ready. Where an agent is the customer.</p><p>I manage two sites. A personal site and a B2B product. I started researching best practices for agent accessibility, found people building tools for different pieces of the problem, and kept going back and forth between their sites and mine, implementing changes one benchmark at a time.</p><p>That got old fast. So I built the tools.</p><hr><h2>Two problems, two skills</h2><p>I have a personal site (<a href="https://katrinalaszlo.com">katrinalaszlo.com</a>) and a B2B product (<a href="https://www.tansohq.com">Tanso</a>). Different goals, same question: can an AI agent do anything useful here?</p><p>For the personal site, the question is discovery. Can an agent figure out who I am, what I know, and how to reach me?</p><p>For Tanso, the question is deeper. Can an agent evaluate the product, sign up, choose a plan, and start sending API calls?</p><p>I started by running third-party scanners. <a href="https://blog.cloudflare.com/agent-readiness/">Cloudflare's isitagentready.com</a> checks for robots.txt, llms.txt, MCP servers, API catalogs. <a href="https://buildwithfern.com/agent-score">Fern's Agent Score</a> grades documentation on 22 checks. A <a href="https://lilagents.com/blog/how-the-fortune-500-scores-on-ai-agent-readiness/">lilAgents study</a> scanned the Fortune 500 and found the average score was 25%.</p><p>I kept running these checks manually after every deploy. Each tool checked different things, had different output formats, and none of them talked to each other. I wanted one command that ran all the benchmarks and told me what to fix. So I built it.</p><p><strong><a href="https://github.com/katrinalaszlo/aeo-ready">aeo-ready</a></strong> — one command, three benchmarks. Aggregates <a href="https://github.com/nicholasgriffintn/agentic-seo">agentic-seo</a> (Addy Osmani), <a href="https://isitagentready.com">Cloudflare's isitagentready.com</a>, and <a href="https://buildwithfern.com/agent-score">Fern's afdocs</a> into a single scan with 52 checks.</p><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code class="language-bash">npx aeo-ready scan https://yoursite.com</code></pre></div><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code>  aeo-ready — yoursite.com
-
-  agentic-seo ·································· 91/100 A
-    ✓ Discovery              25/25
-    ◑ Content Structure      18/25
-    ✓ Token Economics        25/25
-    ✓ Capability Signaling   15/15
-    ✓ UX Bridge               8/10
-    vs Cloudflare 55 · Supabase 52 · Vercel 48 · Stripe 17
-
-  Cloudflare ···································· 4/5 B
-    10 passed  2 failed
-    ✗ robotsTxtAiRules  No rules for AI bots found
-    vs Cloudflare 5 · Vercel 4 · Supabase 3 · Stripe 2
-
-  Fern ········································ 83/100 B
-    9 passed  4 failed
-    ✗ llms-txt-links-markdown  Links point to HTML, no markdown
-    ✗ llms-txt-coverage        Covers 67% of sitemap
-    vs Stripe 85 · Supabase 78 · Anthropic 72 · Vercel 60
-
-  ──────────────────────────────────────────────────
-  Overall                                     85/100
-
-  Next steps
-    npx agentic-seo init                          scaffold llms.txt, AGENTS.md
-    npx skills add katrinalaszlo/agent-serve      make your product agent-ready
-
-  Fix now? [y/N]</code></pre></div><p>Say `y` and it scaffolds missing files — llms.txt, AGENTS.md, skill.md — then runs Fern diagnostics. Scan again to track improvement.</p><p><strong><a href="https://github.com/katrinalaszlo/agent-serve">agent-serve</a></strong> audits whether an agent can actually be your customer. Five dimensions: onboarding, authentication, purchasing, usage monitoring, self-management.</p><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code class="language-bash">npx skills add katrinalaszlo/agent-serve</code></pre></div><hr><h2>The agent self-serve funnel</h2><p>Agent-readiness is a funnel. Most scanners only check the top layer.</p><p><img src="/blog/images/agent-self-serve-funnel.png" alt="The agent self-serve funnel" loading="lazy"></p><p>Most scanners check the top layer. Cloudflare checks discovery signals and protocol adoption. Fern checks whether agents can actually fetch and parse your docs. Neither checks whether an agent can sign up, pay, or manage its own account.</p><p>agent-serve checks the rest.</p><hr><h2>How I wired it for Tanso</h2><p><a href="https://www.tansohq.com">Tanso</a> is a B2B monetization platform. It already had Stripe billing and Clerk auth for humans. Making it agent-accessible meant opening the same infrastructure through a different door.</p><p><strong>Signup.</strong> One endpoint: `POST /signup`. Creates a Clerk user, local account, and SDK key in a single call. No browser, no email verification, no OAuth dance. Rate-limited to 3/hr. If the DB insert fails, a compensating delete removes the Clerk user. Agent gets back a scoped API key immediately.</p><p><strong>Auth.</strong> Capability keys with scopes: `events.write`, `usage.read`, `billing.read`, `proxy.chat`. Agents get limited scopes at signup. Elevated scopes (admin, write, alerts) require a human-authenticated `POST /sdk-keys`. Budgets enforce spend limits per key with monthly or daily reset.</p><p><strong>Plan visibility.</strong> `GET /plan` returns the current tier, feature limits, and usage. No dashboard needed.</p><p><strong>Purchase.</strong> Stripe's Billing Portal is browser-only. That's what humans use. For agents, I needed programmatic plan selection and payment.</p><p>The first attempt made this seem harder than it was. Stripe's API supports `payment_method` on subscription creation. Agent passes a tokenized card, Stripe creates the subscription. No checkout page. No redirect. No human. One parameter.</p><p><strong>Self-management.</strong> Agents introspect their own key (`GET /sdk-keys/me`), check remaining budget, see expiry. Upgrades and downgrades go through the same Stripe API.</p><p>Eleven route groups accepting SDK keys. The middleware tries Clerk JWT first, falls back to SDK key lookup. Same auth, different door.</p><hr><h2>Running it on other companies</h2><p>The three benchmarks don't always agree. Stripe has a published <a href="https://github.com/stripe/openapi">OpenAPI spec</a> and an <a href="https://docs.stripe.com/agents">agent toolkit</a> supporting five frameworks — it scores well on Fern (85/100) but poorly on agentic-seo (17/100) and Cloudflare (2/5). Cloudflare scores 5/5 on their own scanner but only 55/100 on agentic-seo.</p><p>That's the point of aggregating. A single benchmark rewards what it measures. Three benchmarks triangulate what actually matters: can agents find you, read your docs, and use your APIs.</p><hr><h2>Discovery is catching up. Capability isn't.</h2><p>Vercel, Linear, Cloudflare, and Telnyx have agents.json. Stripe and Notion don't. llms.txt adoption is spreading fast — most major developer tools have it now.</p><p>But discovery is the easy part. An llms.txt file takes 10 minutes. An agents.json manifest takes 30. The hard part is everything below discovery in the funnel: can an agent sign up, authenticate, pay, and manage its own account?</p><p>Almost nobody has wired that up. The companies investing in agent readiness are building the discovery layer and stopping there.</p><hr><h2>Some numbers</h2><p><strong>73%</strong> of top API docs sites lack llms.txt (<a href="https://buildwithfern.com/agent-score">Fern</a>).</p><p><strong>4%</strong> of sites declare AI usage preferences in robots.txt (<a href="https://blog.cloudflare.com/agent-readiness/">Cloudflare</a>).</p><p><strong>25%</strong> average Fortune 500 agent-readiness score (<a href="https://lilagents.com/blog/how-the-fortune-500-scores-on-ai-agent-readiness/">lilAgents</a>).</p><p><strong>0</strong> third-party sites I found with agents.json.</p><hr><h2>What's next</h2><p>aeo-ready now aggregates all three benchmarks — agentic-seo, Cloudflare, and Fern — in a single scan. 52 checks, company comparisons, score history. I keep adding benchmarks as new ones emerge.</p><p>agent-serve covers the rest of the funnel. Five dimensions, scored 0-10, with specific fixes for each gap. Both tools are open source and both are things I use on my own sites. They'll keep evolving as the standards do.</p><p>The deeper question: what does self-serve for agents look like end-to-end? Not just discovery. The full funnel. Evaluate, sign up, pay, use, manage. The companies that wire this up first will have a distribution channel that's invisible to everyone else.</p><p>If you're working on agent accessibility for your own product, or you've found benchmarks or patterns I'm missing, I'd love contributions to either tool.</p><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code class="language-bash">npx aeo-ready scan https://yoursite.com</code></pre></div><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code class="language-bash">npx skills add katrinalaszlo/agent-serve</code></pre></div>
+    <p>There's a lot of talk about agents buying things. Gartner says agents will intermediate <a href="https://blog.2checkout.com/agentic-commerce-101-what-software-sellers-need-to-know/">$15 trillion in purchases by 2028</a>. Stripe built an <a href="https://stripe.com/blog/developing-an-open-standard-for-agentic-commerce">Agentic Commerce Protocol</a>. Cloudflare lets agents <a href="https://www.infoq.com/news/2026/05/cloudflare-stripe-agent-commerce/">create accounts and deploy apps</a>.</p><p>But what does it actually look like when a person buys something through an agent today? Where is the human? What are they looking at?</p><h2>Consumer today</h2><p><strong>You ask.</strong> Natural language, not keywords. "Best waterproof hiking boots under $200."</p><p><strong>The agent researches.</strong> It synthesizes merchant feeds, reviews, and structured data. Not 10 blue links. ChatGPT processes <a href="https://opascope.com/insights/ai-shopping-assistant-guide-2026-agentic-commerce-protocols/">50 million shopping queries daily</a>.</p><p><strong>You see product cards.</strong> Images, prices, pros and cons, delivery times. Inline in the conversation.</p><p><strong>You click through to buy.</strong> You tap a product, land on the retailer's site, and check out. Most purchases still end this way.</p><p>OpenAI tried in-chat checkout (<a href="https://openai.com/index/buy-it-in-chatgpt/">Instant Checkout</a>, early 2026, powered by Stripe). <a href="https://www.cnbc.com/2026/03/20/open-ai-agentic-shopping-etsy-shopify-walmart-amazon.html">Walmart saw 3x lower conversion</a> inside ChatGPT than on their own site. By March, OpenAI <a href="https://www.cnbc.com/2026/03/24/openai-revamps-shopping-experience-in-chatgpt-after-instant-checkout.html">pulled back to discovery-first</a>: AI handles research, merchants handle checkout. <a href="https://www.perplexity.ai/hub/blog/shop-like-a-pro">Perplexity</a> still has PayPal checkout for a few merchants, but it's the exception.</p><p><strong>Bottom line:</strong> The agent replaced research. The human still decides and pays. The experience after "buy" hasn't changed.</p><h2>B2B software today</h2><p>Most of the change so far has been in the research phase.</p><p><img src="/blog/images/b2b-research-stats.png" alt="B2B research stats: 73% use AI for research, 51% start in chatbot, 69% changed vendor" loading="lazy"></p><p><strong>You ask the agent.</strong> "Best usage-based billing platform for a SaaS with under 100 customers?" You get a synthesized comparison with pros, cons, and pricing.</p><p><strong>You go deeper.</strong> <a href="https://learn.g2.com/ai-search-surging-for-b2b-buyers">55% of buyers</a> use AI to compare vendors. The agent pulls from docs, community discussions, and review sites.</p><p><strong>You leave the chat.</strong> Click through to vendor sites. Sign up for a trial or book a demo. <a href="https://learn.g2.com/ai-search-surging-for-b2b-buyers">47% build business cases with AI</a> before engaging a vendor, but the engagement itself is still human-to-human.</p><p><strong>You buy the way you always have.</strong> Credit card on the pricing page, or a call with sales. If it's enterprise, procurement runs their usual process.</p><p><a href="https://learn.g2.com/ai-search-surging-for-b2b-buyers">69% of buyers chose a different vendor</a> than they initially planned based on AI guidance.</p><p><img src="/blog/images/ai-vs-google-conversion.png" alt="AI search converts at 14.2% vs Google organic at 2.8%" loading="lazy"></p><p>The agent is shaping vendor selection before the human ever visits a website.</p><p><strong>What about coding agents?</strong> Overstated. Neon reports agents <a href="https://www.infoq.com/news/2026/05/cloudflare-stripe-agent-commerce/">create databases at 4x the rate of human developers</a>. But the developer connected Neon's MCP server to Claude Code or Cursor first. The agent uses a tool the human already chose and configured. It provisions faster. It didn't make the vendor decision.</p><h2>How the buyer journey shifted</h2><p><img src="/blog/images/journey-comparison.png" alt="How the buyer journey shifted across B2C, B2B, and dev tools" loading="lazy"></p><p>B2B has a history of following consumer experience. Consumer got easy signup, B2B copied it. That was the entire PLG wave. Consumer got self-serve checkout, B2B added self-serve tiers. Now consumer has agent-mediated research and early in-chat purchasing. The infrastructure being built for consumer (Stripe's ACP was built for ChatGPT shopping) is the same infrastructure B2B will use.</p><p>The research shift happened in about 18 months. It won't take a decade for the next layer to follow.</p><h2>Same funnel, different interface</h2><p>I spent years optimizing self-serve funnels for humans. Conversion rate experiments with Mutiny, analytics on every step from landing page to paid account. The funnel doesn't change when an agent is the intermediary. What changes is what each stage needs.</p><p><img src="/blog/images/funnel-comparison.png" alt="Funnel comparison: human experience vs agent experience at each stage" loading="lazy"></p><p>Same buyer, same criteria. But "easy onboarding" looks completely different when an agent is evaluating on their behalf. A human needs a clean signup page. An agent needs a `POST /signup` that returns an API key. Same goal, different interface.</p><p>Most companies stop at the top layer. They add an llms.txt file and call it done. Why not get a head start on the rest?</p><h2>This series</h2><p>I started running agent-readiness scanners on my own sites (Cloudflare, Fern, agentic-seo) after every deploy. Each tool checked different things, had different output formats, and none of them talked to each other. That got old fast. So I built the tools.</p><p><strong><a href="/blog/agent-commerce-part-2">Part 2: Discovery + AEO</a></strong> covers the top of the funnel, how agents find and evaluate your product, and a tool I built to score it in one command.</p><p><strong><a href="/blog/agent-commerce-part-3">Part 3: Self-Serve</a></strong> covers the rest: onboarding, auth, purchasing, usage monitoring, and self-management. How I wired Tanso for agent self-serve, and an open-source audit that scores any SaaS across all five dimensions.</p>
   </article>
 
 
@@ -134,6 +97,12 @@
   </div>
 
   <footer>
+    <div class="article-footer">
+      <button class="share-btn" onclick="fetch('/blog/agent-self-serve.md').then(r=>r.text()).then(t=>{navigator.clipboard.writeText(t);this.innerHTML='Copied!'})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy for AI
+      </button>
+      <a class="share-btn" href="/blog/agent-self-serve.md">View source</a>
+    </div>
     <div class="footer-inner">
       <span>Katrina Laszlo, 2026</span>
       <div class="footer-links">
@@ -144,6 +113,17 @@
       </div>
     </div>
   </footer>
+</div>
+<div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
+    <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>
+    <h3 style="margin:0 0 0.5rem;font-size:1.25rem">Get new posts by email</h3>
+    <p style="margin:0 0 1rem;color:#666;font-size:0.9rem">No spam. Unsubscribe anytime.</p>
+    <form onsubmit="event.preventDefault();const e=this.querySelector('input');const b=this.querySelector('button');b.disabled=true;b.textContent='...';fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e.value})}).then(r=>r.json()).then(()=>{b.textContent='Subscribed!';e.value='';setTimeout(()=>document.getElementById('subscribe-modal').style.display='none',1500)}).catch(()=>{b.textContent='Try again';b.disabled=false})" style="display:flex;gap:0.5rem">
+      <input type="email" placeholder="you@example.com" required style="flex:1;padding:0.6rem 0.75rem;border:1px solid #d1d5db;border-radius:6px;font-size:0.9rem">
+      <button type="submit" style="padding:0.6rem 1.25rem;background:#111;color:#fff;border:none;border-radius:6px;font-size:0.9rem;cursor:pointer">Subscribe</button>
+    </form>
+  </div>
 </div>
 </body>
 </html>

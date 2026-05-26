@@ -115,11 +115,11 @@ article p {
 }
 article a {
   color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
 }
 article a:hover {
-  color: #3730a3;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 article strong {
   font-weight: 600;
@@ -128,7 +128,8 @@ article img {
   max-width: 100%;
   height: auto;
   border-radius: var(--radius);
-  margin: 1.5rem 0;
+  margin: 2rem 0;
+  border: 1px solid var(--border);
 }
 article img[alt] {
   display: block;
@@ -242,12 +243,23 @@ article pre code {
   color: inherit;
 }
 
+/* Series label */
+.series-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #6b7280;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+}
+
 /* Post meta */
 .post-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 1.5rem;
   margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
 }
 .post-meta {
   font-size: 0.875rem;
@@ -262,26 +274,32 @@ article pre code {
   text-decoration: underline;
 }
 
-/* Share bar (top) */
-.share-bar-top {
+/* Post actions (top bar) */
+.post-actions {
   display: flex;
-  gap: 0.75rem;
-  border: none;
-  padding: 0;
-  margin: 0;
   align-items: center;
+  gap: 0.5rem;
 }
-.share-group {
-  display: flex;
-  gap: 0.375rem;
-  align-items: stretch;
+.action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: #9ca3af;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: color 0.15s;
 }
-.share-bar-top .share-btn {
-  flex: 0;
-  padding: 0.375rem 0.5rem;
+.action-icon:hover {
+  color: var(--text-bright);
 }
-.share-actions .share-btn {
-  padding: 0.375rem 0.625rem;
+.action-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* Share bar (bottom) */
@@ -325,6 +343,33 @@ article pre code {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+}
+
+/* Article footer (bottom actions) */
+.article-footer {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.subscribe-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.subscribe-btn:hover {
+  background: #333;
 }
 
 /* Subscribe */
