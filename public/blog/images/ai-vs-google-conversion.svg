@@ -1,0 +1,23 @@
+<svg width="680" height="200" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <rect width="680" height="200" fill="#ffffff"/>
+  <rect x="0" y="0" width="680" height="1" fill="#e4e4e7"/>
+  <rect x="0" y="199" width="680" height="1" fill="#e4e4e7"/>
+
+  <text x="40" y="35" font-size="13" font-weight="600" fill="#0a0a0a">Conversion rate by traffic source</text>
+
+  <!-- AI search bar -->
+  <text x="40" y="77" font-size="13" fill="#666666">AI search</text>
+  <rect x="160" y="61" width="408" height="24" rx="3" fill="#4f46e5"/>
+  <text x="578" y="78" font-size="14" font-weight="600" fill="#0a0a0a">14.2%</text>
+
+  <!-- Google organic bar -->
+  <text x="40" y="121" font-size="13" fill="#666666">Google organic</text>
+  <rect x="160" y="105" width="80" height="24" rx="3" fill="#e4e4e7"/>
+  <text x="250" y="122" font-size="14" font-weight="600" fill="#0a0a0a">2.8%</text>
+
+  <!-- Insight -->
+  <text x="340" y="158" font-size="12" fill="#666666" text-anchor="middle">AI search traffic converts at 5x the rate of Google organic</text>
+
+  <!-- Attribution -->
+  <text x="640" y="185" font-size="11" fill="#9ca3af" text-anchor="end">katrinalaszlo.com</text>
+</svg>

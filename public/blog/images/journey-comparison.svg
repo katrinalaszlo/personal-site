@@ -1,0 +1,93 @@
+<svg width="680" height="580" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <rect width="680" height="580" fill="#ffffff"/>
+  <rect x="0" y="0" width="680" height="1" fill="#e4e4e7"/>
+  <rect x="0" y="579" width="680" height="1" fill="#e4e4e7"/>
+
+  <!-- Column headers -->
+  <text x="55" y="30" font-size="11" font-weight="600" fill="#9ca3af" letter-spacing="0.05em">STEP</text>
+  <text x="200" y="30" font-size="11" font-weight="600" fill="#9ca3af" letter-spacing="0.05em">HUMAN EXPERIENCE</text>
+  <text x="470" y="30" font-size="11" font-weight="600" fill="#9ca3af" letter-spacing="0.05em">AGENT EXPERIENCE</text>
+
+  <!-- Bracket: Steps 1-4 = agents handle today -->
+  <rect x="636" y="48" width="4" height="238" rx="2" fill="#4f46e5"/>
+  <text x="646" y="170" font-size="10" fill="#4f46e5" transform="rotate(90, 646, 170)" text-anchor="middle">AGENTS HANDLE TODAY</text>
+
+  <!-- Step 1: Discover -->
+  <text x="30" y="68" font-size="20" font-weight="700" fill="#e4e4e7">1</text>
+  <text x="55" y="68" font-size="12" font-weight="600" fill="#0a0a0a">Discover</text>
+  <rect x="190" y="50" width="200" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="290" y="69" font-size="11" fill="#666666" text-anchor="middle">Google, SEO, ads, referrals</text>
+  <rect x="410" y="50" width="210" height="28" rx="3" fill="#4f46e5" opacity="0.07"/>
+  <text x="515" y="69" font-size="11" fill="#4f46e5" text-anchor="middle">llms.txt, agents.json, search</text>
+
+  <!-- Step 2: Learn -->
+  <text x="30" y="118" font-size="20" font-weight="700" fill="#e4e4e7">2</text>
+  <text x="55" y="118" font-size="12" font-weight="600" fill="#0a0a0a">Learn</text>
+  <rect x="190" y="100" width="200" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="290" y="119" font-size="11" fill="#666666" text-anchor="middle">Marketing site, docs, blog</text>
+  <rect x="410" y="100" width="210" height="28" rx="3" fill="#4f46e5" opacity="0.07"/>
+  <text x="515" y="119" font-size="11" fill="#4f46e5" text-anchor="middle">Markdown docs, API specs</text>
+
+  <!-- Step 3: Evaluate -->
+  <text x="30" y="168" font-size="20" font-weight="700" fill="#e4e4e7">3</text>
+  <text x="55" y="168" font-size="12" font-weight="600" fill="#0a0a0a">Evaluate</text>
+  <rect x="190" y="150" width="200" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="290" y="169" font-size="11" fill="#666666" text-anchor="middle">Compare vendors, read reviews</text>
+  <rect x="410" y="150" width="210" height="28" rx="3" fill="#4f46e5" opacity="0.07"/>
+  <text x="515" y="169" font-size="11" fill="#4f46e5" text-anchor="middle">Structured data, token-efficient</text>
+
+  <!-- Step 4: Ask -->
+  <text x="30" y="218" font-size="20" font-weight="700" fill="#e4e4e7">4</text>
+  <text x="55" y="218" font-size="12" font-weight="600" fill="#0a0a0a">Ask</text>
+  <rect x="190" y="200" width="200" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="290" y="219" font-size="11" fill="#666666" text-anchor="middle">Email sales, book a demo</text>
+  <rect x="410" y="200" width="210" height="28" rx="3" fill="#4f46e5" opacity="0.07"/>
+  <text x="515" y="219" font-size="11" fill="#4f46e5" text-anchor="middle">MCP server, agent Q&amp;A</text>
+
+  <!-- Divider -->
+  <line x1="30" y1="248" x2="630" y2="248" stroke="#e4e4e7" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="330" y="268" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="600" letter-spacing="0.05em">MOST AGENTS BOUNCE HERE</text>
+
+  <!-- Bracket: Steps 5-8 = agents can't do yet -->
+  <rect x="636" y="288" width="4" height="238" rx="2" fill="#e4e4e7"/>
+  <text x="646" y="410" font-size="10" fill="#9ca3af" transform="rotate(90, 646, 410)" text-anchor="middle">AGENTS CAN'T DO YET</text>
+
+  <!-- Step 5: Try -->
+  <text x="30" y="318" font-size="20" font-weight="700" fill="#e4e4e7">5</text>
+  <text x="55" y="318" font-size="12" font-weight="600" fill="#0a0a0a">Try</text>
+  <rect x="190" y="300" width="200" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="290" y="319" font-size="11" fill="#666666" text-anchor="middle">Free trial, sandbox, playground</text>
+  <rect x="410" y="300" width="210" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="515" y="319" font-size="11" fill="#9ca3af" text-anchor="middle">Instant sandbox, no auth gate</text>
+
+  <!-- Step 6: Sign up -->
+  <text x="30" y="368" font-size="20" font-weight="700" fill="#e4e4e7">6</text>
+  <text x="55" y="368" font-size="12" font-weight="600" fill="#0a0a0a">Sign up</text>
+  <rect x="190" y="350" width="200" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="290" y="369" font-size="11" fill="#666666" text-anchor="middle">Form, email verify, CAPTCHA</text>
+  <rect x="410" y="350" width="210" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="515" y="369" font-size="11" fill="#9ca3af" text-anchor="middle">POST /signup → API key</text>
+
+  <!-- Step 7: Integrate -->
+  <text x="30" y="418" font-size="20" font-weight="700" fill="#e4e4e7">7</text>
+  <text x="55" y="418" font-size="12" font-weight="600" fill="#0a0a0a">Integrate</text>
+  <rect x="190" y="400" width="200" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="290" y="419" font-size="11" fill="#666666" text-anchor="middle">Read docs, copy code, test</text>
+  <rect x="410" y="400" width="210" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="515" y="419" font-size="11" fill="#9ca3af" text-anchor="middle">AGENTS.md, MCP server, skills</text>
+
+  <!-- Step 8: Pay -->
+  <text x="30" y="468" font-size="20" font-weight="700" fill="#e4e4e7">8</text>
+  <text x="55" y="468" font-size="12" font-weight="600" fill="#0a0a0a">Pay</text>
+  <rect x="190" y="450" width="200" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="290" y="469" font-size="11" fill="#666666" text-anchor="middle">Stripe Checkout, pricing page</text>
+  <rect x="410" y="450" width="210" height="28" rx="3" fill="#f4f4f5"/>
+  <text x="515" y="469" font-size="11" fill="#9ca3af" text-anchor="middle">Tokenized payment, no UI</text>
+
+  <!-- Series callout -->
+  <text x="30" y="515" font-size="11" fill="#666666">Part 2 covers steps 1-4.</text>
+  <text x="30" y="533" font-size="11" fill="#666666">Part 3 covers steps 5-8.</text>
+
+  <!-- Attribution -->
+  <text x="640" y="565" font-size="11" fill="#9ca3af" text-anchor="end">katrinalaszlo.com</text>
+</svg>

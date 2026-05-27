@@ -1,0 +1,51 @@
+<svg width="700" height="400" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <rect width="700" height="400" fill="#ffffff"/>
+  <rect x="0" y="0" width="700" height="1" fill="#e4e4e7"/>
+  <rect x="0" y="399" width="700" height="1" fill="#e4e4e7"/>
+
+  <!-- Column headers -->
+  <text x="245" y="40" font-size="11" font-weight="600" fill="#9ca3af" text-anchor="middle" letter-spacing="0.05em">HUMAN EXPERIENCE</text>
+  <text x="505" y="40" font-size="11" font-weight="600" fill="#9ca3af" text-anchor="middle" letter-spacing="0.05em">AGENT EXPERIENCE</text>
+
+  <!-- Left half fill -->
+  <polygon points="115,60 375,60 375,360 240,360" fill="#f4f4f5"/>
+
+  <!-- Right half fill -->
+  <polygon points="375,60 635,60 510,360 375,360" fill="#4f46e5" fill-opacity="0.06"/>
+
+  <!-- Left outline -->
+  <polygon points="115,60 375,60 375,360 240,360" fill="none" stroke="#e4e4e7" stroke-width="1"/>
+
+  <!-- Right outline (indigo accent) -->
+  <polygon points="375,60 635,60 510,360 375,360" fill="none" stroke="#4f46e5" stroke-width="1" stroke-opacity="0.25"/>
+
+  <!-- Row dividers -->
+  <line x1="140" y1="120" x2="610" y2="120" stroke="#e4e4e7" stroke-width="0.5"/>
+  <line x1="165" y1="180" x2="585" y2="180" stroke="#e4e4e7" stroke-width="0.5"/>
+  <line x1="190" y1="240" x2="560" y2="240" stroke="#e4e4e7" stroke-width="0.5"/>
+  <line x1="215" y1="300" x2="535" y2="300" stroke="#e4e4e7" stroke-width="0.5"/>
+
+  <!-- Stage labels -->
+  <text x="20" y="94" font-size="13" font-weight="600" fill="#0a0a0a">Discovery</text>
+  <text x="20" y="154" font-size="13" font-weight="600" fill="#0a0a0a">Acquisition</text>
+  <text x="20" y="214" font-size="13" font-weight="600" fill="#0a0a0a">Activation</text>
+  <text x="20" y="274" font-size="13" font-weight="600" fill="#0a0a0a">Conversion</text>
+  <text x="20" y="334" font-size="13" font-weight="600" fill="#0a0a0a">Retention</text>
+
+  <!-- Human experience text -->
+  <text x="250" y="94" font-size="11" fill="#666666" text-anchor="middle">SEO, ads, content marketing</text>
+  <text x="264" y="154" font-size="11" fill="#666666" text-anchor="middle">Sign-up form, email verify</text>
+  <text x="276" y="214" font-size="11" fill="#666666" text-anchor="middle">Dashboard, email loops</text>
+  <text x="289" y="274" font-size="11" fill="#666666" text-anchor="middle">Pricing page, card form</text>
+  <text x="301" y="334" font-size="11" fill="#666666" text-anchor="middle">Support, dashboard</text>
+
+  <!-- Agent experience text -->
+  <text x="499" y="94" font-size="11" fill="#4f46e5" text-anchor="middle">llms.txt, agents.json, metadata</text>
+  <text x="486" y="154" font-size="11" fill="#4f46e5" text-anchor="middle">POST /signup → API key</text>
+  <text x="474" y="214" font-size="11" fill="#4f46e5" text-anchor="middle">Programmatic onboarding, MCP</text>
+  <text x="461" y="274" font-size="11" fill="#4f46e5" text-anchor="middle">Stripe API, saved payment</text>
+  <text x="449" y="334" font-size="11" fill="#4f46e5" text-anchor="middle">Usage APIs, self-management</text>
+
+  <!-- Attribution -->
+  <text x="660" y="385" font-size="11" fill="#9ca3af" text-anchor="end">katrinalaszlo.com</text>
+</svg>

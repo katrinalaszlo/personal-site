@@ -35,7 +35,7 @@ And there are signs this is moving beyond discovery into other parts of the funn
 
 This progression felt familiar to me. I spent years optimizing self-serve funnels for humans, running conversion rate experiments with Mutiny and Optimizely, tracking analytics on every step from landing page to paid account. The funnel doesn't change when an agent is involved, because the human still wants the same things. What changes is that there's now an intermediary that needs your product's information delivered programmatically so it can evaluate, onboard, and manage on the human's behalf.
 
-![Funnel comparison: human experience vs agent experience at each stage](/blog/images/funnel-comparison.png)
+![Funnel comparison: human experience vs agent experience at each stage](/blog/images/funnel-comparison.svg)
 
 The buyer's criteria don't necessarily change, but what constitutes a delightful, simple, well-designed experience does. A human needs a clean signup page. An agent needs a `POST /signup` that returns an API key. Same goal, completely different interface.
 

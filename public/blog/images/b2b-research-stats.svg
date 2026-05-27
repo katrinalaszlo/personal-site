@@ -1,0 +1,28 @@
+<svg width="680" height="220" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <rect width="680" height="220" fill="#ffffff"/>
+  <rect x="0" y="0" width="680" height="1" fill="#e4e4e7"/>
+  <rect x="0" y="219" width="680" height="1" fill="#e4e4e7"/>
+
+  <!-- 73% -->
+  <text x="113" y="75" font-size="48" font-weight="700" fill="#0a0a0a" text-anchor="middle">73%</text>
+  <text x="113" y="105" font-size="13" fill="#666666" text-anchor="middle">of B2B buyers use AI</text>
+  <text x="113" y="123" font-size="13" fill="#666666" text-anchor="middle">for purchase research</text>
+
+  <!-- 51% -->
+  <text x="340" y="75" font-size="48" font-weight="700" fill="#0a0a0a" text-anchor="middle">51%</text>
+  <text x="340" y="105" font-size="13" fill="#666666" text-anchor="middle">start in a chatbot,</text>
+  <text x="340" y="123" font-size="13" fill="#666666" text-anchor="middle">not a search engine</text>
+
+  <!-- 69% -->
+  <text x="567" y="75" font-size="48" font-weight="700" fill="#0a0a0a" text-anchor="middle">69%</text>
+  <text x="567" y="105" font-size="13" fill="#666666" text-anchor="middle">chose a different vendor</text>
+  <text x="567" y="123" font-size="13" fill="#666666" text-anchor="middle">based on AI guidance</text>
+
+  <!-- Separators -->
+  <line x1="227" y1="45" x2="227" y2="135" stroke="#e4e4e7" stroke-width="1"/>
+  <line x1="453" y1="45" x2="453" y2="135" stroke="#e4e4e7" stroke-width="1"/>
+
+  <!-- Source + attribution -->
+  <text x="40" y="175" font-size="11" fill="#9ca3af">Source: G2, Yahoo Finance, MarTech (2026)</text>
+  <text x="640" y="200" font-size="11" fill="#9ca3af" text-anchor="end">katrinalaszlo.com</text>
+</svg>
