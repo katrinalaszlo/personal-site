@@ -9,7 +9,7 @@ author: Kat Laszlo
 
 # The Human Behind the Agent
 
-B2B buyers are already using agents to research and choose software. [73% use AI for vendor research](https://learn.g2.com/ai-search-surging-for-b2b-buyers), and [69% ended up choosing a different vendor](https://learn.g2.com/ai-search-surging-for-b2b-buyers) than they originally planned based on what the agent recommended. The agent is shaping who wins before the buyer ever visits your website.
+B2B buyers are already using agents to research and choose software. [73% use AI for vendor research](https://learn.g2.com/ai-search-surging-for-b2b-buyers), and [69% ended up choosing a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned based on what the agent recommended. The agent is shaping who wins before the buyer ever visits your website.
 
 And yet the buying experience itself (signup, onboarding, checkout, account management) hasn't changed at all. It's still built for a human clicking through a browser. So what does it need to look like when the human is buying through an agent?
 
@@ -21,7 +21,7 @@ The shift so far has been in research. You ask an agent something like "best usa
 
 But once the research is done, the experience reverts to what it's always been. You click through to vendor sites, sign up for a trial or book a demo, and pay with a credit card on a pricing page. [47% build business cases with AI](https://learn.g2.com/ai-search-surging-for-b2b-buyers) before engaging a vendor, but the engagement itself is still human-to-human.
 
-So the process looks the same. The outcome doesn't. [69% of buyers chose a different vendor](https://learn.g2.com/ai-search-surging-for-b2b-buyers) than they initially planned based on AI guidance.
+The process looks the same, but the outcome is different: [69% of buyers chose a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned, based on what the AI recommended.
 
 ![AI search converts at 14.2% vs Google organic at 2.8%](/blog/images/ai-vs-google-conversion.png)
 
