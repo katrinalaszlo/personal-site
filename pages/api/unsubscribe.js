@@ -1,4 +1,4 @@
-import { put, list } from "@vercel/blob";
+import { put, get } from "@vercel/blob";
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -16,10 +16,9 @@ export default async function handler(req, res) {
 
   let subscribers = [];
   try {
-    const { blobs } = await list({ prefix: "subscribers.json" });
-    if (blobs.length > 0) {
-      const response = await fetch(blobs[0].url);
-      subscribers = await response.json();
+    const blob = await get("subscribers.json");
+    if (blob) {
+      subscribers = await blob.json();
     }
   } catch (e) {
     return res.status(500).send(page("Something went wrong. Try again later."));
@@ -32,12 +31,12 @@ export default async function handler(req, res) {
   subscribers = subscribers.filter((e) => e !== email);
 
   await put("subscribers.json", JSON.stringify(subscribers), {
-    access: "public",
+    access: "private",
     addRandomSuffix: false,
   });
 
   return res.status(200).send(page("You've been unsubscribed.", email));
-};
+}
 
 function page(message, email) {
   return `<!DOCTYPE html>

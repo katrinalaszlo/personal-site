@@ -1,4 +1,4 @@
-import { put, list } from "@vercel/blob";
+import { put, get } from "@vercel/blob";
 
 const AGENT_MAIL_KEY = process.env.AGENT_MAIL_KEY;
 const INBOX_ID = process.env.AGENT_MAIL_INBOX_ID;
@@ -21,10 +21,9 @@ export default async function handler(req, res) {
 
   let subscribers = [];
   try {
-    const { blobs } = await list({ prefix: "subscribers.json" });
-    if (blobs.length > 0) {
-      const response = await fetch(blobs[0].url);
-      subscribers = await response.json();
+    const blob = await get("subscribers.json");
+    if (blob) {
+      subscribers = await blob.json();
     }
   } catch (err) {
     console.error("Blob read failed:", err.message);
@@ -39,7 +38,7 @@ export default async function handler(req, res) {
 
   try {
     await put("subscribers.json", JSON.stringify(subscribers), {
-      access: "public",
+      access: "private",
       addRandomSuffix: false,
     });
   } catch (err) {

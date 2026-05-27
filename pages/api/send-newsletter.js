@@ -1,4 +1,4 @@
-import { list } from "@vercel/blob";
+import { get } from "@vercel/blob";
 
 const AGENT_MAIL_KEY = process.env.AGENT_MAIL_KEY;
 const INBOX_ID = process.env.AGENT_MAIL_INBOX_ID;
@@ -59,10 +59,9 @@ export default async function handler(req, res) {
 
   let subscribers = [];
   try {
-    const { blobs } = await list({ prefix: "subscribers.json" });
-    if (blobs.length > 0) {
-      const response = await fetch(blobs[0].url);
-      subscribers = await response.json();
+    const blob = await get("subscribers.json");
+    if (blob) {
+      subscribers = await blob.json();
     }
   } catch (e) {
     return res.status(500).json({ error: "Failed to read subscribers" });
@@ -103,4 +102,4 @@ export default async function handler(req, res) {
   return res
     .status(200)
     .json({ message: `Sent to ${sent}/${subscribers.length}`, results });
-};
+}
