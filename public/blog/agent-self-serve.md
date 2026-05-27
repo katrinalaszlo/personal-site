@@ -21,13 +21,19 @@ The shift so far has been in research. You ask an agent something like "best usa
 
 But once the research is done, the experience reverts to what it's always been. You click through to vendor sites, sign up for a trial or book a demo, and pay with a credit card on a pricing page. [47% build business cases with AI](https://learn.g2.com/ai-search-surging-for-b2b-buyers) before engaging a vendor, but the engagement itself is still human-to-human.
 
-![AI search converts at 14.2% vs Google organic at 2.8%](/blog/images/ai-vs-google-conversion.png)
+Even limited to research, agents are already changing outcomes. [69% of buyers end up with a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they planned. The agent doesn't just speed up research, it changes who gets selected.
 
-Right now, agents are having the most impact on that discovery phase, shaping which vendors make the shortlist before a human ever visits a website. And [69% of buyers chose a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned, based on what the AI recommended. But there are signs the rest of the funnel is next. [Agents are 80% of new signups at Netlify](https://danjcleary.substack.com/p/how-netlify-is-winning-the-age-of), up from near zero a year ago. Stripe built an entire [Agentic Commerce Protocol](https://stripe.com/blog/developing-an-open-standard-for-agentic-commerce) and is already processing live transactions through it. Cloudflare lets agents [create accounts and deploy apps](https://www.infoq.com/news/2026/05/cloudflare-stripe-agent-commerce/) without a human touching a browser.
+And there are signs this is moving beyond discovery into other parts of the funnel:
+
+**Acquisition.** [Agents are 80% of new signups at Netlify](https://danjcleary.substack.com/p/how-netlify-is-winning-the-age-of), up from near zero a year ago.
+
+**Conversion.** Stripe built an entire [Agentic Commerce Protocol](https://stripe.com/blog/developing-an-open-standard-for-agentic-commerce) for agents to select plans and process payments programmatically.
+
+**Operations.** Cloudflare lets agents [create accounts and deploy apps](https://www.infoq.com/news/2026/05/cloudflare-stripe-agent-commerce/) end-to-end without a human touching a browser.
 
 ## Same funnel, different interface
 
-I spent years optimizing self-serve funnels for humans, running conversion rate experiments with Mutiny and Optimizely, tracking analytics on every step from landing page to paid account. The funnel doesn't change when an agent is involved, because the human still wants the same things. What changes is that there's now an intermediary that needs your product's information delivered programmatically so it can evaluate, onboard, and manage on the human's behalf.
+This progression felt familiar to me. I spent years optimizing self-serve funnels for humans, running conversion rate experiments with Mutiny and Optimizely, tracking analytics on every step from landing page to paid account. The funnel doesn't change when an agent is involved, because the human still wants the same things. What changes is that there's now an intermediary that needs your product's information delivered programmatically so it can evaluate, onboard, and manage on the human's behalf.
 
 ![Funnel comparison: human experience vs agent experience at each stage](/blog/images/funnel-comparison.png)
 
