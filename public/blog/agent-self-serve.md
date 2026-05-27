@@ -31,7 +31,7 @@ I spent years optimizing self-serve funnels for humans, running conversion rate 
 
 ![Funnel comparison: human experience vs agent experience at each stage](/blog/images/funnel-comparison.png)
 
-The buyer's criteria don't change, but what "easy onboarding" means does. A human needs a clean signup page. An agent needs a `POST /signup` that returns an API key. Same goal, completely different interface.
+The buyer's criteria don't necessarily change, but what constitutes a delightful, simple, well-designed experience does. A human needs a clean signup page. An agent needs a `POST /signup` that returns an API key. Same goal, completely different interface.
 
 ## What's next
 
@@ -39,4 +39,4 @@ This is Part 1 of a series on PLG for the agent era. The next two posts go deepe
 
 **Part 2: Discovery + AEO** covers how agents find and evaluate your product, what they look for, and how to measure whether you're showing up.
 
-**Part 3: Self-Serve** covers what I changed when I wired Tanso for agent self-serve, what the industry recommends vs what actually worked, and an open-source audit to score any SaaS across the full funnel.
+**Part 3: Self-Serve** takes the same self-serve optimization lens to the agent era: what agent-ready onboarding, auth, purchasing, and account management actually require, where the industry recommendations fall short, and an open-source audit to score any SaaS across the full funnel.
