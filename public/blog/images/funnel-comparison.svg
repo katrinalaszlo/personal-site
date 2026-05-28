@@ -13,7 +13,7 @@
   <rect x="370" y="55" width="260" height="36" fill="#4f46e5" fill-opacity="0.08"/>
   <rect x="370" y="55" width="260" height="36" fill="none" stroke="#4f46e5" stroke-width="1" stroke-opacity="0.3"/>
   <text x="240" y="78" font-size="11" fill="#666666" text-anchor="middle">SEO, ads, content marketing</text>
-  <text x="500" y="78" font-size="11" fill="#4f46e5" text-anchor="middle">llms.txt, agents.json, metadata</text>
+  <text x="500" y="78" font-size="11" fill="#4f46e5" text-anchor="middle">llms.txt, agents.json, pricing.md</text>
 
   <!-- Row 2: Acquisition -->
   <text x="22" y="133" font-size="13" font-weight="600" fill="#0a0a0a">Acquisition</text>
@@ -21,7 +21,7 @@
   <rect x="370" y="111" width="240" height="36" fill="#4f46e5" fill-opacity="0.08"/>
   <rect x="370" y="111" width="240" height="36" fill="none" stroke="#4f46e5" stroke-width="1" stroke-opacity="0.3"/>
   <text x="250" y="134" font-size="11" fill="#666666" text-anchor="middle">Sign-up form, email verify, CAPTCHA</text>
-  <text x="490" y="134" font-size="11" fill="#4f46e5" text-anchor="middle">POST /signup → API key</text>
+  <text x="490" y="134" font-size="11" fill="#4f46e5" text-anchor="middle">API signup, OAuth, no CAPTCHA</text>
 
   <!-- Row 3: Activation -->
   <text x="22" y="189" font-size="13" font-weight="600" fill="#0a0a0a">Activation</text>
@@ -29,7 +29,7 @@
   <rect x="370" y="167" width="220" height="36" fill="#4f46e5" fill-opacity="0.08"/>
   <rect x="370" y="167" width="220" height="36" fill="none" stroke="#4f46e5" stroke-width="1" stroke-opacity="0.3"/>
   <text x="260" y="190" font-size="11" fill="#666666" text-anchor="middle">Dashboard onboarding, email loops</text>
-  <text x="480" y="190" font-size="11" fill="#4f46e5" text-anchor="middle">Programmatic onboarding, MCP</text>
+  <text x="480" y="190" font-size="11" fill="#4f46e5" text-anchor="middle">MCP server, agent-ready docs, SDK</text>
 
   <!-- Row 4: Conversion -->
   <text x="22" y="245" font-size="13" font-weight="600" fill="#0a0a0a">Conversion</text>
@@ -37,7 +37,7 @@
   <rect x="370" y="223" width="200" height="36" fill="#4f46e5" fill-opacity="0.08"/>
   <rect x="370" y="223" width="200" height="36" fill="none" stroke="#4f46e5" stroke-width="1" stroke-opacity="0.3"/>
   <text x="270" y="246" font-size="11" fill="#666666" text-anchor="middle">Credit card forms, pricing page</text>
-  <text x="470" y="246" font-size="11" fill="#4f46e5" text-anchor="middle">Stripe API, saved payment</text>
+  <text x="470" y="246" font-size="11" fill="#4f46e5" text-anchor="middle">Programmatic checkout, plan API</text>
 
   <!-- Row 5: Retention -->
   <text x="22" y="301" font-size="13" font-weight="600" fill="#0a0a0a">Retention</text>
@@ -45,7 +45,7 @@
   <rect x="370" y="279" width="180" height="36" fill="#4f46e5" fill-opacity="0.08"/>
   <rect x="370" y="279" width="180" height="36" fill="none" stroke="#4f46e5" stroke-width="1" stroke-opacity="0.3"/>
   <text x="280" y="302" font-size="11" fill="#666666" text-anchor="middle">Support tickets, dashboard</text>
-  <text x="460" y="302" font-size="11" fill="#4f46e5" text-anchor="middle">Usage APIs, self-management</text>
+  <text x="460" y="302" font-size="11" fill="#4f46e5" text-anchor="middle">Usage APIs, webhooks</text>
 
   <!-- Attribution -->
   <text x="660" y="352" font-size="11" fill="#9ca3af" text-anchor="end">katrinalaszlo.com</text>
