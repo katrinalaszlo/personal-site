@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
   let subscribers = [];
   try {
-    const blob = await get("subscribers.json");
+    const blob = await get("subscribers.json", { access: "private" });
     if (blob) {
       subscribers = await blob.json();
     }
