@@ -16,9 +16,10 @@ export default async function handler(req, res) {
 
   let subscribers = [];
   try {
-    const blob = await get("subscribers.json", { access: "private" });
-    if (blob) {
-      subscribers = await blob.json();
+    const result = await get("subscribers.json", { access: "private" });
+    if (result) {
+      const resp = await fetch(result.blob.url);
+      subscribers = await resp.json();
     }
   } catch (e) {
     return res.status(500).send(page("Something went wrong. Try again later."));
