@@ -31,7 +31,7 @@ And there are signs this is moving beyond discovery into other parts of the funn
 
 **Operations.** Cloudflare lets agents [create accounts and deploy apps](https://www.infoq.com/news/2026/05/cloudflare-stripe-agent-commerce/) end-to-end without a human touching a browser.
 
-## Same funnel, different interface
+## The human behind the agent
 
 This progression felt familiar to me. I spent years optimizing self-serve funnels for humans, running conversion rate experiments with Mutiny and Optimizely, tracking analytics on every step from landing page to paid account. The funnel doesn't change when an agent is involved, because the human still has the same goals. What changes is that there's now an intermediary that needs your product's information delivered programmatically so it can evaluate, onboard, and manage on the human's behalf.
 
