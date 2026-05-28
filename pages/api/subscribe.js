@@ -23,8 +23,7 @@ export default async function handler(req, res) {
   try {
     const result = await get("subscribers.json", { access: "private" });
     if (result) {
-      const resp = await fetch(result.blob.url);
-      subscribers = await resp.json();
+      subscribers = await new Response(result.stream).json();
     }
   } catch (err) {
     console.error("Blob read failed:", err.message);
@@ -41,6 +40,7 @@ export default async function handler(req, res) {
     await put("subscribers.json", JSON.stringify(subscribers), {
       access: "private",
       addRandomSuffix: false,
+      allowOverwrite: true,
     });
   } catch (err) {
     console.error("Blob write failed:", err.message);

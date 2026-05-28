@@ -18,8 +18,7 @@ export default async function handler(req, res) {
   try {
     const result = await get("subscribers.json", { access: "private" });
     if (result) {
-      const resp = await fetch(result.blob.url);
-      subscribers = await resp.json();
+      subscribers = await new Response(result.stream).json();
     }
   } catch (e) {
     return res.status(500).send(page("Something went wrong. Try again later."));
@@ -34,6 +33,7 @@ export default async function handler(req, res) {
   await put("subscribers.json", JSON.stringify(subscribers), {
     access: "private",
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
 
   return res.status(200).send(page("You've been unsubscribed.", email));

@@ -61,8 +61,7 @@ export default async function handler(req, res) {
   try {
     const result = await get("subscribers.json", { access: "private" });
     if (result) {
-      const resp = await fetch(result.blob.url);
-      subscribers = await resp.json();
+      subscribers = await new Response(result.stream).json();
     }
   } catch (e) {
     return res.status(500).json({ error: "Failed to read subscribers" });
