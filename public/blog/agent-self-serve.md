@@ -1,5 +1,5 @@
 ---
-title: "The Human Behind the Agent"
+title: "Your Next Customer Might Be an Agent"
 series: "PLG for the Agent Era"
 part: 1
 date: 2026-05-26
@@ -7,7 +7,7 @@ description: "Agents are already reshaping how B2B buyers research and choose ve
 author: Kat Laszlo
 ---
 
-# The Human Behind the Agent
+# Your Next Customer Might Be an Agent
 
 B2B buyers are already using agents to research and choose software. [73% use AI for vendor research](https://learn.g2.com/ai-search-surging-for-b2b-buyers), and [69% ended up choosing a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned based on what the agent recommended. The agent is shaping who wins before the buyer ever visits your website.
 
