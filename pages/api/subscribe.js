@@ -35,21 +35,22 @@ export default async function handler(req, res) {
     subscribers = [];
   }
 
-  if (subscribers.includes(normalized)) {
-    return res.status(200).json({ message: "Already subscribed" });
+  const isNew = !subscribers.includes(normalized);
+  if (isNew) {
+    subscribers.push(normalized);
   }
 
-  subscribers.push(normalized);
-
-  try {
-    await put("subscribers.json", JSON.stringify(subscribers), {
-      access: "private",
-      addRandomSuffix: false,
-      allowOverwrite: true,
-    });
-  } catch (err) {
-    console.error("Blob write failed:", err.message);
-    return res.status(500).json({ error: "Storage unavailable" });
+  if (isNew) {
+    try {
+      await put("subscribers.json", JSON.stringify(subscribers), {
+        access: "private",
+        addRandomSuffix: false,
+        allowOverwrite: true,
+      });
+    } catch (err) {
+      console.error("Blob write failed:", err.message);
+      return res.status(500).json({ error: "Storage unavailable" });
+    }
   }
 
   if (AGENT_MAIL_KEY && INBOX_ID) {
