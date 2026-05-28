@@ -31,6 +31,40 @@ BS Business Administration. International Business, Political Economics, Marketi
 - **buildnext** — Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories. [GitHub](https://github.com/katrinalaszlo/buildnext-oss)
 - **human-docs** — Single-file HTML architecture docs. Readable by humans and AI agents. [GitHub](https://github.com/katrinalaszlo/human-docs)
 
+## Blog
+
+Writing about pricing, product discovery, and building for AI agents.
+
+- [Self-Serve for AI Agents](/blog/agent-self-serve) (2026-05-16)
+- [Building a Pricing Database](/blog/building-a-pricing-database) (2026-05-05)
+- [Product Discovery with Karpathy's LLM Wiki](/blog/product-discovery-with-llm-wiki) (2026-04-27)
+- [If you're rethinking your pricing because of AI, read this first](/blog/rethinking-pricing-because-of-ai) (2026-04-18)
+- [Is Outcome-Based Pricing Real, or Just Marketing Hype?](/blog/is-outcome-based-pricing-real) (2026-02-15)
+- [The "AI Included" Era Was Never Going to Last Forever](/blog/ai-included) (2026-02-25)
+- [Why Falling Costs Don't Mean Better Margins](/blog/more-customers-bigger-losses) (2026-01-10)
+- [Pricing Is a Real Moat in AI SaaS](/blog/pricing-moat-ai-saas) (2026-01-08)
+- [Why Pricing Infrastructure Gets Hard Fast](/blog/pricing-infrastructure-complexity) (2025-12-08)
+- [What's Actually Different About AI Pricing](/blog/ai-pricing-differences) (2025-11-28)
+
+## Notebook
+
+Interactive learning notes on AI systems and agent experience.
+
+- [Model Architecture](/notebook/model-architecture)
+- [Training Loops](/notebook/training-loop)
+- [Data Pipelines](/notebook/data-pipeline)
+- [Wiki vs Vector DB](/notebook/wiki-vs-vector)
+- [LLM Memory & Retrieval](/notebook/llm-memory-and-retrieval)
+- [Knowledge Architecture](/notebook/knowledge-system-architecture)
+- [AI System Design](/notebook/ai-system-design)
+- [Agent Teams](/notebook/managing-agent-teams)
+- [Agent Evaluation](/notebook/agent-evaluation)
+- [Agent Experience (AX)](/notebook/agent-experience)
+- [Agent-Readable Sites](/notebook/agent-readable-sites)
+- [Mutual Legibility](/notebook/mutual-legibility)
+- [The Bifurcated Web](/notebook/bifurcated-web)
+- [Agent Self-Serve](/notebook/agent-self-serve)
+
 ## Connect
 
 - [GitHub](https://github.com/katrinalaszlo)

@@ -1,0 +1,19 @@
+# Agent Discovery — katrinalaszlo.com
+
+## Endpoints
+LLM Profile: https://katrinalaszlo.com/llms.txt
+Extended Profile: https://katrinalaszlo.com/llms-full.txt
+Structured Data: https://katrinalaszlo.com/agents.json
+MCP Server: https://katrinalaszlo.com/api/mcp
+OpenAPI Spec: https://katrinalaszlo.com/openapi.json
+Agent Skills: https://katrinalaszlo.com/.well-known/agent-skills/index.json
+Server Card: https://katrinalaszlo.com/.well-known/mcp/server-card.json
+
+## Permissions
+ai-train: yes
+search: yes
+ai-input: yes
+
+## Contact
+Schedule: https://cal.com/katrina-laszlo/30-minute-meeting
+Email: katrina.j.laszlo@gmail.com

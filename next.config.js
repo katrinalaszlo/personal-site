@@ -34,7 +34,11 @@ module.exports = {
           {
             key: "Link",
             value:
-              "</llms.txt>; rel=service-desc, </agents.json>; rel=describedby, </.well-known/ai-plugin.json>; rel=ai-plugin",
+              '</llms.txt>; rel=service-desc, </llms-full.txt>; rel=service-desc, </agents.json>; rel=describedby, </.well-known/ai-plugin.json>; rel=ai-plugin, </blog/feed.xml>; rel=alternate; type="application/rss+xml"',
+          },
+          {
+            key: "Vary",
+            value: "Accept",
           },
         ],
       },

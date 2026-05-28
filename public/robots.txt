@@ -34,7 +34,7 @@ Allow: /
 
 # Training-only crawlers — block
 User-agent: CCBot
-Disallow: /
+Allow: /
 
 User-agent: ByteSpider
 Disallow: /
