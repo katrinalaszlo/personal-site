@@ -1,4 +1,4 @@
-import { put, get } from "@vercel/blob";
+import { put, list } from "@vercel/blob";
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -16,9 +16,14 @@ export default async function handler(req, res) {
 
   let subscribers = [];
   try {
-    const result = await get("subscribers.json", { access: "private" });
-    if (result) {
-      subscribers = await new Response(result.stream).json();
+    const { blobs } = await list({ prefix: "subscribers.json" });
+    if (blobs.length > 0) {
+      const resp = await fetch(blobs[0].url, {
+        headers: {
+          Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
+        },
+      });
+      subscribers = await resp.json();
     }
   } catch (e) {
     return res.status(500).send(page("Something went wrong. Try again later."));
