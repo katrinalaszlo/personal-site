@@ -45,4 +45,4 @@ If you run a B2B SaaS with self-serve signup, this series is for you. Each part 
 
 **Part 2: Is Your Site Ready for AI?** How agents find and evaluate your product, what they look for, and how to measure whether you're showing up.
 
-**Part 3: Onboarding Agents.** Takes the same self-serve optimization lens to the agent era: what agent-ready onboarding, auth, purchasing, and account management actually require, where the industry recommendations fall short, and an open-source audit to score any SaaS across the full funnel.
+**Part 3: Onboarding Agents.** What agent-ready onboarding, auth, purchasing, and account management actually require, and an open-source skill to make your self-serve flow agent-accessible.
