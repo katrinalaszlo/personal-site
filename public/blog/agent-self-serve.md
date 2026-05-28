@@ -37,7 +37,7 @@ This progression felt familiar to me. I spent years optimizing self-serve funnel
 
 ![Funnel comparison: human experience vs agent experience at each stage](/blog/images/funnel-comparison.svg)
 
-The buyer's criteria don't necessarily change, but what constitutes a delightful, simple, well-designed experience does. A human needs a clean signup page. An agent needs a `POST /signup` that returns an API key. Same goal, completely different interface.
+The buyer's criteria don't necessarily change, but what constitutes a delightful, simple, well-designed experience does. A human needs a clean signup page. An agent needs a `POST /signup` that returns an API key. Same goal, completely different interface. At each stage, there's a programmatic equivalent: `llms.txt` and `pricing.md` for discovery, MCP servers and agent-ready docs for activation, programmatic checkout for conversion.
 
 ## What's next
 
