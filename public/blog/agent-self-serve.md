@@ -33,7 +33,7 @@ And there are signs this is moving beyond discovery into other parts of the funn
 
 ## Same funnel, different interface
 
-This progression felt familiar to me. I spent years optimizing self-serve funnels for humans, running conversion rate experiments with Mutiny and Optimizely, tracking analytics on every step from landing page to paid account. The funnel doesn't change when an agent is involved, because the human still wants the same things. What changes is that there's now an intermediary that needs your product's information delivered programmatically so it can evaluate, onboard, and manage on the human's behalf.
+This progression felt familiar to me. I spent years optimizing self-serve funnels for humans, running conversion rate experiments with Mutiny and Optimizely, tracking analytics on every step from landing page to paid account. The funnel doesn't change when an agent is involved, because the human still has the same goals. What changes is that there's now an intermediary that needs your product's information delivered programmatically so it can evaluate, onboard, and manage on the human's behalf.
 
 ![Funnel comparison: human experience vs agent experience at each stage](/blog/images/funnel-comparison.svg)
 
