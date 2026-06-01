@@ -114,7 +114,7 @@ The frameworks themselves have issues too. Cloudflare's scanner is [structurally
 
 There's also a site type problem. A content site loses points for missing payment protocols. An API product loses points for missing blog-style markdown. The scores mix up "not relevant to your site" with "not ready for agents." I'm planning to add a `--type` flag to aeo-ready that filters checks by site type, so the score reflects what actually matters for your use case instead of penalizing you for features you'd never build.
 
-My take: these scores measure whether agents *can* read your site, not whether they *will*. Right now only [10% of sites](https://otterly.ai/blog/the-llms-txt-experiment/) have adopted llms.txt after 18 months of industry conversation. That means the bar is low. If you're building a developer-facing product and agents are part of how people will find and evaluate you, being in the top 10% on readiness costs almost nothing and positions you for an agent web that's still forming. If you're a local bakery, skip it.
+My take: These scores measure whether agents *can* read your site, not whether they *will*. Right now only [10% of sites](https://otterly.ai/blog/the-llms-txt-experiment/) have adopted llms.txt after 18 months of industry conversation. The bar is low. If you're building a developer-facing product and agents are part of how people will find and evaluate you, being in the top 10% on readiness costs almost nothing and positions you for an agent web that's still forming. If you're a local bakery, skip it.
 
 ## What to do about it
 
