@@ -2,9 +2,9 @@
 
 ## Main
 - [Home](https://katrinalaszlo.com/)
-- [Notebook](https://katrinalaszlo.com/notebook/)
-- [Blog](https://katrinalaszlo.com/blog/)
-- [Developers](https://katrinalaszlo.com/developers/)
+- [Notebook](https://katrinalaszlo.com/notebook)
+- [Blog](https://katrinalaszlo.com/blog)
+- [Developers](https://katrinalaszlo.com/developers)
 
 ## Machine-Readable
 - [llms.txt](https://katrinalaszlo.com/llms.txt)
@@ -14,6 +14,7 @@
 - [sitemap.xml](https://katrinalaszlo.com/sitemap.xml)
 
 ## Blog Posts
+- [Is Your Site Ready for AI?](https://katrinalaszlo.com/blog/site-ready-for-ai) (2026-05-29)
 - [Self-Serve for AI Agents](https://katrinalaszlo.com/blog/agent-self-serve) (2026-05-16)
 - [Building a Pricing Database](https://katrinalaszlo.com/blog/building-a-pricing-database) (2026-05-05)
 - [Product Discovery with Karpathy's LLM Wiki](https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki) (2026-04-27)

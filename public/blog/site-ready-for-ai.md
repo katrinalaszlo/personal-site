@@ -114,4 +114,4 @@ My own site went from 47 to 87 in a few sessions. Most of those gains came from 
 
 ## What's next
 
-AEO gets you found. But being found is just the beginning of the funnel. In [Part 3](/blog/onboarding-agents), I'll cover what happens after an agent discovers your product: onboarding, auth, purchasing, and account management. What does it actually take to let an agent sign up, try your product, and buy it without a human touching a browser?
+AEO gets you found. But being found is just the beginning of the funnel. Part 3 will cover what happens after an agent discovers your product: onboarding, auth, purchasing, and account management. What does it actually take to let an agent sign up, try your product, and buy it without a human touching a browser?

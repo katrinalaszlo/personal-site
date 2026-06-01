@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Is Your Site Ready for AI? — Kat Laszlo</title>
 <meta name="description" content="Five competing frameworks now score how well your site serves AI agents. Here's what they check, why it matters, and a single command that runs them all.">
-<meta name="ai:token-count" content="1719">
+<meta name="ai:token-count" content="1711">
 <meta name="ai:page-type" content="article">
 <meta property="og:title" content="Is Your Site Ready for AI?">
 <meta property="og:description" content="Five competing frameworks now score how well your site serves AI agents. Here's what they check, why it matters, and a single command that runs them all.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://katrinalaszlo.com/blog/site-ready-for-ai">
-<meta property="og:image" content="/og-image.png">
+<meta property="og:image" content="https://katrinalaszlo.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="article:published_time" content="2026-05-29">
@@ -20,7 +20,7 @@
 <meta name="twitter:site" content="@Katlaszlo">
 <meta name="twitter:title" content="Is Your Site Ready for AI?">
 <meta name="twitter:description" content="Five competing frameworks now score how well your site serves AI agents. Here's what they check, why it matters, and a single command that runs them all.">
-<meta name="twitter:image" content="/og-image.png">
+<meta name="twitter:image" content="https://katrinalaszlo.com/og-image.png">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/markdown" href="/blog/site-ready-for-ai.md" title="Markdown version">
@@ -56,8 +56,8 @@
     <nav>
       <a href="/" class="nav-name">Katrina Laszlo</a>
       <div style="display:flex;gap:1.5rem;align-items:center;">
-        <a href="/notebook/" class="nav-link">Notebook</a>
-        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/notebook" class="nav-link">Notebook</a>
+        <a href="/blog" class="nav-link">Blog</a>
         <a href="/#connect" class="nav-link">Connect</a>
         <button class="subscribe-btn" onclick="document.getElementById('subscribe-modal').style.display='flex'">Subscribe</button>
       </div>
@@ -100,7 +100,7 @@ Fern ································ 84/100 B
 
 ──────────────────────────────────────────────────
 Overall                                     87/100</code></pre></div><p>87/100. Not bad, but there's still work to do on Fern (llms.txt link resolution, markdown content parity) and Cloudflare (content signals in robots.txt).</p><h2>How it works under the hood</h2><p>When you scan a URL, aeo-ready fetches your site's robots.txt, llms.txt, AGENTS.md, sitemap.xml, and every page from your sitemap into a temp directory. Then it runs each benchmark in parallel against the fetched content. If one framework fails, the others still report. Scores normalize to percentages and average into an overall 0-100.</p><p>After the scan, it offers to fix issues automatically by scaffolding llms.txt and AGENTS.md via agentic-seo, then running afdocs remediation. Results save locally so you can track improvement over time.</p><p>You can also pass `--dir` to point it at your build output or public directory for checks that need filesystem access. This matters because agentic-seo, in particular, scores much lower in URL-only mode since most of its checks (content structure, token economics, capability signaling) need to read your files directly.</p><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code>URL-only:  agentic-seo 23/100 (F)
-With --dir: agentic-seo 92/100 (A)</code></pre></div><h2>How the big sites score</h2><p>Nobody aces everything, not even the companies building AI infrastructure:</p><table><thead><tr><th>Site</th><th>agentic-seo</th><th>Cloudflare</th><th>Fern</th></tr></thead><tbody><tr><td>Cloudflare</td><td>55</td><td>5/5</td><td>—</td></tr><tr><td>Stripe</td><td>17</td><td>2/5</td><td>85</td></tr><tr><td>Supabase</td><td>52</td><td>3/5</td><td>78</td></tr><tr><td>Vercel</td><td>48</td><td>4/5</td><td>60</td></tr><tr><td>Anthropic</td><td>—</td><td>—</td><td>72</td></tr></tbody></table><p>Stripe scores a 17 on agentic-seo but leads on Fern. Cloudflare aces its own framework but scores a 55 on agentic-seo. The standards are still forming, and even the companies defining them haven't fully optimized for all of them.</p><h2>What to do about it</h2><p>Start by scanning your site:</p><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code>npx aeo-ready scan yoursite.com</code></pre></div><p>The easy wins are usually discovery files (add `llms.txt` and `AGENTS.md` if you don't have them; the scanner offers to scaffold both) and markdown support (if you can serve pages as `.md`, do it, because it cuts token cost by 3-5x). After that, re-scan and track. Scores save locally. Treat AEO like you treat Lighthouse scores: check on every deploy.</p><p>My own site went from 47 to 87 in a few sessions. Most of those gains came from adding llms.txt, configuring content negotiation in middleware, and fixing robots.txt to explicitly allow AI crawlers.</p><h2>What's next</h2><p>AEO gets you found. But being found is just the beginning of the funnel. In <a href="/blog/onboarding-agents">Part 3</a>, I'll cover what happens after an agent discovers your product: onboarding, auth, purchasing, and account management. What does it actually take to let an agent sign up, try your product, and buy it without a human touching a browser?</p>
+With --dir: agentic-seo 92/100 (A)</code></pre></div><h2>How the big sites score</h2><p>Nobody aces everything, not even the companies building AI infrastructure:</p><table><thead><tr><th>Site</th><th>agentic-seo</th><th>Cloudflare</th><th>Fern</th></tr></thead><tbody><tr><td>Cloudflare</td><td>55</td><td>5/5</td><td>—</td></tr><tr><td>Stripe</td><td>17</td><td>2/5</td><td>85</td></tr><tr><td>Supabase</td><td>52</td><td>3/5</td><td>78</td></tr><tr><td>Vercel</td><td>48</td><td>4/5</td><td>60</td></tr><tr><td>Anthropic</td><td>—</td><td>—</td><td>72</td></tr></tbody></table><p>Stripe scores a 17 on agentic-seo but leads on Fern. Cloudflare aces its own framework but scores a 55 on agentic-seo. The standards are still forming, and even the companies defining them haven't fully optimized for all of them.</p><h2>What to do about it</h2><p>Start by scanning your site:</p><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code>npx aeo-ready scan yoursite.com</code></pre></div><p>The easy wins are usually discovery files (add `llms.txt` and `AGENTS.md` if you don't have them; the scanner offers to scaffold both) and markdown support (if you can serve pages as `.md`, do it, because it cuts token cost by 3-5x). After that, re-scan and track. Scores save locally. Treat AEO like you treat Lighthouse scores: check on every deploy.</p><p>My own site went from 47 to 87 in a few sessions. Most of those gains came from adding llms.txt, configuring content negotiation in middleware, and fixing robots.txt to explicitly allow AI crawlers.</p><h2>What's next</h2><p>AEO gets you found. But being found is just the beginning of the funnel. Part 3 will cover what happens after an agent discovers your product: onboarding, auth, purchasing, and account management. What does it actually take to let an agent sign up, try your product, and buy it without a human touching a browser?</p>
   </article>
 
 
