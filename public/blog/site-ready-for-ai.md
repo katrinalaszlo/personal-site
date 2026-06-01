@@ -81,16 +81,11 @@ Overall                                     87/100
 
 ## How it works under the hood
 
-When you scan a URL, aeo-ready fetches your site's robots.txt, llms.txt, AGENTS.md, sitemap.xml, and every page from your sitemap into a temp directory. Then it runs each benchmark in parallel against the fetched content. If one framework fails, the others still report. Scores normalize to percentages and average into an overall 0-100.
+When you scan a URL, aeo-ready fetches your site's robots.txt, llms.txt, AGENTS.md, sitemap.xml, and every page from your sitemap into a temp directory. It uses content negotiation (`Accept: text/markdown`) to get markdown versions of pages, and follows discovery files like `.well-known/agent-skills/index.json` to find skill definitions. Then it runs each benchmark in parallel against the fetched content. If one framework fails, the others still report. Scores normalize to percentages and average into an overall 0-100.
 
 After the scan, it offers to fix issues automatically by scaffolding llms.txt and AGENTS.md via agentic-seo, then running afdocs remediation. Results save locally so you can track improvement over time.
 
-You can also pass `--dir` to point it at your build output or public directory for checks that need filesystem access. This matters because agentic-seo, in particular, scores much lower in URL-only mode since most of its checks (content structure, token economics, capability signaling) need to read your files directly.
-
-```
-URL-only:  agentic-seo 23/100 (F)
-With --dir: agentic-seo 94/100 (A)
-```
+You can also pass `--dir` to point it at your build output or public directory for checks that need filesystem access. This is faster than fetching over HTTP and works offline.
 
 ## How the big sites score
 
