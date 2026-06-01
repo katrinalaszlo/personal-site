@@ -54,24 +54,30 @@ Here's what my own site looks like after a few rounds of fixes:
 ```
 aeo-ready — katrinalaszlo.com
 
-agentic-seo ·························· 92/100 A
+agentic-seo ······························· 94/100 A
   ✓ Discovery              25/25
-  ◑ Content Structure      18/25
+  ◑ Content Structure      19/25
   ✓ Token Economics        25/25
   ✓ Capability Signaling   15/15
-  ✓ UX Bridge               8/10
+  ✓ UX Bridge              10/10
 
-Cloudflare ····························· 4/5 B
-  10 passed  2 failed
+Cloudflare ··································· 4/5 B
+  10 passed
 
-Fern ································ 84/100 B
+Fern ······································ 79/100 C
   12 passed  10 failed
+
+Vercel ···································· 85/100 B
+  21 passed  4 failed
+
+AgentGrade ······························· 98/100 A+
+  40 passed  17 failed
 
 ──────────────────────────────────────────────────
 Overall                                     87/100
 ```
 
-87/100. Not bad, but there's still work to do on Fern (llms.txt link resolution, markdown content parity) and Cloudflare (content signals in robots.txt).
+87/100 across all five. Fern is the weak link — llms.txt link resolution and markdown content parity still need work. AgentGrade's failures are mostly optional standards (payment protocols, identity, message signatures) that don't apply to a personal site.
 
 ## How it works under the hood
 
@@ -83,7 +89,7 @@ You can also pass `--dir` to point it at your build output or public directory f
 
 ```
 URL-only:  agentic-seo 23/100 (F)
-With --dir: agentic-seo 92/100 (A)
+With --dir: agentic-seo 94/100 (A)
 ```
 
 ## How the big sites score
