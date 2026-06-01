@@ -39,7 +39,7 @@ The AEO space is already fragmenting. Five major benchmarks have emerged, and ea
 
 [**AgentGrade**](https://agentgrade.com) goes the deepest, covering MCP, payment protocols, identity standards, content negotiation, OpenAPI, and infrastructure with 70+ checks.
 
-They overlap in some areas and diverge in others, which means running one isn't enough, but running all five manually and comparing scores across different scales is a pain.
+Every framework checks for llms.txt, but only Fern validates whether its links actually resolve. Cloudflare and AgentGrade check for MCP endpoints; agentic-seo doesn't. Vercel cares about markdown serving; AgentGrade cares about payment protocols. No single benchmark covers everything, and running all five manually across different scoring scales is a pain.
 
 ## One command, every score
 

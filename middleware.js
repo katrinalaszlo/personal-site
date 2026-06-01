@@ -54,7 +54,7 @@ export function middleware(request) {
       url.pathname = "/llms-full.txt";
       const res = NextResponse.rewrite(url);
       res.headers.set("Vary", "Accept");
-      res.headers.set("Content-Type", "text/plain; charset=utf-8");
+      res.headers.set("Content-Type", "text/markdown; charset=utf-8");
       return res;
     }
   }
