@@ -1,0 +1,9 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect width="1200" height="6" fill="#4f46e5"/>
+  <text x="80" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#6b7280">PLG for the Agent Era</text>
+  <text x="80" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="bold" fill="#111827">Is Your Site Ready</text>
+  <text x="80" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="bold" fill="#111827">for AI?</text>
+  <text x="80" y="570" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#9ca3af">Kat Laszlo</text>
+  <text x="1120" y="570" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#9ca3af" text-anchor="end">katrinalaszlo.com</text>
+</svg>
