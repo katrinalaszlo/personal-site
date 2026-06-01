@@ -271,6 +271,7 @@ function buildPost(mdFile) {
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${description}">
 <meta name="twitter:image" content="${ogImage}">
+<link rel="llms-txt" href="/llms.txt">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/markdown" href="/blog/${slug}.md" title="Markdown version">
@@ -341,7 +342,7 @@ ${JSON.stringify(
   <div id="subscribe" class="subscribe-section">
     <h2>Get new posts by email</h2>
     <p>No spam. Unsubscribe anytime.</p>
-    <form class="subscribe-form" onsubmit="event.preventDefault();const e=this.querySelector('input');const b=this.querySelector('button');b.disabled=true;b.textContent='...';fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e.value})}).then(r=>r.json()).then(d=>{b.textContent='Subscribed!';e.value='';}).catch(()=>{b.textContent='Try again';b.disabled=false;})">
+    <form class="subscribe-form" tool-name="subscribe-to-newsletter" tool-description="Subscribe an email address to receive new blog posts" onsubmit="event.preventDefault();const e=this.querySelector('input');const b=this.querySelector('button');b.disabled=true;b.textContent='...';fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e.value})}).then(r=>r.json()).then(d=>{b.textContent='Subscribed!';e.value='';}).catch(()=>{b.textContent='Try again';b.disabled=false;})">
       <input type="email" placeholder="you@example.com" required>
       <button type="submit">Subscribe</button>
     </form>
@@ -370,7 +371,7 @@ ${JSON.stringify(
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>
     <h3 style="margin:0 0 0.5rem;font-size:1.25rem">Get new posts by email</h3>
     <p style="margin:0 0 1rem;color:#666;font-size:0.9rem">No spam. Unsubscribe anytime.</p>
-    <form onsubmit="event.preventDefault();const e=this.querySelector('input');const b=this.querySelector('button');b.disabled=true;b.textContent='...';fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e.value})}).then(r=>r.json()).then(()=>{b.textContent='Subscribed!';e.value='';setTimeout(()=>document.getElementById('subscribe-modal').style.display='none',1500)}).catch(()=>{b.textContent='Try again';b.disabled=false})" style="display:flex;gap:0.5rem">
+    <form tool-name="subscribe-to-newsletter" tool-description="Subscribe an email address to receive new blog posts" onsubmit="event.preventDefault();const e=this.querySelector('input');const b=this.querySelector('button');b.disabled=true;b.textContent='...';fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e.value})}).then(r=>r.json()).then(()=>{b.textContent='Subscribed!';e.value='';setTimeout(()=>document.getElementById('subscribe-modal').style.display='none',1500)}).catch(()=>{b.textContent='Try again';b.disabled=false})" style="display:flex;gap:0.5rem">
       <input type="email" placeholder="you@example.com" required style="flex:1;padding:0.6rem 0.75rem;border:1px solid #d1d5db;border-radius:6px;font-size:0.9rem">
       <button type="submit" style="padding:0.6rem 1.25rem;background:#111;color:#fff;border:none;border-radius:6px;font-size:0.9rem;cursor:pointer">Subscribe</button>
     </form>

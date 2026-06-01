@@ -9,9 +9,9 @@ author: Kat Laszlo
 
 # Is Your Site Ready for Agents?
 
-In [Part 1](/blog/agent-self-serve), I made the case that agents are already changing how B2B buyers research and select vendors. [73% of buyers use AI for research](https://learn.g2.com/ai-search-surging-for-b2b-buyers), and [69% end up choosing a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned. The agent is shaping who wins before anyone visits your website.
+In [Part 1](/blog/agent-self-serve), I made the case that agents are already changing how B2B buyers research and select vendors. [73% of buyers use AI for research](https://learn.g2.com/ai-search-surging-for-b2b-buyers), and [69% end up choosing a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned.
 
-So: can agents actually read your site?
+So if agents are shaping who wins, the question becomes: can they actually read your site?
 
 For 25 years, SEO was how you got found. Meta tags, sitemaps, clean URLs, schema.org markup. AI agents still use all of that — sitemaps and structured data show up in every benchmark — but a new set of standards is emerging on top of it. Agents also care about whether your content is token-efficient, serves markdown, and exposes capabilities programmatically. This new layer has a name: AEO, or Agentic Engine Optimization. Whether it actually matters yet is an open question, but the frameworks are here.
 
@@ -27,65 +27,42 @@ Then there's capability signaling. Do you expose `agents.json`, MCP endpoints, o
 
 ## Five standards, five tools, one problem
 
-The AEO space is already fragmenting. Five major benchmarks have emerged, and each checks different things.
+The AEO space is already fragmenting. Five major benchmarks have emerged, and each checks different things:
 
-[**agentic-seo**](https://github.com/addyosmani/agentic-seo), created by Addy Osmani, scores five dimensions: discovery, content structure, token economics, capability signaling, and UX bridge. It's the most comprehensive single framework, with 10 checks across those 5 categories on a 0-100 scale.
-
-[**Cloudflare's isitagentready.com**](https://isitagentready.com) takes a different approach. It checks discoverability, content accessibility, bot access policies, API/MCP/A2A protocol discovery, and commerce readiness, scoring sites on five levels.
-
-[**Fern's afdocs**](https://github.com/fern-api/afdocs) focuses on llms.txt quality: link resolution, markdown availability, content negotiation, content parity between HTML and markdown versions, and sitemap coverage. 23 checks, scored 0-100.
-
-[**Vercel's Agent Readability Spec**](https://sdk.vercel.ai/docs/foundations/agents) checks agent reachability, discoverability, markdown serving, and HTML agent-friendliness across 25 checks.
-
-[**AgentGrade**](https://agentgrade.com) goes the deepest, covering MCP, payment protocols, identity standards, content negotiation, OpenAPI, and infrastructure with 57 checks.
+| Framework | Focus | Checks | Scale |
+|-----------|-------|--------|-------|
+| [agentic-seo](https://github.com/addyosmani/agentic-seo) (Addy Osmani) | Discovery, content structure, token economics, capability signaling, UX bridge | 10 | 0-100 |
+| [Cloudflare](https://isitagentready.com) | Discoverability, bot access, API/MCP/A2A protocols, commerce readiness | 12 | 0-5 |
+| [Fern afdocs](https://github.com/fern-api/afdocs) | llms.txt quality, link resolution, markdown parity, content negotiation | 23 | 0-100 |
+| [Vercel](https://sdk.vercel.ai/docs/foundations/agents) | Agent reachability, discoverability, markdown serving, HTML friendliness | 25 | 0-100 |
+| [AgentGrade](https://agentgrade.com) | MCP, payment protocols, identity, content negotiation, OpenAPI | 57 | 0-100 |
 
 Every framework checks for llms.txt, but only Fern validates whether its links actually resolve. Cloudflare and AgentGrade check for MCP endpoints; agentic-seo doesn't. Vercel cares about markdown serving; AgentGrade cares about payment protocols. No single benchmark covers everything, and running all five manually across different scoring scales is a pain.
 
 ## One command, every score
 
-I built [**aeo-ready**](https://github.com/katrinalaszlo/aeo-ready) to solve this. One command runs all five benchmarks in parallel:
+I built [**aeo-ready**](https://github.com/katrinalaszlo/aeo-ready) to run all five benchmarks in parallel and prioritize the most common recommendations.
 
 ```
 npx aeo-ready scan yoursite.com
 ```
 
-Here's what my own site looks like after the first sweep:
+My first scan scored a 47. I was able to implement the low-hanging fruit and bring my score to 87. (Scores vary slightly between runs since benchmarks fetch live pages.)
 
-```
-aeo-ready — katrinalaszlo.com
+| | What I changed | Before | After | Why it mattered |
+|---|---------------|--------|-------|-----------------|
+| 1 | Added `llms.txt` and `AGENTS.md` | 47 | 62 | agentic-seo went from 23 to 24. Cloudflare jumped from 2/5 to 4/5. These two files are the single biggest lever. |
+| 2 | Passed `--dir ./public` to agentic-seo | 62 | 85 | agentic-seo scans files on disk — it checks content structure, token counts, and capability manifests that it can't see over HTTP. Score went from 24 to 91. |
+| 3 | Added content negotiation in middleware | 85 | 87 | Configured Next.js middleware to serve markdown via `Accept: text/markdown` headers. Fern's content negotiation check went from fail to partial pass. |
+| 4 | Expanded `llms.txt` coverage, added body directives | 87 | 87 | llms.txt only covered 8 of 21 sitemap pages. Added all 18 notebook entries and pointed blog links to `.md` versions. Added `/llms.txt` footer link to all 33 HTML pages — Fern checks the page body, not `<head>` link tags. Fern went from 79 to 86. |
 
-agentic-seo ······························· 94/100 A
-  ✓ Discovery              25/25
-  ◑ Content Structure      19/25
-  ✓ Token Economics        25/25
-  ✓ Capability Signaling   15/15
-  ✓ UX Bridge              10/10
+The easy wins are discovery files (add `llms.txt` and `AGENTS.md` if you don't have them; the scanner offers to scaffold both) and markdown support (if you can serve pages as `.md`, do it, because it cuts token cost by 3-5x).
 
-Cloudflare ··································· 4/5 B
-  10 passed
+The remaining gaps are things I chose not to fix: markdown content parity (Fern wants the markdown and HTML versions of every page to be byte-identical, which isn't realistic for a site with interactive elements) and User-Agent-based content negotiation (Vercel's spec checks User-Agent, not just Accept headers, which means adding UA sniffing to middleware — not worth the complexity). Diminishing returns from here.
 
-Fern ······································ 86/100 B
-  14 passed  8 failed
+Here's the final scan:
 
-Vercel ···································· 83/100 B
-  21 passed  4 failed
-
-AgentGrade ······························· 98/100 A+
-  40 passed  17 failed
-
-──────────────────────────────────────────────────
-Overall                                     88/100
-```
-
-88/100 across all five. The remaining Fern failures are mostly about markdown content parity — making the markdown and HTML versions of every page identical. AgentGrade's failures are optional standards (payment protocols, identity, message signatures) that don't apply to a personal site.
-
-## How it works under the hood
-
-When you scan a URL, aeo-ready fetches your site's robots.txt, llms.txt, AGENTS.md, sitemap.xml, and every page from your sitemap into a temp directory. It uses content negotiation (`Accept: text/markdown`) to get markdown versions of pages, and follows discovery files like `.well-known/agent-skills/index.json` to find skill definitions. Then it runs each benchmark in parallel against the fetched content. If one framework fails, the others still report. Scores normalize to percentages and average into an overall 0-100.
-
-After the scan, it offers to fix issues automatically by scaffolding llms.txt and AGENTS.md via agentic-seo, then running afdocs remediation. Results save locally so you can track improvement over time.
-
-You can also pass `--dir` to point it at your build output or public directory for checks that need filesystem access. This is faster than fetching over HTTP and works offline.
+![aeo-ready scan output](/blog/images/aeo-ready-scan.png)
 
 ## How the big sites score
 
@@ -115,25 +92,6 @@ The frameworks themselves have issues too. Cloudflare's scanner is [structurally
 There's also a site type problem. A content site loses points for missing payment protocols. An API product loses points for missing blog-style markdown. The scores mix up "not relevant to your site" with "not ready for agents." I'm planning to add a `--type` flag to aeo-ready that filters checks by site type, so the score reflects what actually matters for your use case instead of penalizing you for features you'd never build.
 
 My take: These scores measure whether agents *can* read your site, not whether they *will*. Right now only [10% of sites](https://otterly.ai/blog/the-llms-txt-experiment/) have adopted llms.txt after 18 months of industry conversation. The bar is low. If you're building a developer-facing product and agents are part of how people will find and evaluate you, being in the top 10% on readiness costs almost nothing and positions you for an agent web that's still forming. If you're a local bakery, skip it.
-
-## What to do about it
-
-Start by scanning your site:
-
-```
-npx aeo-ready scan yoursite.com
-```
-
-My first scan scored a 47. Here's what I fixed, in the order that moved the needle:
-
-| Round | What I changed | Before | After | Why it mattered |
-|-------|---------------|--------|-------|-----------------|
-| 1 | Added `llms.txt` and `AGENTS.md` | 47 | 62 | agentic-seo went from 23 to 24. Cloudflare jumped from 2/5 to 4/5. These two files are the single biggest lever. |
-| 2 | Passed `--dir ./public` to agentic-seo | 62 | 85 | agentic-seo scans files on disk — it checks content structure, token counts, and capability manifests that it can't see over HTTP. Score went from 24 to 91. |
-| 3 | Added content negotiation in middleware | 85 | 87 | Configured Next.js middleware to serve markdown via `Accept: text/markdown` headers. Fern's content negotiation check went from fail to partial pass. |
-| 4 | Expanded `llms.txt` coverage, added body directives | 87 | 88 | llms.txt only covered 8 of 21 sitemap pages. Added all 18 notebook entries and pointed blog links to `.md` versions. Added `/llms.txt` footer link to all 33 HTML pages — Fern checks the page body, not `<head>` link tags. Fern went from 79 to 86. |
-
-That brought the score to 88. The remaining failures are things I chose not to fix: markdown content parity (Fern wants the markdown and HTML versions of every page to be byte-identical, which isn't realistic for a site with interactive elements) and User-Agent-based content negotiation (Vercel's spec checks User-Agent, not just Accept headers, which means adding UA sniffing to middleware — not worth the complexity). The easy wins are discovery files and content negotiation. After that, it's diminishing returns.
 
 ## What's next
 

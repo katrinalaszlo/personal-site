@@ -79,6 +79,26 @@
       "cloudflare": 4,
       "cloudflareMax": 5,
       "fern": 79
+    },
+    {
+      "id": "mpvn7igkhs3gbx",
+      "timestamp": "2026-06-01T20:10:01.647Z",
+      "url": "https://katrinalaszlo.com",
+      "averageScore": 88,
+      "agenticSeo": 94,
+      "cloudflare": 4,
+      "cloudflareMax": 5,
+      "fern": 86
+    },
+    {
+      "id": "mpvs0abf6dlrn0",
+      "timestamp": "2026-06-01T22:24:22.583Z",
+      "url": "https://katrinalaszlo.com",
+      "averageScore": 90,
+      "agenticSeo": 94,
+      "cloudflare": 4,
+      "cloudflareMax": 5,
+      "fern": 86
     }
   ]
 }

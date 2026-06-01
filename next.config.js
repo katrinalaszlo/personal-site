@@ -38,7 +38,7 @@ module.exports = {
           },
           {
             key: "Vary",
-            value: "Accept",
+            value: "Accept, User-Agent",
           },
         ],
       },

@@ -1,3 +1,10 @@
+---
+title: "Katrina Laszlo"
+description: "Product and growth. 10 years of monetization across startups and enterprise."
+author: Katrina Laszlo
+url: https://katrinalaszlo.com
+---
+
 # Katrina Laszlo
 
 > Machine-readable version of this page: [llms.txt](/llms.txt)
