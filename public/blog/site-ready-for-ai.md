@@ -3,7 +3,7 @@ title: "Is Your Site Ready for Agents?"
 series: "PLG for the Agent Era"
 part: 2
 date: 2026-05-29
-description: "Five competing frameworks now score how well your site serves AI agents. Here's what they check, why it matters, and a single command that runs them all."
+description: "Five competing frameworks now score how well your site serves AI agents. Here's what they check, whether it matters, and a single command that runs them all."
 author: Kat Laszlo
 ---
 
@@ -13,7 +13,7 @@ In [Part 1](/blog/agent-self-serve), I made the case that agents are already cha
 
 So: can agents actually read your site?
 
-For 25 years, SEO was how you got found. Meta tags, sitemaps, clean URLs, schema.org markup. AI agents still use all of that — sitemaps and structured data show up in every benchmark — but it's not enough. Agents also care about whether your content is token-efficient, serves markdown, and exposes capabilities programmatically. The new layer on top of SEO has a name: AEO, or Agentic Engine Optimization.
+For 25 years, SEO was how you got found. Meta tags, sitemaps, clean URLs, schema.org markup. AI agents still use all of that — sitemaps and structured data show up in every benchmark — but a new set of standards is emerging on top of it. Agents also care about whether your content is token-efficient, serves markdown, and exposes capabilities programmatically. This new layer has a name: AEO, or Agentic Engine Optimization. Whether it actually matters yet is an open question, but the frameworks are here.
 
 ## What AI agents actually look for
 
@@ -124,7 +124,7 @@ Start by scanning your site:
 npx aeo-ready scan yoursite.com
 ```
 
-The easy wins are usually discovery files (add `llms.txt` and `AGENTS.md` if you don't have them; the scanner offers to scaffold both) and markdown support (if you can serve pages as `.md`, do it, because it cuts token cost by 3-5x). After that, re-scan and track. Scores save locally. Treat AEO like you treat Lighthouse scores: check on every deploy.
+The easy wins are usually discovery files (add `llms.txt` and `AGENTS.md` if you don't have them; the scanner offers to scaffold both) and markdown support (if you can serve pages as `.md`, do it, because it cuts token cost by 3-5x). After that, re-scan and track. Scores save locally.
 
 ## How I went from 47 to 88
 
@@ -141,4 +141,4 @@ The remaining gaps are mostly markdown content parity (Fern wants the markdown a
 
 ## What's next
 
-AEO gets you found. But being found is just the beginning of the funnel. Part 3 will cover what happens after an agent discovers your product: onboarding, auth, purchasing, and account management. What does it actually take to let an agent sign up, try your product, and buy it without a human touching a browser?
+Whether or not AEO drives discovery today, the next question is what happens when an agent does reach your product. Part 3 will cover onboarding, auth, purchasing, and account management — what it actually takes to let an agent sign up, try your product, and buy it without a human touching a browser.
