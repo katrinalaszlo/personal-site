@@ -1,5 +1,5 @@
 ---
-title: "Is Your Site Ready for AI?"
+title: "Is Your Site Ready for Agents?"
 series: "PLG for the Agent Era"
 part: 2
 date: 2026-05-29
@@ -7,13 +7,13 @@ description: "Five competing frameworks now score how well your site serves AI a
 author: Kat Laszlo
 ---
 
-# Is Your Site Ready for AI?
+# Is Your Site Ready for Agents?
 
 In [Part 1](/blog/agent-self-serve), I made the case that agents are already changing how B2B buyers research and select vendors. [73% of buyers use AI for research](https://learn.g2.com/ai-search-surging-for-b2b-buyers), and [69% end up choosing a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned. The agent is shaping who wins before anyone visits your website.
 
 So: can agents actually read your site?
 
-For 25 years, SEO was how you got found. Meta tags, sitemaps, clean URLs, schema.org markup. AI agents don't care about any of that. They care about whether your content is machine-readable, token-efficient, and structured for consumption, not just discovery. The new version of this problem has a name: AEO, or Agentic Engine Optimization.
+For 25 years, SEO was how you got found. Meta tags, sitemaps, clean URLs, schema.org markup. AI agents still use all of that — sitemaps and structured data show up in every benchmark — but it's not enough. Agents also care about whether your content is token-efficient, serves markdown, and exposes capabilities programmatically. The new layer on top of SEO has a name: AEO, or Agentic Engine Optimization.
 
 ## What AI agents actually look for
 

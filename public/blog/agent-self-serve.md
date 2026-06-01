@@ -43,6 +43,6 @@ The buyer's criteria don't necessarily change, but what constitutes a delightful
 
 If you run a B2B SaaS with self-serve signup, this series is for you. Each part goes deeper into the funnel and includes something you can run on your own product.
 
-**Part 2: Is Your Site Ready for AI?** How agents find and evaluate your product, what they look for, and how to measure whether you're showing up. Comes with a scanner you can run on your own site.
+**Part 2: Is Your Site Ready for Agents?** How agents find and evaluate your product, what they look for, and how to measure whether you're showing up. Comes with a scanner you can run on your own site.
 
 **Part 3: Onboarding Agents.** What agent-ready onboarding, auth, purchasing, and account management actually require, and an open-source skill to make your self-serve flow agent-accessible.
