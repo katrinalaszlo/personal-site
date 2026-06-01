@@ -101,6 +101,18 @@ Nobody aces everything, not even the companies building AI infrastructure:
 
 Stripe scores a 17 on agentic-seo but leads on Fern. Cloudflare aces its own framework but scores a 55 on agentic-seo. The standards are still forming, and even the companies defining them haven't fully optimized for all of them.
 
+## Does any of this actually matter?
+
+Fair question. The honest answer is that it depends on what you're optimizing for.
+
+If you're hoping llms.txt will boost your visibility in ChatGPT or Perplexity results, the data is not encouraging. An [analysis of 515 million LLM bot traffic events](https://searchengineland.com/does-llms-txt-matter-467740) found that only 0.1% of requests touched llms.txt. Google's John Mueller has [called markdown pages "a stupid idea"](https://www.getpassionfruit.com/blog/should-i-create-an-llms.txt-file-google-s-2026-guidance-explained) and confirmed that Google doesn't use llms.txt. No major AI provider has publicly committed to reading it for search citations.
+
+But AI search citations and agent workflows are two different things. The same file doing nothing for ChatGPT search is doing real work in the agentic layer, where Claude Code, Cursor, and Windsurf fetch context and choose tools on behalf of developers. Anthropic [explicitly recommends llms.txt](https://docs.anthropic.com/en/docs/build-with-claude/agent-readability) in its Writing for Agents guidance. Chrome's Lighthouse 13.3 [added an Agentic Browsing audit](https://searchengineland.com/google-llms-txt-chrome-lighthouse-478246) that checks for it.
+
+The frameworks themselves have issues too. Cloudflare's scanner is [structurally misleading for content sites](https://joost.blog/agent-ready/) because the default scan includes commerce and API checks that don't apply, so content sites score artificially low. Vercel's own evaluation found that [AGENTS.md outperformed skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) in agent tasks, and skills weren't even invoked 56% of the time. The model just didn't bother to look them up.
+
+My take: these scores measure whether agents *can* read your site, not whether they *will*. Right now only [10% of sites](https://otterly.ai/blog/the-llms-txt-experiment/) have adopted llms.txt after 18 months of industry conversation. That means the bar is low. If you're building a developer-facing product and agents are part of how people will find and evaluate you, being in the top 10% on readiness costs almost nothing and positions you for an agent web that's still forming. If you're a local bakery, skip it.
+
 ## What to do about it
 
 Start by scanning your site:
