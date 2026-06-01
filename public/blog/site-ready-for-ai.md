@@ -29,7 +29,7 @@ Then there's capability signaling. Do you expose `agents.json`, MCP endpoints, o
 
 The AEO space is already fragmenting. Five major benchmarks have emerged, and each checks different things.
 
-[**agentic-seo**](https://github.com/nicholasgriffintn/agentic-seo), created by Addy Osmani at Google, scores five dimensions: discovery, content structure, token economics, capability signaling, and UX bridge. It's the most comprehensive single framework, with 10 checks across those 5 categories on a 0-100 scale.
+[**agentic-seo**](https://github.com/nicholasgriffintn/agentic-seo), built by Nicholas Griffin and inspired by Addy Osmani's AEO framework, scores five dimensions: discovery, content structure, token economics, capability signaling, and UX bridge. It's the most comprehensive single framework, with 10 checks across those 5 categories on a 0-100 scale.
 
 [**Cloudflare's isitagentready.com**](https://isitagentready.com) takes a different approach. It checks discoverability, content accessibility, bot access policies, API/MCP/A2A protocol discovery, and commerce readiness, scoring sites on five levels.
 
@@ -37,7 +37,7 @@ The AEO space is already fragmenting. Five major benchmarks have emerged, and ea
 
 [**Vercel's Agent Readability Spec**](https://sdk.vercel.ai/docs/foundations/agents) checks agent reachability, discoverability, markdown serving, and HTML agent-friendliness across 25 checks.
 
-[**AgentGrade**](https://agentgrade.com) goes the deepest, covering MCP, payment protocols, identity standards, content negotiation, OpenAPI, and infrastructure with 70+ checks.
+[**AgentGrade**](https://agentgrade.com) goes the deepest, covering MCP, payment protocols, identity standards, content negotiation, OpenAPI, and infrastructure with 57 checks.
 
 Every framework checks for llms.txt, but only Fern validates whether its links actually resolve. Cloudflare and AgentGrade check for MCP endpoints; agentic-seo doesn't. Vercel cares about markdown serving; AgentGrade cares about payment protocols. No single benchmark covers everything, and running all five manually across different scoring scales is a pain.
 
@@ -91,21 +91,22 @@ You can also pass `--dir` to point it at your build output or public directory f
 
 Nobody aces everything, not even the companies building AI infrastructure:
 
-| Site | agentic-seo | Cloudflare | Fern |
-|------|------------|------------|------|
-| Cloudflare | 55 | 5/5 | — |
-| Stripe | 17 | 2/5 | 85 |
-| Supabase | 52 | 3/5 | 78 |
-| Vercel | 48 | 4/5 | 60 |
-| Anthropic | — | — | 72 |
+| Site | agentic-seo | Cloudflare | Fern | Vercel | AgentGrade |
+|------|------------|------------|------|--------|------------|
+| Stripe | 17 | 1/5 | 84 | 68 | 65 |
+| Cloudflare | 20 | 3/5 | 85 | 80 | — |
+| Supabase | 20 | 4/5 | 82 | 71 | 83 |
+| Vercel | — | 2/5 | 75 | 63 | 59 |
 
-Stripe scores a 17 on agentic-seo but leads on Fern. Cloudflare aces its own framework but scores a 55 on agentic-seo. The standards are still forming, and even the companies defining them haven't fully optimized for all of them.
+*Scanned June 1, 2026 via aeo-ready (URL-only mode).*
+
+Stripe scores a 17 on agentic-seo but leads on Fern. Cloudflare scores 3/5 on its own framework. Vercel scores a 63 on its own spec. The standards are still forming, and even the companies defining them haven't fully optimized for all of them.
 
 ## Does any of this actually matter?
 
 Fair question. The honest answer is that it depends on what you're optimizing for.
 
-If you're hoping llms.txt will boost your visibility in ChatGPT or Perplexity results, the data is not encouraging. An [analysis of 515 million LLM bot traffic events](https://searchengineland.com/does-llms-txt-matter-467740) found that only 0.1% of requests touched llms.txt. Google's John Mueller has [called markdown pages "a stupid idea"](https://www.getpassionfruit.com/blog/should-i-create-an-llms.txt-file-google-s-2026-guidance-explained) and confirmed that Google doesn't use llms.txt. No major AI provider has publicly committed to reading it for search citations.
+If you're hoping llms.txt will boost your visibility in ChatGPT or Perplexity results, the data is not encouraging. An [analysis of 62,000+ AI bot requests over 90 days](https://searchengineland.com/does-llms-txt-matter-467740) found that only 84 went to llms.txt — 0.1% of AI bot traffic. Google's John Mueller has [called markdown pages "a stupid idea"](https://www.getpassionfruit.com/blog/should-i-create-an-llms.txt-file-google-s-2026-guidance-explained) and confirmed that Google doesn't use llms.txt. No major AI provider has publicly committed to reading it for search citations.
 
 But AI search citations and agent workflows are two different things. The same file doing nothing for ChatGPT search is doing real work in the agentic layer, where Claude Code, Cursor, and Windsurf fetch context and choose tools on behalf of developers. Anthropic [explicitly recommends llms.txt](https://docs.anthropic.com/en/docs/build-with-claude/agent-readability) in its Writing for Agents guidance. Chrome's Lighthouse 13.3 [added an Agentic Browsing audit](https://searchengineland.com/google-llms-txt-chrome-lighthouse-478246) that checks for it.
 
