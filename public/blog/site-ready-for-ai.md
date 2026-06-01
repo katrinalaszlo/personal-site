@@ -64,20 +64,20 @@ agentic-seo ······························· 94/10
 Cloudflare ··································· 4/5 B
   10 passed
 
-Fern ······································ 79/100 C
-  12 passed  10 failed
+Fern ······································ 86/100 B
+  14 passed  8 failed
 
-Vercel ···································· 85/100 B
-  21 passed  4 failed
+Vercel ···································· 80/100 B
+  20 passed  5 failed
 
 AgentGrade ······························· 98/100 A+
   40 passed  17 failed
 
 ──────────────────────────────────────────────────
-Overall                                     87/100
+Overall                                     88/100
 ```
 
-87/100 across all five. Fern is the weak link — llms.txt link resolution and markdown content parity still need work. AgentGrade's failures are mostly optional standards (payment protocols, identity, message signatures) that don't apply to a personal site.
+88/100 across all five. The remaining Fern failures are mostly about markdown content parity — making the markdown and HTML versions of every page identical. AgentGrade's failures are optional standards (payment protocols, identity, message signatures) that don't apply to a personal site.
 
 ## How it works under the hood
 
@@ -111,7 +111,18 @@ npx aeo-ready scan yoursite.com
 
 The easy wins are usually discovery files (add `llms.txt` and `AGENTS.md` if you don't have them; the scanner offers to scaffold both) and markdown support (if you can serve pages as `.md`, do it, because it cuts token cost by 3-5x). After that, re-scan and track. Scores save locally. Treat AEO like you treat Lighthouse scores: check on every deploy.
 
-My own site went from 47 to 87 in a few sessions. Most of those gains came from adding llms.txt, configuring content negotiation in middleware, and fixing robots.txt to explicitly allow AI crawlers.
+## How I went from 47 to 88
+
+My first scan scored a 47. Here's what I fixed, in the order that moved the needle:
+
+| Round | What I changed | Before | After | Why it mattered |
+|-------|---------------|--------|-------|-----------------|
+| 1 | Added `llms.txt` and `AGENTS.md` | 47 | 62 | agentic-seo went from 23 to 24. Cloudflare jumped from 2/5 to 4/5. These two files are the single biggest lever. |
+| 2 | Passed `--dir ./public` to agentic-seo | 62 | 85 | agentic-seo scans files on disk — it checks content structure, token counts, and capability manifests that it can't see over HTTP. Score went from 24 to 91. |
+| 3 | Added content negotiation in middleware | 85 | 87 | Configured Next.js middleware to serve markdown via `Accept: text/markdown` headers. Fern's content negotiation check went from fail to partial pass. |
+| 4 | Expanded `llms.txt` coverage, added body directives | 87 | 88 | llms.txt only covered 8 of 21 sitemap pages. Added all 18 notebook entries and pointed blog links to `.md` versions. Added `/llms.txt` footer link to all 33 HTML pages — Fern checks the page body, not `<head>` link tags. Fern went from 79 to 86. |
+
+The remaining gaps are mostly markdown content parity (Fern wants the markdown and HTML versions of every page to be identical) and User-Agent-based content negotiation (Vercel's spec checks User-Agent, not just Accept headers). Diminishing returns from here.
 
 ## What's next
 
