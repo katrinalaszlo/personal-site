@@ -49,7 +49,7 @@ I built [**aeo-ready**](https://github.com/katrinalaszlo/aeo-ready) to solve thi
 npx aeo-ready scan yoursite.com
 ```
 
-Here's what my own site looks like after a few rounds of fixes:
+Here's what my own site looks like after the first sweep:
 
 ```
 aeo-ready — katrinalaszlo.com
