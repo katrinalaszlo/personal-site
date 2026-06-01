@@ -111,6 +111,8 @@ But AI search citations and agent workflows are two different things. The same f
 
 The frameworks themselves have issues too. Cloudflare's scanner is [structurally misleading for content sites](https://joost.blog/agent-ready/) because the default scan includes commerce and API checks that don't apply, so content sites score artificially low. Vercel's own evaluation found that [AGENTS.md outperformed skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) in agent tasks, and skills weren't even invoked 56% of the time. The model just didn't bother to look them up.
 
+The site type problem is something I ran into myself. A content site shouldn't lose points for missing payment protocols or commerce endpoints. I'm planning to add a `--type` flag to aeo-ready that filters checks by site type so the score actually reflects what matters for your use case.
+
 My take: these scores measure whether agents *can* read your site, not whether they *will*. Right now only [10% of sites](https://otterly.ai/blog/the-llms-txt-experiment/) have adopted llms.txt after 18 months of industry conversation. That means the bar is low. If you're building a developer-facing product and agents are part of how people will find and evaluate you, being in the top 10% on readiness costs almost nothing and positions you for an agent web that's still forming. If you're a local bakery, skip it.
 
 ## What to do about it
