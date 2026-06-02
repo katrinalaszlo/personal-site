@@ -11,7 +11,7 @@ author: Kat Laszlo
 
 In [Part 1](/blog/agent-self-serve), I made the case that agents are already changing how B2B buyers research and select vendors. [73% of buyers use AI for research](https://learn.g2.com/ai-search-surging-for-b2b-buyers), and [69% end up choosing a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned.
 
-So if agents are shaping who wins, the question becomes: can they actually read your site?
+So if agents are shaping who wins, the question becomes, can they actually read your site?
 
 For 25 years, SEO was how you got found. Meta tags, sitemaps, clean URLs, schema.org markup. AI agents still use all of that (sitemaps and structured data show up in every benchmark), but a new set of standards is emerging on top of it. Agents also care about whether your content is token-efficient, serves markdown, and exposes capabilities programmatically. This new layer has a name: AEO, or Agentic Engine Optimization. Whether it actually matters yet is an open question, but the frameworks are here.
 
@@ -21,7 +21,7 @@ When an agent visits your site, it's looking for things that didn't exist two ye
 
 The most basic is `llms.txt`, a manifest file (like robots.txt, but for LLMs) that links to your most important pages in a format optimized for context windows. `AGENTS.md` goes further and declares what an agent can *do* on your site: permissions, capabilities, tool endpoints.
 
-Agents also want markdown. HTML boilerplate burns tokens, and markdown is 3-5x more efficient, so if your server can respond with markdown when an agent requests it via Accept headers, that's a real advantage. Same idea with content structure: if the actual content is buried under nav bars, cookie banners, and JavaScript, agents have to parse through all of it to get to what matters.
+Agents also want markdown. HTML boilerplate burns tokens, and markdown is 3-5x more efficient, so if your server can respond with markdown when an agent requests it via Accept headers, that's a real advantage. Same idea with content structure. If the actual content is buried under nav bars, cookie banners, and JavaScript, agents have to parse through all of it to get to what matters.
 
 Then there's capability signaling. Do you expose `agents.json`, MCP endpoints, or other machine-readable manifests? These tell agents what they can do programmatically on your site, which is the difference between "I found this product" and "I can try this product."
 
@@ -51,13 +51,13 @@ My first scan scored a 48. I ran the scan, copied the prioritized recommendation
 
 The first pass handled the quick wins: adding `llms.txt` and `AGENTS.md`, configuring content negotiation in middleware, and expanding llms.txt coverage. That got me from 48 to 87. The second pass tackled the bigger lifts: creating `.md` files for all 18 notebook pages, adding agent User-Agent detection to middleware, and injecting `<link rel="llms-txt">` across every HTML page. That pushed the score from 87 to 91.
 
-The remaining failures are things I chose not to fix: optional identity protocols and infrastructure standards that don't apply to a personal site. The easy wins for any site are discovery files (`llms.txt` and `AGENTS.md`) and markdown support (serving pages as `.md` cuts token cost by 3-5x).
+The remaining failures are things I chose not to fix, like optional identity protocols and infrastructure standards that don't apply to a personal site. The easy wins for any site are discovery files (`llms.txt` and `AGENTS.md`) and markdown support (serving pages as `.md` cuts token cost by 3-5x).
 
 ![aeo-ready scan output](/blog/images/aeo-ready-scan.png)
 
 ## How the big sites score
 
-Nobody aces everything, not even the companies building AI infrastructure:
+The scan also includes benchmarks from other sites, so you can see where you stand. If your score feels low, don't feel too bad. Even the companies writing these standards don't score well, sometimes not even on their own frameworks.
 
 | Site | agentic-seo | Cloudflare | Fern | Vercel | AgentGrade |
 |------|------------|------------|------|--------|------------|
@@ -68,11 +68,11 @@ Nobody aces everything, not even the companies building AI infrastructure:
 
 *Scanned June 1, 2026 via aeo-ready (URL-only mode).*
 
-Stripe scores a 17 on agentic-seo but leads on Fern. Cloudflare scores 3/5 on its own framework. Vercel scores a 63 on its own spec. The standards are still forming, and even the companies defining them haven't fully optimized for all of them.
+Stripe leads on Fern but scores a 17 on agentic-seo. Cloudflare gets 3/5 on its own framework. Vercel scores a 63 on its own spec. If the companies defining these standards haven't optimized for them, it raises the obvious question.
 
 ## Does any of this actually matter?
 
-Fair question. The honest answer is that it depends on what you're optimizing for.
+The honest answer is that it depends on what you're optimizing for.
 
 If you're hoping llms.txt will boost your visibility in ChatGPT or Perplexity results, the data is not encouraging. An [analysis of 62,000+ AI bot requests over 90 days](https://searchengineland.com/does-llms-txt-matter-467740) found that only 84 went to llms.txt, just 0.1% of AI bot traffic. Google's John Mueller has [called markdown pages "a stupid idea"](https://www.getpassionfruit.com/blog/should-i-create-an-llms.txt-file-google-s-2026-guidance-explained) and confirmed that Google doesn't use llms.txt. No major AI provider has publicly committed to reading it for search citations.
 
