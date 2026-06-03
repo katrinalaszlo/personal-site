@@ -54,6 +54,11 @@ header nav {
   justify-content: space-between;
   align-items: center;
 }
+.nav-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
 .nav-name {
   font-weight: 600;
   font-size: 0.9375rem;
@@ -457,8 +462,22 @@ footer a {
 }
 
 @media (max-width: 640px) {
+  .container {
+    padding: 0 1.25rem;
+  }
   .nav-social,
   .nav-divider {
     display: none;
+  }
+  /* Nav wraps to a second row so the Subscribe button never overflows */
+  header nav {
+    flex-wrap: wrap;
+    row-gap: 0.875rem;
+  }
+  .nav-name {
+    white-space: nowrap;
+  }
+  .nav-actions {
+    gap: 1.25rem;
   }
 }
