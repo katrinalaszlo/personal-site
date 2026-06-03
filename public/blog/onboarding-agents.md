@@ -1,7 +1,6 @@
 ---
 title: "Making Your Product Agent Self-Serve"
 series: "PLG for the Agent Era"
-part: 3
 date: 2026-06-02
 description: "I made an AI cost observability product self-serve for agents. Here's what the industry recommends, what I actually built, what I skipped, and what isn't worth doing yet."
 author: Kat Laszlo
