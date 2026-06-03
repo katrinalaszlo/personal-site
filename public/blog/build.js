@@ -307,7 +307,7 @@ ${JSON.stringify(
   <header>
     <nav>
       <a href="/" class="nav-name">Katrina Laszlo</a>
-      <div style="display:flex;gap:1.5rem;align-items:center;">
+      <div class="nav-actions">
         <a href="/notebook/" class="nav-link">Notebook</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/#connect" class="nav-link">Connect</a>
