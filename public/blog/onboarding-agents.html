@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding Agents — Kat Laszlo</title>
+<meta name="description" content="Most SaaS products have APIs but are still agent-hostile. Here's what it takes to let an agent sign up, authenticate, pay, and manage itself, and an open-source skill to audit where you stand.">
+<meta name="ai:token-count" content="3011">
+<meta name="ai:page-type" content="article">
+<meta property="og:title" content="Onboarding Agents">
+<meta property="og:description" content="Most SaaS products have APIs but are still agent-hostile. Here's what it takes to let an agent sign up, authenticate, pay, and manage itself, and an open-source skill to audit where you stand.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://katrinalaszlo.com/blog/onboarding-agents">
+<meta property="og:image" content="/blog/og/onboarding-agents.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-06-01">
+<meta property="article:author" content="Kat Laszlo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Katlaszlo">
+<meta name="twitter:title" content="Onboarding Agents">
+<meta name="twitter:description" content="Most SaaS products have APIs but are still agent-hostile. Here's what it takes to let an agent sign up, authenticate, pay, and manage itself, and an open-source skill to audit where you stand.">
+<meta name="twitter:image" content="/blog/og/onboarding-agents.png">
+<link rel="llms-txt" href="/llms.txt">
+<link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
+<link rel="alternate" type="text/markdown" href="/blog/onboarding-agents.md" title="Markdown version">
+<link rel="canonical" href="https://katrinalaszlo.com/blog/onboarding-agents">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white'/><text x='50' y='50' font-size='70' font-weight='600' text-anchor='middle' dominant-baseline='central'>K</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/blog/post.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Onboarding Agents",
+  "description": "Most SaaS products have APIs but are still agent-hostile. Here's what it takes to let an agent sign up, authenticate, pay, and manage itself, and an open-source skill to audit where you stand.",
+  "image": "/og-image.png",
+  "author": {
+    "@type": "Person",
+    "name": "Kat Laszlo",
+    "url": "https://katrinalaszlo.com"
+  },
+  "datePublished": "2026-06-01",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://katrinalaszlo.com/blog/onboarding-agents"
+  }
+}
+</script>
+</head>
+<body>
+<div class="container">
+  <header>
+    <nav>
+      <a href="/" class="nav-name">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem;align-items:center;">
+        <a href="/notebook/" class="nav-link">Notebook</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/#connect" class="nav-link">Connect</a>
+        <button class="subscribe-btn" onclick="document.getElementById('subscribe-modal').style.display='flex'">Subscribe</button>
+      </div>
+    </nav>
+  </header>
+
+  <article>
+    <p class="series-label">PLG for the Agent Era</p>
+    <h1>Part 3: Onboarding Agents</h1>
+    <div class="post-meta-row">
+      <p class="post-meta">
+        <a href="/">Kat Laszlo</a> &middot; June 1, 2026
+      </p>
+      <div class="post-actions">
+        <a class="action-icon" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fonboarding-agents&text=Onboarding%20Agents" target="_blank" rel="noopener" title="Share on X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a class="action-icon" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fkatrinalaszlo.com%2Fblog%2Fonboarding-agents" target="_blank" rel="noopener" title="Share on LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <button class="action-icon" onclick="navigator.clipboard.writeText('https://katrinalaszlo.com/blog/onboarding-agents').then(()=>{this.title='Copied!';setTimeout(()=>this.title='Copy link',2000)})" title="Copy link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+    </div>
+    <p>In <a href="/blog/agent-self-serve">Part 1</a>, I laid out how agents are reshaping B2B buying. In <a href="/blog/site-ready-for-ai">Part 2</a>, I covered whether agents can even read your site. But being findable and being usable are two different problems. An agent can discover your product, parse your docs, and recommend you to a buyer, and then hit a CAPTCHA on the signup page.</p><p>That's where most products are today. The discovery layer is catching up (llms.txt, markdown serving, structured data), but the action layer hasn't moved. Signup, auth, payments, account management: all of it still assumes a human in a browser. And the gap between "an agent can read about your product" and "an agent can actually use your product" is where the next wave of competitive advantage sits.</p><h2>What agents can't get past</h2><p>When an agent tries to go from evaluating your product to actually using it, it runs into a predictable set of walls. CAPTCHAs and browser fingerprinting are the obvious ones, but the subtler blockers are just as common: email verification loops (agents don't have inboxes by default), SMS OTP, OAuth consent screens that require a browser session, and "contact sales" gates that kill the entire self-serve path.</p><p>These aren't edge cases. They're the default experience at most SaaS companies. A product can have a full REST API and still be functionally inaccessible to agents if the only way to get an API key is through a dashboard that requires email verification and a CAPTCHA.</p><p>The <a href="https://danjcleary.substack.com/p/how-netlify-is-winning-the-age-of">Netlify pattern</a> is instructive here. Their `netlify deploy --allow-anonymous` command lets agents deploy without creating an account first, with a one-hour claim window for the human to associate the deployment with their account later. <a href="https://www.netlify.com/solutions/code-agents/">Agents now make up 80% of their new signups</a>. They didn't get there by adding an API on top of their existing flow. They inverted it: deploy first, claim later.</p><h2>Five dimensions of agent readiness</h2><p>If readability (Part 2) was about whether agents can find and understand your product, this is about whether they can act on it. The surface breaks down into five dimensions:</p><table><thead><tr><th>Dimension</th><th>What it answers</th></tr></thead><tbody><tr><td>Onboarding</td><td>Can an agent create an account without a browser?</td></tr><tr><td>Authentication</td><td>Can it get scoped credentials programmatically?</td></tr><tr><td>Purchasing</td><td>Can it select a plan and pay without a checkout page?</td></tr><tr><td>Usage monitoring</td><td>Can it track consumption and costs via API?</td></tr><tr><td>Self-management</td><td>Can it upgrade, downgrade, or cancel without a dashboard?</td></tr></tbody></table><p>Most products score well on zero or one of these. Having a REST API doesn't mean you score well on any of them, because the API usually covers your product's core functionality, not the account lifecycle around it. You might have a beautiful API for your product's features but require a human to click through Stripe Checkout to start paying for it.</p><h2>Who's actually doing this</h2><p>A handful of companies have built the full stack. They're worth studying not because every product needs to match them, but because they show what the end state looks like.</p><p><a href="https://www.infoq.com/news/2026/05/cloudflare-stripe-agent-commerce/">Cloudflare</a> lets agents create accounts, buy domains, and deploy applications end-to-end. No browser, no human intervention beyond initial terms acceptance. They went from "agents can use our CDN" to "agents can provision entire infrastructure stacks" in about a year.</p><p><a href="https://stripe.com/blog/developing-an-open-standard-for-agentic-commerce">Stripe</a> built the Agentic Commerce Protocol and launched Stripe Projects, where agents get scoped API keys, discover services from a catalog, and pay via the Payments API. It's invitation-only with 32 launch partners, but the protocol itself is open and points to where programmatic commerce is heading.</p><p>Twilio is the quietest example but arguably the deepest. API coverage for account creation, number provisioning, usage records, and billing, with most lifecycle actions available programmatically. They didn't build this for agents specifically; they built it because developers wanted it, and agents are just very fast developers.</p><p>The common thread isn't technology. It's a philosophy: every action a human can take in a dashboard should have a programmatic equivalent. Products that were built API-first for developers end up being agent-ready almost by accident. Products that bolted APIs onto dashboard-first experiences have gaps everywhere.</p><h2>Most agent auth is a pasted API key</h2><p>Authentication is where the most interesting tension sits. The recommended approach for agent-to-service auth is OAuth 2.0 Client Credentials (machine-to-machine tokens with scoped permissions and short TTLs). It's the "right" answer, and almost nobody implements it for self-serve tiers.</p><p>What actually happens is simpler and messier: the human generates an API key in a dashboard and pastes it into the agent's configuration. That key typically has full account access, no expiration, no budget limits, and no record of which agent is using it. By one estimate, <a href="https://github.com/katrinalaszlo/agentkey">93% of AI agent projects use unscoped API keys</a>. One leaked key, one runaway agent, and the entire account is exposed.</p><p>The practical middle ground is scoped keys with budgets. The human still creates the key (you don't need to solve programmatic onboarding on day one), but the key itself carries constraints: which endpoints it can hit, how much it can spend, and when it expires. This is what I built with <a href="https://github.com/katrinalaszlo/agentkey">agentkey</a>, an npm package that adds scope, budget, and expiry controls to API keys.</p><div class="code-block"><button class="copy-code" data-copy onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button><pre><code>Account: Acme Corp (Pro plan, $100/month)
+  |
+  |-- ak_sales_...     scopes: [proxy.chat]          budget: $40/mo
+  |-- ak_analytics_..  scopes: [usage.read]           budget: $0
+  |-- ak_agent_...     scopes: [proxy.chat, usage.read]  budget: $30/mo  expires: 7d</code></pre></div><p>The account's plan sets the ceiling. Keys subdivide it. No single key can blow the whole month's budget. The human sets the guardrails, and the agent operates within them. This is different from giving every agent the same master key and hoping nothing goes wrong.</p><p>I built agentkey because the gap between "just use OAuth" and "here's an unscoped API key, good luck" was too wide. Most teams aren't going to implement a full Client Credentials flow for their self-serve tier. But they can add four columns to their API keys table and start enforcing budgets tomorrow.</p><h2>Payments without a checkout page</h2><p>Purchasing is the dimension where the gap between recommended and practical is widest. The gold standard is <a href="https://stripe.com/blog/developing-an-open-standard-for-agentic-commerce">Stripe's Agentic Commerce Protocol</a>: agents discover plans from a machine-readable catalog, select one, and pay using the Payments API with a pre-authorized payment method. No Checkout Session, no redirect, no browser.</p><p>But Stripe's full protocol is invitation-only, and most products aren't going to build a custom billing API. The practical path starts with something most SaaS companies already have: Stripe's saved payment methods. The human adds a card once through the normal checkout flow. After that, an agent can use `POST /v1/subscriptions` with the saved `pm_...` token to change plans programmatically. No new billing infrastructure required, just an API route that wraps what Stripe already provides.</p><p>There are also emerging primitives worth watching. Shared Payment Tokens (SPTs) are scoped, time-limited payment authorizations that work across merchants. The HTTP 402 protocol (x402) enables pay-per-request micropayments. Stripe Issuing can generate virtual card numbers with per-transaction spend controls for agents. None of these are mainstream yet, but they point to a world where agent purchasing is as routine as agent browsing.</p><p>The machine-readable pricing layer matters too. If an agent can't programmatically compare your plans, features, and limits, it can't make a purchasing decision without asking the human to read a pricing page. Publishing a `pricing.json` (a structured manifest of your plans, like `robots.txt` for pricing) lets agents compare you against competitors without parsing marketing copy. I published a <a href="https://github.com/katrinalaszlo/agent-serve/tree/main/schema">schema for this</a> in the agent-serve repo, and including it moves a product from a 3 to an 8 on the purchasing dimension of an audit.</p><h2>The audit</h2><p>I built <a href="https://github.com/katrinalaszlo/agent-serve">agent-serve</a> as a Claude Code skill that audits these five dimensions and scores each one 0-10. It works in two modes: URL mode (fetches your marketing site, docs, and API references) and repo mode (analyzes your API routes, auth middleware, and billing integration from source).</p><p>The scoring anchors are concrete. A 0 on onboarding means browser-only signup with CAPTCHA. A 5 means API signup exists but with friction (email verification, manual approval). A 10 means Cloudflare-style zero-friction provisioning where an agent can go from nothing to a working account in one API call.</p><p>Most products I've audited land between 1 and 3 across all five dimensions. They have APIs for their core features but nothing for the account lifecycle. The signup requires a browser. The API key requires a dashboard. The payment requires Checkout. The plan change requires support. Each of these is a wall an agent can't get past.</p><p>The maturity model looks like this:</p><table><thead><tr><th>Level</th><th>What it means</th></tr></thead><tbody><tr><td>0: Agent-hostile</td><td>Browser-only everything, CAPTCHA, "contact sales"</td></tr><tr><td>1: API exists</td><td>REST API for features, but signup/auth/billing require a human</td></tr><tr><td>2: Agent-possible</td><td>API signup (with friction), scoped keys, usage visible via API</td></tr><tr><td>3: Agent-friendly</td><td>Full programmatic onboarding, plan selection and payment via API</td></tr><tr><td>4: Agent-first</td><td>Zero-friction provisioning, MCP server, spending policies, self-serve everything</td></tr></tbody></table><p>Level 4 is Stripe and Cloudflare. Level 2 is a reasonable near-term target for most self-serve SaaS. The jump from 1 to 2 is the highest-leverage work: add an API signup route, scope your API keys, and expose usage data. None of that requires rebuilding your billing system.</p><h2>Does this matter yet?</h2><p>The same honest framing from Part 2 applies here. If you're optimizing for agents to discover you, the evidence is mixed. If you're optimizing for agents to use you once they arrive, the evidence is stronger but the market is early.</p><p><a href="https://www.netlify.com/solutions/code-agents/">Netlify's 80% agent signup rate</a> is real, but Netlify is a developer tool where the users are already in terminals and the agents are coding agents deploying projects. That's the ideal case. A marketing automation platform or a CRM probably isn't seeing 80% agent signups anytime soon.</p><p>But the directional bet is clear. <a href="https://stripe.com/blog/developing-an-open-standard-for-agentic-commerce">Stripe didn't build an entire commerce protocol</a> for a market that doesn't exist. Cloudflare didn't rebuild their onboarding around agents as a thought exercise. And the 73% of B2B buyers using agents for research will eventually expect those agents to act on their behalf, not just report back.</p><p>The pragmatic path is to start with Level 2. Scope your API keys (or use something like <a href="https://github.com/katrinalaszlo/agentkey">agentkey</a> to add scoping to what you have). Expose usage data via API. Add a machine-readable pricing manifest. These are hours of work, not quarters, and they position you for the transition without requiring you to rebuild your entire account lifecycle.</p><p>Run <a href="https://github.com/katrinalaszlo/agent-serve">agent-serve</a> on your product to see where you stand. Then fix the highest-leverage dimension first. For most products, that's auth (scoped keys) or onboarding (an API signup route). The rest can follow as the market demands it.</p>
+  </article>
+
+
+  <div id="subscribe" class="subscribe-section">
+    <h2>Get new posts by email</h2>
+    <p>No spam. Unsubscribe anytime.</p>
+    <form class="subscribe-form" tool-name="subscribe-to-newsletter" tool-description="Subscribe an email address to receive new blog posts" onsubmit="event.preventDefault();const e=this.querySelector('input');const b=this.querySelector('button');b.disabled=true;b.textContent='...';fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e.value})}).then(r=>r.json()).then(d=>{b.textContent='Subscribed!';e.value='';}).catch(()=>{b.textContent='Try again';b.disabled=false;})">
+      <input type="email" placeholder="you@example.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+
+  <footer>
+    <div class="article-footer">
+      <button class="share-btn" onclick="fetch('/blog/onboarding-agents.md').then(r=>r.text()).then(t=>{navigator.clipboard.writeText(t);this.innerHTML='Copied!'})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy for AI
+      </button>
+      <a class="share-btn" href="/blog/onboarding-agents.md">View source</a>
+    </div>
+    <div class="footer-inner">
+      <span>Katrina Laszlo, 2026</span>
+      <div class="footer-links">
+        <a href="https://x.com/Katlaszlo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://www.linkedin.com/in/katrinalaszlo/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://github.com/katrinalaszlo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+        <a href="mailto:katrina.j.laszlo@gmail.com"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+      </div>
+    </div>
+  </footer>
+</div>
+<div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
+    <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>
+    <h3 style="margin:0 0 0.5rem;font-size:1.25rem">Get new posts by email</h3>
+    <p style="margin:0 0 1rem;color:#666;font-size:0.9rem">No spam. Unsubscribe anytime.</p>
+    <form tool-name="subscribe-to-newsletter" tool-description="Subscribe an email address to receive new blog posts" onsubmit="event.preventDefault();const e=this.querySelector('input');const b=this.querySelector('button');b.disabled=true;b.textContent='...';fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e.value})}).then(r=>r.json()).then(()=>{b.textContent='Subscribed!';e.value='';setTimeout(()=>document.getElementById('subscribe-modal').style.display='none',1500)}).catch(()=>{b.textContent='Try again';b.disabled=false})" style="display:flex;gap:0.5rem">
+      <input type="email" placeholder="you@example.com" required style="flex:1;padding:0.6rem 0.75rem;border:1px solid #d1d5db;border-radius:6px;font-size:0.9rem">
+      <button type="submit" style="padding:0.6rem 1.25rem;background:#111;color:#fff;border:none;border-radius:6px;font-size:0.9rem;cursor:pointer">Subscribe</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
