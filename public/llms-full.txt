@@ -91,6 +91,7 @@ RSS feed: https://katrinalaszlo.com/blog/feed.xml
 
 ## Projects
 
+- tstack (https://github.com/tansohq/tstack): Billing engineer for usage-based products. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration.
 - agentkey (https://github.com/katrinalaszlo/agentkey): Scoped, budgeted, time-bounded API keys for AI agents. The four layers between Clerk and Stripe. npm: @katrinalaszlo/agentkey
 - Data Lab (https://data.tansohq.com): Pricing intelligence dataset. 123 SaaS companies with agent readiness scores, source-traced pricing data, changelogs, and a free scanner.
 - pricing-advisor-skill (https://github.com/katrinalaszlo/pricing-advisor-skill): Claude Code skill for AI-powered pricing strategy. Competitive analysis against 146 tracked companies, pricing model design, gap auditing.

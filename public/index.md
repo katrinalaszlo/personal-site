@@ -30,6 +30,7 @@ BS Business Administration. International Business, Political Economics, Marketi
 
 ## Projects
 
+- **tstack** — Billing engineer for usage-based products. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration. [GitHub](https://github.com/tansohq/tstack)
 - **agentkey** — Scoped, budgeted API keys for AI agents. The auth layer between Clerk and Stripe. [GitHub](https://github.com/katrinalaszlo/agentkey) | [npm](https://www.npmjs.com/package/@katrinalaszlo/agentkey)
 - **aeo-ready** — Is your site AEO ready? Two scorecards. Agent Readiness + AI Visibility. One scan, one score. [GitHub](https://github.com/katrinalaszlo/aeo-ready)
 - **agent-serve** — Can AI agents buy and use your product without a human? Audit skill for SaaS agent-readiness. [GitHub](https://github.com/katrinalaszlo/agent-serve)
