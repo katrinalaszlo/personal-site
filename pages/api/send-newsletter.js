@@ -52,33 +52,38 @@ export default async function handler(req, res) {
       .json({ error: "Missing AGENT_MAIL_KEY or AGENT_MAIL_INBOX_ID" });
   }
 
-  const { title, url, content } = req.body || {};
+  const { title, url, content, testOnly } = req.body || {};
   if (!title || !url || !content) {
     return res.status(400).json({ error: "title, url, and content required" });
   }
 
-  let subscribers = [];
-  try {
-    const { blobs } = await list({ prefix: "subscribers.json" });
-    if (blobs.length > 0) {
-      const resp = await fetch(blobs[0].url, {
-        headers: {
-          Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
-        },
-      });
-      subscribers = await resp.json();
+  let recipients = [];
+
+  if (testOnly) {
+    recipients = [testOnly];
+  } else {
+    try {
+      const { blobs } = await list({ prefix: "subscribers.json" });
+      if (blobs.length > 0) {
+        const resp = await fetch(blobs[0].url, {
+          headers: {
+            Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
+          },
+        });
+        recipients = await resp.json();
+      }
+    } catch (e) {
+      return res.status(500).json({ error: "Failed to read subscribers" });
     }
-  } catch (e) {
-    return res.status(500).json({ error: "Failed to read subscribers" });
   }
 
-  if (subscribers.length === 0) {
-    return res.status(200).json({ message: "No subscribers", sent: 0 });
+  if (recipients.length === 0) {
+    return res.status(200).json({ message: "No recipients", sent: 0 });
   }
 
   const results = [];
 
-  for (const email of subscribers) {
+  for (const email of recipients) {
     const html = buildEmailHtml({ title, url, content, email });
     try {
       const resp = await fetch(
@@ -106,5 +111,9 @@ export default async function handler(req, res) {
   const sent = results.filter((r) => r.status === "sent").length;
   return res
     .status(200)
-    .json({ message: `Sent to ${sent}/${subscribers.length}`, results });
+    .json({
+      message: `Sent to ${sent}/${recipients.length}`,
+      results,
+      testOnly: !!testOnly,
+    });
 }
