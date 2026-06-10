@@ -68,7 +68,7 @@ Background in UX and product design applied to AI agents as users. Most agent re
 - [Structured Data](https://katrinalaszlo.com/agents.json): Machine-readable expertise, projects, contact (500 tokens)
 - [OpenAPI Spec](https://katrinalaszlo.com/openapi.json): API specification for MCP endpoint (1K tokens)
 - [Developer Portal](https://katrinalaszlo.com/developers/): MCP setup, skills install, all endpoints (2K tokens)
-- [Notebook](https://katrinalaszlo.com/notebook/): 18 interactive essays on AI systems and agent experience (index page, 1K tokens)
+- [Notebook](https://katrinalaszlo.com/notebook/): 19 interactive essays on AI systems and agent experience (index page, 1K tokens)
 
 ## MCP Server
 
@@ -87,7 +87,7 @@ Background in UX and product design applied to AI agents as users. Most agent re
 
 ## Notebook
 
-Interactive learning notes on AI systems and agent experience. 18 essays.
+Interactive learning notes on AI systems and agent experience. 19 essays.
 
 - [Notebook Index](https://katrinalaszlo.com/notebook/): Full topic list
 - [Model Architecture](https://katrinalaszlo.com/notebook/model-architecture): Embeddings, attention, MLPs, depth vs width
@@ -103,6 +103,7 @@ Interactive learning notes on AI systems and agent experience. 18 essays.
 - [Mutual Legibility](https://katrinalaszlo.com/notebook/mutual-legibility): When agents and humans need to understand each other
 - [The Bifurcated Web](https://katrinalaszlo.com/notebook/bifurcated-web): Two webs diverging
 - [Agent Self-Serve](https://katrinalaszlo.com/notebook/agent-self-serve): Agent Skills, MCP servers, removing human gates
+- [The AX Pattern Library](https://katrinalaszlo.com/notebook/ax-pattern-library): Four design patterns for software agents use, across instruction files, docs, tool interfaces, and access control
 - [Agent Evaluation](https://katrinalaszlo.com/notebook/agent-evaluation): From manual testing to repeatable eval pipelines
 - [OpenClaw Personal Agents](https://katrinalaszlo.com/notebook/openclaw-personal-agents): How OpenClaw works, when to use it vs Claude+MCP or Letta
 - [Hermes Orchestration](https://katrinalaszlo.com/notebook/hermes-orchestration): Always-on agent framework from Nous Research

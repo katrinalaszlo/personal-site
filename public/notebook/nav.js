@@ -63,6 +63,10 @@
         },
         { title: "The Bifurcated Web", href: "/notebook/bifurcated-web.html" },
         { title: "Agent Self-Serve", href: "/notebook/agent-self-serve.html" },
+        {
+          title: "The AX Pattern Library",
+          href: "/notebook/ax-pattern-library.html",
+        },
       ],
     },
   ];

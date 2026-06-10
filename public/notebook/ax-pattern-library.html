@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AX Pattern Library — Notebook — Katrina Laszlo</title>
+<meta name="description" content="Design patterns for software that agents use. Four patterns for instruction files, documentation, tool interfaces, and access control, every one mapped to documented, named failures.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="canonical" href="https://katrinalaszlo.com/notebook/ax-pattern-library">
+<meta property="og:title" content="The AX Pattern Library">
+<meta property="og:description" content="Design patterns for software that agents use. Four patterns for instruction files, documentation, tool interfaces, and access control, every one mapped to documented, named failures.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://katrinalaszlo.com/notebook/ax-pattern-library">
+<meta property="og:image" content="https://katrinalaszlo.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Katlaszlo">
+<meta name="twitter:title" content="The AX Pattern Library">
+<meta name="twitter:description" content="Design patterns for software that agents use. Four patterns mapped to documented failures.">
+<meta name="twitter:image" content="https://katrinalaszlo.com/og-image.png">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
+<link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
+<link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
+<link rel="stylesheet" href="notebook.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"The AX Pattern Library","description":"Design patterns for software that agents use. Four patterns for instruction files, documentation, tool interfaces, and access control, every one mapped to documented, named failures.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/ax-pattern-library"}}
+</script>
+<style>
+.pattern-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; }
+.pattern-card .pat-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+.pattern-card .pat-no { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent); background: rgba(79,70,229,0.1); border-radius: 4px; padding: 2px 8px; flex-shrink: 0; }
+.pattern-card h2 { margin-bottom: 0; font-size: 20px; }
+.pattern-card .applies { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+.lbl { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin: 14px 0 6px; }
+.lbl.break { color: var(--red); }
+.lbl.reframe { color: var(--accent); }
+.lbl.practice { color: var(--green); }
+.pattern-card p { font-size: 14px; color: var(--text); }
+.practice-list { list-style: none; margin: 4px 0 8px; }
+.practice-list li { font-size: 14px; padding: 7px 0 7px 22px; position: relative; border-bottom: 1px solid var(--border-light); margin: 0; }
+.practice-list li:last-child { border-bottom: none; }
+.practice-list li::before { content: "→"; position: absolute; left: 2px; color: var(--green); font-weight: 600; }
+.evidence { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-light); }
+.ev-chip { font-size: 12px; color: var(--text-dim); background: var(--bg-inset); border-radius: 99px; padding: 3px 10px; }
+.ev-chip b { color: var(--text); font-weight: 600; }
+.arc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; counter-reset: arc; }
+.arc > div { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; font-size: 13px; color: var(--text-dim); counter-increment: arc; }
+.arc > div::before { content: counter(arc); font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
+.arc > div b { color: var(--text); display: block; margin-bottom: 2px; }
+.arc > div:last-child { border-color: #fca5a5; background: rgba(220,38,38,0.04); }
+.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 4px; }
+.ba-col { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.ba-col.bad { border-color: rgba(220,38,38,0.4); }
+.ba-col.good { border-color: rgba(22,163,74,0.4); }
+.ba-head { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px; }
+.ba-col.bad .ba-head { background: rgba(220,38,38,0.07); color: var(--red); }
+.ba-col.good .ba-head { background: rgba(22,163,74,0.07); color: var(--green); }
+.ba-col pre { font-family: var(--mono); font-size: 12px; line-height: 1.55; padding: 12px 14px; white-space: pre-wrap; color: var(--text-dim); margin: 0; }
+.ba-col pre b { color: var(--text); font-weight: 600; }
+.ba-col pre i { color: #a1a1aa; font-style: italic; }
+.ba-cap { font-size: 12px; color: var(--text-dim); padding: 0 14px 12px; }
+@media (max-width: 700px) { .arc { grid-template-columns: 1fr 1fr; } .ba { grid-template-columns: 1fr; } .pattern-card .applies { display: none; } }
+</style>
+<link rel="llms-txt" href="/llms.txt">
+<link rel="alternate" type="text/markdown" href="/notebook/ax-pattern-library.md" title="Markdown version">
+</head>
+<body>
+
+<header style="padding:1.5rem 0">
+  <div style="max-width:900px;margin:0 auto;padding:0 2rem">
+    <nav style="display:flex;justify-content:space-between;align-items:center">
+      <a href="/" style="font-weight:600;font-size:0.9375rem;color:#0a0a0a;text-decoration:none">Katrina Laszlo</a>
+      <div style="display:flex;gap:1.5rem;align-items:center">
+        <a href="/notebook" style="font-size:0.875rem;color:#0a0a0a;text-decoration:none">Notebook</a>
+        <a href="/blog" style="font-size:0.875rem;color:#71717a;text-decoration:none">Blog</a>
+        <a href="/#connect" style="font-size:0.875rem;color:#71717a;text-decoration:none">Connect</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto;padding:0.75rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem">
+  <div style="color:#71717a"><a href="/notebook" style="color:#71717a;text-decoration:none">Notebook</a> <span style="margin:0 0.375rem">/</span> <span style="color:#0a0a0a">The AX Pattern Library</span></div>
+</div>
+
+<main>
+
+<h1>The AX Pattern Library</h1>
+<p class="subtitle">Design patterns for software that agents use. v1: four patterns for instruction files, documentation, tool interfaces, and access control. Every pattern maps to documented, named failures. None of them are engineering problems.</p>
+
+<!-- THE THESIS -->
+<section>
+  <h2>The thesis</h2>
+  <p>When an agent fails on your product, the instinct is to search for the engineering fix: a better template, a newer SDK. But the failures follow the same arc every time, and the missing discipline is UX methodology applied to non-human users.</p>
+  <div class="arc">
+    <div><b>Build</b> Developer ships something that technically works.</div>
+    <div><b>Fail</b> An agent uses it and fails. Not broken, just not designed for how agents read.</div>
+    <div><b>Search</b> Developer looks for engineering fixes: "MCP best practices," "CLAUDE.md template."</div>
+    <div><b>Stuck</b> The answers don't solve it, because the problem is design.</div>
+  </div>
+  <div class="analogy"><strong>The frame:</strong> a CLAUDE.md is an onboarding flow. Docs are a usability test. A tool list is a choice architecture. A budget is progressive disclosure. Developers already live these problems; they've just never been told it's the same problem they'd hand to a designer.</div>
+</section>
+
+<!-- PATTERN 1 -->
+<section>
+<div class="pattern-card">
+  <div class="pat-head"><span class="pat-no">P1</span><h2>Specs are design artifacts</h2><span class="applies">CLAUDE.md · AGENTS.md</span></div>
+  <span class="lbl break">The break</span>
+  <p>Instruction files get written like READMEs, every rule in one flat dump. Agents hold consistent compliance for roughly the first 15 tool calls, then degrade; past ~150 lines, more rules produce <em>worse</em> adherence, and context compaction drops procedural rules while keeping task objectives.</p>
+  <span class="lbl reframe">The reframe</span>
+  <p>A CLAUDE.md is not documentation. It is an <strong>onboarding flow for a non-human user</strong>, and nobody would ship an onboarding screen that shows every feature at once. The questions are information-architecture questions: what comes first, what stays global, what gets disclosed where the work happens.</p>
+  <span class="lbl practice">The practice</span>
+  <ul class="practice-list">
+    <li><b>Priority layering.</b> The few rules that must never break go first, stated once, in imperative voice. Everything else is context, not law.</li>
+    <li><b>Directory-level scoping.</b> Rules about <code>src/features/</code> live in <code>src/features/CLAUDE.md</code>, disclosed when the agent is there, invisible when it isn't.</li>
+    <li><b>State the current pattern, not the history.</b> Agents infer conventions from whatever code they see first; say explicitly which pattern wins.</li>
+    <li><b>Test it like a flow.</b> Give a fresh agent a real task and watch where it deviates. Every deviation is an IA bug in the file, not a model failure.</li>
+  </ul>
+  <div class="ba">
+    <div class="ba-col bad">
+      <div class="ba-head">Before · the README approach</div>
+      <pre><b># CLAUDE.md</b>  <i>(one file, 400 lines)</i>
+We use TypeScript. PostgreSQL with Prisma.
+Follow existing patterns. Run tests before
+committing. Don't modify the auth middleware.
+API responses use camelCase. Errors use the
+AppError class. Components live in…
+<i>…390 more lines: style rules, deploy notes,
+git etiquette, every edge case ever hit…</i></pre>
+      <div class="ba-cap">Agent re-reads all 400 lines every turn. Complies for ~15 tool calls, then drifts. "Follow existing patterns" means whichever file it opened first.</div>
+    </div>
+    <div class="ba-col good">
+      <div class="ba-head">After · the onboarding-flow approach</div>
+      <pre><b># CLAUDE.md</b>  <i>(root: 25 lines, non-negotiables)</i>
+NEVER modify src/auth/middleware.ts.
+New endpoints go in src/features/&lt;name&gt;/
+src/routes/ is legacy. Do not add to it.
+All DB access through Prisma. Raw SQL is
+always wrong here. Run `npm test` pre-commit.
+
+<b># src/features/CLAUDE.md</b>  <i>(scoped)</i>
+Each feature: route.ts, schema.ts (zod),
+service.ts. Copy segments/ as the template.</pre>
+      <div class="ba-cap">Same knowledge, layered: 25 global lines the agent can hold, with feature rules disclosed only where the work happens, and a named template to copy.</div>
+    </div>
+  </div>
+  <div class="evidence">
+    <span class="ev-chip"><b>4,090 upvotes</b> on the AGENTS.md issue, 7 months unanswered</span>
+    <span class="ev-chip"><b>~15 tool calls</b> before compliance degrades</span>
+    <span class="ev-chip"><b>−25% completeness</b> from a bad AGENTS.md (Augment Code)</span>
+    <span class="ev-chip">"200 lines of rules. All ignored."</span>
+  </div>
+</div>
+</section>
+
+<!-- PATTERN 2 -->
+<section>
+<div class="pattern-card">
+  <div class="pat-head"><span class="pat-no">P2</span><h2>The agent is your usability tester</h2><span class="applies">docs · quickstarts · references</span></div>
+  <span class="lbl break">The break</span>
+  <p>Docs are designed for human scanning: framework tabs, accordions, interactive selectors. Agents read linearly. They take the first code block they reach, never see tab three, and confidently generate integrations that crash. Worse: they misread outcomes. Stripe documented agents treating 400 errors as success and marking the task complete.</p>
+  <span class="lbl reframe">The reframe</span>
+  <p>Every agent failure on your docs is a <strong>usability finding</strong>. The method already exists: it's a usability test where the participant happens to be a model. Netlify runs this internally; nobody has published it as practice.</p>
+  <span class="lbl practice">The practice</span>
+  <ul class="practice-list">
+    <li><b>Run the test before shipping.</b> Fresh agent, real task ("integrate this SDK into a Next.js app"), no hints. Log every wrong turn.</li>
+    <li><b>Serialize what interaction hides.</b> Every tab variant and accordion answer must exist in the linear reading order, or in llms.txt.</li>
+    <li><b>Put the load-bearing command first.</b> JetBrains found 16 agents independently hitting the same problem: the critical command was buried at line 91.</li>
+    <li><b>Make errors legible as errors.</b> If a failure response can be read as success, an agent will read it as success.</li>
+  </ul>
+  <div class="evidence">
+    <span class="ev-chip"><b>50% → 67–88%</b> task success with an agent-purpose-built doc (Supabase)</span>
+    <span class="ev-chip"><b>400-as-success</b> failure mode (Stripe)</span>
+    <span class="ev-chip"><b>Line 91</b>: most important command, found by 16 agents (JetBrains)</span>
+    <span class="ev-chip">"If an agent can't figure out your API, neither can your users" (Stytch)</span>
+  </div>
+</div>
+</section>
+
+<!-- PATTERN 3 -->
+<section>
+<div class="pattern-card">
+  <div class="pat-head"><span class="pat-no">P3</span><h2>Tools are choices, not endpoints</h2><span class="applies">MCP servers · tool schemas</span></div>
+  <span class="lbl break">The break</span>
+  <p>Developers map REST endpoints 1:1 to MCP tools. The agent faces 30, 50, 101 near-identical options, burns half its context loading schemas, picks wrong, or fails silently. A Queen's University study found <strong>97.1% of MCP tool descriptions contain anti-patterns</strong>. The servers work. The interfaces don't.</p>
+  <span class="lbl reframe">The reframe</span>
+  <p>A tool list is a <strong>choice architecture</strong>. The LLM sees only names, descriptions, parameters, and outputs. If something isn't explicit there, it doesn't exist. That's interface design, with the same disciplines: reduce options, name by intent, describe <em>when</em>, not just <em>what</em>.</p>
+  <span class="lbl practice">The practice</span>
+  <ul class="practice-list">
+    <li><b>Design for the decision, not the API.</b> Block went from 30+ Linear tools to 2, across three rebuilds. GitHub Copilot cut 40 to 13 and measured the improvement.</li>
+    <li><b>Write "use this when…" descriptions.</b> The description's job is disambiguation between tools, not endpoint documentation.</li>
+    <li><b>Fail loudly.</b> A tool that silently drops an unknown parameter costs the agent attempt after attempt; a crash costs one.</li>
+    <li><b>Ask whether it should be a tool at all.</b> If the agent can run a CLI command, a tool that wraps the same thing is pure schema tax (Nx deleted theirs).</li>
+  </ul>
+  <div class="evidence">
+    <span class="ev-chip"><b>97.1%</b> of tool descriptions have anti-patterns (Queen's)</span>
+    <span class="ev-chip"><b>30+ → 2 tools</b>, three rebuilds (Block)</span>
+    <span class="ev-chip"><b>101 tools, 64.6k tokens</b> at startup (GitHub MCP)</span>
+    <span class="ev-chip"><b>52% of MCP servers</b> dead on arrival (Rapid Claw audit)</span>
+  </div>
+</div>
+</section>
+
+<!-- PATTERN 4 -->
+<section>
+<div class="pattern-card">
+  <div class="pat-head"><span class="pat-no">P4</span><h2>Safety rails are the experience</h2><span class="applies">budgets · keys · permissions</span></div>
+  <span class="lbl break">The break</span>
+  <p>Agent access is binary: blocked entirely, or unrestricted. The result is a documented incident class: a $500M monthly Claude bill at one enterprise, Uber's annual AI budget gone in four months, a $47,000 two-agent loop that ping-ponged for eleven days because no per-agent ceiling existed. The opposite failure is just as real: <strong>permission fatigue</strong>, agents that ask approval for every step until users click "allow" blindly. A satirical game about exactly this hit the Hacker News front page.</p>
+  <span class="lbl reframe">The reframe</span>
+  <p>Scoped capability is <strong>product UX, not a security afterthought</strong>. A well-designed boundary is what lets an agent act confidently, and lets its human delegate without watching. The industry term forming for this is <strong>progressive delegation</strong>: the user's approval history sets the pace of autonomy, so the agent earns permission through demonstrated reliability instead of demanding it upfront. With only 6% of companies fully trusting agents against 40% projected enterprise adoption, this is the design problem of the next two years.</p>
+  <span class="lbl practice">The practice</span>
+  <ul class="practice-list">
+    <li><b>Per-agent, per-session budgets by default.</b> Vercel ships a $200 default budget with agent deploys; default-unlimited is a design decision too, a bad one.</li>
+    <li><b>Scoped, time-bounded, introspectable keys.</b> An agent should be able to ask what it's allowed to do before it tries.</li>
+    <li><b>Graduated trust, made explicit.</b> New agent: read-only with caps. Proven agent: wider scopes. Let approval history widen the ladder automatically; that's progressive delegation in practice, and the cure for permission fatigue.</li>
+    <li><b>Budget exhaustion is a UX state.</b> Design what the agent sees at the limit: a legible "stop and report" beats a silent failure loop.</li>
+  </ul>
+  <div class="evidence">
+    <span class="ev-chip"><b>$500M</b> one-month bill, no caps (US enterprise)</span>
+    <span class="ev-chip"><b>$47K loop</b>: 11 days, no ceiling</span>
+    <span class="ev-chip"><b>6% trust vs 40% adoption</b>: the collision course (Gartner)</span>
+    <span class="ev-chip"><b>"Continue? Y/N"</b>: permission-fatigue game, HN front page</span>
+  </div>
+</div>
+</section>
+
+<!-- WORKED EXAMPLE -->
+<section>
+  <h2>A worked example, caught live</h2>
+  <div class="warning"><strong>Divergent surfaces.</strong> While preparing this library I audited my own product's site, one I'd already made agent-readable (llms.txt, AGENTS.md, MCP discovery, agent auth). The human page and the agent page disagreed: the llms.txt still described the previous product, with prices 3x higher than the live pricing table. An agent comparing vendors for its human would have read the wrong product at the wrong price, and the page "worked" the whole time. The durable fix is generating every surface from one source of truth so they <em>can't</em> diverge. If it happened on the site of someone who studies this full-time, it's happening on yours.</div>
+</section>
+
+<!-- WHY THIS LIBRARY -->
+<section>
+  <h2>Why a pattern library, and why from a designer</h2>
+  <p>The discipline is being named right now: John Maeda's 2026 Design in Tech Report is titled "From UX to AX," and agencies are publishing frameworks monthly. Meanwhile the people best equipped for this work are locked out of it: in a widely shared r/UXDesign thread, a designer at an AI-agent company describes having no input when agents get built, because agent behavior is treated as "technical workflows," with design called in afterward to decorate the output.</p>
+  <p>That's the gap this library exists for. Agent behavior <em>is</em> interface design, and designers need the vocabulary and the patterns to claim the room. Three serious frameworks already exist, none of them are practitioner guidance:</p>
+  <table class="contrast-table">
+    <thead><tr><th>Org</th><th>Framework</th><th>What's missing</th></tr></thead>
+    <tbody>
+      <tr><td>NNGroup</td><td>"Agents are users"; accessibility as near-term agent compatibility</td><td>Research and theory, no implementation practice</td></tr>
+      <tr><td>Microsoft</td><td>Space/Time/Core, six principles, uncertainty as a design element</td><td>Engineering principles, no UX process</td></tr>
+      <tr><td>Amazon</td><td>Three zones of delegation plus coordination curves</td><td>Describes the handoff, doesn't teach the design</td></tr>
+    </tbody>
+  </table>
+  <div class="connection"><strong>The whitespace:</strong> every agentic guide covers architecture with zero UX methodology, and every MCP tutorial teaches <em>how to build</em>, never <em>how to design</em>. The bridge between "tools are badly designed" and "here's the design practice" doesn't exist as content. This library is that bridge, written by someone who has shipped UX for humans, DX for developers, and now AX for agents.</div>
+  <p class="dim">v1 covers the surfaces agents <em>consume</em>. Two directions are next: the supervision surfaces (planning visibility, tool-use disclosure, memory surfacing, workflow tracking, recovery routing, documented across the field, productized by nobody) and pricing pages agents can read. If you're building either, I want to hear about it.</p>
+</section>
+
+<div class="credit">
+  Patterns verified against named incidents: Block, GitHub, Supabase, Stripe, JetBrains, AWS, Netlify/Clerk, Workato, Nx, Vercel, Uber, and a Queen's University audit of MCP tool descriptions. Community signal: r/UXDesign, Hacker News, the 2026 Design in Tech Report. Research method: two rounds of parallel-agent verification; all claims trace to published sources. Part of the <a href="/notebook">notebook</a> · <a href="/notebook/agent-experience">Agent Experience</a> · <a href="/notebook/mutual-legibility">Mutual Legibility</a>
+</div>
+
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>

@@ -112,7 +112,7 @@ RSS feed: https://katrinalaszlo.com/blog/feed.xml
 
 ## Notebook: What I'm Learning
 
-13 interactive essays I use as reference while building. Available as Agent Skills and via MCP server.
+14 interactive essays I use as reference while building. Available as Agent Skills and via MCP server.
 
 ### Topics
 
@@ -120,7 +120,7 @@ About AI: Model Architecture, Training Loops, Data Pipelines
 Knowledge Systems: Wiki vs Vector DB, LLM Memory & Retrieval, Knowledge Architecture
 Building AI Systems: AI System Design, Agent Teams, Agent Evaluation
 Agent Tools: OpenClaw Personal Agents, Hermes Orchestration
-Agent Experience: Agent Experience (AX), Agent-Readable Sites, Mutual Legibility, The Bifurcated Web, Agent Self-Serve
+Agent Experience: Agent Experience (AX), Agent-Readable Sites, Mutual Legibility, The Bifurcated Web, Agent Self-Serve, The AX Pattern Library
 
 ### How to use these notes
 
@@ -151,7 +151,7 @@ This is a static HTML site deployed on Vercel. No framework, no build step, no d
 ### Project structure
 
 - `index.html`: Main page (profile, experience, projects, contact)
-- `notebook/`: 13 standalone HTML essay pages + `notebook.css` + `nav.js` + `index.html`
+- `notebook/`: 14 standalone HTML essay pages + `notebook.css` + `nav.js` + `index.html`
 - `.well-known/`: Agent discovery endpoints (agent-skills, mcp, agent-card, api-catalog)
 - `api/mcp.js`: Vercel serverless function (MCP server)
 - `vercel.json`: Vercel config (headers only)
