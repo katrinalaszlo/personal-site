@@ -22,6 +22,7 @@ const NOTEBOOK_PAGES = [
   "agent-readable-sites",
   "agent-self-serve",
   "ai-system-design",
+  "ax-pattern-library",
   "bifurcated-web",
   "claude-api",
   "data-pipeline",

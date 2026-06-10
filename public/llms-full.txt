@@ -171,7 +171,8 @@ Create an HTML file (e.g., `notebook/new-topic.html`). Use any existing notebook
 1. Create `notebook/your-topic.html` using an existing page as the structure template
 2. Add the entry to the `sections` array in `notebook/nav.js` under the appropriate group
 3. Add a card to `notebook/index.html` with title, description, tags, and date
-4. Push to GitHub. Vercel auto-deploys.
+4. Add the slug to the `NOTEBOOK_PAGES` array in `api/mcp.js` so the page is queryable via the MCP server
+5. Push to GitHub. Vercel auto-deploys.
 
 ### How to change styles
 
@@ -197,7 +198,7 @@ This site does not use the GitHub API. All content is static HTML. Projects are 
 
 ### Adding external content
 
-The MCP server (`api/mcp.js`) reads Agent Skills and notebook HTML files at runtime. To add new queryable content, either add a new notebook page (automatically indexed by the MCP server) or add a new Agent Skill directory under `.well-known/agent-skills/` with a SKILL.md and optional references/.
+The MCP server (`api/mcp.js`) reads Agent Skills and notebook HTML files at runtime. To add new queryable content, either add a new notebook page and list its slug in the `NOTEBOOK_PAGES` array in `api/mcp.js`, or add a new Agent Skill directory under `.well-known/agent-skills/` with a SKILL.md and optional references/.
 
 ## Machine-Readable Endpoints
 
