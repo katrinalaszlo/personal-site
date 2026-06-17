@@ -6,21 +6,29 @@
     <link>https://katrinalaszlo.com/blog/</link>
     <atom:link href="https://katrinalaszlo.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
-    <lastBuildDate>Sat, 31 May 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jun 2026 00:00:00 GMT</lastBuildDate>
+
+    <item>
+      <title>Onboarding Agents</title>
+      <link>https://katrinalaszlo.com/blog/onboarding-agents</link>
+      <description>What it actually takes to let an agent sign up, try your product, and buy it. Without a human touching a browser.</description>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/onboarding-agents</guid>
+    </item>
 
     <item>
       <title>Is Your Site Ready for Agents?</title>
       <link>https://katrinalaszlo.com/blog/site-ready-for-ai</link>
-      <description>Five competing frameworks now score how well your site serves AI agents. Here's what they check, why it matters, and a single command that runs them all.</description>
-      <pubDate>Thu, 29 May 2026 00:00:00 GMT</pubDate>
+      <description>Five competing frameworks now score how well your site serves AI agents. Here&apos;s what they check, whether it matters, and a single command that runs them all.</description>
+      <pubDate>Fri, 29 May 2026 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/site-ready-for-ai</guid>
     </item>
 
     <item>
-      <title>Self-Serve for AI Agents</title>
+      <title>Your Next Customer Might Be an Agent</title>
       <link>https://katrinalaszlo.com/blog/agent-self-serve</link>
-      <description>Two Claude Code skills born from making my own sites agent-ready. Discovery, onboarding, and purchase... without a human in the loop.</description>
-      <pubDate>Sat, 16 May 2026 00:00:00 GMT</pubDate>
+      <description>Agents are already reshaping how B2B buyers research and choose vendors. What does the self-serve experience need to look like when an agent is the buyer?</description>
+      <pubDate>Tue, 26 May 2026 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/agent-self-serve</guid>
     </item>
 
@@ -28,24 +36,32 @@
       <title>Building a Pricing Database</title>
       <link>https://katrinalaszlo.com/blog/building-a-pricing-database</link>
       <description>Human-directed, AI-driven research and insights. An LLM does all the writing, cross-referencing, and maintenance while I curate what goes in.</description>
-      <pubDate>Mon, 05 May 2026 00:00:00 GMT</pubDate>
+      <pubDate>Tue, 05 May 2026 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/building-a-pricing-database</guid>
     </item>
 
     <item>
-      <title>Product Discovery with Karpathy's LLM Wiki</title>
+      <title>Product Discovery with Karpathy&apos;s LLM Wiki</title>
       <link>https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki</link>
-      <description>I repurposed Karpathy's LLM Wiki for product discovery. It worked surprisingly well.</description>
-      <pubDate>Sun, 27 Apr 2026 00:00:00 GMT</pubDate>
+      <description>I repurposed Karpathy&apos;s LLM Wiki for product discovery. It worked surprisingly well.</description>
+      <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki</guid>
     </item>
 
     <item>
-      <title>If you're rethinking your pricing because of AI, read this first</title>
+      <title>If you&apos;re rethinking your pricing because of AI, read this first</title>
       <link>https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai</link>
-      <description>The most common mistake: teams look at their AI COGS, panic, and mark it up. That's cost-plus pricing wearing an AI hat.</description>
+      <description>The most common mistake: teams look at their AI COGS, panic, and mark it up. That&apos;s cost-plus pricing wearing an AI hat.</description>
       <pubDate>Sat, 18 Apr 2026 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai</guid>
+    </item>
+
+    <item>
+      <title>The &apos;AI Included&apos; Era Was Never Going to Last Forever</title>
+      <link>https://katrinalaszlo.com/blog/ai-included</link>
+      <description>The mismatch between flat pricing and variable AI costs didn&apos;t start with AI-native startups. It&apos;s coming for every SaaS company that shipped an AI feature in the last two years.</description>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+      <guid>https://katrinalaszlo.com/blog/ai-included</guid>
     </item>
 
     <item>
@@ -57,17 +73,9 @@
     </item>
 
     <item>
-      <title>The "AI Included" Era Was Never Going to Last Forever</title>
-      <link>https://katrinalaszlo.com/blog/ai-included</link>
-      <description>The mismatch between flat pricing and variable AI costs didn't start with AI-native startups. It's coming for every SaaS company that shipped an AI feature in the last two years.</description>
-      <pubDate>Tue, 25 Feb 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/ai-included</guid>
-    </item>
-
-    <item>
-      <title>Why Falling Costs Don't Mean Better Margins</title>
+      <title>When More Customers Mean Bigger Losses</title>
       <link>https://katrinalaszlo.com/blog/more-customers-bigger-losses</link>
-      <description>Inference costs are dropping 5-10x per year. But seat-based pricing can't handle cost variance, and usage-based pricing deflates your revenue.</description>
+      <description>Most AI companies can answer &apos;What did we spend on OpenAI last month?&apos; Almost none can answer &apos;Which customers are actually profitable?&apos;</description>
       <pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/more-customers-bigger-losses</guid>
     </item>
@@ -75,8 +83,8 @@
     <item>
       <title>Pricing Is a Real Moat in AI SaaS</title>
       <link>https://katrinalaszlo.com/blog/pricing-moat-ai-saas</link>
-      <description>How pricing became a source of durable advantage in AI SaaS.</description>
-      <pubDate>Wed, 08 Jan 2026 00:00:00 GMT</pubDate>
+      <description>How pricing became a source of durable advantage in AI SaaS</description>
+      <pubDate>Thu, 08 Jan 2026 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/pricing-moat-ai-saas</guid>
     </item>
 
@@ -89,9 +97,9 @@
     </item>
 
     <item>
-      <title>What's Actually Different About AI Pricing</title>
+      <title>What&apos;s Actually Different About AI Pricing</title>
       <link>https://katrinalaszlo.com/blog/ai-pricing-differences</link>
-      <description>AI pricing looks new. New labels. New meters. New behaviors. Some things genuinely changed: costs and attribution work differently now. But fundamentals haven't.</description>
+      <description>AI pricing looks new. New labels. New meters. New behaviors. Some things genuinely changed: costs and attribution work differently now. But fundamentals haven&apos;t.</description>
       <pubDate>Fri, 28 Nov 2025 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/ai-pricing-differences</guid>
     </item>

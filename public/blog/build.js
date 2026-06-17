@@ -24,6 +24,15 @@ function parseFrontmatter(content) {
   return { meta, body: match[2].trim() };
 }
 
+function escapeXml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 function mdToHtml(md) {
   let html = "";
   const lines = md.split("\n");
@@ -383,6 +392,77 @@ ${JSON.stringify(
   const outPath = path.join(BLOG_DIR, `${slug}.html`);
   fs.writeFileSync(outPath, html);
   console.log(`  ${slug}.html`);
+
+  // Substack draft — skip cross-posts whose canonical points off-site
+  // (republishing those to Substack would split SEO and duplicate Tanso content).
+  if (!canonical) {
+    writeSubstackDraft({ slug, title, description, url, body });
+  }
+
+  return { slug, title, date, description, url, canonical };
+}
+
+// Emits distro/{slug}.substack.md — paste-ready body for the Substack editor.
+function writeSubstackDraft({ slug, title, description, url, body }) {
+  const bodyNoH1 = body.replace(/^# .+\n\n?/, "");
+  // Substack can't resolve root-relative paths — make image/link targets absolute.
+  const absolute = bodyNoH1.replace(
+    /\]\((\/[^)]+)\)/g,
+    "](https://katrinalaszlo.com$1)",
+  );
+  const draft = `<!-- SUBSTACK DRAFT for "${title}"
+Paste everything below the comment into a new Substack post, then:
+  Title:     ${title}
+  Subtitle:  ${description}
+  Canonical: set to ${url}
+             (post Settings -> "Canonical URL" — keeps katrinalaszlo.com as the
+             SEO source so Substack doesn't compete with your own page)
+-->
+
+${absolute}
+
+---
+
+*Originally published at [${url.replace("https://", "")}](${url}).*
+`;
+  const out = path.join(BLOG_DIR, "distro", `${slug}.substack.md`);
+  fs.writeFileSync(out, draft);
+  console.log(`  distro/${slug}.substack.md`);
+}
+
+// Generates feed.xml from all built posts, newest first.
+function buildFeed(posts) {
+  const sorted = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const lastBuild = sorted.length
+    ? new Date(sorted[0].date + "T00:00:00Z").toUTCString()
+    : new Date(0).toUTCString();
+  const items = sorted
+    .map(
+      (p) => `    <item>
+      <title>${escapeXml(p.title)}</title>
+      <link>${p.url}</link>
+      <description>${escapeXml(p.description)}</description>
+      <pubDate>${new Date(p.date + "T00:00:00Z").toUTCString()}</pubDate>
+      <guid>${p.url}</guid>
+    </item>`,
+    )
+    .join("\n\n");
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kat Laszlo</title>
+    <description>Writing about pricing, product discovery, and building for AI agents.</description>
+    <link>https://katrinalaszlo.com/blog/</link>
+    <atom:link href="https://katrinalaszlo.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <language>en-us</language>
+    <lastBuildDate>${lastBuild}</lastBuildDate>
+
+${items}
+  </channel>
+</rss>
+`;
+  fs.writeFileSync(path.join(BLOG_DIR, "feed.xml"), xml);
+  console.log(`  feed.xml (${sorted.length} items)`);
 }
 
 // Find all .md files (exclude build.js, feed.xml, index.html, etc.)
@@ -390,6 +470,10 @@ const mdFiles = fs
   .readdirSync(BLOG_DIR)
   .filter((f) => f.endsWith(".md") && f !== "README.md");
 
+const distroDir = path.join(BLOG_DIR, "distro");
+if (!fs.existsSync(distroDir)) fs.mkdirSync(distroDir, { recursive: true });
+
 console.log(`Building ${mdFiles.length} posts...`);
-mdFiles.forEach(buildPost);
+const posts = mdFiles.map(buildPost);
+buildFeed(posts);
 console.log("Done.");
