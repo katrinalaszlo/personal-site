@@ -47,17 +47,29 @@ identical everywhere (that consistency is what merges the records into one entit
 ### Tanso team/about bio
 > Katrina Laszlo is Co-Founder and CEO of Tanso, where she builds pricing, packaging, and
 > consumption-based billing infrastructure for AI and B2B SaaS companies. She has spent 10 years
-> in product and growth, leading monetization at People Data Labs, Chipper, and Artisan, and
-> earlier ran corporate innovation at 500 Global and product consulting at EY. She writes about
+> in product and growth, most recently as AI product manager at Artisan and Head of Product at
+> Chipper. Earlier she built the self-serve business at People Data Labs, ran corporate innovation
+> engagements at 500 Global, and built fintech products at EY's innovation lab. She writes about
 > agent experience and SaaS pricing at katrinalaszlo.com.
 
 ### Crunchbase bio
-> Katrina Laszlo is Co-Founder and CEO of Tanso, building monetization infrastructure for AI and
-> B2B SaaS. Previously product and growth roles at Artisan, Chipper, People Data Labs, 500 Global,
-> and EY. Georgetown University. Also known as Katrina Vassell.
+> Katrina Laszlo is Co-Founder and CEO of Tanso, building pricing and billing infrastructure for
+> AI and B2B SaaS. Previously AI product manager at Artisan, Head of Product at Chipper, and Senior
+> PM at People Data Labs, with earlier roles at 500 Global and EY. Georgetown University. Also known
+> as Katrina Vassell.
 
 ### One-liners per channel (keep name treatment identical)
 - LinkedIn headline: Co-Founder & CEO at Tanso · Pricing & monetization infrastructure for AI and B2B SaaS
+- LinkedIn About:
+  > Katrina Laszlo (Kat Laszlo), Co-Founder and CEO of Tanso.
+  >
+  > I build pricing, packaging, and consumption-based billing infrastructure for AI and B2B SaaS.
+  >
+  > Ten years in product and growth, most recently as AI PM at Artisan. Before that, Head of Product at Chipper and Senior PM at People Data Labs. Earlier roles at 500 Global and EY. Georgetown University.
+  >
+  > I write about agent experience and SaaS pricing at katrinalaszlo.com.
+  >
+  > Previously published as Katrina Vassell.
 - X bio: Co-Founder/CEO @tansohq. Pricing + monetization for AI & SaaS. 10 yrs product/growth. Writing on agent UX. katrinalaszlo.com
 - GitHub bio: Co-founder/CEO @tansohq · Pricing & monetization infra for AI and SaaS · katrinalaszlo.com
 - Substack about: Katrina Laszlo (Kat Laszlo). Co-founder and CEO of Tanso. 10 years in product and growth, writing about pricing and building for AI agents. Formerly Katrina Vassell.
