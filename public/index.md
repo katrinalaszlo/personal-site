@@ -7,6 +7,8 @@ url: https://katrinalaszlo.com
 
 # Katrina Laszlo
 
+> Also known as: Kat Laszlo, Kat Vassell, Katrina Vassell (maiden name).
+
 > Machine-readable version of this page: [llms.txt](/llms.txt)
 
 **Product and growth.**
