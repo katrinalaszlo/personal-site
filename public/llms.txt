@@ -78,10 +78,10 @@ Background in UX and product design applied to AI agents as users. Most agent re
 
 ## Projects
 
-- [tstack](https://github.com/tansohq/tstack): Billing engineer for usage-based products. Entitlement-centered skill chain.
+- [agentlens](https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine
 - [agentkey](https://github.com/katrinalaszlo/agentkey): Scoped, budgeted API keys for AI agents. npm: @katrinalaszlo/agentkey
 - [observe](https://github.com/katrinalaszlo/observe): Open source AI cost observability
-- [agentlens](https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine
+- [tstack](https://github.com/tansohq/tstack): Billing engineer for usage-based products. Entitlement-centered skill chain.
 - [BuildNext](https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development
 - [human-docs](https://github.com/katrinalaszlo/human-docs): Single-file HTML architecture docs for humans and agents
 

@@ -32,11 +32,11 @@ BS Business Administration. International Business, Political Economics, Marketi
 
 ## Projects
 
-- **tstack** — Tanso's billing engineer skill pack for Claude Code. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration. [GitHub](https://github.com/tansohq/tstack)
-- **agentkey** — Scoped, budgeted API keys for AI agents. The auth layer between Clerk and Stripe. [GitHub](https://github.com/katrinalaszlo/agentkey) | [npm](https://www.npmjs.com/package/@katrinalaszlo/agentkey)
+- **agentlens** — See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts. [GitHub](https://github.com/katrinalaszlo/agentlens)
 - **aeo-ready** — Is your site AEO ready? Two scorecards. Agent Readiness + AI Visibility. One scan, one score. [GitHub](https://github.com/katrinalaszlo/aeo-ready)
 - **agent-serve** — Can AI agents buy and use your product without a human? Audit skill for SaaS agent-readiness. [GitHub](https://github.com/tansohq/agent-serve)
-- **agentlens** — See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts. [GitHub](https://github.com/katrinalaszlo/agentlens)
+- **agentkey** — Scoped, budgeted API keys for AI agents. The auth layer between Clerk and Stripe. [GitHub](https://github.com/katrinalaszlo/agentkey) | [npm](https://www.npmjs.com/package/@katrinalaszlo/agentkey)
+- **tstack** — Tanso's billing engineer skill pack for Claude Code. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration. [GitHub](https://github.com/tansohq/tstack)
 - **observe** — AI cost observability. See which customers and features are unprofitable. [GitHub](https://github.com/katrinalaszlo/observe)
 - **buildnext** — Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories. [GitHub](https://github.com/katrinalaszlo/buildnext-oss)
 - **human-docs** — Single-file HTML architecture docs. Readable by humans and AI agents. [GitHub](https://github.com/katrinalaszlo/human-docs)
