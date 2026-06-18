@@ -96,7 +96,7 @@ RSS feed: https://katrinalaszlo.com/blog/feed.xml
 - Data Lab (https://data.tansohq.com): Pricing intelligence dataset. 123 SaaS companies with agent readiness scores, source-traced pricing data, changelogs, and a free scanner.
 - pricing-advisor-skill (https://github.com/katrinalaszlo/pricing-advisor-skill): Claude Code skill for AI-powered pricing strategy. Competitive analysis against 146 tracked companies, pricing model design, gap auditing.
 - agentlens (https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts.
-- observe (https://github.com/katrinavassell/observe): Open source AI cost observability. See which customers and features are unprofitable.
+- observe (https://github.com/katrinalaszlo/observe): Open source AI cost observability. See which customers and features are unprofitable.
 - BuildNext (https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories.
 - human-docs (https://github.com/katrinalaszlo/human-docs): Single-file HTML architecture docs. Readable by humans in a browser and by AI agents via section markers.
 

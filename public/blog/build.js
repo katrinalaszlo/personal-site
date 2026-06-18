@@ -300,8 +300,16 @@ ${JSON.stringify(
     image: ogImage,
     author: {
       "@type": "Person",
+      "@id": "https://katrinalaszlo.com/#person",
       name: author,
+      alternateName: ["Katrina Laszlo", "Kat Vassell", "Katrina Vassell"],
       url: "https://katrinalaszlo.com",
+      sameAs: [
+        "https://tansohq.com",
+        "https://www.linkedin.com/in/katrinalaszlo/",
+        "https://x.com/Katlaszlo",
+        "https://github.com/katrinalaszlo",
+      ],
     },
     datePublished: date,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
