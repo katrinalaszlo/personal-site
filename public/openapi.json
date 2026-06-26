@@ -119,7 +119,7 @@
       "get": {
         "operationId": "getLlmsFullTxt",
         "summary": "Extended LLM profile",
-        "description": "Full profile with notebook content index, pricing data lab findings, MCP usage instructions, skills install commands.",
+        "description": "Full profile with notebook content index, MCP usage instructions, skills install commands.",
         "responses": {
           "200": {
             "description": "Extended plain text profile",

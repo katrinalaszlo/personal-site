@@ -1,13 +1,12 @@
 ---
 name: katrinalaszlo
-description: Agent experience design, SaaS pricing strategy, and agent-readiness audits. MCP server with notebook search, 5 installable Agent Skills, and a 123-company pricing dataset.
+description: Agent experience design, SaaS pricing strategy, and agent-readiness audits. MCP server with notebook search and 5 installable Agent Skills.
 ---
 
 ## What I can accomplish
 
 - Query notebook content on AI systems, agent experience, pricing, and multi-agent patterns via MCP server
 - Provide 5 installable Agent Skills covering AI foundations, knowledge systems, system design, agent tools, and agent experience design
-- Search and compare SaaS pricing data across 123 verified companies at data.tansohq.com
 - Audit sites for agent readiness using aeo-ready scanner
 - Consult on SaaS pricing strategy, packaging, and conversion optimization
 
@@ -23,7 +22,6 @@ description: Agent experience design, SaaS pricing strategy, and agent-readiness
 - All endpoints are read-only and public
 - MCP server supports query_notebook, list_topics, get_skill tools
 - No rate limiting on public endpoints
-- Pricing dataset updated periodically, not real-time
 
 ## Key documentation
 

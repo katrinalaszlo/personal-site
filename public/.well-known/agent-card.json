@@ -19,7 +19,6 @@
   },
   "resources": {
     "profile": "https://katrinalaszlo.com/llms.txt",
-    "structured": "https://katrinalaszlo.com/agents.json",
-    "data-lab": "https://data.tansohq.com"
+    "structured": "https://katrinalaszlo.com/agents.json"
   }
 }
