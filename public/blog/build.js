@@ -242,7 +242,9 @@ function buildPost(mdFile) {
       "rethinking-pricing-because-of-ai": "/blog/og/rethinking-pricing.svg",
       "product-discovery-with-llm-wiki": "/blog/og/product-discovery.svg",
       "building-a-pricing-database": "/blog/og/pricing-database.svg",
-      "agent-self-serve": "/blog/og/agent-self-serve.svg",
+      "agent-self-serve": "/blog/og/agent-self-serve.png",
+      "site-ready-for-ai": "/blog/og/site-ready-for-ai.png",
+      "onboarding-agents": "/blog/og/onboarding-agents.png",
       "always-on-ai-memory": "/blog/og/always-on-ai-memory.png",
     };
     ogImage = ogMap[slug] || "/og-image.png";

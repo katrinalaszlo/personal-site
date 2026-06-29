@@ -1,7 +1,8 @@
 <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
   <rect width="1200" height="630" fill="#ffffff"/>
   <rect width="1200" height="6" fill="#4f46e5"/>
-  <text x="80" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#6b7280">PLG for the Agent Era</text>
-  <text font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="bold" fill="#111827"><tspan x="80" y="270">Making Your Product</tspan><tspan x="80" y="350">Agent Self-Serve</tspan></text>
+  <text x="80" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#6b7280">PLG for the Agent Era · Part 3</text>
+  <text x="80" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="bold" fill="#111827">Onboarding Agents</text>
+  <text x="80" y="570" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#9ca3af">Kat Laszlo</text>
   <text x="1120" y="570" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#9ca3af" text-anchor="end">katrinalaszlo.com</text>
 </svg>
