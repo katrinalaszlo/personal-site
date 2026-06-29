@@ -15,13 +15,13 @@ Here's how it works.
 
 ## Input
 
-Company pricing pages are ingested into structured markdown with YAML frontmatter. Every field cites its source -- pricing page, blog post, or press release. Nothing goes in without attribution.
+Company pricing pages are ingested into structured markdown with YAML frontmatter. Every field cites its source, whether that's a pricing page, a blog post, or a press release, and nothing goes in without attribution.
 
 ## Output
 
-Each company gets a structured profile: plans, pricing models, AI packaging, credit mechanics, value metrics, overage handling, and more. All queryable and filterable.
+Each company gets a structured profile of plans, pricing models, AI packaging, credit mechanics, value metrics, overage handling, and more, all of it queryable and filterable.
 
-The dataset currently covers companies across 14 categories (dev tools, AI infrastructure, fintech, collaboration, security, HR, marketing, and others). Six canonical pricing models -- per-seat, usage-based, hybrid, flat-rate, per-transaction, credit-based -- with full breakdowns.
+The dataset currently covers companies across 14 categories (dev tools, AI infrastructure, fintech, collaboration, security, HR, marketing, and others), with full breakdowns of six canonical pricing models: per-seat, usage-based, hybrid, flat-rate, per-transaction, and credit-based.
 
 ## Synthesis
 
@@ -29,7 +29,7 @@ The system generates cross-company analysis automatically: AI bundling patterns,
 
 ## Changelog
 
-Every pricing change is tracked over time. Who raised prices, who bundled AI into their core product, who killed their free tier. The changelog is append-only and timestamped -- you can see exactly when things shifted.
+Every pricing change is tracked over time, including who raised prices, who bundled AI into their core product, and who killed their free tier. The changelog is append-only and timestamped, so you can see exactly when things shifted.
 
 ## Relationship Map
 
@@ -41,7 +41,7 @@ Every data point carries a confidence score (high, medium, or low) based on sour
 
 ## MCP Server
 
-The dataset is also available as an MCP server. Plug it into Claude or any AI assistant and query it conversationally -- "which usage-based companies in dev tools offer rollover credits?" -- and get structured answers backed by real data.
+The dataset is also available as an MCP server. Plug it into Claude or any AI assistant, query it conversationally ("which usage-based companies in dev tools offer rollover credits?"), and get structured answers backed by real data.
 
 I built this because I needed it for my own work on Tanso, and had been maintaining similar systems manually for years. It turned out to be useful enough that keeping it private didn't make sense. I use Obsidian when running this locally and added a UI layer so it's easier for anyone to access.
 

@@ -113,16 +113,17 @@ Interactive learning notes on AI systems and agent experience. 19 essays.
 
 Writing about pricing, product discovery, and building for AI agents. All posts available as markdown at the same URL with .md extension.
 
-- [Is Your Site Ready for Agents?](https://katrinalaszlo.com/blog/site-ready-for-ai.md) (2026-05-29): Five competing frameworks now score how well your site serves AI agents
-- [Self-Serve for AI Agents](https://katrinalaszlo.com/blog/agent-self-serve.md) (2026-05-16): Agent self-serve funnel, Clerk + Stripe integration, third-party audit scores
+- [Onboarding Agents (Part 3)](https://katrinalaszlo.com/blog/onboarding-agents.md) (2026-06-08): What it takes to let an agent sign up, try your product, and buy without a human touching a browser
+- [Is Your Site Ready for Agents? (Part 2)](https://katrinalaszlo.com/blog/site-ready-for-ai.md) (2026-05-29): Five competing frameworks now score how well your site serves AI agents
+- [Your Next Customer Might Be an Agent (Part 1)](https://katrinalaszlo.com/blog/agent-self-serve.md) (2026-05-26): Agent self-serve funnel, Clerk + Stripe integration, third-party audit scores
 - [Building a Pricing Database](https://katrinalaszlo.com/blog/building-a-pricing-database.md) (2026-05-05): Wiki-as-living-system approach to pricing research
 - [Product Discovery with Karpathy's LLM Wiki](https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki.md) (2026-04-27): Repurposed LLM Wiki for customer interview synthesis
 - [If you're rethinking your pricing because of AI, read this first](https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai.md) (2026-04-18): Floor vs ceiling framework; attribution spectrum; pricing as a loop
 - [Is Outcome-Based Pricing Real, or Just Marketing Hype?](https://katrinalaszlo.com/blog/is-outcome-based-pricing-real.md) (2026-02-15): 2% to 18% adoption; where it works and where it doesn't
 - [The "AI Included" Era Was Never Going to Last Forever](https://katrinalaszlo.com/blog/ai-included.md) (2026-02-25): Flat pricing vs variable AI costs; the unbundling wave
-- [Why Falling Costs Don't Mean Better Margins](https://katrinalaszlo.com/blog/more-customers-bigger-losses.md) (2026-01-10): Cost variance, revenue deflation, per-customer visibility gap
+- [When More Customers Mean Bigger Losses](https://katrinalaszlo.com/blog/more-customers-bigger-losses.md) (2026-01-10): Cost variance, revenue deflation, per-customer visibility gap
 - [Pricing Is a Real Moat in AI SaaS](https://katrinalaszlo.com/blog/pricing-moat-ai-saas.md) (2026-01-08): How pricing becomes durable competitive advantage
-- [Why Pricing Infrastructure Gets Hard Fast](https://katrinalaszlo.com/blog/pricing-infrastructure-complexity.md) (2025-12-08): From simple plans to system-wide complexity
+- [Why Pricing Infrastructure Gets Hard Fast for AI Startups](https://katrinalaszlo.com/blog/pricing-infrastructure-complexity.md) (2025-12-08): From simple plans to system-wide complexity
 - [What's Actually Different About AI Pricing](https://katrinalaszlo.com/blog/ai-pricing-differences.md) (2025-11-28): What changed vs what's the same; table of AI-era labels mapped to PLG equivalents
 
 RSS feed: https://katrinalaszlo.com/blog/feed.xml

@@ -45,15 +45,17 @@ BS Business Administration. International Business, Political Economics, Marketi
 
 Writing about pricing, product discovery, and building for AI agents.
 
-- [Self-Serve for AI Agents](/blog/agent-self-serve) (2026-05-16)
+- [Onboarding Agents (Part 3)](/blog/onboarding-agents) (2026-06-08)
+- [Is Your Site Ready for Agents? (Part 2)](/blog/site-ready-for-ai) (2026-05-29)
+- [Your Next Customer Might Be an Agent (Part 1)](/blog/agent-self-serve) (2026-05-26)
 - [Building a Pricing Database](/blog/building-a-pricing-database) (2026-05-05)
 - [Product Discovery with Karpathy's LLM Wiki](/blog/product-discovery-with-llm-wiki) (2026-04-27)
 - [If you're rethinking your pricing because of AI, read this first](/blog/rethinking-pricing-because-of-ai) (2026-04-18)
 - [Is Outcome-Based Pricing Real, or Just Marketing Hype?](/blog/is-outcome-based-pricing-real) (2026-02-15)
 - [The "AI Included" Era Was Never Going to Last Forever](/blog/ai-included) (2026-02-25)
-- [Why Falling Costs Don't Mean Better Margins](/blog/more-customers-bigger-losses) (2026-01-10)
+- [When More Customers Mean Bigger Losses](/blog/more-customers-bigger-losses) (2026-01-10)
 - [Pricing Is a Real Moat in AI SaaS](/blog/pricing-moat-ai-saas) (2026-01-08)
-- [Why Pricing Infrastructure Gets Hard Fast](/blog/pricing-infrastructure-complexity) (2025-12-08)
+- [Why Pricing Infrastructure Gets Hard Fast for AI Startups](/blog/pricing-infrastructure-complexity) (2025-12-08)
 - [What's Actually Different About AI Pricing](/blog/ai-pricing-differences) (2025-11-28)
 
 ## Notebook

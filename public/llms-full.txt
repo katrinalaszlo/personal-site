@@ -55,15 +55,17 @@ Background in UX and product design applied to AI agents as users. Most agent re
 
 Writing about pricing, product discovery, and building for AI agents. All posts available as markdown at the same URL with .md extension.
 
-- Self-Serve for AI Agents (2026-05-16): https://katrinalaszlo.com/blog/agent-self-serve
+- Onboarding Agents (Part 3) (2026-06-08): https://katrinalaszlo.com/blog/onboarding-agents
+- Is Your Site Ready for Agents? (Part 2) (2026-05-29): https://katrinalaszlo.com/blog/site-ready-for-ai
+- Your Next Customer Might Be an Agent (Part 1) (2026-05-26): https://katrinalaszlo.com/blog/agent-self-serve
 - Building a Pricing Database (2026-05-05): https://katrinalaszlo.com/blog/building-a-pricing-database
 - Product Discovery with Karpathy's LLM Wiki (2026-04-27): https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki
 - If you're rethinking your pricing because of AI, read this first (2026-04-18): https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai
 - Is Outcome-Based Pricing Real, or Just Marketing Hype? (2026-02-15): https://katrinalaszlo.com/blog/is-outcome-based-pricing-real
 - The "AI Included" Era Was Never Going to Last Forever (2026-02-25): https://katrinalaszlo.com/blog/ai-included
-- Why Falling Costs Don't Mean Better Margins (2026-01-10): https://katrinalaszlo.com/blog/more-customers-bigger-losses
+- When More Customers Mean Bigger Losses (2026-01-10): https://katrinalaszlo.com/blog/more-customers-bigger-losses
 - Pricing Is a Real Moat in AI SaaS (2026-01-08): https://katrinalaszlo.com/blog/pricing-moat-ai-saas
-- Why Pricing Infrastructure Gets Hard Fast (2025-12-08): https://katrinalaszlo.com/blog/pricing-infrastructure-complexity
+- Why Pricing Infrastructure Gets Hard Fast for AI Startups (2025-12-08): https://katrinalaszlo.com/blog/pricing-infrastructure-complexity
 - What's Actually Different About AI Pricing (2025-11-28): https://katrinalaszlo.com/blog/ai-pricing-differences
 
 RSS feed: https://katrinalaszlo.com/blog/feed.xml

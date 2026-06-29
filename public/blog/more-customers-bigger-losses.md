@@ -14,9 +14,9 @@ Very few can answer a harder one.
 
 *Which customers are actually profitable?*
 
-Early on, this doesn't feel like a problem. Pricing works. Billing works. Margins look fine in aggregate. So teams move on and focus on building.
+Early on, this doesn't feel like a problem. Pricing works, billing works, and margins look fine in aggregate, so teams move on and focus on building.
 
-Then usage grows. Behavior diverges. Costs stop scaling evenly. This is when pricing decisions start to feel uncomfortable. Not because teams lack data, but because the data they need lives in systems that were never meant to connect.
+Then usage grows, behavior diverges, and costs stop scaling evenly. This is when pricing decisions start to feel uncomfortable, not because teams lack data, but because the data they need lives in systems that were never meant to connect.
 
 Here's why that gap forms, and why it shows up as margin loss instead of a clean analytics issue.
 
@@ -26,31 +26,21 @@ Here's why that gap forms, and why it shows up as margin loss instead of a clean
 
 Most AI products rely on the same three sources of truth.
 
-**Usage** lives in the product. You know what actions happened and who triggered them.
+Usage lives in the product, where you know what actions happened and who triggered them. Cost lives with model providers, where you know what you spent in total. Revenue lives in Stripe, where you know what customers paid.
 
-**Cost** lives with model providers. You know what you spent in total.
+Each system works well on its own, but none of them answer the same question.
 
-**Revenue** lives in Stripe. You know what customers paid.
-
-Each system works well on its own. None of them answer the same question.
-
-Connecting them requires shared identifiers, consistent definitions, and instrumentation that most teams don't build early. Nothing breaks if you skip it. The cost shows up later.
+Connecting them requires shared identifiers, consistent definitions, and instrumentation that most teams don't build early. Nothing breaks if you skip it, but the cost shows up later.
 
 ---
 
 ## What this looks like in practice
 
-**Invisible margin drain**
+The first is invisible margin drain. You sell a $99 per month Pro plan with unlimited AI features, and most customers use it lightly. One customer doesn't, running tens of thousands of workflows a month while still paying $99. Their usage costs you several hundred dollars, and you'd never know unless you manually cross referenced usage logs with provider dashboards, which rarely happens while a team is focused on shipping.
 
-You sell a $99 per month Pro plan with unlimited AI features. Most customers use it lightly. One customer doesn't. They run tens of thousands of workflows a month. They still pay $99. Their usage costs you several hundred dollars. You'd never know unless you manually cross referenced usage logs with provider dashboards. That rarely happens while a team is focused on shipping.
+Then there's pricing paralysis. Product asks whether a more expensive model should be added to a mid tier plan, engineering asks about cost impact, and finance asks which customers would actually use it. Nobody has a clear answer, so teams either ship and hope margins hold, delay and lose momentum, or spend weeks on a one off analysis that is outdated by the time the feature launches.
 
-**Pricing paralysis**
-
-Product asks whether a more expensive model should be added to a mid tier plan. Engineering asks about cost impact. Finance asks which customers would actually use it. Nobody has a clear answer. So teams either ship and hope margins hold, delay and lose momentum, or spend weeks on a one off analysis that is outdated by the time the feature launches.
-
-**The enterprise discount trap**
-
-Sales closes a discounted annual deal to win a logo. On paper, it looks like progress. Months later, someone realizes the customer's usage pattern makes them deeply unprofitable. By then, the contract is signed and the margin damage is already baked in.
+Finally, there's the enterprise discount trap. Sales closes a discounted annual deal to win a logo, and on paper it looks like progress. Months later, someone realizes the customer's usage pattern makes them deeply unprofitable, but by then the contract is signed and the margin damage is already baked in.
 
 These aren't edge cases. They're common outcomes when variable usage meets flat pricing.
 
@@ -60,21 +50,21 @@ These aren't edge cases. They're common outcomes when variable usage meets flat 
 
 This isn't about teams being careless. It's about how the stack works today.
 
-**Model providers make it easy to see aggregate usage.** They don't attribute cost to individual customers by default. To do that, teams need to pass identifiers on every request and log usage consistently. Many don't, especially early, because nothing forces the issue.
+Model providers make it easy to see aggregate usage, but they don't attribute cost to individual customers by default. To do that, teams need to pass identifiers on every request and log usage consistently, and many don't, especially early, because nothing forces the issue.
 
-**Usage metering was designed for simpler products.** Seats, storage, API calls. AI usage is more complex. Token counts vary by model. Context length changes cost. A single user action can trigger multiple downstream calls.
+Usage metering was designed for simpler products like seats, storage, and API calls. AI usage is more complex, because token counts vary by model, context length changes cost, and a single user action can trigger multiple downstream calls.
 
-**Billing systems stop at payment.** Stripe knows what was charged. It doesn't know what was consumed. Bridging that gap usually means custom pipelines that early teams don't have time to build.
+Billing systems stop at payment. Stripe knows what was charged, but it doesn't know what was consumed, and bridging that gap usually means custom pipelines that early teams don't have time to build.
 
-So teams rely on averages. They watch aggregate margins and hope the distribution is healthy.
+So teams rely on averages, watching aggregate margins and hoping the distribution is healthy.
 
 ---
 
 ## Why the math is unforgiving
 
-Traditional SaaS margins are high and relatively stable. A mispriced customer hurts a little.
+Traditional SaaS margins are high and relatively stable, so a mispriced customer hurts a little.
 
-AI margins are lower and highly variable. Underpricing a heavy user can mean negative gross margin. A small number of customers can erase the profit from many healthy ones.
+AI margins are lower and highly variable, so underpricing a heavy user can mean negative gross margin, and a small number of customers can erase the profit from many healthy ones.
 
 Without per customer cost data, they all look the same.
 
@@ -84,10 +74,10 @@ Without per customer cost data, they all look the same.
 
 Teams that connect usage, cost, and revenue can answer questions that otherwise feel risky.
 
-- **Which customers are profitable**, defined as revenue minus attributed cost.
-- **Which features are expensive** by customer segment.
-- **What a pricing change would do** before it ships.
-- **Where margin leaks are forming early**, not quarters later.
+- Which customers are profitable, defined as revenue minus attributed cost.
+- Which features are expensive by customer segment.
+- What a pricing change would do before it ships.
+- Where margin leaks are forming early, not quarters later.
 
 This isn't about building dashboards. It's about being able to make decisions without guessing.
 
@@ -111,7 +101,7 @@ This work is unglamorous, but it pays off.
 
 ## The bottom line
 
-AI margins are variable. That part is known. What's less obvious is where that variability hides.
+AI margins are variable, and that part is known. What's less obvious is where that variability hides.
 
 When usage, cost, and revenue are split across systems, margin loss shows up at the customer level long after it begins. Everything looks fine in aggregate until it doesn't.
 

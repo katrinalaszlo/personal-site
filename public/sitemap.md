@@ -14,16 +14,17 @@
 - [sitemap.xml](https://katrinalaszlo.com/sitemap.xml)
 
 ## Blog Posts
-- [Is Your Site Ready for Agents?](https://katrinalaszlo.com/blog/site-ready-for-ai) (2026-05-29)
-- [Self-Serve for AI Agents](https://katrinalaszlo.com/blog/agent-self-serve) (2026-05-16)
+- [Onboarding Agents (Part 3)](https://katrinalaszlo.com/blog/onboarding-agents) (2026-06-08)
+- [Is Your Site Ready for Agents? (Part 2)](https://katrinalaszlo.com/blog/site-ready-for-ai) (2026-05-29)
+- [Your Next Customer Might Be an Agent (Part 1)](https://katrinalaszlo.com/blog/agent-self-serve) (2026-05-26)
 - [Building a Pricing Database](https://katrinalaszlo.com/blog/building-a-pricing-database) (2026-05-05)
 - [Product Discovery with Karpathy's LLM Wiki](https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki) (2026-04-27)
 - [If you're rethinking your pricing because of AI, read this first](https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai) (2026-04-18)
 - [Is Outcome-Based Pricing Real, or Just Marketing Hype?](https://katrinalaszlo.com/blog/is-outcome-based-pricing-real) (2026-02-15)
 - [The "AI Included" Era Was Never Going to Last Forever](https://katrinalaszlo.com/blog/ai-included) (2026-02-25)
-- [Why Falling Costs Don't Mean Better Margins](https://katrinalaszlo.com/blog/more-customers-bigger-losses) (2026-01-10)
+- [When More Customers Mean Bigger Losses](https://katrinalaszlo.com/blog/more-customers-bigger-losses) (2026-01-10)
 - [Pricing Is a Real Moat in AI SaaS](https://katrinalaszlo.com/blog/pricing-moat-ai-saas) (2026-01-08)
-- [Why Pricing Infrastructure Gets Hard Fast](https://katrinalaszlo.com/blog/pricing-infrastructure-complexity) (2025-12-08)
+- [Why Pricing Infrastructure Gets Hard Fast for AI Startups](https://katrinalaszlo.com/blog/pricing-infrastructure-complexity) (2025-12-08)
 - [What's Actually Different About AI Pricing](https://katrinalaszlo.com/blog/ai-pricing-differences) (2025-11-28)
 
 ## Notebook

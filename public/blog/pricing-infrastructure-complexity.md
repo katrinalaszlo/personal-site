@@ -6,9 +6,9 @@ canonical: https://www.tansohq.com/blog/pricing-infrastructure-complexity
 author: Kat Laszlo
 ---
 
-Early teams usually start the same way. Add a few plans, connect Stripe, and move on. Pricing looks simple. Billing looks solved. Time to focus on features.
+Early teams usually start the same way. Add a few plans, connect Stripe, and move on. Pricing looks simple, billing looks solved, and it's time to focus on features.
 
-Then usage grows, customers scale, and one-off exceptions turn into system-wide behavior. This is when founders realize pricing isn't a billing problem. It's a product and data problem that touches everything.
+Then usage grows, customers scale, and one-off exceptions turn into system-wide behavior. This is when founders realize pricing isn't a billing problem but a product and data problem that touches everything.
 
 Here's why it becomes one of the hardest systems inside an AI startup.
 
@@ -31,11 +31,11 @@ These issues are small in isolation but painful in practice.
 
 ## 2. Billing tools don't understand your product logic
 
-Stripe knows what a customer paid. It doesn't know what they should be allowed to do.
+Stripe knows what a customer paid, but it doesn't know what they should be allowed to do.
 
-So teams build sync jobs and patch logic across the stack. It works until something changes.
+So teams build sync jobs and patch logic across the stack, and it works until something changes.
 
-Examples:
+Here are some examples:
 
 - A plan rename caused entitlements to diverge. Some customers got features they hadn't paid for.
 - A trial extension sat in a custom table. A billing cycle reset cleared it unexpectedly and blocked core functionality.
@@ -46,11 +46,11 @@ Support ends up troubleshooting pieces of the system that were never designed to
 
 ## 3. Pricing changes faster than code
 
-AI products evolve quickly. New features, new usage patterns, new model costs. Each change needs updates across product logic, billing, data pipelines, admin tools, and support workflows.
+AI products evolve quickly, bringing new features, new usage patterns, and new model costs. Each change needs updates across product logic, billing, data pipelines, admin tools, and support workflows.
 
 If the pricing layer isn't centralized, this slows everyone down.
 
-Common pattern:
+The common pattern looks like this:
 
 - PM proposes a simple pricing experiment
 - Engineering discovers four places the old logic lives
@@ -74,7 +74,7 @@ You need reliable counts for:
 
 If metering is wrong, billing is wrong.
 
-Real examples:
+Here are some real examples:
 
 - A retry loop double counted events for a single customer and triggered an unexpected invoice.
 - A delayed event stream caused usage to appear lower than it was, so customers exceeded limits without warnings.
@@ -95,7 +95,7 @@ Teams add:
 - Prepaid credits
 - Mid-cycle changes
 
-Most early systems aren't designed for this. Teams patch around it, and the patches become permanent.
+Most early systems aren't designed for this, so teams patch around it, and the patches become permanent.
 
 I've seen entire plan structures held together by one-off overrides that no one wants to touch because no one remembers why they were added.
 
@@ -113,7 +113,7 @@ Pricing infrastructure isn't a one-time project. Once it's in place, you own:
 - Backfills
 - Rollbacks
 
-These aren't optional chores. They're the upkeep that keeps pricing consistent.
+These aren't optional chores but the upkeep that keeps pricing consistent.
 
 When the system isn't stable, every new feature feels risky.
 

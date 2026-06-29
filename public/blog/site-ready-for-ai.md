@@ -62,9 +62,9 @@ The scan also includes benchmarks from other sites, so you can see where you sta
 | Site | agentic-seo | Cloudflare | Fern | Vercel | AgentGrade |
 |------|------------|------------|------|--------|------------|
 | Stripe | 17 | 1/5 | 84 | 68 | 65 |
-| Cloudflare | 20 | 3/5 | 85 | 80 | — |
+| Cloudflare | 20 | 3/5 | 85 | 80 | n/a |
 | Supabase | 20 | 4/5 | 82 | 71 | 83 |
-| Vercel | — | 2/5 | 75 | 63 | 59 |
+| Vercel | n/a | 2/5 | 75 | 63 | 59 |
 
 *Scanned June 1, 2026 via aeo-ready (URL-only mode).*
 

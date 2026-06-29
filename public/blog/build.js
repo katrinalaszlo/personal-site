@@ -215,6 +215,7 @@ function buildPost(mdFile) {
   const author = meta.author || "Kat Laszlo";
   const series = meta.series || "";
   const part = meta.part || "";
+  const displayTitle = part ? `${title} (Part ${part})` : title;
   const canonical = meta.canonical || "";
   const url = `https://katrinalaszlo.com/blog/${slug}`;
 
@@ -262,11 +263,11 @@ function buildPost(mdFile) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${title} — Kat Laszlo</title>
+<title>${displayTitle} — Kat Laszlo</title>
 <meta name="description" content="${description}">
 <meta name="ai:token-count" content="${tokenCount}">
 <meta name="ai:page-type" content="article">
-<meta property="og:title" content="${title}">
+<meta property="og:title" content="${displayTitle}">
 <meta property="og:description" content="${description}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="${url}">
@@ -277,7 +278,7 @@ function buildPost(mdFile) {
 <meta property="article:author" content="${author}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@Katlaszlo">
-<meta name="twitter:title" content="${title}">
+<meta name="twitter:title" content="${displayTitle}">
 <meta name="twitter:description" content="${description}">
 <meta name="twitter:image" content="${ogImage}">
 <link rel="llms-txt" href="/llms.txt">
@@ -295,7 +296,7 @@ ${JSON.stringify(
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: title,
+    headline: displayTitle,
     description: description,
     image: ogImage,
     author: {
@@ -335,7 +336,7 @@ ${JSON.stringify(
 
   <article>
     ${series ? `<p class="series-label">${series}</p>` : ""}
-    <h1>${part ? `Part ${part}: ` : ""}${title}</h1>
+    <h1>${displayTitle}</h1>
     <div class="post-meta-row">
       <p class="post-meta">
         <a href="/">${author}</a> &middot; ${formatDate(date)}
@@ -404,10 +405,10 @@ ${JSON.stringify(
   // Substack draft — skip cross-posts whose canonical points off-site
   // (republishing those to Substack would split SEO and duplicate Tanso content).
   if (!canonical) {
-    writeSubstackDraft({ slug, title, description, url, body });
+    writeSubstackDraft({ slug, title: displayTitle, description, url, body });
   }
 
-  return { slug, title, date, description, url, canonical };
+  return { slug, title: displayTitle, date, description, url, canonical };
 }
 
 // Emits distro/{slug}.substack.md — paste-ready body for the Substack editor.
