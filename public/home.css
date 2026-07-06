@@ -310,10 +310,24 @@ h2 {
   color: #52525b;
 }
 
+.connect-group + .connect-group {
+  margin-top: 1.75rem;
+}
+.connect-group-label {
+  font-size: 0.6875rem;
+  color: #a1a1aa;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+}
 .links {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
+}
+.links-actions {
+  grid-template-columns: repeat(2, 1fr);
 }
 .links a {
   display: block;
