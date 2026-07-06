@@ -94,7 +94,7 @@ RSS feed: https://katrinalaszlo.com/blog/feed.xml
 - X: https://x.com/Katlaszlo
 - DEV: https://dev.to/kat_laszlo
 - Substack: https://itskatlaszlo.substack.com
-- Schedule: https://cal.com/katrina-laszlo/30-minute-meeting
+- Schedule: https://cal.com/katrina-laszlo-lqsfof/meeting-with-kat
 - Email: katrina.j.laszlo@gmail.com
 
 ## Notebook: What I'm Learning

@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     },
     contact: {
       email: "katrina.j.laszlo@gmail.com",
-      schedule: "https://cal.com/katrina-laszlo/30-minute-meeting",
+      schedule: "https://cal.com/katrina-laszlo-lqsfof/meeting-with-kat",
       linkedin: "https://www.linkedin.com/in/katrinalaszlo/",
     },
   });

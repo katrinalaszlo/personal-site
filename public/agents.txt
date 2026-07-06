@@ -15,5 +15,5 @@ search: yes
 ai-input: yes
 
 ## Contact
-Schedule: https://cal.com/katrina-laszlo/30-minute-meeting
+Schedule: https://cal.com/katrina-laszlo-lqsfof/meeting-with-kat
 Email: katrina.j.laszlo@gmail.com

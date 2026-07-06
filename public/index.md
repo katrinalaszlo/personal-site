@@ -84,5 +84,5 @@ Interactive learning notes on AI systems and agent experience.
 - [X](https://x.com/Katlaszlo)
 - [DEV](https://dev.to/kat_laszlo)
 - [Substack](https://itskatlaszlo.substack.com)
-- [Schedule a call](https://cal.com/katrina-laszlo/30-minute-meeting)
+- [Schedule a call](https://cal.com/katrina-laszlo-lqsfof/meeting-with-kat)
 - Email: katrina.j.laszlo@gmail.com
