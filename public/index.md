@@ -1,6 +1,6 @@
 ---
 title: "Katrina Laszlo"
-description: "Product and growth. 10 years of monetization across startups and enterprise."
+description: "Growth product leader. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise."
 author: Katrina Laszlo
 url: https://katrinalaszlo.com
 ---
@@ -11,13 +11,13 @@ url: https://katrinalaszlo.com
 
 > Machine-readable version of this page: [llms.txt](/llms.txt)
 
-**Product and growth.**
+**Growth product leader.**
 
-Building products designed for agents, loved by humans. 10 years of growth and monetization across startups and enterprise. Currently building at [Tanso](https://tansohq.com).
+Building products designed for agents, loved by humans. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Most recently Co-Founder at [Tanso](https://tansohq.com).
 
 ## Experience
 
-- **2025 – Present** — Co-Founder, CEO at Tanso. Monetization infrastructure for AI and SaaS companies.
+- **2025 – 2026** — Co-Founder, CEO at Tanso. Monetization infrastructure for AI and SaaS companies.
 - **2025** — AI Product Manager at Artisan. AI employees. Worked across product, engineering, and design.
 - **2024 – 2025** — Head of Product at Chipper. Consumer fintech. Ran pricing experiments and grew the subscription business.
 - **2021 – 2024** — Senior PM, Web & Apps at People Data Labs. B2B data. Built the self-serve business from scratch. Pricing, packaging, the whole conversion funnel.

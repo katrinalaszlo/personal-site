@@ -2,7 +2,7 @@
 
 Also known as: Kat Laszlo, Kat Vassell, Katrina Vassell.
 
-Product and growth. 10 years of monetization across startups and enterprise. Currently building at Tanso.
+Growth product leader. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Most recently Co-Founder at Tanso.
 
 Previously published under Katrina Vassell (maiden name). EY and 500 Global work is indexed under that name.
 
@@ -19,12 +19,12 @@ Previously published under Katrina Vassell (maiden name). EY and 500 Global work
 
 ## Career
 
-- Tanso, Co-Founder & CEO (2025-present): Building pricing, packaging, and consumption-based billing infrastructure for AI and B2B SaaS
+- Tanso, Co-Founder & CEO (2025-2026): Built pricing, packaging, and consumption-based billing infrastructure for AI and B2B SaaS
 - Artisan, AI Product Manager (2025): AI-native SaaS. Led product strategy across engineering, design, and billing. Evaluated 20+ vendors on cost, coverage, and pricing
-- Chipper, Head of Product (2024-2025): Consumer fintech. 484% revenue growth, 185% subscriber growth, 50% churn reduction. Doubled LTV through pricing experiments and A/B testing
-- People Data Labs, Senior PM (2021-2024): Launched self-serve API portal from scratch, owning strategy, P&L, and go-to-market. Tiered pricing with freemium trials, 20%+ MoM revenue growth. 200% pricing page lift, 25% plan upgrades, 12% retention improvement. Secured 3 major enterprise agreements in first quarter. Managed 5 devs + designer through Series A to B
-- 500 Global, Corporate Innovation & Venture (2019-2021): Advised five Fortune 500 clients on innovation strategies. Ran experiments with startups to validate market viability, resulting in corporate venture investment
-- EY, Product Consultant (2017-2019): Innovation Lab. Productized a strategy framework into interactive client assessment, shortening lead time 25% and influencing $1M in sales revenue
+- Chipper, Head of Product (2024-2025): Consumer fintech. Lifted LTV/CAC from 2.0 to 4.7 and cut churn from 24% to under 10% in six months. More than doubled ARPU by running pricing and packaging experiments and rebuilding the signup and onboarding funnel with A/B testing
+- People Data Labs, Senior PM (2021-2024): First growth-focused PM. Grew a self-serve, developer-facing API line from zero to ~$1M ARR and 6-10 enterprise accounts per quarter, with new-user API calls up 20% per month. Lifted visitor-to-lead conversion 75% through hypothesis-driven A/B and painted-door tests; 25% plan upgrades and 12% retention improvement from a new pricing strategy. Rebuilt the marketing site on a custom design system that cut page-creation time 70%. Cut product turnaround 50%. Managed 5 devs + designer through Series A to B
+- 500 Global, Corporate Innovation & Venture (2019-2021): Advised NTT DoCoMo, Mitsubishi M-Lab, Siemens/Next47, and LG U+ on corporate innovation. Sourced 34 startups across Mitsubishi M-Lab's mobility tracks and 12 digital-therapeutic startups for NTT DoCoMo; ran time-bound experiments that led to corporate venture investment
+- EY, Product Consultant (2017-2019): Innovation Lab & Design Studio. Streamlined onboarding for a mobile-first healthcare app through design sprints and A/B testing, a 90% increase in funnel conversion. Designed CARA, an AI compliance assistant for banks, leading full UX research on an agent-like product in 2018
 - Nosh Delivery, Founder (2014-2016): Built and launched a peer-to-peer food delivery marketplace. 60+ couriers, a dozen restaurants. Designed and coded the apps
 
 ## Education

@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "name_for_human": "Katrina Laszlo",
   "name_for_model": "katrina_laszlo",
-  "description_for_human": "Product and growth. 10 years of monetization across startups and enterprise.",
+  "description_for_human": "Growth product leader. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise.",
   "description_for_model": "Personal site for Katrina Laszlo. Retrieve professional background, projects, and contact information. For structured data use /agents.json. For natural language profile use /llms.txt.",
   "auth": {
     "type": "none"
