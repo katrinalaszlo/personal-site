@@ -19,7 +19,7 @@ Building products designed for agents, loved by humans. 10 years driving PLG, mo
 
 - **2025 – 2026** — Co-Founder, CEO at Tanso. Monetization infrastructure for AI and SaaS companies.
 - **2025** — AI Product Manager at Artisan. AI employees. Worked across product, engineering, and design.
-- **2024 – 2025** — Head of Product at Chipper. Consumer fintech. Ran pricing experiments and grew the subscription business.
+- **2024 – 2025** — Head of Product & Design at Chipper. Consumer fintech. Led product and design; ran pricing experiments and grew the subscription business.
 - **2021 – 2024** — Senior PM, Web & Apps at People Data Labs. B2B data. Built the self-serve business from scratch. Pricing, packaging, the whole conversion funnel.
 - **2019 – 2021** — Corporate Innovation at 500 Global. Venture capital. Ran proof-of-concept pilots for startups and corporates.
 - **2017 – 2019** — Product Consultant at EY. Innovation Lab. Built and tested fintech products for enterprise banks.
