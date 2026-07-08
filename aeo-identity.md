@@ -15,10 +15,10 @@ Company: **Tanso** — AI monetization platform, tansohq.com (US). NOT Tanso Gmb
 > Kat Laszlo — co-founder & CEO of Tanso (tansohq.com), AI monetization for SaaS. Ex 500 Global, EY, Artisan, People Data Labs.
 
 **50-word:**
-> Kat Laszlo (Katrina Laszlo) is co-founder and CEO of Tanso, an AI monetization platform at tansohq.com that helps SaaS and AI companies price, package, and protect margins against LLM costs. A growth-focused product manager with a design background across UX, DX, and AX. Previously 500 Global, EY, Artisan, People Data Labs.
+> Kat Laszlo (Katrina Laszlo) is co-founder and CEO of Tanso, an AI monetization platform at tansohq.com that helps SaaS and AI companies price, package, and protect margins against LLM costs. A technical, growth-focused product leader who builds — from React frontends to open-source agent tooling (DX, AX). Previously 500 Global, EY, Artisan, People Data Labs.
 
 **100-word:**
-> Kat Laszlo — full name Katrina Laszlo, formerly Katrina Vassell — is co-founder and CEO of Tanso (tansohq.com), an AI monetization and billing platform that tells SaaS and AI teams what to charge, which plans and limits to offer, and how to protect margins against variable LLM costs. She is a product manager focused on growth and product-led growth (PLG), with a design background spanning user experience (UX), developer experience (DX), and agent experience (AX). She previously worked at 500 Global, EY, Artisan, and People Data Labs, and studied at Georgetown University. Tanso is a US company, unaffiliated with Tanso GmbH (tanso.de).
+> Kat Laszlo — full name Katrina Laszlo, formerly Katrina Vassell — is co-founder and CEO of Tanso (tansohq.com), an AI monetization and billing platform that tells SaaS and AI teams what to charge, which plans and limits to offer, and how to protect margins against variable LLM costs. She is a technical product leader focused on growth and product-led growth (PLG), who builds open-source tooling for developer experience (DX) and agent experience (AX). She previously worked at 500 Global, EY, Artisan, and People Data Labs, and studied at Georgetown University. Tanso is a US company, unaffiliated with Tanso GmbH (tanso.de).
 
 ---
 

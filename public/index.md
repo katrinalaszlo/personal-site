@@ -15,32 +15,6 @@ url: https://katrinalaszlo.com
 
 Building products designed for agents, loved by humans. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Co-Founder at [Tanso](https://tansohq.com), building open-source tools and writing on pricing and agent experience.
 
-## Experience
-
-- **2025 – 2026** — Co-Founder, CEO at Tanso. Monetization infrastructure for AI and SaaS companies.
-- **2025** — AI Product Manager at Artisan. AI employees. Worked across product, engineering, and design.
-- **2024 – 2025** — Head of Product & Design at Chipper. Consumer fintech. Led product and design; ran pricing experiments and grew the subscription business.
-- **2021 – 2024** — Senior PM, Web & Apps at People Data Labs. B2B data. Built the self-serve business from scratch. Pricing, packaging, the whole conversion funnel.
-- **2019 – 2021** — Corporate Innovation at 500 Global. Venture capital. Ran proof-of-concept pilots for startups and corporates.
-- **2017 – 2019** — Product Consultant at EY. Innovation Lab. Built and tested fintech products for enterprise banks.
-- **2014 – 2016** — Founder of Nosh Delivery. Campus food delivery. Built and coded the apps myself.
-
-## Education
-
-Georgetown University McDonough School of Business
-BS Business Administration. International Business, Political Economics, Marketing.
-
-## Projects
-
-- **agentlens** — See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts. [GitHub](https://github.com/katrinalaszlo/agentlens)
-- **aeo-ready** — Is your site AEO ready? Two scorecards. Agent Readiness + AI Visibility. One scan, one score. [GitHub](https://github.com/katrinalaszlo/aeo-ready)
-- **agent-serve** — Can AI agents buy and use your product without a human? Audit skill for SaaS agent-readiness. [GitHub](https://github.com/tansohq/agent-serve)
-- **agentkey** — Scoped, budgeted API keys for AI agents. The auth layer between Clerk and Stripe. [GitHub](https://github.com/katrinalaszlo/agentkey) | [npm](https://www.npmjs.com/package/@katrinalaszlo/agentkey)
-- **tstack** — Tanso's billing engineer skill pack for Claude Code. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration. [GitHub](https://github.com/tansohq/tstack)
-- **observe** — AI cost observability. See which customers and features are unprofitable. [GitHub](https://github.com/katrinalaszlo/observe)
-- **buildnext** — Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories. [GitHub](https://github.com/katrinalaszlo/buildnext-oss)
-- **human-docs** — Single-file HTML architecture docs. Readable by humans and AI agents. [GitHub](https://github.com/katrinalaszlo/human-docs)
-
 ## Blog
 
 Writing about pricing, product discovery, and building for AI agents.
@@ -57,6 +31,32 @@ Writing about pricing, product discovery, and building for AI agents.
 - [Pricing Is a Real Moat in AI SaaS](/blog/pricing-moat-ai-saas) (2026-01-08)
 - [Why Pricing Infrastructure Gets Hard Fast for AI Startups](/blog/pricing-infrastructure-complexity) (2025-12-08)
 - [What's Actually Different About AI Pricing](/blog/ai-pricing-differences) (2025-11-28)
+
+## Projects
+
+- **agentlens** — See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts. [GitHub](https://github.com/katrinalaszlo/agentlens)
+- **aeo-ready** — Is your site AEO ready? Two scorecards. Agent Readiness + AI Visibility. One scan, one score. [GitHub](https://github.com/katrinalaszlo/aeo-ready)
+- **agent-serve** — Can AI agents buy and use your product without a human? Audit skill for SaaS agent-readiness. [GitHub](https://github.com/tansohq/agent-serve)
+- **agentkey** — Scoped, budgeted API keys for AI agents. The auth layer between Clerk and Stripe. [GitHub](https://github.com/katrinalaszlo/agentkey) | [npm](https://www.npmjs.com/package/@katrinalaszlo/agentkey)
+- **tstack** — Tanso's billing engineer skill pack for Claude Code. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration. [GitHub](https://github.com/tansohq/tstack)
+- **observe** — AI cost observability. See which customers and features are unprofitable. [GitHub](https://github.com/katrinalaszlo/observe)
+- **buildnext** — Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories. [GitHub](https://github.com/katrinalaszlo/buildnext-oss)
+- **human-docs** — Single-file HTML architecture docs. Readable by humans and AI agents. [GitHub](https://github.com/katrinalaszlo/human-docs)
+
+## Experience
+
+- **2025 – 2026** — Co-Founder, CEO at Tanso. Monetization infrastructure for AI and SaaS companies.
+- **2025** — AI Product Manager at Artisan. AI employees. Worked across product and engineering.
+- **2024 – 2025** — Head of Product at Chipper. Consumer fintech. Led product and design; ran pricing experiments and grew the subscription business.
+- **2021 – 2024** — Senior Product Manager at People Data Labs. B2B data. Built the self-serve business from scratch. Pricing, packaging, the whole conversion funnel.
+- **2019 – 2021** — Corporate Innovation at 500 Global. Venture capital. Ran proof-of-concept pilots for startups and corporates.
+- **2017 – 2019** — Product Manager at EY. Innovation Lab. Built and tested fintech products for enterprise banks.
+- **2014 – 2016** — Founder of Nosh Delivery. Campus food delivery. Built and coded the apps myself.
+
+## Education
+
+Georgetown University McDonough School of Business
+BS Business Administration. International Business, Political Economics, Marketing.
 
 ## Notebook
 
