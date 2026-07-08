@@ -13,7 +13,7 @@ url: https://katrinalaszlo.com
 
 **Growth product leader.**
 
-Building products designed for agents, loved by humans. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Most recently Co-Founder at [Tanso](https://tansohq.com).
+Building products designed for agents, loved by humans. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Co-Founder at [Tanso](https://tansohq.com), building open-source tools and writing on pricing and agent experience.
 
 ## Experience
 
