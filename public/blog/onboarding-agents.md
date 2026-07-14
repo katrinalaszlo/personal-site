@@ -68,12 +68,12 @@ Your product now has two kinds of user. Agents come in through APIs and MCP tool
 
 ## Auditing your own product
 
-I kept running into the same gaps across products, so I built [agent-serve](https://github.com/tansohq/agent-serve) to find them automatically. It's a set of Claude Code skills that walk each stage of the funnel, from onboarding and auth through purchasing, usage, management, and developer quality, and tell you what's blocking agents. You can point it at a URL or run it against the codebase you're already in.
+I kept running into the same gaps across products, so I built [agent-serve](https://github.com/katrinalaszlo/agent-serve) to find them automatically. It's a set of Claude Code skills that walk each stage of the funnel, from onboarding and auth through purchasing, usage, management, and developer quality, and tell you what's blocking agents. You can point it at a URL or run it against the codebase you're already in.
 
 Every area comes back with the same three things, what exists today, what's blocking agents, and what to build, and the advice is deliberately specific, because "add an API" helps no one. "Add a `POST /v1/accounts` that takes an email and password and returns the API key in the response body, skip email verification, model it on Stripe's account creation flow, roughly two days of work" is something a team can actually pick up the next morning. That's the difference between a framework and a build plan.
 
 ```bash
-npx skills add tansohq/agent-serve
+npx skills add katrinalaszlo/agent-serve
 
 # Audit a URL
 /agent-serve https://example.com
