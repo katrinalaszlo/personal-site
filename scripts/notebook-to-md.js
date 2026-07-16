@@ -23,6 +23,20 @@ function htmlToMd(html) {
   content = content.replace(/<script[\s\S]*?<\/script>/g, "");
   content = content.replace(/<style[\s\S]*?<\/style>/g, "");
 
+  // Must run before heading/paragraph conversion: the handler looks for raw <h3>/<p> tags.
+  content = content.replace(
+    /<div class="principle-item">([\s\S]*?)<\/div>\s*<\/div>/g,
+    (match) => {
+      const num = (match.match(/principle-num">(\d+)/) || [])[1] || "";
+      const title =
+        (match.match(/<h3[^>]*>([\s\S]*?)<\/h3>/) || [])[1] ||
+        (match.match(/<h4[^>]*>([\s\S]*?)<\/h4>/) || [])[1] ||
+        "";
+      const desc = (match.match(/<p[^>]*>([\s\S]*?)<\/p>/) || [])[1] || "";
+      return `${num}. **${title.trim()}** ${desc.trim()}\n`;
+    },
+  );
+
   content = content.replace(/<h1[^>]*>([\s\S]*?)<\/h1>/g, "# $1\n\n");
   content = content.replace(/<h2[^>]*>([\s\S]*?)<\/h2>/g, "## $1\n\n");
   content = content.replace(/<h3[^>]*>([\s\S]*?)<\/h3>/g, "### $1\n\n");
