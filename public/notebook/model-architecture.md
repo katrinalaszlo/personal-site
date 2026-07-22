@@ -10,6 +10,21 @@ url: https://katrinalaszlo.com/notebook/model-architecture
 > What happens between "tokens go in" and "predictions come out" -- embeddings, attention, MLPs, and how they stack into a transformer.
 
   
+  ## What The Model Actually Does
+
+  > Start from the familiar thing: input goes in, output comes out.
+
+  Type a prompt into ChatGPT, get a response back. Input, output. That's the model, whatever architecture sits underneath it. A **transformer** is one specific architecture for doing that translation from input to output, the one this page is about, and the one most models in use today are built from.
+
+  Running the model to turn an input into an output is called **inference**. That's what's happening every time you send a message and get a reply: your prompt goes in, it runs through the transformer, a response comes out.
+
+  **Training** uses the same forward pass as inference, input goes in, a prediction comes out, with one addition: the prediction gets checked against a known correct answer, and the model's numbers get nudged slightly so the next prediction lands closer. The difference between the two is what's available going in. During training, the full correct text already exists, so there's something to check the prediction against. During inference, it doesn't exist yet, that's the whole point, so the model generates one token at a time instead. Training repeats the predict-check-adjust step billions of times.
+
+  > 
+    **The one trick that makes this efficient:** instead of doing that "guess the next word" check one word at a time, training does it for an entire passage at once, every position predicting its own next token, all in a single pass. That only works because of **causal masking** (Part 5): each position is architecturally blocked from seeing anything after it, so predicting position 50 can't accidentally cheat by peeking at position 51, even though position 51 is sitting right there in the same input. The mask, not the data, is what keeps training honest.
+  
+
+  
   ## The Big Picture
 
   > The model's shape is defined by a handful of numbers. Everything else derives from these.
@@ -75,6 +90,42 @@ x = wte(idx)  # [128, 2048] -> [128, 2048, 512]
     **Why 512 dimensions?** Think of it as the model's vocabulary for describing tokens. Two dimensions could capture simple things (positive/negative, concrete/abstract). But language is complex: you need dimensions for grammar, topic, sentiment, formality, and thousands of other features. 512 gives the model enough room to encode rich meaning. This is the "width" -- making it bigger lets the model capture more nuance, at the cost of more computation.
   
 
+  `wte` itself is a **weight** matrix: learned once during training, then frozen and reused for every input from then on. The 512-number **vector** it hands back for a given token is a different kind of thing entirely, it's created fresh, every single time the model runs, by looking up one row in that fixed table.
+
+  > 
+    **The one similarity worth keeping, and where it stops:** a recipe and a weight matrix are alike in exactly one way, both stay the same across many uses. That's it, the analogy shouldn't be stretched further: a recipe doesn't compute anything, it's just read. A weight matrix is not a fixed lookup like a recipe card; it's what does the transforming, multiplying against whatever comes in. What's genuinely true, though: the matrix is fixed, the output isn't. Every vector on this page, embeddings, Q, K, V, hidden states, gets recomputed on every run. Only the weights persist.
+  
+
+  
+  ## Before Attention: What Came Before
+
+  > Transformers replaced something. Knowing what clarifies why attention works the way it does.
+
+  Before transformers, the standard architecture for sequences was the **RNN** (recurrent neural network), and its more capable version, the **LSTM**. Both processed a sequence one token at a time, updating a single hidden-state vector as they went.
+
+  
+    
+      ### RNN / LSTM
+
+      Processes tokens one step at a time. To reach token 50, information from token 1 has to survive 49 sequential updates, getting compressed a little each step. Order is built into the architecture itself, there's no separate concept of "position" to add.
+
+    
+
+    
+      ### Transformer
+
+      Every token attends directly to every earlier token in one hop, nothing decays in between. The whole sequence processes in parallel instead of step by step. But attention on its own has no sense of order at all, which is exactly why position has to be added back in (Part 6).
+
+    
+
+  
+
+  The tradeoff: RNNs suffered the "vanishing gradient" problem, distant context faded the further back it sat. LSTMs added gates specifically to fight this, but the fixed-size hidden state was still a bottleneck, everything the model knew about the past had to live in one vector. Transformers solved the long-range problem with direct attention, but gave up recurrence's built-in sense of sequence, hence RoPE.
+
+  > 
+    **Connection:** This is also why causal masking (Part 5, just ahead) still matters even without recurrence: attention removes the long chain of sequential steps, but a token can still only see what came before it, never after. The asymmetry got much shorter and more direct, but it didn't disappear.
+  
+
   
   ## Attention: "What Should I Pay Attention To?"
 
@@ -83,6 +134,19 @@ x = wte(idx)  # [128, 2048] -> [128, 2048, 512]
   ### The Three Projections: Q, K, V
 
   Each token's 512-dim vector gets transformed into three different roles:
+
+  
+    Embeddingone vector per token
+    
+      -> &times; W<sub>Q</sub> -> <strong style="color:var(--accent)">Query</strong> vector
+      -> &times; W<sub>K</sub> -> <strong style="color:var(--orange)">Key</strong> vector
+      -> &times; W<sub>V</sub> -> <strong style="color:var(--purple)">Value</strong> vector
+    
+  
+
+  One embedding, three separate weight matrices, three different vectors out. Same input, three different jobs.
+
+  Not shown yet: how Query and Key actually get compared to produce a score, and what happens to Value after that. That's the next two steps below, not skipped, just not here yet.
 
   
     
@@ -102,6 +166,26 @@ x = wte(idx)  # [128, 2048] -> [128, 2048, 512]
   
 
   ### Example Attention Pattern
+
+  
+    
+      Step 1
+      Query . Key
+      Produces a raw score. Not a value, not a vector output, not a percentage yet.
+    
+    ->
+    
+      Step 2
+      Softmax
+      Turns raw scores into percentages that sum to 100%. These are the attention weights.
+    
+    ->
+    
+      Step 3
+      Weighted sum of Value
+      Each Value vector &times; its percentage, added together. This is the attention output -- not a "new value," that term already means something else.
+    
+  
 
   For the sentence "The cat sat on the mat", here's what one attention head might look like. Each row shows how much a token attends to previous tokens (causal: no peeking ahead):
 
@@ -123,6 +207,23 @@ x = wte(idx)  # [128, 2048] -> [128, 2048, 512]
   
 
   Grey cells are masked -- causal attention means a token can only attend to tokens that came before it, never after. If position 5 could see position 6, the model would be cheating.
+
+  ### Why This Matters: Disambiguation
+
+  Take the sentence *"I deposited money in the bank."* Before any attention happens, the initial representation for **bank** is ambiguous, it could lean toward a financial institution or a riverbank, nothing in the token itself has decided yet.
+
+  When the model processes **bank** (the last token here), causal masking permits it to compare its Query against the Keys of everything at or before its own position: I, deposited, money, in, the, bank. This only works because **deposited** and **money** both come before **bank** in the sentence. If they came after, causal masking would block the comparison entirely, which is exactly why a sentence like "the bank of the river was flooded" doesn't work as an example here: river comes later, so bank could never attend to it.
+
+  
+
+    
+    | 3% | 38% | 34% | 2% | 2% | 21% |
+
+  
+
+  Illustrative percentages, not a real model's output.
+
+  The heavy weight lands on **deposited** and **money**, the tokens that actually disambiguate "bank" toward the financial sense. The attention output for bank is the weighted sum of *all* of these Value vectors, not just bank's own, the same mechanism from the three steps above, applied to a case where it actually matters. That output becomes part of bank's updated representation for the next layer. It does not overwrite or replace bank's original Value vector, that vector is a fixed intermediate product of this one pass; what changes is the token's representation carrying forward.
 
   ### Multi-Head: Parallel Attention
 
@@ -283,3 +384,68 @@ if targets is not None:
   
 
   The embedding tables (wte + value_embeds + lm_head) account for roughly half the parameters. This is characteristic of small models with small vocabularies. As models get larger, the transformer blocks dominate.
+
+  
+  ## Glossary
+
+  > Every term on this page, alphabetized, for lookup after the fact.
+
+  
+
+    | | Attention output | The weighted sum of Value vectors for one token. Not the same as a Value vector itself, even though it's built from them. |
+
+      | Attention percentages / attention weights | Softmax-normalized scores showing how much of each token's Value contributes. Computed fresh per input, not learned or stored, despite sharing the word "weights" with model weights. |
+
+      | Biases | An added constant in a linear layer (`y = Wx + b`). Some architectures include it, many modern ones skip it. |
+
+      | Causal masking | The rule that a token can only attend to itself and earlier tokens, never later ones. What makes parallel, whole-sequence training possible without cheating. |
+
+      | Context | The tokens a given position is permitted to use. In a causal model, itself and everything before it, not "the past" in any real-world sense. |
+
+      | Cross-entropy loss | A measurement of how wrong the model's predicted probability distribution was compared to the actual next token. |
+
+      | Decoder-only | An architecture (GPT's) that keeps only causal self-attention and drops the encoder and cross-attention entirely, since there's no separate source sequence to process. |
+
+      | Embedding | A lookup table mapping token IDs to vectors. |
+
+      | Encoder-decoder | The original transformer architecture (2017), built for translation: a bidirectional encoder reads the source sequence, a causal decoder generates the output while also attending to the encoder's output. |
+
+      | Inference | Running a trained model on an input to get an output. What happens every time a prompt is sent. |
+
+      | Key vector | What a token signals it can be matched against, used to compare against another token's Query. |
+
+      | Layer | One full processing stage in which every token begins with a current representation, participates in attention and further computation, and leaves with an updated representation. |
+
+      | Logits | Raw, uncapped scores assigned to each possible next token, not yet a probability distribution. |
+
+      | MLP | The part of each block that processes each token's representation individually after attention gathers context. |
+
+      | Parameters | Every learnable number in the model, weights and biases combined. |
+
+      | Query vector | What a token is looking for, computed from its own representation alone, independent of any Key it will later be compared against. |
+
+      | Raw attention score | The unnormalized result of comparing one Query with one Key. Not yet a percentage, not a Value, not an output. |
+
+      | Representation | The numerical vector currently associated with a token at a given stage of processing. Not a dictionary definition, a set of numbers. |
+
+      | Residual connection | Adding a layer's output back to its input instead of replacing it, so information from earlier layers doesn't degrade. |
+
+      | RNN / LSTM | The pre-transformer architecture for sequences, processing one token at a time with a single hidden state. |
+
+      | RoPE (Rotary Position Embeddings) | A method for encoding token position by rotating Q and K vectors at attention time, since attention has no inherent sense of order on its own. |
+
+      | Sequence-to-sequence (seq2seq) | RNN-based models with attention added on, used for tasks like translation, the step between plain RNNs and transformers. |
+
+      | Softcap | A tanh-based cap on logits to prevent any single prediction from becoming too extreme. |
+
+      | Token | One piece of text the model processes: a whole word, part of a word, punctuation, or a special marker. |
+
+      | Training | The same forward pass as inference, plus comparing the output against a known correct answer and adjusting the weights. |
+
+      | Transformer | The architecture that replaced recurrence with attention, allowing parallel processing and direct long-range connections. |
+
+      | Value vector | The information a token can contribute if attention is placed on it. Not the token's meaning, not the relevance score, not the result of Query times Key. |
+
+      | Vectors | The numbers a weight matrix produces for a specific input. Created fresh every run, never stored, unlike weights. |
+
+      | Weights | The learned numbers inside a linear transformation. Fixed after training, reused for every input. |
