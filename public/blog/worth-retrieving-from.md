@@ -1,7 +1,7 @@
 ---
 title: "Being Worth Retrieving From"
 date: 2026-08-07
-description: "Garry Tan says retrieval is easy and being worth retrieving from is the product. He named the four hard parts and moved on. Here's how my system answers each one."
+description: "Garry Tan says retrieval is easy and being worth retrieving from is the product. He named what makes that hard and moved on. Here's how my system answers each one."
 author: Kat Laszlo
 ---
 
@@ -9,7 +9,7 @@ author: Kat Laszlo
 
 Garry Tan closed Startup School with a talk called [Own Your Intelligence](https://www.ycombinator.com/library/WX-garry-tan-own-your-intelligence), describing a library of markdown, a librarian agent, skill files that work like employees, and jobs that finish while you sleep. Near the end he raises the objection everyone was thinking. Is this just RAG?
 
-His answer was the best line of the talk. "Retrieval is easy. Being worth retrieving from is the product." Then he named the four hard parts and moved on. What gets written down in the first place, how it gets enriched and linked, what gets promoted to hot memory versus filed as cold reference, and who arbitrates when two facts disagree.
+His answer was the best line of the talk. "Retrieval is easy. Being worth retrieving from is the product." Then he named what makes that hard and moved on. What gets written down in the first place, how it gets enriched and linked, what gets promoted to hot memory versus filed as cold reference, and who arbitrates when two facts disagree.
 
 I've been running this architecture since spring, in the same repo-of-markdown shape he describes. Mine is one git repo built on Claude Code, holding around 1,300 source files, a wiki the agent maintains, memory the agent writes about how I work, skills that grew into shipped tools, and briefs that run on a schedule. I wrote about an early version of it in [Product Discovery with Karpathy's LLM Wiki](/blog/product-discovery-with-llm-wiki), and it has compounded ever since.
 
@@ -35,7 +35,7 @@ Memory has three tiers. One small index file loads into every session, and a mem
 
 The agent never does. Contradictions get flagged, side by side, and stay flagged until a source or a human settles them. Two more laws back that up. Synthesis can never become evidence, so the agent may not cite its own earlier conclusion as a fact. And sparse evidence keeps its original shape, so three data points stay three data points instead of becoming a framework.
 
-![The four hard parts of the RAG objection, each answered with a working rule: immutable raw layer, cited synthesis, editorial promotion, flag never resolve](/blog/images/is-this-just-rag.png)
+![The four questions behind the RAG objection, each answered with a working rule: immutable raw layer, cited synthesis, editorial promotion, flag never resolve](/blog/images/is-this-just-rag.png)
 
 ## The fifth question
 
