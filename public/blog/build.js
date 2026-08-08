@@ -246,8 +246,13 @@ function buildPost(mdFile) {
       "site-ready-for-ai": "/blog/og/site-ready-for-ai.png",
       "onboarding-agents": "/blog/og/onboarding-agents.png",
       "always-on-ai-memory": "/blog/og/always-on-ai-memory.png",
+      "worth-retrieving-from": "/blog/og/worth-retrieving-from.png",
     };
     ogImage = ogMap[slug] || "/og-image.png";
+  }
+
+  if (ogImage.startsWith("/")) {
+    ogImage = `https://katrinalaszlo.com${ogImage}`;
   }
 
   // Skip the h1 from body (it's redundant with the title)
