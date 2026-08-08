@@ -36,6 +36,7 @@ const posts = [
     title: "If You're Rethinking Your Pricing Because of AI, Read This First",
   },
   { slug: "site-ready-for-ai", title: "Is Your Site Ready for Agents?" },
+  { slug: "worth-retrieving-from", title: "Being Worth Retrieving From" },
 ];
 
 function makeHTML(title) {
