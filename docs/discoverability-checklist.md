@@ -47,15 +47,15 @@ identical everywhere (that consistency is what merges the records into one entit
 ### Tanso team/about bio
 > Katrina Laszlo is Co-Founder and CEO of Tanso, where she builds pricing, packaging, and
 > consumption-based billing infrastructure for AI and B2B SaaS companies. She has spent 10 years
-> in product and growth, most recently as AI product manager at Artisan and Head of Product at
-> Chipper. Earlier she built the self-serve business at People Data Labs, ran corporate innovation
+> in product and growth, most recently as Head of Product at Chipper, a consumer fintech
+> startup. Earlier she built the self-serve business at People Data Labs, ran corporate innovation
 > engagements at 500 Global, and built fintech products at EY's innovation lab. She writes about
 > agent experience and SaaS pricing at katrinalaszlo.com.
 
 ### Crunchbase bio
 > Katrina Laszlo is Co-Founder and CEO of Tanso, building pricing and billing infrastructure for
-> AI and B2B SaaS. Previously AI product manager at Artisan, Head of Product at Chipper, and Senior
-> PM at People Data Labs, with earlier roles at 500 Global and EY. Georgetown University. Also known
+> AI and B2B SaaS. Previously Head of Product at Chipper and Senior PM at People Data Labs,
+> with earlier roles at 500 Global and EY. Georgetown University. Also known
 > as Katrina Vassell.
 
 ### One-liners per channel (keep name treatment identical)
@@ -65,7 +65,7 @@ identical everywhere (that consistency is what merges the records into one entit
   >
   > I build pricing, packaging, and consumption-based billing infrastructure for AI and B2B SaaS.
   >
-  > Ten years in product and growth, most recently as AI PM at Artisan. Before that, Head of Product at Chipper and Senior PM at People Data Labs. Earlier roles at 500 Global and EY. Georgetown University.
+  > Ten years in product and growth, most recently as Head of Product at Chipper and Senior PM at People Data Labs. Earlier roles at 500 Global and EY. Georgetown University.
   >
   > I write about agent experience and SaaS pricing at katrinalaszlo.com.
   >

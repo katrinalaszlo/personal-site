@@ -20,6 +20,54 @@
     "ai-product-management",
     "rapid-experimentation"
   ],
+  "experience": [
+    {
+      "company": "Tanso",
+      "title": "Co-Founder, CEO",
+      "start": "2025-04",
+      "end": null,
+      "location": "San Francisco Bay Area",
+      "summary": "Building monetization infrastructure for AI products"
+    },
+    {
+      "company": "Chipper",
+      "title": "Head of Product",
+      "start": "2024-02",
+      "end": "2025-02",
+      "location": "New York, NY",
+      "summary": "Led product and design at a consumer fintech startup that helps users eliminate debt through intelligent strategy and automated payments"
+    },
+    {
+      "company": "People Data Labs",
+      "title": "Senior Product Manager",
+      "start": "2021-05",
+      "end": "2024-02",
+      "location": "San Francisco Bay Area",
+      "summary": "Senior Product Manager for Web and Applications at a data-as-a-service startup, backed by Founders Fund and Craft Ventures"
+    },
+    {
+      "company": "500 Global",
+      "title": "Corporate Innovation & Venture",
+      "start": "2019-11",
+      "end": "2021-05",
+      "location": "San Francisco Bay Area",
+      "summary": "Ran proof-of-concept pilots for startups and corporates"
+    },
+    {
+      "company": "EY",
+      "title": "Product Manager",
+      "start": "2017",
+      "end": "2019",
+      "summary": "Innovation Lab. Built and tested fintech products for enterprise banks"
+    },
+    {
+      "company": "Nosh Delivery",
+      "title": "Founder",
+      "start": "2014",
+      "end": "2016",
+      "summary": "Campus food delivery marketplace. Designed and coded the apps"
+    }
+  ],
   "contact": {
     "email": "katrina.j.laszlo@gmail.com",
     "schedule": "https://cal.com/katrina-laszlo-lqsfof/meeting-with-kat",
