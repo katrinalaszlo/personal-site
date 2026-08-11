@@ -49,7 +49,7 @@ Writing about pricing, product discovery, and building for AI agents.
 - **2025 – 2026** — Co-Founder, CEO at Tanso. Monetization infrastructure for AI and SaaS companies.
 - **2025** — AI Product Manager at Artisan. AI employees. Worked across product and engineering.
 - **2024 – 2025** — Head of Product at Chipper. Consumer fintech. Led product and design; ran pricing experiments and grew the subscription business.
-- **2021 – 2024** — Senior Product Manager at People Data Labs. B2B data. Built the self-serve business from scratch. Pricing, packaging, the whole conversion funnel.
+- **2021 – 2024** — Senior Product Manager at People Data Labs. B2B data enrichment. Built the self-serve business from scratch and led design across the product, including the design system and component library.
 - **2019 – 2021** — Corporate Innovation at 500 Global. Venture capital. Ran proof-of-concept pilots for startups and corporates.
 - **2017 – 2019** — Product Manager at EY. Innovation Lab. Built and tested fintech products for enterprise banks.
 - **2014 – 2016** — Founder of Nosh Delivery. Campus food delivery. Built and coded the apps myself.
