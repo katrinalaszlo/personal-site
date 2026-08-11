@@ -83,6 +83,7 @@ Background in UX and product design applied to AI agents as users. Most agent re
 - [tstack](https://github.com/tansohq/tstack): Billing engineer for usage-based products. Entitlement-centered skill chain.
 - [BuildNext](https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development
 - [human-docs](https://github.com/katrinalaszlo/human-docs): Single-file HTML architecture docs for humans and agents
+- [AI Knowledge Explorer](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-knowledge-explorer): Merged open-source contribution to awesome-llm-apps (130k stars). LangGraph agent that turns documents or source code into an interactive knowledge graph
 
 ## Notebook
 

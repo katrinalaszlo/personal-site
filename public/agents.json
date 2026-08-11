@@ -54,6 +54,11 @@
       "name": "human-docs",
       "url": "https://github.com/katrinalaszlo/human-docs",
       "description": "Single-file HTML architecture docs. Readable by humans in a browser and by AI agents via section markers."
+    },
+    {
+      "name": "AI Knowledge Explorer",
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-knowledge-explorer",
+      "description": "Merged open-source contribution to awesome-llm-apps (130k stars). LangGraph agent that turns documents or source code into an interactive knowledge graph."
     }
   ]
 }

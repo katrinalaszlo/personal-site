@@ -86,6 +86,7 @@ RSS feed: https://katrinalaszlo.com/blog/feed.xml
 - tstack (https://github.com/tansohq/tstack): Billing engineer for usage-based products. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration.
 - BuildNext (https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories.
 - human-docs (https://github.com/katrinalaszlo/human-docs): Single-file HTML architecture docs. Readable by humans in a browser and by AI agents via section markers.
+- AI Knowledge Explorer (https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-knowledge-explorer): Merged open-source contribution to awesome-llm-apps (130k stars). Drop in documents or source code and a LangGraph agent renders an interactive knowledge graph you can expand by chat. Next.js 16, React 19, CopilotKit, AG-UI streaming.
 
 ## Contact
 

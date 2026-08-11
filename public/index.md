@@ -41,6 +41,7 @@ Writing about pricing, product discovery, and building for AI agents.
 - **tstack** — Tanso's billing engineer skill pack for Claude Code. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration. [GitHub](https://github.com/tansohq/tstack)
 - **observe** — AI cost observability. See which customers and features are unprofitable. [GitHub](https://github.com/katrinalaszlo/observe)
 - **buildnext** — Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories. [GitHub](https://github.com/katrinalaszlo/buildnext-oss)
+- **AI Knowledge Explorer** — Merged contribution to awesome-llm-apps (130k stars). Drop in documents or source code and a LangGraph agent renders an interactive knowledge graph you can expand by chat. [GitHub](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-knowledge-explorer)
 - **human-docs** — Single-file HTML architecture docs. Readable by humans and AI agents. [GitHub](https://github.com/katrinalaszlo/human-docs)
 
 ## Experience
