@@ -82,8 +82,9 @@ RSS feed: https://katrinalaszlo.com/blog/feed.xml
 
 - agentlens (https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine. Scan memory, token costs, session transcripts.
 - agentkey (https://github.com/katrinalaszlo/agentkey): Scoped, budgeted, time-bounded API keys for AI agents. The four layers between Clerk and Stripe. npm: @katrinalaszlo/agentkey
+- crash-dummy (https://github.com/katrinalaszlo/crash-dummy): Takes your repo for a test drive. Builds a synthetic customer app from your docs alone, integrates your product the way the docs teach, runs the happy path plus limit and reconfig flows, and reports what breaks with screenshots.
+- glowup (https://github.com/katrinalaszlo/glowup): A design skill for the terminal. Applies product-design principles to the display and interaction flow of a CLI, developer tool, or agent skill without breaking machine contracts.
 - pricing-advisor-skill (https://github.com/katrinalaszlo/pricing-advisor-skill): Claude Code skill for AI-powered pricing strategy. Competitive analysis against 146 tracked companies, pricing model design, gap auditing.
-- tstack (https://github.com/tansohq/tstack): Billing engineer for usage-based products. Entitlement-centered skill chain: meter, pricing, enforcement, credits, hierarchy, reconciliation, integration.
 - BuildNext (https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development. Turn customer calls, tickets, and feature requests into grounded user stories.
 - human-docs (https://github.com/katrinalaszlo/human-docs): Single-file HTML architecture docs. Readable by humans in a browser and by AI agents via section markers.
 - AI Knowledge Explorer (https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-knowledge-explorer): Merged open-source contribution to awesome-llm-apps (130k stars). Drop in documents or source code and a LangGraph agent renders an interactive knowledge graph you can expand by chat. Next.js 16, React 19, CopilotKit, AG-UI streaming.

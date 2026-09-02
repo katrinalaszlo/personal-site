@@ -80,7 +80,8 @@ Background in UX and product design applied to AI agents as users. Most agent re
 
 - [agentlens](https://github.com/katrinalaszlo/agentlens): See what your AI coding agents store on your machine
 - [agentkey](https://github.com/katrinalaszlo/agentkey): Scoped, budgeted API keys for AI agents. npm: @katrinalaszlo/agentkey
-- [tstack](https://github.com/tansohq/tstack): Billing engineer for usage-based products. Entitlement-centered skill chain.
+- [crash-dummy](https://github.com/katrinalaszlo/crash-dummy): Builds a synthetic customer app from your docs alone and runs the flows your users will run
+- [glowup](https://github.com/katrinalaszlo/glowup): A design skill for the terminal. Product-design principles for CLIs, dev tools, and agent skills
 - [BuildNext](https://github.com/katrinalaszlo/buildnext-oss): Evidence wiki for product development
 - [human-docs](https://github.com/katrinalaszlo/human-docs): Single-file HTML architecture docs for humans and agents
 - [AI Knowledge Explorer](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-knowledge-explorer): Merged open-source contribution to awesome-llm-apps (130k stars). LangGraph agent that turns documents or source code into an interactive knowledge graph
