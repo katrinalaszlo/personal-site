@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kat Laszlo</title>
-    <description>Founder-led field notes on agent readiness: how AI agents discover, evaluate, sign up for, pay for, and use software.</description>
+    <description>Writing about pricing, product discovery, and building for AI agents.</description>
     <link>https://katrinalaszlo.com/blog/</link>
     <atom:link href="https://katrinalaszlo.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
