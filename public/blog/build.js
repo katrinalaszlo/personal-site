@@ -8,6 +8,11 @@ const path = require("path");
 
 const BLOG_DIR = __dirname;
 const POST_CSS = "/blog/post.css";
+const AGENT_READINESS_SLUGS = new Set([
+  "agent-self-serve",
+  "site-ready-for-ai",
+  "onboarding-agents",
+]);
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -467,7 +472,7 @@ function buildFeed(posts) {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kat Laszlo</title>
-    <description>Writing about pricing, product discovery, and building for AI agents.</description>
+    <description>Founder-led field notes on agent readiness: how AI agents discover, evaluate, sign up for, pay for, and use software.</description>
     <link>https://katrinalaszlo.com/blog/</link>
     <atom:link href="https://katrinalaszlo.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
@@ -491,5 +496,5 @@ if (!fs.existsSync(distroDir)) fs.mkdirSync(distroDir, { recursive: true });
 
 console.log(`Building ${mdFiles.length} posts...`);
 const posts = mdFiles.map(buildPost);
-buildFeed(posts);
+buildFeed(posts.filter((post) => AGENT_READINESS_SLUGS.has(post.slug)));
 console.log("Done.");

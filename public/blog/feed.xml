@@ -2,19 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kat Laszlo</title>
-    <description>Writing about pricing, product discovery, and building for AI agents.</description>
+    <description>Founder-led field notes on agent readiness: how AI agents discover, evaluate, sign up for, pay for, and use software.</description>
     <link>https://katrinalaszlo.com/blog/</link>
     <atom:link href="https://katrinalaszlo.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
-    <lastBuildDate>Fri, 07 Aug 2026 00:00:00 GMT</lastBuildDate>
-
-    <item>
-      <title>Being Worth Retrieving From</title>
-      <link>https://katrinalaszlo.com/blog/worth-retrieving-from</link>
-      <description>Garry Tan says retrieval is easy and being worth retrieving from is the product. He named what makes that hard and moved on. Here&apos;s how my system answers each one.</description>
-      <pubDate>Fri, 07 Aug 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/worth-retrieving-from</guid>
-    </item>
+    <lastBuildDate>Mon, 08 Jun 2026 00:00:00 GMT</lastBuildDate>
 
     <item>
       <title>Onboarding Agents (Part 3)</title>
@@ -38,78 +30,6 @@
       <description>Agents are already reshaping how B2B buyers research and choose vendors. What does the self-serve experience need to look like when an agent is the buyer?</description>
       <pubDate>Tue, 26 May 2026 00:00:00 GMT</pubDate>
       <guid>https://katrinalaszlo.com/blog/agent-self-serve</guid>
-    </item>
-
-    <item>
-      <title>Building a Pricing Database</title>
-      <link>https://katrinalaszlo.com/blog/building-a-pricing-database</link>
-      <description>Human-directed, AI-driven research and insights. An LLM does all the writing, cross-referencing, and maintenance while I curate what goes in.</description>
-      <pubDate>Tue, 05 May 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/building-a-pricing-database</guid>
-    </item>
-
-    <item>
-      <title>Product Discovery with Karpathy&apos;s LLM Wiki</title>
-      <link>https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki</link>
-      <description>I repurposed Karpathy&apos;s LLM Wiki for product discovery. It worked surprisingly well.</description>
-      <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/product-discovery-with-llm-wiki</guid>
-    </item>
-
-    <item>
-      <title>If you&apos;re rethinking your pricing because of AI, read this first</title>
-      <link>https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai</link>
-      <description>The most common mistake: teams look at their AI COGS, panic, and mark it up. That&apos;s cost-plus pricing wearing an AI hat.</description>
-      <pubDate>Sat, 18 Apr 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/rethinking-pricing-because-of-ai</guid>
-    </item>
-
-    <item>
-      <title>The &apos;AI Included&apos; Era Was Never Going to Last Forever</title>
-      <link>https://katrinalaszlo.com/blog/ai-included</link>
-      <description>The mismatch between flat pricing and variable AI costs didn&apos;t start with AI-native startups. It&apos;s coming for every SaaS company that shipped an AI feature in the last two years.</description>
-      <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/ai-included</guid>
-    </item>
-
-    <item>
-      <title>Is Outcome-Based Pricing Real, or Just Marketing Hype?</title>
-      <link>https://katrinalaszlo.com/blog/is-outcome-based-pricing-real</link>
-      <description>Only 2% of companies used outcome-based pricing in mid-2025. By December it was 18%. The gap between the narrative and reality tells you something important about where AI pricing actually is.</description>
-      <pubDate>Sun, 15 Feb 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/is-outcome-based-pricing-real</guid>
-    </item>
-
-    <item>
-      <title>When More Customers Mean Bigger Losses</title>
-      <link>https://katrinalaszlo.com/blog/more-customers-bigger-losses</link>
-      <description>Most AI companies can answer &apos;What did we spend on OpenAI last month?&apos; Almost none can answer &apos;Which customers are actually profitable?&apos;</description>
-      <pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/more-customers-bigger-losses</guid>
-    </item>
-
-    <item>
-      <title>Pricing Is a Real Moat in AI SaaS</title>
-      <link>https://katrinalaszlo.com/blog/pricing-moat-ai-saas</link>
-      <description>How pricing became a source of durable advantage in AI SaaS</description>
-      <pubDate>Thu, 08 Jan 2026 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/pricing-moat-ai-saas</guid>
-    </item>
-
-    <item>
-      <title>Why Pricing Infrastructure Gets Hard Fast for AI Startups</title>
-      <link>https://katrinalaszlo.com/blog/pricing-infrastructure-complexity</link>
-      <description>Early teams usually start the same way. Add a few plans, connect Stripe, and move on. Then usage grows, customers scale, and one-off exceptions turn into system-wide behavior.</description>
-      <pubDate>Mon, 08 Dec 2025 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/pricing-infrastructure-complexity</guid>
-    </item>
-
-    <item>
-      <title>What&apos;s Actually Different About AI Pricing</title>
-      <link>https://katrinalaszlo.com/blog/ai-pricing-differences</link>
-      <description>AI pricing looks new. New labels. New meters. New behaviors. Some things genuinely changed: costs and attribution work differently now. But fundamentals haven&apos;t.</description>
-      <pubDate>Fri, 28 Nov 2025 00:00:00 GMT</pubDate>
-      <guid>https://katrinalaszlo.com/blog/ai-pricing-differences</guid>
     </item>
   </channel>
 </rss>

@@ -4,6 +4,7 @@
 - [Home](https://katrinalaszlo.com/)
 - [Notebook](https://katrinalaszlo.com/notebook)
 - [Blog](https://katrinalaszlo.com/blog)
+- [Writing Archive](https://katrinalaszlo.com/blog/archive)
 - [Developers](https://katrinalaszlo.com/developers)
 
 ## Machine-Readable
