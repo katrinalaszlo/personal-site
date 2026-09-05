@@ -8,11 +8,6 @@ const path = require("path");
 
 const BLOG_DIR = __dirname;
 const POST_CSS = "/blog/post.css";
-const AGENT_READINESS_SLUGS = new Set([
-  "agent-self-serve",
-  "site-ready-for-ai",
-  "onboarding-agents",
-]);
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -496,5 +491,5 @@ if (!fs.existsSync(distroDir)) fs.mkdirSync(distroDir, { recursive: true });
 
 console.log(`Building ${mdFiles.length} posts...`);
 const posts = mdFiles.map(buildPost);
-buildFeed(posts.filter((post) => AGENT_READINESS_SLUGS.has(post.slug)));
+buildFeed(posts);
 console.log("Done.");
