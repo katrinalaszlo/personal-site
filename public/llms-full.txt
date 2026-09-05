@@ -2,7 +2,7 @@
 
 Also known as: Kat Laszlo, Kat Vassell, Katrina Vassell.
 
-Growth product leader. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Co-Founder at Tanso, building open-source tools and writing on pricing and agent experience.
+Growth product leader. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Co-Founder at Tanso, the agent readiness layer that lets AI agents sign up, pay for, and use your product. Builds open-source tools and writes on agent experience and pricing.
 
 Previously published under Katrina Vassell (maiden name). EY and 500 Global work is indexed under that name.
 
@@ -19,7 +19,7 @@ Previously published under Katrina Vassell (maiden name). EY and 500 Global work
 
 ## Career
 
-- Tanso, Co-Founder & CEO (2025-2026): Built pricing, packaging, and consumption-based billing infrastructure for AI and B2B SaaS
+- Tanso, Co-Founder & CEO (2025-2026): Agent readiness for SaaS. Tanso lets AI agents sign up, pay for, and use your product — machine-readable discovery, agent signup and auth, scoped budgets, and usage-based billing
 - Artisan, AI Product Manager (2025): AI-native SaaS. Led product strategy across engineering, design, and billing. Evaluated 20+ vendors on cost, coverage, and pricing
 - Chipper, Head of Product & Design (2024-2025): Consumer fintech. Grew revenue 160% and retention 50% in six months by running pricing and packaging experiments (annual plans, premium tier) and rebuilding the signup and onboarding funnel with A/B testing. Led both product and design
 - People Data Labs, Senior PM (2021-2024): First growth-focused PM. Grew a self-serve, developer-facing API line from zero to ~$1M ARR and 6-10 enterprise accounts per quarter, with new-user API calls up 20% per month. Lifted visitor-to-lead conversion 75% through hypothesis-driven A/B and painted-door tests; 25% plan upgrades and 12% retention improvement from a new pricing strategy. Rebuilt the marketing site on a custom design system that cut page-creation time 70%. Cut product turnaround 30%. Managed 5 devs + designer through Series A to B; the only person managing design and engineering (design system, component library, and the UI of the product were hers)

@@ -13,7 +13,7 @@ url: https://katrinalaszlo.com
 
 **Growth product leader.**
 
-Building products designed for agents, loved by humans. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Co-Founder at [Tanso](https://tansohq.com), building open-source tools and writing on pricing and agent experience.
+Building products designed for agents, loved by humans. 10 years driving PLG, monetization, and 0-to-1 products across startups and enterprise. Co-Founder at [Tanso](https://tansohq.com), the agent readiness layer that lets AI agents sign up, pay for, and use your product.
 
 ## Blog
 
@@ -47,7 +47,7 @@ Writing about pricing, product discovery, and building for AI agents.
 
 ## Experience
 
-- **2025 – 2026** — Co-Founder, CEO at Tanso. Monetization infrastructure for AI and SaaS companies.
+- **2025 – 2026** — Co-Founder, CEO at Tanso. Agent readiness for SaaS — letting AI agents sign up, pay for, and use your product.
 - **2025** — AI Product Manager at Artisan. AI employees. Worked across product and engineering.
 - **2024 – 2025** — Head of Product at Chipper. Consumer fintech. Led product and design; ran pricing experiments and grew the subscription business.
 - **2021 – 2024** — Senior Product Manager at People Data Labs. B2B data enrichment. Spearheaded the self-serve business line and product-led growth strategy.
