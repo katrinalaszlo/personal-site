@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"The Bifurcated Web","description":"The web is splitting into two layers: a visible web for humans and an invisible web for agents. What this means for products, marketing, and discovery.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/bifurcated-web"}}
 </script>
@@ -99,12 +99,12 @@
 <!-- PART 1: THE SPLIT -->
 <section>
   <span class="section-num">PART 1</span>
-  <h2>Two Webs, One Product</h2>
-  <p class="subtitle">Not a replacement. A split.</p>
+  <h2>Two interfaces, one product</h2>
+  <p class="subtitle">Human and agent interfaces for the same product.</p>
 
   <p>For 30 years, the web had one audience: humans with browsers. AI agents introduce a second audience that reads the same web but consumes it completely differently. They don't render CSS. They don't click buttons. They don't respond to social proof or urgency cues. They parse structure, evaluate data, and take action.</p>
 
-  <p>The instinct is to ask: "Will agents replace the web?" The answer is no. The web is bifurcating. Both layers will persist, serving the same content and products through different interfaces optimized for different consumers.</p>
+  <p>I expect both interfaces to persist. People will still use websites, while agents need ways to read the same information and act on it programmatically.</p>
 
   <div class="split-diagram">
     <div class="split-side" style="border-top:3px solid var(--accent)">
@@ -187,17 +187,17 @@
     </tbody>
   </table>
 
-  <p>The key difference: SEO is about being found. AVIO is about being chosen. An agent doesn't show a list of 10 results for the human to pick from. It evaluates options and either recommends one or acts on one directly. If your product isn't in the agent's context window during evaluation, you don't exist.</p>
+  <p>Agent evaluations add another question to discovery: can the agent extract enough information to compare your product and recommend it? Being found is only the first step.</p>
 
   <div class="warning">
-    <strong>The measurement gap:</strong> SEO has mature analytics: rankings, impressions, click-through rates. AVIO has almost nothing. You can't easily measure how often agents recommend your product, or how they score you against competitors. This gap is a problem and an opportunity. The first tools that provide "agent analytics" (how agents perceive and interact with your product) will define the category.
+    <strong>The measurement gap:</strong> SEO has mature analytics: rankings, impressions, click-through rates. AVIO has almost nothing. You can't easily measure how often agents recommend your product, or how they score you against competitors. This gap is a problem and an opportunity. Useful analytics would show where agents fail to find information or complete a task.
   </div>
 </section>
 
 <!-- PART 4: TIMELINE -->
 <section>
   <span class="section-num">PART 4</span>
-  <h2>How We Got Here</h2>
+  <h2>How we got here</h2>
   <p class="subtitle">The bifurcation didn't happen overnight.</p>
 
   <div class="timeline">
@@ -243,7 +243,7 @@
 <!-- PART 5: WHAT THIS MEANS -->
 <section>
   <span class="section-num">PART 5</span>
-  <h2>What This Means</h2>
+  <h2>What to check in your product</h2>
   <p class="subtitle">Practical implications for product teams.</p>
 
   <div class="card-grid">
@@ -261,12 +261,12 @@
     </div>
     <div class="card">
       <h3>Competitive moats change</h3>
-      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">When agents evaluate products, brand recognition and visual design matter less. Structured capability data, integration quality, and programmatic accessibility matter more. The invisible web rewards substance over surface.</p>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">When agents evaluate products, brand recognition and visual design matter less. Structured capability data, integration quality, and programmatic accessibility matter more. Agents need those capabilities to be accessible and clearly described.</p>
     </div>
   </div>
 
   <div class="analogy">
-    <strong>The question:</strong> Martin Recke's closing line at NEXT Conference: "The website isn't ending. The question is whether your digital presence is legible to the new readers of the web." The visible web continues. The invisible web is being built alongside it. Companies that serve both layers win. Companies that serve only one are half-visible.
+    <strong>The question:</strong> Martin Recke's closing line at NEXT Conference: "The website isn't ending. The question is whether your digital presence is legible to the new readers of the web." The visible web continues. The invisible web is being built alongside it. Check that both interfaces describe the same product and support the tasks your customers need.
   </div>
 </section>
 
@@ -280,7 +280,7 @@
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

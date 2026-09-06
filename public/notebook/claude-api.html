@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Claude API","description":"From Claude Code user to raw API caller. Messages, tools, streaming, and prompt caching.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/claude-api"}}
 </script>
@@ -87,7 +87,7 @@
 <p class="subtitle">From Claude Code user to raw API caller</p>
 
 <section>
-  <h2>Three Ways to Use Claude</h2>
+  <h2>Three ways to use Claude</h2>
 
   <p>If you use Claude Code every day, you already know what Claude can do. But Claude Code is one of three surfaces. Each talks to the same models through different interfaces, with different tradeoffs.</p>
 
@@ -160,7 +160,7 @@ client = anthropic.Anthropic(api_key=<span class="s">"sk-ant-..."</span>)</div>
 </section>
 
 <section>
-  <h2>The Messages Endpoint</h2>
+  <h2>The Messages endpoint</h2>
 
   <p>The API has one core endpoint: <code>POST /v1/messages</code>. Every interaction with Claude goes through it. The API is stateless. There is no session, no memory, no conversation ID. You send the full conversation history every time.</p>
 
@@ -411,9 +411,9 @@ response = client.messages.create(
 </section>
 
 <section>
-  <h2>Prompt Caching</h2>
+  <h2>Prompt caching</h2>
 
-  <p>Prompt caching is the single most impactful cost optimization. If you send the same system prompt or context on every request, you're paying full input price every time. With caching, the repeated prefix is stored and reused at 10% of the input cost.</p>
+  <p>Prompt caching reduces the cost of repeated input. If you send the same system prompt or context on each request, cached reads cost 10% of the normal input price.</p>
 
   <h3>How it works</h3>
   <p>Mark content blocks with <code>cache_control</code> to tell the API to cache them. On subsequent requests with the same prefix, cached tokens are read from cache instead of reprocessed.</p>
@@ -462,7 +462,7 @@ response = client.messages.create(
 </section>
 
 <section>
-  <h2>Extended Thinking</h2>
+  <h2>Extended thinking</h2>
 
   <p>Extended thinking lets Claude reason through a problem step by step before responding. The thinking process is visible in the response but billed as output tokens. This improves quality on hard problems: math, logic, multi-step analysis, code architecture.</p>
 
@@ -500,7 +500,7 @@ response = client.messages.create(
 </section>
 
 <section>
-  <h2>Structured Output</h2>
+  <h2>Structured output</h2>
 
   <p>Two ways to get structured data out of Claude: the <code>tool</code> trick, or native structured output.</p>
 
@@ -554,7 +554,7 @@ contact = tool_block.input  <span class="c"># {"name": "John Smith", "email": "j
 </section>
 
 <section>
-  <h2>Common Patterns</h2>
+  <h2>Common patterns</h2>
 
   <h3>Pattern 1: Agentic loop</h3>
   <p>The fundamental pattern behind Claude Code and every AI agent. Keep calling the API until Claude stops requesting tools.</p>
@@ -642,7 +642,7 @@ batch = client.messages.batches.create(
 </section>
 
 <section>
-  <h2>Cost Awareness</h2>
+  <h2>Tracking cost</h2>
 
   <p>Every API call returns <code>usage.input_tokens</code> and <code>usage.output_tokens</code>. Track them. A runaway agentic loop or an accidentally large context can burn through budget fast.</p>
 
@@ -676,7 +676,7 @@ batch = client.messages.batches.create(
 </section>
 
 <section>
-  <h2>SDK Installation</h2>
+  <h2>SDK installation</h2>
 
   <h3>Python</h3>
   <div class="code-block">pip install anthropic</div>
@@ -712,7 +712,7 @@ main();</div>
 </section>
 
 <section>
-  <h2>Quick Reference</h2>
+  <h2>Quick reference</h2>
 
   <table class="contrast-table">
     <thead>
@@ -749,7 +749,7 @@ main();</div>
 <section>
   <h2>From Claude Code User to API Builder</h2>
 
-  <p>The mental model shift is small. In Claude Code, you type a prompt and the system handles everything: reading files, running tools, managing conversation state. With the API, you do all of that yourself. But the core interaction is identical: you send messages, Claude responds with text or tool calls, you handle the results.</p>
+  <p>Claude Code manages files, tools, and conversation state for you. With the API, your application handles those pieces: send messages, receive text or tool calls, execute the requested tools, and send back their results.</p>
 
   <p>Start with the simplest possible thing: a single <code>messages.create()</code> call. Get that working. Then add a system prompt. Then add a tool. Then add streaming. Then add prompt caching. Each layer is independent. You don't need all of them at once.</p>
 
@@ -769,7 +769,7 @@ main();</div>
 <footer style="padding:2rem 0;font-size:0.8125rem;color:#a1a1aa;border-top:1px solid #f4f4f5;margin-top:3rem;text-align:center">
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

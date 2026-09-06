@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Mutual Legibility","description":"The two-way communication problem at the heart of agent UX. How agents read human things, how humans read agent things, and three counterintuitive research findings.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/mutual-legibility"}}
 </script>
@@ -99,10 +99,10 @@
 <!-- PART 1: THE PROBLEM -->
 <section>
   <span class="section-num">PART 1</span>
-  <h2>Two Directions</h2>
-  <p class="subtitle">Every agent UX decision bottoms out here.</p>
+  <h2>Two directions</h2>
+  <p class="subtitle">Start with what each side needs to understand.</p>
 
-  <p>When a human works with an AI agent, two things need to happen. The agent needs to understand the human's intent, context, and constraints. The human needs to understand the agent's plan, reasoning, and confidence. Both directions can fail. Products that invest in only one direction feel uncanny. Products investing in both are doing the actual design work.</p>
+  <p>The agent needs to understand the human's intent and constraints. The human needs to understand what the agent plans to do and how confident to be in the result. A product can make either direction easier or harder.</p>
 
   <div class="direction-grid">
     <div class="direction-card" style="border-top:3px solid var(--accent)">
@@ -133,8 +133,8 @@
 <!-- PART 2: THREE FINDINGS -->
 <section>
   <span class="section-num">PART 2</span>
-  <h2>Three Counterintuitive Findings</h2>
-  <p class="subtitle">Research results that rewrite conventional wisdom about agent UX.</p>
+  <h2>Three research findings</h2>
+  <p class="subtitle">Research findings about uncertainty, explanations, and shared understanding.</p>
 
   <div class="finding-card" style="border-left:3px solid var(--accent)">
     <h3>1. First-person hedges work. Generic ones don't.</h3>
@@ -162,7 +162,7 @@
 <!-- PART 3: THE GROUNDING PROBLEM -->
 <section>
   <span class="section-num">PART 3</span>
-  <h2>The Grounding Problem</h2>
+  <h2>Establishing shared understanding</h2>
   <p class="subtitle">How agents build (and lose) shared understanding with humans.</p>
 
   <p>In linguistics, "grounding" is the process by which two parties establish mutual understanding. Clark and Brennan (1991) identified the mechanisms: acknowledgments, clarification requests, reformulations, confirmations. Humans do this automatically in conversation. LLMs do it poorly.</p>
@@ -180,7 +180,7 @@
     </div>
     <div class="card">
       <h3>User-Driven Context Injection</h3>
-      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Cursor's @ mentions let users explicitly inject files, docs, and context into the agent's window. This shifts grounding from implicit (the agent guesses what's relevant) to explicit (the user points at what matters). More work for the user, but dramatically better outcomes.</p>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Cursor's @ mentions let users explicitly inject files, docs, and context into the agent's window. This shifts grounding from implicit (the agent guesses what's relevant) to explicit (the user points at what matters). The user does more work, but can choose the context explicitly.</p>
     </div>
     <div class="card">
       <h3>Bounded Inputs</h3>
@@ -192,7 +192,7 @@
 <!-- PART 4: THE VERIFICATION TAX -->
 <section>
   <span class="section-num">PART 4</span>
-  <h2>The Verification Tax</h2>
+  <h2>The time spent checking</h2>
   <p class="subtitle">The invisible cost of checking whether the agent did the right thing.</p>
 
   <p>Mozannar et al. (CHI 2024) found that programmers using GitHub Copilot spend substantial time reading, simulating, and verifying suggestions. This time is invisible to acceptance-rate metrics. A high acceptance rate does not mean high productivity if every accepted suggestion requires 45 seconds of mental simulation to verify.</p>
@@ -207,7 +207,7 @@
 <!-- PART 5: ANTI-PATTERNS -->
 <section>
   <span class="section-num">PART 5</span>
-  <h2>Anti-Patterns</h2>
+  <h2>Failure patterns</h2>
   <p class="subtitle">Legibility failures that show up in production agent products.</p>
 
   <div style="margin:24px 0">
@@ -252,13 +252,13 @@
 <!-- PART 6: OPEN FRONTIERS -->
 <section>
   <span class="section-num">PART 6</span>
-  <h2>Open Frontiers</h2>
-  <p class="subtitle">Problems no one has solved yet.</p>
+  <h2>Open questions</h2>
+  <p class="subtitle">Questions to investigate in agent interfaces.</p>
 
   <div class="card-grid">
     <div class="card">
       <h3>Common-Ground Tooling</h3>
-      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">No tool exists to measure or improve agent grounding behavior. You can't instrument how well an agent understands context, or how well a human understands agent output. The entire field of agent UX is flying without this metric.</p>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Grounding needs its own evaluation: does the agent understand the user's context, and can the user tell what the agent understood? Task completion alone won't answer both questions.</p>
     </div>
     <div class="card">
       <h3>Legibility vs Predictability</h3>
@@ -285,7 +285,7 @@
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

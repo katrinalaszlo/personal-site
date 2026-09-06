@@ -1,14 +1,14 @@
 ---
 title: "What's Actually Different About AI Pricing"
 date: 2025-11-28
-description: "AI pricing looks new. New labels. New meters. New behaviors. Some things genuinely changed: costs and attribution work differently now. But fundamentals haven't."
+description: "AI changes the cost of serving customers and where outcomes can be measured. The pricing decisions are still familiar."
 canonical: https://www.tansohq.com/blog/ai-pricing-differences
 author: Kat Laszlo
 ---
 
 Over the past few weeks I've talked with founders building AI agents, developer tools, and vertical SaaS about their pricing.
 
-AI pricing looks new, with new labels, new meters, and new behaviors. Some things genuinely changed, because costs and attribution work differently now, but the pricing models themselves follow the same patterns they always have. Even a lot of the new terms are actually rebrands of familiar concepts:
+A lot of AI pricing vocabulary describes familiar mechanisms. Costs and attribution have changed, but many of the models have direct precedents:
 
 | AI era | PLG SaaS | Same concept |
 |--------|----------|--------------|
@@ -18,9 +18,9 @@ AI pricing looks new, with new labels, new meters, and new behaviors. Some thing
 | Agents | Seats | Per-worker pricing |
 | Credit top-ups | Overage charges | Pay beyond commitment |
 
-Two things actually changed. Marginal costs are back, because in PLG SaaS serving another user costs almost nothing while in AI every query burns compute, so free trials aren't free to you anymore. Attribution also works in longer workflows now, because when an AI agent resolves a support ticket you know who did the work, which lets you meter outcomes in places you never could before, but only when the product architecture supports it.
+Two changes matter here. Every AI query consumes compute, so a free trial can carry a substantial cost. And an agent that completes a support ticket can give you a measurable outcome to charge for. That second change depends on the product: you need to know who did the work.
 
-Everything else is the same four decisions, applied to new territory.
+I still work through four decisions.
 
 1. Meter position is what you charge for.
 2. Cash mechanism is when you get paid.
@@ -71,7 +71,7 @@ This is where marginal costs hit hardest. In PLG SaaS, serving another user cost
 
 Buyers optimize for peace of mind, not necessarily the lowest cost. They want to know what they'll owe, and they hate watching meters tick down in real time. That's why three-part tariffs work well: base fee, free allowance, overage. The allowance feels safe. [Research on tariff structures](https://tomtunguz.com/three-part-tariffs) found that customers who switched to a three-part tariff increased their usage by 15.1%, compared to 0.9% for those who stayed on two-part tariffs.
 
-None of this is new. Flat-rate bias existed before AI, the "unlimited" trap existed before AI, and loss aversion during price changes existed before AI. These are human psychology patterns, not technology patterns.
+None of this is new. Flat-rate bias existed before AI, the "unlimited" trap existed before AI, and loss aversion during price changes existed before AI. Buyers bring those same habits to AI purchases.
 
 The unit is more abstract, because tokens and credits are harder to reason about than seats or API calls. When every company defines a credit differently, and a single prompt can burn anywhere from 50 to 50,000 tokens depending on the model, customers have even less intuition about what they're spending. The psychology is the same, but the confusion is worse.
 
@@ -89,7 +89,7 @@ You can only price what you can meter and bill.
 
 Billing constraints block pricing changes, and companies get stuck on seat-based pricing because that's what their billing stack can handle.
 
-Both shifts land here. Usage billing is now table stakes, not optional. PLG SaaS could get away with seat counting, but AI companies need high-frequency metering, tokens per request rather than API calls per month. Systems have to handle real-time attribution, variable rate cards, and credit pools that draw down mid-session. Stripe found that 92% of AI startups changed pricing post-launch due to inadequate billing systems.
+Both changes put pressure on billing. PLG SaaS could get away with seat counting, but AI companies need high-frequency metering, tokens per request rather than API calls per month. Systems have to handle real-time attribution, variable rate cards, and credit pools that draw down mid-session. Stripe found that 92% of AI startups changed pricing post-launch due to inadequate billing systems.
 
 When a company is stuck on seat-based pricing, often it's just what their billing can handle reliably, not a strategic choice.
 
@@ -123,4 +123,4 @@ Access pricing gives you predictable cash, activity or outcome pricing aligns wi
 4. **Can you actually implement this?**
    If your billing can't support it, the strategy doesn't matter.
 
-The key takeaway is that pricing is four decisions that interact and the mechanics didn't change. AI changed two things, that marginal costs are back and that attribution works in new places.
+Work through those questions together. A measurable outcome won't help if the buyer can't budget for it or your billing system can't charge for it.

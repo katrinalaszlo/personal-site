@@ -9,9 +9,7 @@ author: Kat Laszlo
 
 Several months ago I shared a pricing database on Tanso and got positive feedback from founders and pricing people.
 
-Since then I've been using a wiki-as-living-system approach to knowledge management: an LLM does all the writing, cross-referencing, and maintenance while I curate what goes in. I applied that pattern to my pricing research and decided to make it free: [data.tansohq.com](https://data.tansohq.com)
-
-Here's how it works.
+Since then I've been maintaining a wiki with an LLM: an LLM does all the writing, cross-referencing, and maintenance while I curate what goes in. I applied that pattern to my pricing research and decided to make it free: [data.tansohq.com](https://data.tansohq.com)
 
 ## Input
 
@@ -31,15 +29,15 @@ The system generates cross-company analysis automatically: AI bundling patterns,
 
 Every pricing change is tracked over time, including who raised prices, who bundled AI into their core product, and who killed their free tier. The changelog is append-only and timestamped, so you can see exactly when things shifted.
 
-## Relationship Map
+## Relationship map
 
-Wikilinks connect companies, pricing models, and trends into a browsable graph. You can see which companies share pricing patterns, which trends connect to which categories, and how the landscape fits together.
+Wikilinks connect companies, pricing models, and trends into a browsable graph. You can see which companies share pricing patterns, which trends connect to which categories, and where their approaches differ.
 
-## Data Quality
+## Data quality
 
 Every data point carries a confidence score (high, medium, or low) based on source quality and recency. A company profile verified yesterday from their pricing page scores differently than one pieced together from a year-old blog post.
 
-## MCP Server
+## MCP server
 
 The dataset is also available as an MCP server. Plug it into Claude or any AI assistant, query it conversationally ("which usage-based companies in dev tools offer rollover credits?"), and get structured answers backed by real data.
 
@@ -47,6 +45,4 @@ I built this because I needed it for my own work on Tanso, and had been maintain
 
 If you work in pricing, product, or investing and want synthesis reports as we publish them, there's a newsletter signup on the site. We'll send updates when new companies are added or when we spot interesting pricing changes.
 
-Check it out: [data.tansohq.com](https://data.tansohq.com)
-
-Let me know what you think, or if there are companies or dimensions you'd like to see. The dataset grows based on what people actually find useful.
+If there's a company or pricing detail missing that would help your work, I'd like to hear about it.

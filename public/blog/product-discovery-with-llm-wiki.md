@@ -7,7 +7,7 @@ author: Kat Laszlo
 
 # Product Discovery with Karpathy's LLM Wiki
 
-I was playing with Karpathy's LLM Wiki and realized it could be re-applied to my manual workflow as a PM.
+I was playing with Karpathy's LLM Wiki and realized I could use it for the interview analysis I was doing by hand as a PM.
 
 Normally I identify quotes from transcripts, create user stories, group them into features, and prioritize based on effort, impact, dependencies. It's tedious and error-prone, especially across 10+ interviews.
 
@@ -17,7 +17,7 @@ I tried using a wiki instead of my manual process for customer interviews and it
 
 Before running it, you can edit the prompt to decide what's worth tagging and how user stories should be written. When you re-run it, it does not blindly overwrite your edits or duplicate prior work.
 
-One piece I especially like is the ability to view the connections as a graph and drill down from a user story to the actual customer quotes behind it. And if you're using AI to code, you can feed that evidence in as context. It builds better when it understands *why* you're building something.
+I especially like the graph: I can follow a user story back to the customer quotes behind it. And if you're using AI to code, you can feed that evidence in as context. It builds better when it understands *why* you're building something.
 
 ## Try it out
 

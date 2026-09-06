@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Model Architecture","description":"Inside the neural network: embeddings, attention, multi-head attention, MLPs, and how depth and width shape a transformer.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/model-architecture"}}
 </script>
@@ -165,6 +165,9 @@
   .qkv-flow { flex-direction: column; }
   .qkv-arrow { justify-content: center; transform: rotate(90deg); }
 }
+@media (max-width: 700px) {
+  .glossary-table { display: block; width: 100%; overflow-x: auto; }
+}
 </style>
 <link rel="llms-txt" href="/llms.txt">
 <link rel="alternate" type="text/markdown" href="/notebook/model-architecture.md" title="Markdown version">
@@ -198,24 +201,24 @@
 <!-- ======== PART 1: WHAT THE MODEL ACTUALLY DOES ======== -->
 <section>
   <span class="section-num">PART 1</span>
-  <h2>What The Model Actually Does</h2>
+  <h2>What the model does</h2>
   <p class="subtitle">Start from the familiar thing: input goes in, output comes out.</p>
 
-  <p>Type a prompt into ChatGPT, get a response back. Input, output. That's the model, whatever architecture sits underneath it. A <strong>transformer</strong> is one specific architecture for doing that translation from input to output, the one this page is about, and the one most models in use today are built from.</p>
+  <p>Give a language model "I put money in the bank" and it produces scores for possible next tokens. "Account" might be one continuation. A transformer is the architecture that computes those scores from the input.</p>
 
-  <p>Running the model to turn an input into an output is called <strong>inference</strong>. That's what's happening every time you send a message and get a reply: your prompt goes in, it runs through the transformer, a response comes out.</p>
+  <p><strong>Inference</strong> means running the model. Text becomes token IDs, IDs select embedding vectors, and the transformer updates those vectors using context. The output layer scores possible next tokens. After one is selected, the process continues with that token added to the input.</p>
 
-  <p><strong>Training</strong> uses the same forward pass as inference, input goes in, a prediction comes out, with one addition: the prediction gets checked against a known correct answer, and the model's numbers get nudged slightly so the next prediction lands closer. The difference between the two is what's available going in. During training, the full correct text already exists, so there's something to check the prediction against. During inference, it doesn't exist yet, that's the whole point, so the model generates one token at a time instead. Training repeats the predict-check-adjust step billions of times.</p>
+  <p><strong>Training</strong> adjusts the model's saved numbers. The training text already contains the next token, so the model can compare its prediction with that target. Backpropagation calculates gradients, and the optimizer updates the parameters. The <a href="/notebook/training-loop.html">training loop</a> repeats this process.</p>
 
   <div class="analogy">
-    <strong>The one trick that makes this efficient:</strong> instead of doing that "guess the next word" check one word at a time, training does it for an entire passage at once, every position predicting its own next token, all in a single pass. That only works because of <strong>causal masking</strong> (Part 5): each position is architecturally blocked from seeing anything after it, so predicting position 50 can't accidentally cheat by peeking at position 51, even though position 51 is sitting right there in the same input. The mask, not the data, is what keeps training honest.
+    <strong>Why training can process a passage at once:</strong> each position predicts the token after it, but a causal mask blocks access to later positions. The target is available for checking the answer without being visible to the prediction. <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a> describes masked attention and the transformer layers.
   </div>
 </section>
 
 <!-- ======== PART 2: THE BIG PICTURE ======== -->
 <section>
   <span class="section-num">PART 2</span>
-  <h2>The Big Picture</h2>
+  <h2>The model at a glance</h2>
   <p class="subtitle">The model's shape is defined by a handful of numbers. Everything else derives from these.</p>
 
   <div class="config-grid">
@@ -262,36 +265,54 @@
 </section>
 
 <!-- ======== PART 3: TOKEN EMBEDDINGS ======== -->
-<section>
+<section id="embeddings">
   <span class="section-num">PART 3</span>
-  <h2>Token Embeddings: IDs to Vectors</h2>
-  <p class="subtitle">Every token becomes a point in 512-dimensional space.</p>
+  <h2>Token embeddings: IDs to vectors</h2>
+  <p class="subtitle">Follow one token through a table lookup before adding attention.</p>
 
-  <p>The embedding layer (<code>wte</code>) is a lookup table with 8,192 rows and 512 columns. Feed in token ID 2401 ("Hell"), it returns row 2401: a vector of 512 numbers.</p>
+  <p>Start with "I put money in the bank." For this toy example, treat each word as one token and give "bank" ID <code>5</code>. Real tokenizers can split words into smaller pieces. The ID is an index: it tells the model which row to look up.</p>
 
-  <div class="code-block"><span class="c"># The embedding is literally a giant table</span>
-wte = nn.Embedding(<span class="n">8192</span>, <span class="n">512</span>)  <span class="c"># shape: [8192, 512]</span>
+  <table class="contrast-table">
+    <thead><tr><th>Token</th><th>Toy ID</th><th>Embedding stored in that row</th></tr></thead>
+    <tbody>
+      <tr><td>money</td><td>2</td><td><code>[0.3, -0.2, 0.8, 0.1]</code></td></tr>
+      <tr><td>bank</td><td>5</td><td><code>[0.2, -0.4, 0.7, 0.3]</code></td></tr>
+    </tbody>
+  </table>
+  <p class="dim">Invented IDs and numbers. Four dimensions keep the example readable.</p>
 
-<span class="c"># Feed in token IDs, get vectors</span>
-x = wte(idx)  <span class="c"># [128, 2048] &rarr; [128, 2048, 512]</span></div>
+  <p>Looking up ID <code>5</code> returns <code>[0.2, -0.4, 0.7, 0.3]</code>. That list is the token's <em>embedding vector</em>. Each entry is one coordinate, so this example has four dimensions. The model on this page uses 512 entries per token and 8,192 rows in its embedding table. <a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.Embedding.html">PyTorch's Embedding reference</a> describes that lookup.</p>
 
-  <p>At first, these 512 numbers are random. During training, the model learns to arrange them so tokens with similar meanings end up near each other. "cat" and "dog" drift closer together. "cat" and "invoice" drift apart.</p>
+  <h3>Where do those numbers come from?</h3>
+  <p>The table starts with random numbers. Training updates them to help the model predict text. The token IDs stay the same while the numbers in their rows change. After training, looking up the same token in the unchanged table returns the same vector. See <a href="https://docs.pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html">PyTorch's word-embedding tutorial</a>.</p>
 
   <div class="analogy">
-    <strong>Why 512 dimensions?</strong> Think of it as the model's vocabulary for describing tokens. Two dimensions could capture simple things (positive/negative, concrete/abstract). But language is complex: you need dimensions for grammar, topic, sentiment, formality, and thousands of other features. 512 gives the model enough room to encode rich meaning. This is the "width" &mdash; making it bigger lets the model capture more nuance, at the cost of more computation.
+    <strong>Drawing it:</strong> with two coordinates, you can draw each token as a dot on a sheet of paper. Label the axes "dimension 1" and "dimension 2." Learned dimensions don't generally have simple names like "money" or "grammar"; useful information is spread across the numbers. A 2D picture of a 512-dimensional vector is a simplified projection. It cannot show every relationship.
   </div>
 
-  <p><code>wte</code> itself is a <strong>weight</strong> matrix: learned once during training, then frozen and reused for every input from then on. The 512-number <strong>vector</strong> it hands back for a given token is a different kind of thing entirely, it's created fresh, every single time the model runs, by looking up one row in that fixed table.</p>
+  <h3>What changes when the sentence changes?</h3>
+  <p>The initial vector for "bank" comes from the same row whether the sentence mentions money or a river. The transformer then uses context to calculate an updated representation for that occurrence. The saved embedding table stays fixed during ordinary inference; the representation changes as it passes through the layers.</p>
 
   <div class="connection">
-    <strong>The one similarity worth keeping, and where it stops:</strong> a recipe and a weight matrix are alike in exactly one way, both stay the same across many uses. That's it, the analogy shouldn't be stretched further: a recipe doesn't compute anything, it's just read. A weight matrix is not a fixed lookup like a recipe card; it's what does the transforming, multiplying against whatever comes in. What's genuinely true, though: the matrix is fixed, the output isn't. Every vector on this page, embeddings, Q, K, V, hidden states, gets recomputed on every run. Only the weights persist.
+    <strong>Dimensions and heads:</strong> a dimension is one entry in a vector. An attention head is a separate attention calculation. Here, the model projects a 512-number representation into Q, K, and V, then divides each into four heads of 128 numbers. We'll follow those calculations in the attention section.
   </div>
+
+  <div class="code-block"><span class="c"># 8,192 rows, 512 numbers per row</span>
+wte = nn.Embedding(<span class="n">8192</span>, <span class="n">512</span>)
+
+<span class="c"># Look up one vector for each token ID in the batch</span>
+x = wte(idx)  <span class="c"># [128, 2048] &rarr; [128, 2048, 512]</span></div>
+
+  <details class="knowledge-check">
+    <summary>Check your understanding: does a new sentence change the saved row for "bank"?</summary>
+    <p>No. During ordinary inference, the row stays fixed. The model looks it up, then computes a context-dependent representation for this occurrence of the token.</p>
+  </details>
 </section>
 
 <!-- ======== PART 4: BEFORE ATTENTION ======== -->
 <section>
-  <span class="section-num">PART 3</span>
-  <h2>Before Attention: What Came Before</h2>
+  <span class="section-num">PART 4</span>
+  <h2>Before attention: RNNs and LSTMs</h2>
   <p class="subtitle">Transformers replaced something. Knowing what clarifies why attention works the way it does.</p>
 
   <p>Before transformers, the standard architecture for sequences was the <strong>RNN</strong> (recurrent neural network), and its more capable version, the <strong>LSTM</strong>. Both processed a sequence one token at a time, updating a single hidden-state vector as they went.</p>
@@ -316,11 +337,11 @@ x = wte(idx)  <span class="c"># [128, 2048] &rarr; [128, 2048, 512]</span></div>
 
 <!-- ======== PART 4: ATTENTION ======== -->
 <section>
-  <span class="section-num">PART 4</span>
+  <span class="section-num">PART 5</span>
   <h2>Attention: "What Should I Pay Attention To?"</h2>
   <p class="subtitle">At every position, the model asks which previous tokens are relevant to predicting what comes next.</p>
 
-  <h3>The Three Projections: Q, K, V</h3>
+  <h3>Three projections: Q, K, V</h3>
   <p>Each token's 512-dim vector gets transformed into three different roles:</p>
 
   <div class="branch-diagram">
@@ -347,7 +368,7 @@ x = wte(idx)  <span class="c"># [128, 2048] &rarr; [128, 2048, 512]</span></div>
     </div>
   </div>
 
-  <h3>Example Attention Pattern</h3>
+  <h3>An example attention pattern</h3>
 
   <div class="qkv-flow">
     <div class="qkv-step">
@@ -383,7 +404,7 @@ x = wte(idx)  <span class="c"># [128, 2048] &rarr; [128, 2048, 512]</span></div>
 
   <p>Grey cells are masked &mdash; causal attention means a token can only attend to tokens that came before it, never after. If position 5 could see position 6, the model would be cheating.</p>
 
-  <h3>Why This Matters: Disambiguation</h3>
+  <h3>How context changes the representation</h3>
   <p>Take the sentence <em>"I deposited money in the bank."</em> Before any attention happens, the initial representation for <strong>bank</strong> is ambiguous, it could lean toward a financial institution or a riverbank, nothing in the token itself has decided yet.</p>
 
   <p>When the model processes <strong>bank</strong> (the last token here), causal masking permits it to compare its Query against the Keys of everything at or before its own position: I, deposited, money, in, the, bank. This only works because <strong>deposited</strong> and <strong>money</strong> both come before <strong>bank</strong> in the sentence. If they came after, causal masking would block the comparison entirely, which is exactly why a sentence like "the bank of the river was flooded" doesn't work as an example here: river comes later, so bank could never attend to it.</p>
@@ -403,7 +424,7 @@ x = wte(idx)  <span class="c"># [128, 2048] &rarr; [128, 2048, 512]</span></div>
 
   <p>The heavy weight lands on <strong>deposited</strong> and <strong>money</strong>, the tokens that actually disambiguate "bank" toward the financial sense. The attention output for bank is the weighted sum of <em>all</em> of these Value vectors, not just bank's own, the same mechanism from the three steps above, applied to a case where it actually matters. That output becomes part of bank's updated representation for the next layer. It does not overwrite or replace bank's original Value vector, that vector is a fixed intermediate product of this one pass; what changes is the token's representation carrying forward.</p>
 
-  <h3>Multi-Head: Parallel Attention</h3>
+  <h3>Multiple attention heads</h3>
   <p>The model doesn't run attention once. It runs it <strong>4 times in parallel</strong> (n_head = 4), each with its own Q, K, V projections. Each head can learn to pay attention to different things: one might focus on grammar, another on topic, another on recent context.</p>
 
   <div class="code-block"><span class="c"># Splitting into heads</span>
@@ -435,7 +456,7 @@ q, k = apply_rotary_emb(q, cos, sin), apply_rotary_emb(k, cos, sin)</div>
 <!-- ======== PART 7: MLPS ======== -->
 <section>
   <span class="section-num">PART 7</span>
-  <h2>MLPs: Nonlinear Transformations</h2>
+  <h2>MLPs: nonlinear transformations</h2>
   <p class="subtitle">After attention gathers context, the MLP processes each token individually.</p>
 
   <p>If attention is "what should I pay attention to?", the MLP is "given what I've gathered, what should I compute?" The MLP applies learned transformations to compute nonlinear features from the representations.</p>
@@ -461,7 +482,7 @@ q, k = apply_rotary_emb(q, cos, sin), apply_rotary_emb(k, cos, sin)</div>
 <!-- ======== PART 8: RESIDUAL CONNECTIONS ======== -->
 <section>
   <span class="section-num">PART 8</span>
-  <h2>Residual Connections</h2>
+  <h2>Residual connections</h2>
   <p class="subtitle">The original signal always passes through. Each layer just adds a small correction.</p>
 
   <p>Each of the 8 layers is a "Block" that combines attention and MLP with a critical pattern &mdash; the <code>x = x + ...</code> residual connection:</p>
@@ -484,7 +505,7 @@ x = self.resid_lambdas[i] * x + self.x0_lambdas[i] * x0</div>
 <!-- ======== PART 9: OUTPUT HEAD ======== -->
 <section>
   <span class="section-num">PART 9</span>
-  <h2>Output Head: Vectors to Predictions</h2>
+  <h2>Output head: vectors to predictions</h2>
   <p class="subtitle">Converting 512-dim vectors back into a prediction over the vocabulary.</p>
 
   <p>After 8 blocks, each token position holds a 512-dim vector encoding everything the model "thinks" about what comes next. The final step:</p>
@@ -512,10 +533,10 @@ logits = softcap * tanh(logits / softcap)  <span class="c"># cap extreme values<
 <!-- ======== PART 10: PUTTING IT TOGETHER ======== -->
 <section>
   <span class="section-num">PART 10</span>
-  <h2>Putting It Together</h2>
+  <h2>Putting it together</h2>
   <p class="subtitle">Full shape trace and parameter count.</p>
 
-  <h3>Shape Tracker</h3>
+  <h3>Shape tracker</h3>
   <p>Every shape transformation from input to output:</p>
 
   <table class="shape-table">
@@ -534,7 +555,7 @@ logits = softcap * tanh(logits / softcap)  <span class="c"># cap extreme values<
     </tbody>
   </table>
 
-  <h3>Parameter Count</h3>
+  <h3>Parameter count</h3>
   <p>Every number the model learns is a "parameter." Here's where the ~50M live:</p>
 
   <table class="param-table">
@@ -568,7 +589,7 @@ logits = softcap * tanh(logits / softcap)  <span class="c"># cap extreme values<
       <tr><td>Context</td><td>The tokens a given position is permitted to use. In a causal model, itself and everything before it, not "the past" in any real-world sense.</td></tr>
       <tr><td>Cross-entropy loss</td><td>A measurement of how wrong the model's predicted probability distribution was compared to the actual next token.</td></tr>
       <tr><td>Decoder-only</td><td>An architecture (GPT's) that keeps only causal self-attention and drops the encoder and cross-attention entirely, since there's no separate source sequence to process.</td></tr>
-      <tr><td>Embedding</td><td>A lookup table mapping token IDs to vectors.</td></tr>
+      <tr><td>Embedding</td><td>A vector representing a token. The embedding layer looks it up in a table using the token ID.</td></tr>
       <tr><td>Encoder-decoder</td><td>The original transformer architecture (2017), built for translation: a bidirectional encoder reads the source sequence, a causal decoder generates the output while also attending to the encoder's output.</td></tr>
       <tr><td>Inference</td><td>Running a trained model on an input to get an output. What happens every time a prompt is sent.</td></tr>
       <tr><td>Key vector</td><td>What a token signals it can be matched against, used to compare against another token's Query.</td></tr>
@@ -588,7 +609,7 @@ logits = softcap * tanh(logits / softcap)  <span class="c"># cap extreme values<
       <tr><td>Training</td><td>The same forward pass as inference, plus comparing the output against a known correct answer and adjusting the weights.</td></tr>
       <tr><td>Transformer</td><td>The architecture that replaced recurrence with attention, allowing parallel processing and direct long-range connections.</td></tr>
       <tr><td>Value vector</td><td>The information a token can contribute if attention is placed on it. Not the token's meaning, not the relevance score, not the result of Query times Key.</td></tr>
-      <tr><td>Vectors</td><td>The numbers a weight matrix produces for a specific input. Created fresh every run, never stored, unlike weights.</td></tr>
+      <tr><td>Vectors</td><td>Ordered lists of numbers. Embedding vectors can be stored as rows in a learned table; context-dependent vectors are computed while the model runs.</td></tr>
       <tr><td>Weights</td><td>The learned numbers inside a linear transformation. Fixed after training, reused for every input.</td></tr>
     </tbody>
   </table>
@@ -600,7 +621,7 @@ logits = softcap * tanh(logits / softcap)  <span class="c"># cap extreme values<
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

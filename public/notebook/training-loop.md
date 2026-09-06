@@ -9,13 +9,14 @@ url: https://katrinalaszlo.com/notebook/training-loop
 
 > Where the model actually learns
 
-  ## What Happens When You Run train.py
+## What happens when you run train.py
 
-  You now know the two big pieces: how data gets prepared (Data Pipelines) and how the model processes it (Model Architecture). This is where they connect. The training loop is the engine that takes a model full of random numbers and, step by step, turns it into something that can predict text.
+You now know the two big pieces: how data gets prepared (Data Pipelines) and how the model processes it (Model Architecture). This is where they connect. The training loop is the engine that takes a model full of random numbers and, step by step, turns it into something that can predict text.
 
-  The entire loop fits on one screen of code. Here's the skeleton:
+The entire loop fits on one screen of code. Here's the skeleton:
 
-  while True:
+```
+while True:
     # 1. FORWARD: feed data through the model, get loss
     loss = model(x, y)
 
@@ -31,60 +32,58 @@ url: https://katrinalaszlo.com/notebook/training-loop
     # 5. CHECK: are we out of time?
     if total_training_time >= TIME_BUDGET:
         break
+```
 
-  That's it. Every AI model you've ever used was trained by some version of this loop. The details differ, but the structure is always: predict, measure how wrong you were, figure out which direction to adjust, adjust, repeat.
+That's it. Every AI model you've ever used was trained by some version of this loop. The details differ, but the structure is always: predict, measure how wrong you were, figure out which direction to adjust, adjust, repeat.
 
-  
-    **FORWARD**Predict next token
-    ->
-    **LOSS**How wrong?
-    ->
-    **BACKWARD**Blame assignment
-    ->
-    **UPDATE**Nudge weights
-    ->
-    **REPEAT**Until time's up
-  
+**FORWARD**Predict next token
+->
+**LOSS**How wrong?
+->
+**BACKWARD**Blame assignment
+->
+**UPDATE**Nudge weights
+->
+**REPEAT**Until time's up
 
-  ## Forward Pass + Loss: "How Wrong Are We?"
+## Forward Pass + Loss: "How Wrong Are We?"
 
-  The forward pass is everything from Data Pipelines and Model Architecture happening in sequence: tokens go in, a prediction for each next token comes out, and cross-entropy loss measures the gap between the prediction and reality.
+The forward pass is everything from Data Pipelines and Model Architecture happening in sequence: tokens go in, a prediction for each next token comes out, and cross-entropy loss measures the gap between the prediction and reality.
 
-  # train.py line 548
+```
+# train.py line 548
 with autocast_ctx:          # use bfloat16 for speed
     loss = model(x, y)       # x = input tokens, y = target tokens
 train_loss = loss.detach()   # save the number for logging (don't track gradients on it)
+```
 
-  What happens inside `model(x, y)`:
+What happens inside `model(x, y)`:
 
-  
+- Tokens -> embeddings -> 8 transformer blocks -> logits (one score per vocab word, per position)
 
-    - Tokens -> embeddings -> 8 transformer blocks -> logits (one score per vocab word, per position)
+- Cross-entropy compares those logits against the actual next tokens
 
-    - Cross-entropy compares those logits against the actual next tokens
+- Returns a single number: the loss
 
-    - Returns a single number: the loss
+The loss starts high (around 10+, basically random guessing across 32,768 vocabulary tokens) and should drop below 2 by the end of training. Lower loss means the model's predictions are closer to reality.
 
-  
+> **autocast and bfloat16**
+`autocast_ctx` tells PyTorch to use bfloat16 (16-bit) precision instead of float32 (32-bit) for most operations. Half the bits means roughly half the memory and double the speed on modern GPUs. The "bf" stands for "brain floating point," a format designed by Google specifically for ML: it keeps the same range as float32 but with less precision. Good enough for training, and the final loss calculation is done in full float32 for accuracy.
 
-  The loss starts high (around 10+, basically random guessing across 32,768 vocabulary tokens) and should drop below 2 by the end of training. Lower loss means the model's predictions are closer to reality.
+## Gradient Accumulation: Fitting a Big Batch in a Small GPU
 
-  > 
-    **autocast and bfloat16**
-    `autocast_ctx` tells PyTorch to use bfloat16 (16-bit) precision instead of float32 (32-bit) for most operations. Half the bits means roughly half the memory and double the speed on modern GPUs. The "bf" stands for "brain floating point," a format designed by Google specifically for ML: it keeps the same range as float32 but with less precision. Good enough for training, and the final loss calculation is done in full float32 for accuracy.
-  
+The model wants to process **524,288 tokens** per training step (`TOTAL_BATCH_SIZE = 2**19`). But the GPU can only fit 128 sequences of 2,048 tokens at once, which is 262,144 tokens. That's half of what we need.
 
-  ## Gradient Accumulation: Fitting a Big Batch in a Small GPU
-
-  The model wants to process **524,288 tokens** per training step (`TOTAL_BATCH_SIZE = 2**19`). But the GPU can only fit 128 sequences of 2,048 tokens at once, which is 262,144 tokens. That's half of what we need.
-
-  # train.py lines 495-497
+```
+# train.py lines 495-497
 tokens_per_fwdbwd = DEVICE_BATCH_SIZE * MAX_SEQ_LEN   # 128 * 2048 = 262,144
 grad_accum_steps = TOTAL_BATCH_SIZE // tokens_per_fwdbwd  # 524,288 / 262,144 = 2
+```
 
-  The solution: **gradient accumulation**. Instead of processing 524K tokens at once, process them in 2 chunks of 262K. Run the forward and backward pass on each chunk, and the gradients *add up*. Then do one optimizer step using the accumulated gradients.
+The solution: **gradient accumulation**. Instead of processing 524K tokens at once, process them in 2 chunks of 262K. Run the forward and backward pass on each chunk, and the gradients *add up*. Then do one optimizer step using the accumulated gradients.
 
-  # train.py lines 546-552
+```
+# train.py lines 546-552
 for micro_step in range(grad_accum_steps):   # 2 micro-steps
     with autocast_ctx:
         loss = model(x, y)
@@ -92,135 +91,107 @@ for micro_step in range(grad_accum_steps):   # 2 micro-steps
     loss = loss / grad_accum_steps   # scale so gradients average correctly
     loss.backward()                  # gradients ACCUMULATE (add to existing)
     x, y, epoch = next(train_loader) # prefetch next batch while GPU works
+```
 
-  The `loss / grad_accum_steps` is important: if you run two backward passes and add the gradients, you need to divide each by 2 so the total is an average, not a sum. Otherwise you'd be taking steps twice as large as intended.
+The `loss / grad_accum_steps` is important: if you run two backward passes and add the gradients, you need to divide each by 2 so the total is an average, not a sum. Otherwise you'd be taking steps twice as large as intended.
 
-  > 
-    **Why such a big batch?**
-    Bigger batches give more stable gradient estimates. With 128 sequences, the gradient might point in a slightly wrong direction just because of the random sample. With 524K tokens, the noise averages out and each step is more reliable. The tradeoff: bigger batches use more compute per step, so you take fewer steps in the same time budget. 524K tokens is the sweet spot this codebase has settled on.
-  
+> **Why such a big batch?**
+Bigger batches give more stable gradient estimates. With 128 sequences, the gradient might point in a slightly wrong direction just because of the random sample. With 524K tokens, the noise averages out and each step is more reliable. The tradeoff: bigger batches use more compute per step, so you take fewer steps in the same time budget. 524K tokens is the sweet spot this codebase has settled on.
 
-  ## Backward Pass: "Whose Fault Is It?"
+## Backward Pass: "Whose Fault Is It?"
 
-  `loss.backward()` is where the magic of learning happens. It's a single line of code that triggers **backpropagation**, the algorithm that figures out how much each of the 50 million parameters contributed to the error.
+`loss.backward()` runs backpropagation. Starting with the loss, it calculates how a small change to each model parameter would affect that loss.
 
-  Here's the intuition. The loss is a single number that depends on a long chain of operations:
+Here's the intuition. The loss is a single number that depends on a long chain of operations:
 
-  
-    tokens -> embeddings -> attention -> MLP -> ... 8 layers ... -> logits -> **loss**
-  
+tokens -> embeddings -> attention -> MLP -> ... 8 layers ... -> logits -> **loss**
 
-  Backpropagation walks this chain **in reverse**. Starting from the loss, it asks at each step: "If I tweaked this parameter slightly, would the loss go up or down? By how much?" The answer is the **gradient** for that parameter.
+Backpropagation walks this chain **in reverse**. Starting from the loss, it asks at each step: "If I tweaked this parameter slightly, would the loss go up or down? By how much?" The answer is the **gradient** for that parameter.
 
-  
+- A large positive gradient means "increasing this parameter would increase the loss (make things worse)"
 
-    - A large positive gradient means "increasing this parameter would increase the loss (make things worse)"
+- A large negative gradient means "increasing this parameter would decrease the loss (make things better)"
 
-    - A large negative gradient means "increasing this parameter would decrease the loss (make things better)"
+- A near-zero gradient means "this parameter doesn't matter much for this batch"
 
-    - A near-zero gradient means "this parameter doesn't matter much for this batch"
+After `loss.backward()`, every parameter in the model has a `.grad` attribute: a number (or tensor of numbers, matching the parameter's shape) that says which direction to nudge it.
 
-  
+> **Why "backward"?**
+The forward pass goes input -> output. Backpropagation goes output -> input, using the chain rule from calculus. You don't need to understand the math, but the key property is: it computes all 50 million gradients in roughly the same time as one forward pass. That's what makes training neural networks practical. Without backpropagation, you'd have to wiggle each parameter individually and measure the effect, which would take 50 million forward passes per step.
 
-  After `loss.backward()`, every parameter in the model has a `.grad` attribute: a number (or tensor of numbers, matching the parameter's shape) that says which direction to nudge it.
+## The Two Optimizers: AdamW and Muon
 
-  > 
-    **Why "backward"?**
-    The forward pass goes input -> output. Backpropagation goes output -> input, using the chain rule from calculus. You don't need to understand the math, but the key property is: it computes all 50 million gradients in roughly the same time as one forward pass. That's what makes training neural networks practical. Without backpropagation, you'd have to wiggle each parameter individually and measure the effect, which would take 50 million forward passes per step.
-  
+Now we have gradients for every parameter. The optimizer's job: use those gradients to actually update the parameters. This model uses **two different optimizers** for different types of parameters.
 
-  ## The Two Optimizers: AdamW and Muon
+### AdamW
 
-  Now we have gradients for every parameter. The optimizer's job: use those gradients to actually update the parameters. This model uses **two different optimizers** for different types of parameters.
+The industry standard. Used for:
 
-  
-    
-      ### AdamW
+- **Token embeddings** (wte), lr: 0.6
 
-      The industry standard. Used for:
+- **Value embeddings**, lr: 0.6
 
-      
+- **Output head** (lm_head), lr: 0.004
 
-        - **Token embeddings** (wte), lr: 0.6
+- **Lambda scalars**, lr: 0.5
 
-        - **Value embeddings**, lr: 0.6
+Tracks a running average of gradients AND a running average of squared gradients. Parameters that have been getting consistent gradients get bigger updates. Parameters with noisy gradients get smaller, more cautious updates.
 
-        - **Output head** (lm_head), lr: 0.004
+### Muon
 
-        - **Lambda scalars**, lr: 0.5
+A newer optimizer. Used for:
 
-      
+- **All matrix parameters** inside the 8 transformer blocks (Q, K, V, projections, MLP weights), lr: 0.04
 
-      Tracks a running average of gradients AND a running average of squared gradients. Parameters that have been getting consistent gradients get bigger updates. Parameters with noisy gradients get smaller, more cautious updates.
+Uses "polar express orthogonalization" to find update directions that are maximally diverse, preventing different parameters from all trying to learn the same thing. Especially effective for the large matrix multiplications inside transformer blocks.
 
-    
-    
-      ### Muon
-
-      A newer optimizer. Used for:
-
-      
-
-        - **All matrix parameters** inside the 8 transformer blocks (Q, K, V, projections, MLP weights), lr: 0.04
-
-      
-
-      Uses "polar express orthogonalization" to find update directions that are maximally diverse, preventing different parameters from all trying to learn the same thing. Especially effective for the large matrix multiplications inside transformer blocks.
-
-    
-  
-
-  # train.py line 421-426: the optimizer dispatches by kind
+```
+# train.py line 421-426: the optimizer dispatches by kind
 def step(self):
     for group in self.param_groups:
         if group['kind'] == 'adamw':
             self._step_adamw(group)
         elif group['kind'] == 'muon':
             self._step_muon(group)
+```
 
-  Notice the wildly different learning rates. The output head (lm_head) gets lr: 0.004, while token embeddings get lr: 0.6, which is 150x larger. This isn't arbitrary. The output head transforms 768-dimensional vectors into 32,768 vocabulary scores. A small change in those weights has a huge effect on predictions. The embeddings are a lookup table: changing one token's embedding only affects sequences containing that token, so you can afford to be more aggressive.
+Notice the wildly different learning rates. The output head (lm_head) gets lr: 0.004, while token embeddings get lr: 0.6, which is 150x larger. This isn't arbitrary. The output head transforms 768-dimensional vectors into 32,768 vocabulary scores. A small change in those weights has a huge effect on predictions. The embeddings are a lookup table: changing one token's embedding only affects sequences containing that token, so you can afford to be more aggressive.
 
-  > 
-    **Why two optimizers?**
-    Different types of parameters have different geometry. Embedding tables are high-dimensional lookup tables where each row is mostly independent. Matrix parameters in attention and MLPs are densely interconnected: changing one entry affects every input that passes through it. Muon is designed specifically for that dense, interconnected case. Using the right optimizer for each type of parameter gets better results in the same number of steps.
-  
+> **Why two optimizers?**
+Different types of parameters have different geometry. Embedding tables are high-dimensional lookup tables where each row is mostly independent. Matrix parameters in attention and MLPs are densely interconnected: changing one entry affects every input that passes through it. Muon is designed specifically for that dense, interconnected case. Using the right optimizer for each type of parameter gets better results in the same number of steps.
 
-  ## Learning Rate Schedules: How Fast to Learn, and When
+## Learning Rate Schedules: How Fast to Learn, and When
 
-  The learning rate controls step size: how much to adjust parameters on each step. But the right step size changes over the course of training. This model uses a three-phase schedule:
+The learning rate controls step size: how much to adjust parameters on each step. But the right step size changes over the course of training. This model uses a three-phase schedule:
 
-  
-    
-      
-      
-      
-      
-      0%
-      50% (warmdown starts)
-      100%
-    
-    Learning rate multiplier over the course of training
-  
+0%
+50% (warmdown starts)
+100%
 
-  # train.py lines 518-525
+Learning rate multiplier over the course of training
+
+```
+# train.py lines 518-525
 def get_lr_multiplier(progress):
-    if progress < WARMUP_RATIO:           # Phase 1: warmup (0% here)
+    if progress # Phase 1: warmup (0% here)
         return progress / WARMUP_RATIO
-    elif progress < 1.0 - WARMDOWN_RATIO:  # Phase 2: full speed (0% to 50%)
+    elif progress 1.0 - WARMDOWN_RATIO:  # Phase 2: full speed (0% to 50%)
         return 1.0
     else:                                 # Phase 3: warmdown (50% to 100%)
         cooldown = (1.0 - progress) / WARMDOWN_RATIO
         return cooldown * 1.0 + (1 - cooldown) * FINAL_LR_FRAC
+```
 
-  In the default config: `WARMUP_RATIO = 0.0` (no warmup), `WARMDOWN_RATIO = 0.5` (second half is cooldown), `FINAL_LR_FRAC = 0.0` (learning rate drops to zero).
+In the default config: `WARMUP_RATIO = 0.0` (no warmup), `WARMDOWN_RATIO = 0.5` (second half is cooldown), `FINAL_LR_FRAC = 0.0` (learning rate drops to zero).
 
-  So the model runs at full learning rate for the first half of training, then linearly decays to zero. By the end, it's making extremely tiny adjustments, fine-tuning what it's already learned rather than making big swings.
+So the model runs at full learning rate for the first half of training, then linearly decays to zero. By the end, it's making extremely tiny adjustments, fine-tuning what it's already learned rather than making big swings.
 
-  ### Three more schedules
+### Three more schedules
 
-  The learning rate isn't the only thing that changes. Muon's parameters also shift over training:
+The learning rate isn't the only thing that changes. Muon's parameters also shift over training:
 
-  # Muon momentum: ramps from 0.85 to 0.95 over first 300 steps
+```
+# Muon momentum: ramps from 0.85 to 0.95 over first 300 steps
 def get_muon_momentum(step):
     frac = min(step / 300, 1)
     return (1 - frac) * 0.85 + frac * 0.95
@@ -228,16 +199,18 @@ def get_muon_momentum(step):
 # Weight decay: starts at 0.2, decays to 0 by end of training
 def get_weight_decay(progress):
     return WEIGHT_DECAY * (1 - progress)
+```
 
-  **Momentum** controls how much the optimizer remembers from previous steps. Low momentum (0.85) early on means "be responsive to new gradients." High momentum (0.95) later means "stay the course, don't overreact to noise."
+**Momentum** controls how much the optimizer remembers from previous steps. Low momentum (0.85) early on means "be responsive to new gradients." High momentum (0.95) later means "stay the course, don't overreact to noise."
 
-  **Weight decay** is a regularization technique: it gently pushes all parameters toward zero, preventing any single parameter from growing too large. It starts at 0.2 and fades to 0, so the model is regularized while it's learning big patterns but left alone when it's fine-tuning.
+**Weight decay** is a regularization technique: it gently pushes all parameters toward zero, preventing any single parameter from growing too large. It starts at 0.2 and fades to 0, so the model is regularized while it's learning big patterns but left alone when it's fine-tuning.
 
-  ## The Full Step: Putting It All Together
+## The Full Step: Putting It All Together
 
-  Here's every step of the loop with line numbers, showing how the pieces connect:
+Here's every step of the loop with line numbers, showing how the pieces connect:
 
-  # train.py lines 543-604
+```
+# train.py lines 543-604
 while True:
     t0 = time.time()
 
@@ -266,115 +239,123 @@ while True:
     # === STOP CONDITION ===
     if step > 10 and total_training_time >= TIME_BUDGET:
         break
+```
 
-  Every line serves a purpose. There's no ceremony, no configuration framework, no abstraction layers. This is the inner loop that trains the model, and it's under 30 lines.
+The inner training loop is under 30 lines. The surrounding code prepares data, configures the optimizers, and measures the result.
 
-  ## The Time Budget: A Fixed Constraint
+## The Time Budget: A Fixed Constraint
 
-  Most training runs are defined by "train for N steps" or "train for N epochs." Autoresearch does something different: **train for exactly 5 minutes** (300 seconds, set in `prepare.py`).
+Most training runs are defined by "train for N steps" or "train for N epochs." Autoresearch does something different: **train for exactly 5 minutes** (300 seconds, set in `prepare.py`).
 
-  # Progress is based on wall-clock time, not steps
+```
+# Progress is based on wall-clock time, not steps
 progress = min(total_training_time / TIME_BUDGET, 1.0)
+```
 
-  This is what makes experiments comparable. A model that's twice as deep takes roughly twice as long per step, so it gets half as many steps in 5 minutes. But the learning rate schedule still covers the full warmdown curve, because everything is pegged to progress (0.0 to 1.0), not step count.
+This is what makes experiments comparable. A model that's twice as deep takes roughly twice as long per step, so it gets half as many steps in 5 minutes. But the learning rate schedule still covers the full warmdown curve, because everything is pegged to progress (0.0 to 1.0), not step count.
 
-  ### The 10-step exclusion
+### The 10-step exclusion
 
-  The first 10 steps don't count toward the time budget:
+The first 10 steps don't count toward the time budget:
 
-  if step > 10:
+```
+if step > 10:
     total_training_time += dt
+```
 
-  Why? PyTorch's `torch.compile` compiles the model on the first few forward passes. These steps are dramatically slower (sometimes 10-30x) as the compiler generates optimized GPU code. Counting them would penalize models that are harder to compile but might train faster once compiled. By excluding the first 10 steps, the time budget measures actual training speed.
+Why? PyTorch's `torch.compile` compiles the model on the first few forward passes. These steps are dramatically slower (sometimes 10-30x) as the compiler generates optimized GPU code. Counting them would penalize models that are harder to compile but might train faster once compiled. By excluding the first 10 steps, the time budget measures actual training speed.
 
-  > 
-    **The 5-minute budget as a design choice**
-    This constraint forces the autoresearch agent to find configurations that train efficiently within a fixed compute budget. A model that's theoretically better but too slow to converge in 5 minutes will lose to a simpler model that finishes its learning. This mirrors real-world constraints: you almost always have a fixed compute budget and need to find the best model that fits within it.
-  
+> **The 5-minute budget as a design choice**
+This constraint forces the autoresearch agent to find configurations that train efficiently within a fixed compute budget. A model that's theoretically better but too slow to converge in 5 minutes will lose to a simpler model that finishes its learning. This mirrors real-world constraints: you almost always have a fixed compute budget and need to find the best model that fits within it.
 
-  ## Monitoring: What Gets Logged Each Step
+## Monitoring: What Gets Logged Each Step
 
-  Each step prints a single line with everything you need to know:
+Each step prints a single line with everything you need to know:
 
-  step 00142 (47.3%) | loss: 2.481903 | lrm: 1.00 | dt: 627ms | tok/sec: 835,421 | mfu: 42.1% | epoch: 1 | remaining: 158s
+```
+step 00142 (47.3%) | loss: 2.481903 | lrm: 1.00 | dt: 627ms | tok/sec: 835,421 | mfu: 42.1% | epoch: 1 | remaining: 158s
+```
 
-  Here's what each field means:
+Here's what each field means:
 
-  
+- **step 00142**: which training step we're on
 
-    - **step 00142**: which training step we're on
+- **(47.3%)**: progress through the time budget
 
-    - **(47.3%)**: progress through the time budget
+- **loss: 2.481903**: smoothed training loss (exponential moving average). Should be going down.
 
-    - **loss: 2.481903**: smoothed training loss (exponential moving average). Should be going down.
+- **lrm: 1.00**: learning rate multiplier. 1.0 = full speed, drops during warmdown
 
-    - **lrm: 1.00**: learning rate multiplier. 1.0 = full speed, drops during warmdown
+- **dt: 627ms**: wall-clock time for this step (both micro-steps combined)
 
-    - **dt: 627ms**: wall-clock time for this step (both micro-steps combined)
+- **tok/sec: 835,421**: tokens processed per second. Higher = faster training
 
-    - **tok/sec: 835,421**: tokens processed per second. Higher = faster training
+- **mfu: 42.1%**: Model FLOPs Utilization. What percentage of the GPU's theoretical peak is actually being used
 
-    - **mfu: 42.1%**: Model FLOPs Utilization. What percentage of the GPU's theoretical peak is actually being used
+- **epoch: 1**: how many times we've cycled through the full training dataset
 
-    - **epoch: 1**: how many times we've cycled through the full training dataset
+- **remaining: 158s**: seconds left in the time budget
 
-    - **remaining: 158s**: seconds left in the time budget
+### Smoothed loss
 
-  
+The logged loss isn't the raw value from the current step. It's an exponential moving average (EMA):
 
-  ### Smoothed loss
-
-  The logged loss isn't the raw value from the current step. It's an exponential moving average (EMA):
-
-  ema_beta = 0.9
+```
+ema_beta = 0.9
 smooth_train_loss = 0.9 * smooth_train_loss + 0.1 * train_loss_f
 # Debias: corrects for the fact that early values are biased toward 0
 debiased = smooth_train_loss / (1 - 0.9**(step + 1))
+```
 
-  This smooths out the noise. Raw loss bounces around because each batch is a random sample. The EMA shows the trend: "are we generally improving?"
+This smooths out the noise. Raw loss bounces around because each batch is a random sample. The EMA shows the trend: "are we generally improving?"
 
-  > 
-    **MFU: the efficiency metric**
-    MFU tells you how well you're using the hardware. An H100 can theoretically do 989.5 trillion bf16 operations per second. If your training is doing 416 trillion per second, that's 42.1% MFU. The gap comes from memory access time, data loading, Python overhead, and operations that can't fully saturate the GPU. 40-50% is typical for well-optimized single-GPU training. Getting above 60% usually requires multi-GPU setups with careful overlap of compute and communication.
-  
+> **MFU: the efficiency metric**
+MFU tells you how well you're using the hardware. An H100 can theoretically do 989.5 trillion bf16 operations per second. If your training is doing 416 trillion per second, that's 42.1% MFU. The gap comes from memory access time, data loading, Python overhead, and operations that can't fully saturate the GPU. 40-50% is typical for well-optimized single-GPU training. Getting above 60% usually requires multi-GPU setups with careful overlap of compute and communication.
 
-  ## Safety Checks and Housekeeping
+## Safety Checks and Housekeeping
 
-  ### Fast fail: catch explosions early
+### Fast fail: catch explosions early
 
-  # train.py lines 570-572
+```
+# train.py lines 570-572
 if math.isnan(train_loss_f) or train_loss_f > 100:
     print("FAIL")
     exit(1)
+```
 
-  If the loss becomes NaN (not a number) or explodes above 100, something has gone fundamentally wrong, usually a learning rate that's way too high. No point continuing. The script exits immediately so autoresearch can try a different configuration.
+If the loss becomes NaN (not a number) or explodes above 100, something has gone fundamentally wrong, usually a learning rate that's way too high. No point continuing. The script exits immediately so autoresearch can try a different configuration.
 
-  ### Garbage collection management
+### Garbage collection management
 
-  # train.py lines 593-598
+```
+# train.py lines 593-598
 if step == 0:
     gc.collect()    # clean up setup allocations
     gc.freeze()     # mark everything as permanent
     gc.disable()    # stop automatic garbage collection
 elif (step + 1) % 5000 == 0:
     gc.collect()    # occasional manual cleanup
+```
 
-  Python's automatic garbage collector can pause execution for ~500 milliseconds, which is nearly a full training step. The code disables it after the first step and only runs it manually every 5,000 steps. This is a performance optimization specific to tight training loops where every millisecond matters.
+Python's automatic garbage collector can pause execution for ~500 milliseconds, which is nearly a full training step. The code disables it after the first step and only runs it manually every 5,000 steps. This is a performance optimization specific to tight training loops where every millisecond matters.
 
-  ## After the Loop: Final Evaluation
+## After the Loop: Final Evaluation
 
-  When time runs out, the loop breaks and the model gets its final exam:
+When time runs out, the loop breaks and the model gets its final exam:
 
-  # train.py lines 611-613
+```
+# train.py lines 611-613
 model.eval()                          # switch to evaluation mode
 with autocast_ctx:
     val_bpb = evaluate_bpb(model, tokenizer, DEVICE_BATCH_SIZE)
+```
 
-  `model.eval()` turns off any training-specific behavior (this model doesn't have dropout, but it's good practice). Then `evaluate_bpb` from `prepare.py` runs the model on the held-out validation set and computes bits per byte: the single number that determines whether this experiment was better than the last one.
+`model.eval()` turns off any training-specific behavior (this model doesn't have dropout, but it's good practice). Then `evaluate_bpb` from `prepare.py` runs the model on the held-out validation set and computes bits per byte: the single number that determines whether this experiment was better than the last one.
 
-  The final summary prints everything autoresearch needs to decide:
+The final summary prints everything autoresearch needs to decide:
 
-  ---
+```
+---
 val_bpb:          1.187432     # THE metric. Lower is better.
 training_seconds: 300.1        # How long actual training took
 total_seconds:    312.4        # Including setup and evaluation
@@ -384,52 +365,41 @@ total_tokens_M:   251.7        # Millions of tokens processed
 num_steps:        480          # Total optimizer steps taken
 num_params_M:     50.3         # Model size in millions
 depth:            8            # Number of layers
+```
 
-  The autoresearch agent reads this output, compares val_bpb to the best previous run, and decides what to try next. If this run improved, the change sticks. If not, it gets discarded. That's the outer loop: the AI researcher running experiments on the AI model.
+The autoresearch agent reads this output, compares val_bpb to the best previous run, and decides what to try next. If this run improved, the change sticks. If not, it gets discarded. That's the outer loop: the AI researcher running experiments on the AI model.
 
-  ## The Complete Timeline of a Training Run
+## The Complete Timeline of a Training Run
 
-  
-    
-      t = 0s
-      **Setup.** Build model (50M params, all random), create optimizers, load data, compile with torch.compile.
-    
-    
-      Steps 0-10 (not timed)
-      **Compilation warmup.** First passes trigger PyTorch compilation. Slow, doesn't count toward budget.
-    
-    
-      0% - 50% of budget
-      **Full-speed training.** Learning rate at maximum. Loss drops rapidly from ~10 to ~3. Model learns basic language patterns: common words, simple grammar, frequent phrases.
-    
-    
-      50% - 100% of budget
-      **Warmdown.** Learning rate decays linearly to 0. Loss drops more slowly from ~3 toward ~2. Model refines: better grammar, more coherent predictions, nuanced word choice.
-    
-    
-      Time's up
-      **Final exam.** Model switches to eval mode. Runs on validation data it has never trained on. Computes val_bpb. Prints summary.
-    
-  
+t = 0s
+**Setup.** Build model (50M params, all random), create optimizers, load data, compile with torch.compile.
 
-  ## The Training Loop in One Paragraph
+Steps 0-10 (not timed)
+**Compilation warmup.** First passes trigger PyTorch compilation. Slow, doesn't count toward budget.
 
-  The training loop feeds batches of tokens through the model (forward pass), measures how wrong the predictions are (loss), traces that error backward through every layer to compute a gradient for each of the 50M parameters (backward pass), then uses two optimizers to nudge those parameters in the direction that reduces loss (AdamW for embeddings and scalars, Muon for matrix weights). The learning rate starts high and decays to zero over the second half of the 5-minute budget. Every step processes 524K tokens, logging loss, speed, and GPU utilization. When time runs out, the model is evaluated on held-out data and the result, val_bpb, is the single number that determines if this experiment was a success.
+0% - 50% of budget
+**Full-speed training.** Learning rate at maximum. Loss drops rapidly from ~10 to ~3. Model learns basic language patterns: common words, simple grammar, frequent phrases.
 
-  ## The Full Stack
+50% - 100% of budget
+**Warmdown.** Learning rate decays linearly to 0. Loss drops more slowly from ~3 toward ~2. Model refines: better grammar, more coherent predictions, nuanced word choice.
 
-  You can now trace every step from raw text to trained model:
+Time's up
+**Final exam.** Model switches to eval mode. Runs on validation data it has never trained on. Computes val_bpb. Prints summary.
 
-  
+## Following a batch through training
 
-    - **Setup:** The three-file structure. program.md directs the AI researcher, train.py is the experiment, prepare.py is the lab equipment.
+The training loop feeds batches of tokens through the model (forward pass), measures how wrong the predictions are (loss), traces that error backward through every layer to compute a gradient for each of the 50M parameters (backward pass), then uses two optimizers to nudge those parameters in the direction that reduces loss (AdamW for embeddings and scalars, Muon for matrix weights). The learning rate starts high and decays to zero over the second half of the 5-minute budget. Every step processes 524K tokens, logging loss, speed, and GPU utilization. When time runs out, the model is evaluated on held-out data and the result, val_bpb, is the single number that determines if this experiment was a success.
 
-    - **Data Pipelines:** Text -> tokens -> batches -> input/target pairs. The model always predicts the next token.
+## The full stack
 
-    - **Model Architecture:** Embeddings -> 8 layers of attention + MLP -> output head. 50M learnable parameters.
+You can now trace every step from raw text to trained model:
 
-    - **Training Loops:** Forward, loss, backward, optimize, repeat for 5 minutes. Two optimizers, scheduled learning rates, time-based stopping.
+- **Setup:** The three-file structure. program.md directs the AI researcher, train.py is the experiment, prepare.py is the lab equipment.
 
-  
+- **Data Pipelines:** Text -> tokens -> batches -> input/target pairs. The model always predicts the next token.
 
-  Next could go in several directions: the hyperparameter search space (what the AI researcher actually tweaks between experiments), how program.md orchestrates the research agent, or running an actual experiment. What interests you?
+- **Model Architecture:** Embeddings -> 8 layers of attention + MLP -> output head. 50M learnable parameters.
+
+- **Training Loops:** Forward, loss, backward, optimize, repeat for 5 minutes. Two optimizers, scheduled learning rates, time-based stopping.
+
+The next experiment changes one training setting and compares validation BPB. The hyperparameter search space defines what can change; `program.md` tells the research agent how to run and record the experiment.

@@ -29,17 +29,17 @@ Move along the spectrum and you need external data to see the outcome. That same
 
 At the far end, the outcome is far from your input. You're selling enriched data, and your customer uses it to close deals, qualify leads, and target campaigns. You didn't touch the deal, you don't see their pipeline, and you can't measure the outcome.
 
-But here's the thing: even when you can't measure the outcome, you can still price in a way that reflects value. The move is to segment by how much value the customer is likely to extract, even if you never see the result. At People Data Labs, we charged different rates per field bundle based on how customers used the data. Employment history was worth more to a recruiting platform than a marketing team. Company technographics were worth more to a sales tool than a compliance product. The price reflected the use case without requiring us to track what the customer did after they got the data. You can reach toward the ceiling even when you can't see exactly where it is.
+Even when you can't measure the outcome, you can segment by how much value the customer is likely to get. At People Data Labs, we charged different rates per field bundle based on how customers used the data. Employment history was worth more to a recruiting platform than a marketing team. Company technographics were worth more to a sales tool than a compliance product. The price reflected the use case without requiring us to track what the customer did after they got the data. You can reach toward the ceiling even when you can't see exactly where it is.
 
-The goal is not always outcome-based pricing. The goal is getting as close to the ceiling as you can credibly reach, given what you can actually measure. A company charging $80k/year on a flat seat-based plan is pricing based on value if they know why that number is right. A company marking up their API costs 3x is not, regardless of the billing model. The billing model is how the invoice looks. The pricing decision is how you got to the number.
+You want a price you can justify against customer value, given what you can measure. A company charging $80k/year on a flat seat-based plan is pricing based on value if they know why that number is right. A company marking up their API costs 3x is not, regardless of the billing model. The billing model is how the invoice looks. The pricing decision is how you got to the number.
 
 ## Pick the billing model after you know the value
 
-Three things should drive that choice. The first is how predictable your cost per customer is, because if costs swing a lot, you probably need a usage component so you don't eat the variance. The second is how the buyer wants to pay, since finance teams hate unpredictable invoices and enterprise buyers will pay more for a flat annual commit than for a metered bill of the same average amount. The third is how you want to split risk, where outcome-based means you carry the risk, flat subscription means the customer carries it, and hybrids split it.
+Start with cost per customer. If it swings a lot, a usage component can keep you from absorbing all the variance. Then consider how the buyer wants to pay. Finance teams often prefer a flat annual commitment to a metered bill, even at the same average spend. You also need to decide who carries the risk: the vendor with an outcome fee, the customer with a flat subscription, or both with a hybrid.
 
 Subscription, prepaid commit with overages, pure usage, outcome fee, hybrid. They're all valid. The right one depends on the buyer and your cost shape.
 
-## Pricing is a loop, not a one-time decision
+## Keep measuring after the price ships
 
 Once you know your value metric, even an imperfect one, pricing becomes a cycle:
 
@@ -51,4 +51,4 @@ Once you know your value metric, even an imperfect one, pricing becomes a cycle:
 
 Every turn makes the next one better, because the measurement tells you what to build, the improvement raises the value, and the higher value justifies the next price. Teams that treat pricing as a quarterly spreadsheet exercise miss this entirely, while the ones who build the loop into their product figure out what to charge next, not just what to charge now.
 
-That's the whole game. It's not setting the right price once, it's raising the ceiling over time.
+The next price should reflect what you've learned and what the product can now do.

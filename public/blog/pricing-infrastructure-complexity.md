@@ -8,15 +8,13 @@ author: Kat Laszlo
 
 Early teams usually start the same way. Add a few plans, connect Stripe, and move on. Pricing looks simple, billing looks solved, and it's time to focus on features.
 
-Then usage grows, customers scale, and one-off exceptions turn into system-wide behavior. This is when founders realize pricing isn't a billing problem but a product and data problem that touches everything.
-
-Here's why it becomes one of the hardest systems inside an AI startup.
+Then usage grows, customers scale, and one-off exceptions turn into system-wide behavior. Now a pricing change needs coordinated updates to product behavior, billing, and usage data.
 
 ---
 
 ## 1. Your product needs a real time answer for every action
 
-When a user runs a workflow or calls a model, your backend has to answer one question: *Can this customer do this right now.*
+When a user runs a workflow or calls a model, your backend has to answer one question: *Can this customer do this right now?*
 
 That answer depends on plans, entitlements, usage counters, credits, experiments, overrides, scheduled changes, and old rules no one remembers. If any piece is wrong, you either block a paying user or give away the product for free.
 
@@ -24,8 +22,6 @@ I've seen both:
 
 - A plan upgrade went through, but one service still cached the old limit. Half the product worked and half didn't.
 - A usage counter lagged during a spike, so customers hit a limit in the app while billing still showed room.
-
-These issues are small in isolation but painful in practice.
 
 ---
 
@@ -57,7 +53,7 @@ The common pattern looks like this:
 - Data sees usage definitions that no longer match
 - The experiment stalls
 
-Not because the idea is wrong, but because the system wasn't built to change.
+The team has to untangle the old rules before it can test the new ones.
 
 ---
 
@@ -78,8 +74,6 @@ Here are some real examples:
 
 - A retry loop double counted events for a single customer and triggered an unexpected invoice.
 - A delayed event stream caused usage to appear lower than it was, so customers exceeded limits without warnings.
-
-Small timing issues create real confusion.
 
 ---
 
@@ -119,10 +113,10 @@ When the system isn't stable, every new feature feels risky.
 
 ---
 
-## The bottom line
+## Make the rules easy to change
 
 Pricing infrastructure sits at the intersection of product, billing, data, and customer experience. When it drifts, you lose revenue, you lose trust, or both. When it's consistent, you get faster launches, cleaner experiments, and fewer surprises.
 
-Pricing isn't complicated because teams overthink it. It's complicated because it touches everything, and everything changes.
+A new plan can affect access checks, usage counters, invoices, and support tools. Those pieces need to agree when the rules change.
 
 This is why pricing needs real infrastructure. It's what lets teams move confidently instead of working around yesterday's logic.

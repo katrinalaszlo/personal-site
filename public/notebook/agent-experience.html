@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Agent Experience (AX)","description":"Agent Experience is the design discipline for products that AI agents use. Four pillars, ten principles, and why PMs are well-positioned for this work.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/agent-experience"}}
 </script>
@@ -94,17 +94,17 @@
 <main>
 
 <h1>Agent Experience (AX)</h1>
-<p class="subtitle">The design discipline for products that AI agents use. Not a chatbot feature. A new user class.</p>
+<p class="subtitle">Designing products that AI agents can understand and use.</p>
 
 <!-- PART 1: WHAT IS AX -->
 <section>
   <span class="section-num">PART 1</span>
-  <h2>A New Kind of User</h2>
+  <h2>A new kind of user</h2>
   <p class="subtitle">Agents don't click buttons, scan pages, or feel urgency. They parse structure, follow instructions, and fail silently.</p>
 
   <p>In January 2025, Mathias Biilmann (CEO of Netlify) coined "Agent Experience" as a parallel to UX and DX. His definition: "the holistic experience AI agents will have as the user of a product or platform." Not about adding a chatbot to your product. About treating agents as a user persona with their own needs, constraints, and failure modes.</p>
 
-  <p>The core shift: when a human uses your product and hits a confusing label, they squint, re-read, maybe check the docs. When an agent hits ambiguity, it picks the most probable interpretation and moves forward with full confidence. There's no squinting. No second-guessing. No "this doesn't feel right." The agent either has enough clarity to act correctly, or it acts incorrectly and reports success.</p>
+  <p>When a human hits a confusing label, they may pause and check the docs. An agent can pick a plausible interpretation, act on it, and report success even when it did the wrong thing. The interface needs to make that mistake easier to catch.</p>
 
   <div class="analogy">
     <strong>The Compound Error Tax:</strong> Human operators absorb ambiguity. Agent operators amplify it. And the amplification is multiplicative, because each wrong step narrows the corridor of valid next steps until the only remaining path is the wrong one. "The model brings the intelligence. The interface must bring the clarity."
@@ -128,7 +128,7 @@
 <!-- PART 2: FOUR PILLARS -->
 <section>
   <span class="section-num">PART 2</span>
-  <h2>Four Pillars</h2>
+  <h2>Four pillars</h2>
   <p class="subtitle">Biilmann's framework for what makes a product agent-usable.</p>
 
   <div class="pillar-grid">
@@ -142,7 +142,7 @@
     </div>
     <div class="pillar-card" style="border-top:3px solid var(--orange)">
       <h3 style="color:var(--orange)">3. Tools</h3>
-      <p>APIs, CLIs, MCP servers, file access, browser control. The capabilities agents need to take action. Tool documentation is literally the agent's UI: writing a tool description is interaction design, not API documentation. The quality of that description determines whether the agent picks the right tool.</p>
+      <p>APIs, CLIs, MCP servers, file access, browser control. The capabilities agents need to take action. An agent uses the tool description to decide what to call. The quality of that description determines whether the agent picks the right tool.</p>
     </div>
     <div class="pillar-card" style="border-top:3px solid var(--purple)">
       <h3 style="color:var(--purple)">4. Orchestration</h3>
@@ -151,37 +151,37 @@
   </div>
 
   <div class="connection">
-    <strong>The design lineage:</strong> AX sits in a clear sequence. Don Norman coined UX in 1993: the holistic experience humans have with products. Jeremiah Lee popularized DX in 2011: the experience developers have with platforms. Biilmann adds AX in 2025: the experience agents have. Same discipline, new user class. Each expansion unlocked a new design surface that the previous framing didn't address.
+    <strong>The design lineage:</strong> AX sits in a clear sequence. Don Norman coined UX in 1993: the holistic experience humans have with products. Jeremiah Lee popularized DX in 2011: the experience developers have with platforms. Biilmann adds AX in 2025: the experience agents have. Each asks designers to study a different kind of user.
   </div>
 </section>
 
 <!-- PART 3: UX WITHOUT UI -->
 <section>
   <span class="section-num">PART 3</span>
-  <h2>UX Without UI</h2>
+  <h2>UX without UI</h2>
   <p class="subtitle">When there's no screen, the design problem doesn't disappear. It changes form.</p>
 
   <p>Most UX practitioners treat "UX" as synonymous with "UI." Remove the screen and the category seems to vanish. But the experience persists. A developer integrating your API has an experience. An agent parsing your pricing page has an experience. A terminal user running your CLI has an experience. The absence of a visual interface doesn't remove the design problem.</p>
 
-  <p>The right frame is service design, not interaction design. Service design has always dealt with experiences across channels, non-screen touchpoints, and systems rather than individual screens. UX Without UI is service design applied to software.</p>
+  <p>Service design is useful here because it already deals with experiences across channels and touchpoints. API calls and instructions deserve the same attention as screens.</p>
 
-  <h3>Where This Shows Up</h3>
+  <h3>Where this shows up</h3>
 
   <div class="card-grid">
     <div class="card">
-      <h3>API Surfaces</h3>
+      <h3>API surfaces</h3>
       <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">How an API is structured <em>is</em> the UX. Parameter names, error messages, response shapes, rate limit behavior, documentation. When there's no dashboard to fall back on, the API design is the entire interface.</p>
     </div>
     <div class="card">
-      <h3>Agent Instructions</h3>
+      <h3>Agent instructions</h3>
       <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Writing a CLAUDE.md, a system prompt, or a task spec is a design activity. What does the agent need to know? In what order? What can go wrong? What am I assuming? The medium is text. The design questions are identical to screen design.</p>
     </div>
     <div class="card">
-      <h3>CLI Tools</h3>
+      <h3>CLI tools</h3>
       <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">GitButler's research found agents use CLI differently from humans: they didn't use <code>--json</code>, they always ran status after mutable commands, they preferred <code>--status-after</code> flags. Designing for agents requires studying their actual behavior.</p>
     </div>
     <div class="card">
-      <h3>Pricing Pages</h3>
+      <h3>Pricing pages</h3>
       <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">When the buyer is an agent evaluating tools programmatically, charm pricing and anchoring don't work. The constraint shifts from "what can a person understand" to "what is machine-readable." The pricing page is infrastructure, not marketing.</p>
     </div>
   </div>
@@ -195,7 +195,7 @@
 <section>
   <span class="section-num">PART 4</span>
   <h2>Adoption, Mid-2026</h2>
-  <p class="subtitle">This is not a prediction. These are current numbers.</p>
+  <p class="subtitle">Reported adoption figures for mid-2026.</p>
 
   <div class="stat-grid">
     <div class="stat-card">
@@ -224,7 +224,7 @@
 <!-- PART 5: TEN PRINCIPLES -->
 <section>
   <span class="section-num">PART 5</span>
-  <h2>Ten Principles</h2>
+  <h2>Ten principles</h2>
   <p class="subtitle">Compiled from the Agent Experience Report 2026 (40+ primary sources).</p>
 
   <div class="principle-list">
@@ -232,7 +232,7 @@
       <div class="principle-num">1</div>
       <div class="principle-body">
         <h3>Treat agents as a first-class user persona</h3>
-        <p>Not an afterthought. Not a chatbot bolt-on. A separate persona with its own needs, tested with its own flows.</p>
+        <p>Treat agents as a user group with their own needs and test their flows.</p>
       </div>
     </div>
     <div class="principle-item">
@@ -304,10 +304,10 @@
 <!-- PART 6: THREE CONFLICTS -->
 <section>
   <span class="section-num">PART 6</span>
-  <h2>Where AX and UX Collide</h2>
+  <h2>Where AX and UX collide</h2>
   <p class="subtitle">Most of the time, investing in one pillar lifts the others. The conflicts are specific.</p>
 
-  <p>AX, UX, and DX are not the same discipline with three names. They are three disciplines that mostly align but diverge at specific, predictable points. The divergences are invisible until production.</p>
+  <p>AX, UX, and DX share many goals, but they can call for different choices in the same product. The conflicts below are worth testing explicitly.</p>
 
   <table class="contrast-table">
     <thead><tr><th>Conflict</th><th>What Happens</th><th>Resolution</th></tr></thead>
@@ -333,7 +333,7 @@
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

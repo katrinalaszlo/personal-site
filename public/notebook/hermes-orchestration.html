@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Hermes Orchestration","description":"Nous Research's always-on agent framework. What it is, how it works, and where it fits next to Claude Code.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/hermes-orchestration"}}
 </script>
@@ -152,7 +152,7 @@
 
   <p>Hermes Agent is built by <a href="https://nousresearch.com" style="color:var(--accent);text-decoration:none">Nous Research</a> and released under an MIT license. It launched in February 2026 and became one of the fastest-growing open-source agent projects of the year.</p>
 
-  <p>The core idea: instead of a per-session chat tool that forgets everything when you close the terminal, Hermes is an always-on service. It accumulates knowledge, builds skills from experience, and runs scheduled tasks unattended. You talk to it from wherever you already are -- CLI, Telegram, Discord, Slack, WhatsApp, Signal, Email, and 20+ other platforms.</p>
+  <p>Hermes keeps running after you close the terminal. It accumulates knowledge, builds skills from experience, and runs scheduled tasks unattended. You talk to it from wherever you already are -- CLI, Telegram, Discord, Slack, WhatsApp, Signal, Email, and 20+ other platforms.</p>
 
   <div class="analogy">
     <strong>PM frame:</strong> Claude Code is a contractor you hire per task. Hermes is a full-time employee who lives at the office, remembers every project, and proactively does work while you sleep.
@@ -172,7 +172,7 @@
 <!-- ======== SECTION 2: FIVE PILLARS ======== -->
 <section id="s2">
   <h2>Five pillars</h2>
-  <p class="subtitle">Everything in Hermes is built on five concepts. Understand these and you understand the whole system.</p>
+  <p class="subtitle">Five concepts explain how Hermes stores instructions, remembers context, and runs scheduled work.</p>
 
   <div class="pillar-tabs" id="pillarTabs">
     <button class="pillar-tab active" data-pillar="soul">Soul</button>
@@ -231,7 +231,7 @@
       <li><strong>Level 2:</strong> A specific reference file within a skill</li>
     </ul>
 
-    <p>Installation is trivial. Drop a SKILL.md in <code>~/.hermes/skills/</code> and it is live immediately -- no registration needed. Every skill auto-registers as a slash command. You can also search and install community skills: <code>hermes skills search</code> and <code>hermes skills install</code>.</p>
+    <p>To install a skill, Drop a SKILL.md in <code>~/.hermes/skills/</code> and it is live immediately -- no registration needed. Every skill auto-registers as a slash command. You can also search and install community skills: <code>hermes skills search</code> and <code>hermes skills install</code>.</p>
 
     <div class="connection">
       <strong>Claude Code parallel:</strong> Hermes skills are equivalent to Claude Code skills (<code>~/.claude/skills/</code>), but with two differences: (1) Hermes auto-generates skills from its own work, and (2) skills use progressive disclosure to avoid bloating context.
@@ -374,7 +374,7 @@
 <!-- ======== SECTION 5: GETTING STARTED ======== -->
 <section id="s5">
   <h2>Getting started</h2>
-  <p class="subtitle">Zero to running in under two minutes.</p>
+  <p class="subtitle">Install Hermes, choose a model, and try one conversation.</p>
 
   <div class="sequence">
     <div class="seq-step">
@@ -597,12 +597,12 @@ irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/ins
   <h2>The question for a PM</h2>
   <p class="subtitle">When does adding Hermes to your stack actually pay off?</p>
 
-  <p>If you already use Claude Code daily, Hermes is not a replacement. It is a complement. The decision framework:</p>
+  <p>For someone already using Claude Code daily, the question is whether persistent, scheduled work and messaging access justify another service to maintain.</p>
 
   <div class="card">
     <p style="margin-bottom:12px"><strong>Add Hermes when you have recurring agent work.</strong> Code review on a schedule. Daily digests. Automated triage. Anything where "I wish Claude Code would just do this every morning without me asking" is a thought you have had.</p>
     <p style="margin-bottom:12px"><strong>Add Hermes when you want cross-platform reach.</strong> If you need an agent that lives in Telegram, Slack, and Email simultaneously -- not just in your terminal -- Hermes does this natively.</p>
-    <p style="margin-bottom:0"><strong>Skip Hermes if your work is pure coding sessions.</strong> Claude Code's reasoning on Claude models is materially better than Hermes running the same models through OpenRouter. And Claude Code's session model (no persistent state, deterministic behavior) is a feature, not a bug, for code work.</p>
+    <p style="margin-bottom:0"><strong>Skip Hermes if your work is pure coding sessions.</strong> Claude Code's reasoning on Claude models is materially better than Hermes running the same models through OpenRouter. And Claude Code's session model (no persistent state, deterministic behavior) can suit bounded coding tasks.</p>
   </div>
 
   <div class="credit">
@@ -629,7 +629,7 @@ pillarTabs.forEach(tab => {
 });
 </script>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

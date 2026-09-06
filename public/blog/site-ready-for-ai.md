@@ -11,7 +11,7 @@ author: Kat Laszlo
 
 In [Part 1](/blog/agent-self-serve), I made the case that agents are already changing how B2B buyers research and select vendors. [73% of buyers use AI for research](https://learn.g2.com/ai-search-surging-for-b2b-buyers), and [69% end up choosing a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they originally planned.
 
-So if agents are shaping who wins, the question becomes, can they actually read your site?
+Can those agents actually read your site?
 
 For 25 years, SEO was how you got found. Meta tags, sitemaps, clean URLs, schema.org markup. AI agents still use all of that (sitemaps and structured data show up in every benchmark), but a new set of standards is emerging on top of it. Agents also care about whether your content is token-efficient, serves markdown, and exposes capabilities programmatically. This new layer has a name: AEO, or Agentic Engine Optimization. Whether it actually matters yet is an open question, but the frameworks are here.
 
@@ -41,7 +41,7 @@ Every framework checks for llms.txt, but only Fern validates whether its links a
 
 ## One command, every score
 
-I built [**aeo-ready**](https://github.com/katrinalaszlo/aeo-ready) to run all five benchmarks in parallel and prioritize the most common recommendations.
+I built [aeo-ready](https://github.com/katrinalaszlo/aeo-ready) to run all five benchmarks in parallel and prioritize the most common recommendations.
 
 ```
 npx aeo-ready scan yoursite.com
@@ -57,7 +57,7 @@ The remaining failures are things I chose not to fix, like optional identity pro
 
 ## How the big sites score
 
-The scan also includes benchmarks from other sites, so you can see where you stand. If your score feels low, don't feel too bad. Even the companies writing these standards don't score well, sometimes not even on their own frameworks.
+The scan also includes benchmarks from other sites, so you can see where you stand. Even the companies writing these standards score poorly on some checks, including their own.
 
 | Site | agentic-seo | Cloudflare | Fern | Vercel | AgentGrade |
 |------|------------|------------|------|--------|------------|
@@ -72,7 +72,7 @@ Stripe leads on Fern but scores a 17 on agentic-seo. Cloudflare gets 3/5 on its 
 
 ## Does any of this actually matter?
 
-The honest answer is that it depends on what you're optimizing for.
+I'd separate search visibility from usability once an agent arrives.
 
 If you're hoping llms.txt will boost your visibility in ChatGPT or Perplexity results, the data is not encouraging. An [analysis of 62,000+ AI bot requests over 90 days](https://searchengineland.com/does-llms-txt-matter-467740) found that only 84 went to llms.txt, just 0.1% of AI bot traffic. Google's John Mueller has [called markdown pages "a stupid idea"](https://www.getpassionfruit.com/blog/should-i-create-an-llms.txt-file-google-s-2026-guidance-explained) and confirmed that Google doesn't use llms.txt. No major AI provider has publicly committed to reading it for search citations.
 
@@ -86,7 +86,7 @@ The frameworks themselves have issues too. Cloudflare's scanner is [structurally
 
 There's also a site type problem. A content site loses points for missing payment protocols. An API product loses points for missing blog-style markdown. The scores mix up "not relevant to your site" with "not ready for agents." I'm planning to add a `--type` flag to aeo-ready that filters checks by site type, so the score reflects what actually matters for your use case instead of penalizing you for features you'd never build.
 
-My take: AEO won't help agents find you, but when one lands on your site to evaluate your product, readability determines whether it recommends you or moves on. Right now only [10% of sites](https://otterly.ai/blog/the-llms-txt-experiment/) have adopted llms.txt after 18 months of industry conversation. The bar is low, the cost is near zero, and the evidence says readability matters once agents arrive. If you're building a developer-facing product, being in the top 10% on readiness positions you for an agent web that's still forming. If you're a local bakery, skip it.
+My take: AEO won't help agents find you, but when one lands on your site to evaluate your product, readability determines whether it recommends you or moves on. Right now only [10% of sites](https://otterly.ai/blog/the-llms-txt-experiment/) have adopted llms.txt after 18 months of industry conversation. For a developer-facing product, I'd start with readable docs and test whether an agent can complete a real task with them. A local bakery probably has better uses for that time.
 
 ## What's next
 

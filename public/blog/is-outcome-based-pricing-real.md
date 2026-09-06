@@ -1,7 +1,7 @@
 ---
 title: "Is Outcome-Based Pricing Real, or Just Marketing Hype?"
 date: 2026-02-15
-description: "Only 2% of companies used outcome-based pricing in mid-2025. By December it was 18%. The gap between the narrative and reality tells you something important about where AI pricing actually is."
+description: "Only 2% of companies used outcome-based pricing in mid-2025. By December it was 18%. Adoption is growing, but the model still fits a narrow set of products."
 canonical: https://www.tansohq.com/blog/is-outcome-based-pricing-real
 author: Kat Laszlo
 ---
@@ -11,8 +11,6 @@ Outcome-based pricing keeps coming up in decks, on panels, in investor conversat
 Intercom Fin charges $0.99 per resolved conversation. Sierra gets paid when it completes a task. Zendesk announced a shift away from per-agent pricing last August, and after that the list gets thin.
 
 ICONIQ's Q2 2025 survey found only 2% of companies were using outcome-based pricing. By December, it was 18%. That's growth, but it's still a fraction. Most companies moving off seat-based pricing are going toward consumption models, not outcomes. And only 15% say they plan to move toward outcome-based pricing at all.
-
-So there's a real gap between how much people talk about this and how much is actually happening.
 
 ---
 
@@ -42,15 +40,15 @@ AI doesn't have a standard set of success metrics yet. In advertising, ROI is cl
 
 Attribution makes this harder. Who gets credit when an AI agent resolves a ticket but a human set up the workflow, curated the knowledge base, and handled the escalation? Partial outcomes, shared credit, and counterfactual attribution are all unsolved.
 
-Siena AI's CEO wrote [a full post](https://www.siena.cx/blog/conversation-vs-outcome-based-pricing-ai-agent) arguing that outcome-based pricing actively hurts customers. The key observation from working with hundreds of companies is that customers spend hours every week arguing with vendors about what counts as "resolved." Every vendor has their own definition, and there's no standard.
+Siena AI's CEO wrote [a full post](https://www.siena.cx/blog/conversation-vs-outcome-based-pricing-ai-agent) arguing that outcome-based pricing actively hurts customers. Drawing on work with hundreds of companies, the CEO describes how customers spend hours every week arguing with vendors about what counts as "resolved." Every vendor has their own definition, and there's no standard.
 
-More than one founder has told me, unprompted, that outcome-based pricing is basically just usage billing with a different label. You're still metering events and still generating an invoice, you've just tagged some events as "outcomes." As one pricing strategist put it, outcome-based pricing is just "a marketing buzzword."
+More than one founder has told me, unprompted, that outcome-based pricing is basically just usage billing with a different label. You're still metering events and still generating an invoice, you've just tagged some events as "outcomes."
 
 ---
 
 ## Where it actually works
 
-It does work, but only in specific conditions. And when you look at the cases, the conditions are the same every time.
+The cases where it works share a few conditions.
 
 | Condition | Required? | Why |
 |-----------|-----------|-----|
@@ -58,7 +56,7 @@ It does work, but only in specific conditions. And when you look at the cases, t
 | Completion signal is clear | Yes | "Resolved" needs a binary definition both sides agree on |
 | Cost variance is bounded | Yes | Vendor absorbs risk; unbounded cost kills margins |
 
-Customer service fits cleanly. Intercom Fin resolves a ticket, the resolution is binary, cost per resolution is roughly predictable. They saw 40% higher adoption versus seat-based pricing. That's real.
+Customer service fits cleanly. Intercom Fin resolves a ticket, the resolution is binary, cost per resolution is roughly predictable. They saw 40% higher adoption versus seat-based pricing. That is a reason to take the model seriously in this category.
 
 Chargeback recovery, collections, and specific legal workflows follow the same pattern, where AI acts alone, the outcome is measurable, and the vendor can pool risk across a customer base.
 
@@ -87,7 +85,7 @@ This isn't specific to Salesforce. Everyone building in this space runs into the
 
 If a company with that scale of engineering and go-to-market resources is struggling to operationalize flexible AI pricing, what does that look like for a 50-person startup trying to ship outcome-based billing with a Stripe integration and a spreadsheet?
 
-In practice, the bottleneck isn't choosing the right pricing model. It's confidence. Teams outline multiple hypotheses and it takes a month just to launch changes. They can't predict which ones will succeed. They want to know the outcome of a pricing experiment without actually running it. No tool solves that yet.
+Even after choosing a model, teams struggle to predict what a change will do. Teams outline multiple hypotheses and it takes a month just to launch changes. They can't predict which ones will succeed. They want to know the outcome of a pricing experiment without actually running it. No tool solves that yet.
 
 A question I keep coming back to is whether teams actually want to run pricing experiments, or whether they just want the answers without running them.
 
@@ -103,13 +101,13 @@ Outcome-based pricing is one way to prove you believe in your own product. But i
 
 There's a catch, though. The companies most pressured to adopt outcome pricing, the ones struggling to prove ROI, are usually the least equipped to absorb the cost risk. The companies that could absorb the risk don't need outcome pricing to prove their value.
 
-The renewal cliff doesn't push companies toward outcome pricing specifically. It pushes them toward proving value at all. Most teams haven't solved that yet.
+At renewal, the customer needs proof of value, whichever model is on the invoice. Most teams haven't solved that yet.
 
 ---
 
-## What's actually going to happen
+## Where I think this goes
 
-Outcome pricing stays narrow. It'll expand in categories where AI is autonomous and attribution is clean, but it doesn't become the default.
+I expect outcome pricing to stay narrow, with adoption concentrated in categories where AI is autonomous and attribution is clean.
 
 The bigger shift is hybrid, a base subscription for predictability with outcome or usage components for value alignment. That's what Salesforce landed on, and it's where Intercom, Cursor, and most companies end up.
 
@@ -157,10 +155,4 @@ If no to any of them, hybrid is the better path. Use outcome framing in position
 
 ---
 
-The goal was never outcome-based pricing specifically. It was aligning price to value. Outcome pricing is one way to get there, but for most companies right now, it's not the most practical one.
-
-## Key takeaways
-
-- Outcome-based pricing works in narrow conditions, where AI is autonomous, the completion signal is clear, and cost variance is bounded
-- Most companies can't ship it because attribution is unsolved, operations are messy, and billing stacks don't support it
-- The real shift is hybrid, with a base subscription + outcome or usage components, and that's where most teams end up once the theory meets the invoice.
+I'd rather see a team ship pricing it can explain and bill reliably than adopt an outcome metric it has to argue about every month.

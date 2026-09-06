@@ -11,9 +11,9 @@ author: Kat Laszlo
 
 Last week I asked whether an agent could even [read your website](/blog/site-ready-for-ai). Say it can. Say it lands on your site, parses your pricing, and decides your product is worth trying. Can it actually sign up?
 
-For most products the answer is no, and not because the product is bad. The product works fine. It's the front door that won't open. Almost every SaaS flow hides a browser somewhere, whether that's an email verification loop, a CAPTCHA, an API key you can only mint from a dashboard, checkout that renders only in HTML, or a setting buried three clicks into a panel. A human barely notices any of it. An agent hits a wall at every step.
+For most products, something still requires a browser: email verification, a CAPTCHA, an API key minted in a dashboard, or checkout that only renders in HTML. The product may have an API, but the agent can't reach it without help.
 
-The easy reaction is to declare self-serve dead, to say PLG had its run and agents finished it off. Some people are already naming the successor Agent-Led Growth, a model where agents run the revenue workflows humans used to click through. I don't buy the obituary. Self-serve didn't die, it relocated. Clear pricing, low friction, fast time-to-value, every decision that made PLG work still matters. It just has to be made at the API layer now, not only the visual one.
+Some people call the successor Agent-Led Growth, where agents run the revenue workflows humans used to click through. I don't buy the obituary for self-serve. Clear pricing, low friction, and fast time-to-value still matter. We need to apply those decisions to the API as well as the website.
 
 An agent evaluating your product asks the same questions a developer on a free trial asks. Can I sign up without talking to anyone? Can I see what it costs? Can I try it before I commit? Can I scale up and back down? The only thing that changed is that every answer now has to be reachable through an API, not just well designed in a UI.
 
@@ -21,7 +21,7 @@ None of this is hypothetical. [Ramp shipped Agent Cards](https://ramp.com/blog/i
 
 ## The same funnel, fewer doors that open
 
-When a human signs up, they move through a familiar funnel. They create an account, prove they're real, pick a plan, start using the product, and manage it over time. An agent moves through the exact same funnel, and the trouble is that most products put a browser wall at every stage, because each stage was built with only the human version in mind. There's a signup form but no signup endpoint, a login page but no machine credential, a checkout page but no plan API, a settings panel but nothing behind it an agent can call. The work isn't inventing a new funnel, it's building the second half of the one you already have. So it's worth walking the four stages and asking, at each one, whether an agent gets through.
+A human creates an account, authenticates, picks a plan, and manages it over time. An agent needs the same capabilities. Most products have only built the browser path: a signup form without a signup endpoint, a checkout page without a plan API, settings without programmatic access. Here's what to check at each stage.
 
 ### Onboarding
 
@@ -33,7 +33,7 @@ Security doesn't disappear here, it moves. The line you're actually drawing is b
 
 ### Authentication
 
-Once an account exists, the agent has to prove who it is without a human performing a ceremony, and not every auth method handles that equally well, so it's worth ranking them by how an agent actually fares.
+Once the account exists, the agent needs credentials it can use. Some auth methods require a human to authorize access first; others support machine-to-machine access directly.
 
 | Rating | Method | Notes |
 |---|---|---|
@@ -44,21 +44,29 @@ Once an account exists, the agent has to prove who it is without a human perform
 | **Hostile** | Magic links / email OTP | Needs inbox access, and agents don't have inboxes. |
 | **Impossible** | CAPTCHA | Designed to block automation. Replace it with Web Bot Auth or proof-of-work. |
 
-Most products already issue API keys, so the gap usually isn't the credential, it's how you get one. If minting a key means logging into a dashboard, clicking into an API Keys page, and copying a token, an agent can't self-serve, because a human is still standing in the loop. The fix is small, an endpoint that generates scoped keys programmatically, so the credential an agent needs is itself reachable by an agent.
+Most products already issue API keys. The problem is getting one: logging into a dashboard, opening the API Keys page, and copying a token still requires a human. An endpoint that generates scoped keys makes that step accessible to the agent.
 
 ### Purchasing
 
-Next the agent has to find out what the product costs, choose a plan, and pay for it, and this is where most B2B companies fall down before an agent even starts. Pricing sits behind "Contact Sales," and agents don't contact sales. Even when the price is published, it's often locked in a format an agent can't parse, an HTML comparison table, a feature matrix in a PDF, a "starting at $X" with an asterisk pointing somewhere off the page. Browser-only Stripe Checkout and the absence of any plan catalog API finish the job.
+Next the agent needs prices, a plan, and a way to pay. "Contact Sales" stops that process immediately. Published pricing can be difficult too: a PDF feature matrix, an HTML table, or "starting at $X" with terms elsewhere. Without a plan catalog API or programmatic checkout, the agent hands the purchase back to its human.
 
-What works is making the commercial layer as legible as the product layer. A GET on a plans endpoint returns a machine-readable catalog, a POST creates a subscription, and a human saves a payment method once through something like a Stripe Setup Intent so the agent can reuse it, while publishing a `pricing.json` at your domain root makes the catalog discoverable in the first place. The shape of all of it is the same, a human sets the guardrails and the agent executes inside them. Someone authorizes a payment method and sets a spending ceiling, and the agent then evaluates plans, picks one, and buys, all within that pre-authorized boundary. Ramp's Agent Cards work exactly this way, with tokenized cards tied to specific transactions, spending limits, and approval workflows.
+A plans endpoint can return the catalog, and a subscription endpoint can create the subscription. Publishing `pricing.json` at the domain root helps the agent find that information. The human first authorizes a payment method, through something like a Stripe Setup Intent, and sets a spending ceiling. The agent can then select and buy a plan within that authorization. Ramp's Agent Cards use tokenized cards tied to specific transactions, spending limits, and approval workflows.
 
 ### Account management
 
-Getting in is only the start, because once an agent is using the product it needs to manage itself, to upgrade when it outgrows a plan, change configuration, watch its own usage, and cancel if it has to. Most products lock all of that behind a settings page, when the rule is simply that every settings page needs an API endpoint behind it. In practice that means a usage endpoint reporting current consumption, remaining quota, and burn rate, a subscription endpoint that can upgrade, downgrade, or change the billing cycle, a config endpoint for product settings, and a cancel path with sane confirmation semantics. It also means rate-limit headers on every response, like `x-ratelimit-remaining` and `x-ratelimit-reset`, alongside threshold webhooks, so an agent can throttle itself before it slams into a limit instead of discovering the wall by hitting it.
+Once an agent is using the product, it needs to monitor usage, change configuration, upgrade or downgrade, and cancel. Those actions need documented endpoints. A usage response should include current consumption and remaining quota. Subscription changes need clear confirmation semantics. Rate-limit headers such as `x-ratelimit-remaining` and `x-ratelimit-reset`, plus threshold webhooks, help the agent slow down before it hits a limit.
 
 ## The maturity ladder
 
-Not every product needs to be agent-first by next quarter, but it helps to know where you sit. At the bottom is the agent-hostile product, browser-only, no API, a CAPTCHA at the door and pricing behind contact sales, which an agent simply cannot use. A step up, the API exists, with REST endpoints for the core features, manually generated keys, and real docs, but still no programmatic signup, billing, or management. Higher again the product becomes agent-possible, where an agent can sign up through the API with some friction, get scoped keys, and read its usage, though billing keeps dragging it back to the dashboard. Agent-friendly is where it starts to feel deliberate, with full programmatic onboarding, OAuth client credentials, plan selection and payment through the API, and usage, billing, and configuration all reachable in code. At the top, still mostly aspirational, is agent-first, with zero-friction provisioning, spending policies, agent identity verification, and in some cases MCP offered as a product interface in its own right. Stripe and Cloudflare are early movers, and nobody is fully there yet.
+The maturity ladder is a way to locate the next gap:
+
+- Agent-hostile: browser-only access, CAPTCHA at signup, and pricing behind contact sales.
+- API available: documented core endpoints and manually generated keys, but no programmatic signup or billing.
+- Agent-possible: signup, scoped keys, and usage data are accessible, but billing still sends the agent to a dashboard.
+- Agent-friendly: onboarding, payment, and account management are all available programmatically.
+- Agent-first: immediate provisioning, spending policies, and agent identity verification are designed together. MCP may be a product interface too.
+
+The last level is still mostly aspirational. Stripe and Cloudflare are early movers; nobody is fully there yet.
 
 The thing that's easy to miss is that access and quality are separate axes. A product can sit high on access, with a full API, and still be miserable to build against because the errors are vague, there's no test mode, and pagination is broken. Another can offer a minimal API that's a genuine pleasure to use, with structured errors, idempotency, and a real OpenAPI spec. Access gets an agent through the door. Quality decides whether it stays.
 
@@ -70,7 +78,7 @@ Your product now has two kinds of user. Agents come in through APIs and MCP tool
 
 I kept running into the same gaps across products, so I built [agent-serve](https://github.com/katrinalaszlo/agent-serve) to find them automatically. It's a set of Claude Code skills that walk each stage of the funnel, from onboarding and auth through purchasing, usage, management, and developer quality, and tell you what's blocking agents. You can point it at a URL or run it against the codebase you're already in.
 
-Every area comes back with the same three things, what exists today, what's blocking agents, and what to build, and the advice is deliberately specific, because "add an API" helps no one. "Add a `POST /v1/accounts` that takes an email and password and returns the API key in the response body, skip email verification, model it on Stripe's account creation flow, roughly two days of work" is something a team can actually pick up the next morning. That's the difference between a framework and a build plan.
+Each area reports what exists, what's blocking agents, and a specific change to make. "Add an API" isn't enough. A useful finding names the endpoint, its inputs and outputs, and where it belongs in the existing flow. That gives the team something to implement and test.
 
 ```bash
 npx skills add katrinalaszlo/agent-serve
@@ -94,14 +102,21 @@ It didn't spare us. The purchasing audit flagged our own Stripe integration, bec
 
 ## The practical pipeline
 
-You don't have to build any of this from nothing, because the pieces connect into a path that mostly already exists. Start by checking whether agents can find you at all, which is what [aeo-ready](https://github.com/katrinalaszlo/aeo-ready), the discovery audit from [Part 2](/blog/site-ready-for-ai), measures. Then check whether they can actually use you by running agent-serve over your funnel. From there you ship the endpoints the audit flagged, API-first and one specific fix at a time, and finally you choose the right surface for each kind of user, whether that's a dashboard, an in-app copilot, a Slack bot, a CLI, or MCP. Run that loop and your product ends up reachable by humans, developers, and agents alike.
+Start with [aeo-ready](https://github.com/katrinalaszlo/aeo-ready), the discovery audit from [Part 2](/blog/site-ready-for-ai), to check whether agents can find and read your product. Then run agent-serve over the self-serve flow. Fix one blocked step, test it with an agent, and repeat. The same endpoints can support your dashboard, CLI, Slack bot, or in-app copilot.
 
 ## If you're starting from zero
 
-Most products aren't actually at the bottom of the ladder, they already have some kind of API. But if yours really is dashboard-only, there's a sane order to dig out. In the first week, add a single read endpoint, something like a status or usage call, put API key generation in the dashboard, and document it. In the second, add one write endpoint, the action agents will reach for most, whatever your product's core verb happens to be, whether that's creating a report or firing an alert. The third week is for visibility, a usage endpoint with current-period data and remaining quota plus rate-limit headers on every response. And the fourth is for programmatic signup, an accounts endpoint that hands back an account and a key, even a stripped-down version, just enough that an agent can get in without a browser.
+If your product already has an API, start with the gaps in that API. If it's dashboard-only, I'd work in this order:
+
+1. Add a read endpoint, such as status or usage. Let a human generate an API key in the dashboard and document the call.
+2. Add the main action an agent would need, such as creating a report or firing an alert.
+3. Expose current-period usage and remaining quota, with rate-limit headers.
+4. Add programmatic signup that returns an account and a scoped key.
+
+You could tackle one stage a week, adjusting for the product's complexity.
 
 The reason reads come first is that most agent interactions are reads anyway, checking status, pulling data, watching usage. They're safe, they're immediately useful, and they let you prove the pattern before you take on the harder problem of writes.
 
-## The takeaway
+## What I test now
 
-None of the old discipline went away. The self-serve tactics, the design judgment, the onboarding strategy, the slow earning of trust, all of it still matters, and every decision that made PLG work still has to be made. What changed is where those decisions get expressed. They used to live in well-designed UI flows, and now they have to live in API endpoints, machine-readable pricing, structured errors, and scoped credentials as well. The playbook didn't die. It just has a new reader.
+I still care about the same things I did when optimizing a human signup flow: can the customer get started, understand the price, and reach a useful result? Now I also test those questions through the API. An agent should be able to complete the flow and report what happened without sending its human back to a browser at every step.

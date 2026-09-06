@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"n8n Workflow Automation","description":"Visual workflow automation with code escape hatches. What n8n is, how it compares, core concepts, AI nodes, and when to use it over raw code.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/n8n-automation"}}
 </script>
@@ -138,7 +138,7 @@ footer {
 
   <p>The distinguishing trait: it is <strong>fair-code licensed</strong> and can run on your own infrastructure. The source code is public on GitHub. You can self-host on a $5/month VPS with unlimited executions, or use their managed cloud. Your data never has to leave your servers.</p>
 
-  <p>n8n ships with 1,000+ native integrations (called nodes), plus thousands more built by the community. But the real power is the <strong>HTTP Request node</strong> and the <strong>Code node</strong>. If an API exists, you can call it. If the built-in nodes don't do what you need, you drop into JavaScript or Python inline.</p>
+  <p>n8n ships with 1,000+ native integrations (called nodes), plus thousands more built by the community. The <strong>HTTP Request</strong> and <strong>Code</strong> nodes cover cases those integrations miss. If an API exists, you can call it. If the built-in nodes don't do what you need, you drop into JavaScript or Python inline.</p>
 
   <div class="analogy">
     <strong>Mental model:</strong> n8n sits between no-code tools (Zapier) and writing everything from scratch. The canvas gives you speed for the 80% of automation that's just "fetch, transform, route, deliver." The Code node gives you an escape hatch for the 20% that needs real logic.
@@ -148,7 +148,7 @@ footer {
 <!-- ======== VS ZAPIER / MAKE ======== -->
 <section id="comparison">
   <h2>How it differs from Zapier and Make</h2>
-  <p class="subtitle">Three tools, three philosophies. The tradeoffs matter more than the feature lists.</p>
+  <p class="subtitle">Compare setup effort, branching, code support, and who operates the service.</p>
 
   <table class="contrast-table">
     <thead>
@@ -351,7 +351,7 @@ footer {
   </div>
 
   <h3>Pattern 3: AI classify and route</h3>
-  <p>Feed incoming data through an LLM to classify it, then branch based on the classification. This is where n8n's AI nodes shine.</p>
+  <p>Feed incoming data through an LLM to classify it, then branch based on the classification. The classification becomes the input to an IF or Switch node.</p>
   <div class="pipeline-flow">
     <div class="pipe-box green"><strong>Webhook</strong>support ticket</div>
     <div class="pipe-arrow">&rarr;</div>
@@ -433,7 +433,7 @@ footer {
       <div class="seq-num">3</div>
       <div class="seq-body">
         <h3>Add branching</h3>
-        <p>Drop an IF node after your HTTP Request. Route based on a condition (temperature > 30, score > 100). Each branch gets its own downstream nodes. This is where n8n clicks: visual branching is genuinely faster than writing conditionals.</p>
+        <p>Drop an IF node after your HTTP Request. Route based on a condition (temperature > 30, score > 100). Each branch gets its own downstream nodes. The canvas makes it easy to see which branch each item takes.</p>
       </div>
     </div>
     <div class="seq-step">
@@ -466,7 +466,7 @@ docker run -it --rm \
 <!-- ======== N8N VS CODE ======== -->
 <section id="vs-code">
   <h2>n8n vs. writing code</h2>
-  <p class="subtitle">Honest take on when the visual canvas is the right tool and when it's not.</p>
+  <p class="subtitle">When a visual workflow is easier to maintain, and when code is a better fit.</p>
 
   <table class="contrast-table">
     <thead>
@@ -521,7 +521,7 @@ docker run -it --rm \
   <span>&copy; 2026 Katrina Laszlo</span>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

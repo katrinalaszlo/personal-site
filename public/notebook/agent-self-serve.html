@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Making Your Product Agent Self-Serve","description":"The implementation playbook: Agent Skills, MCP servers, agent-ready docs, programmatic signup, and removing human gates. Week-by-week from zero to agent self-serve.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/agent-self-serve"}}
 </script>
@@ -88,7 +88,7 @@
 <main>
 
 <h1>Making Your Product Agent Self-Serve</h1>
-<p class="subtitle">The implementation playbook. From invisible to fully agent-accessible, week by week.</p>
+<p class="subtitle">A sequence for adding agent access, with examples and checks for each stage.</p>
 
 <!-- PART 1: THE JOURNEY -->
 <section>
@@ -96,7 +96,7 @@
   <h2>The Agent Buyer Journey</h2>
   <p class="subtitle">Eight steps between "agent discovers your product" and "agent pays for it."</p>
 
-  <p>When an AI agent evaluates your product, it follows a predictable path. Each step either works programmatically or the agent bounces. Most products fail at step 2 or 3.</p>
+  <p>An agent needs a usable path through each step below. Check where it can proceed on its own and where it needs the human to take over.</p>
 
   <div class="sequence">
     <div class="seq-step"><div class="seq-num">1</div><div class="seq-body"><h3>Discover</h3><p>Agent finds the product exists. llms.txt, AgentReady scoring, search APIs.</p></div></div>
@@ -126,7 +126,7 @@
   <span class="s">scripts/</span>          <span class="c"># Optional: executable code</span>
   <span class="s">assets/</span>           <span class="c"># Optional: templates, data files</span></div>
 
-  <p>The key design pattern is <strong>progressive disclosure</strong>. Three tiers of token cost:</p>
+  <p><strong>Progressive disclosure</strong> loads instructions as needed, in three tiers:</p>
 
   <table class="contrast-table">
     <thead><tr><th>Tier</th><th>Tokens</th><th>When loaded</th></tr></thead>
@@ -205,7 +205,7 @@
   <p class="subtitle">Same content, stripped of presentation noise.</p>
 
   <h3>llms.txt</h3>
-  <p>A markdown file at <code>/llms.txt</code>. H1 with product name, blockquote summary, H2 sections with link lists. Takes 30 minutes. Moves you from invisible to discoverable.</p>
+  <p>A markdown file at <code>/llms.txt</code>. H1 with product name, blockquote summary, H2 sections with link lists. Start with the docs an agent needs for one task.</p>
 
   <div class="file-box"><span class="k"># Observe</span>
 
@@ -243,7 +243,7 @@
 <section>
   <span class="section-num">PART 5</span>
   <h2>Removing Human Gates</h2>
-  <p class="subtitle">Every gate that requires a human is a place where agents bounce.</p>
+  <p class="subtitle">Human-only steps interrupt an agent's workflow.</p>
 
   <div style="margin:24px 0">
     <div class="gate-row" style="font-weight:600;background:var(--bg-inset)">
@@ -359,7 +359,7 @@
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

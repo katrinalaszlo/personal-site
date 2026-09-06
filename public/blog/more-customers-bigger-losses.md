@@ -6,19 +6,11 @@ canonical: https://www.tansohq.com/blog/more-customers-bigger-losses
 author: Kat Laszlo
 ---
 
-Most AI teams can answer a basic question.
-
-*What did we spend on OpenAI last month?*
-
-Very few can answer a harder one.
-
-*Which customers are actually profitable?*
+Most AI teams can tell you what they spent on OpenAI last month. Ask which customers are profitable and the answer gets harder.
 
 Early on, this doesn't feel like a problem. Pricing works, billing works, and margins look fine in aggregate, so teams move on and focus on building.
 
-Then usage grows, behavior diverges, and costs stop scaling evenly. This is when pricing decisions start to feel uncomfortable, not because teams lack data, but because the data they need lives in systems that were never meant to connect.
-
-Here's why that gap forms, and why it shows up as margin loss instead of a clean analytics issue.
+Then usage grows, behavior diverges, and costs stop scaling evenly. Pricing decisions get harder because usage, cost, and revenue data live in separate systems.
 
 ---
 
@@ -48,7 +40,7 @@ These aren't edge cases. They're common outcomes when variable usage meets flat 
 
 ## Why this keeps happening
 
-This isn't about teams being careless. It's about how the stack works today.
+The usual stack leaves teams to connect these records themselves.
 
 Model providers make it easy to see aggregate usage, but they don't attribute cost to individual customers by default. To do that, teams need to pass identifiers on every request and log usage consistently, and many don't, especially early, because nothing forces the issue.
 
@@ -79,7 +71,7 @@ Teams that connect usage, cost, and revenue can answer questions that otherwise 
 - What a pricing change would do before it ships.
 - Where margin leaks are forming early, not quarters later.
 
-This isn't about building dashboards. It's about being able to make decisions without guessing.
+Those answers give product and finance a basis for the next pricing change.
 
 ---
 
@@ -89,20 +81,18 @@ Many teams start by pulling everything into BI. That helps with visibility, but 
 
 If identifiers don't line up and definitions drift across systems, every pricing question still requires manual work.
 
-What actually helps is foundational infrastructure.
+Start with the data feeding those reports:
 
 - Instrument cost attribution at the source.
 - Define usage once and use it everywhere.
 - Maintain the relationships automatically, not through exports and spreadsheets.
 
-This work is unglamorous, but it pays off.
-
 ---
 
-## The bottom line
+## Catching the loss early
 
 AI margins are variable, and that part is known. What's less obvious is where that variability hides.
 
-When usage, cost, and revenue are split across systems, margin loss shows up at the customer level long after it begins. Everything looks fine in aggregate until it doesn't.
+When usage, cost, and revenue are split across systems, margin loss shows up at the customer level long after it begins. Healthy average margins can hide customers who cost more to serve than they pay.
 
 Most teams learn this after a painful surprise. Teams that instrument early see it sooner, while they still have options.

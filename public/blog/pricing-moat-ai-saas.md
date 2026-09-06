@@ -8,15 +8,15 @@ author: Kat Laszlo
 
 Lately, a lot of conversations about AI differentiation have drifted toward branding.
 
-What's interesting is how often pricing comes up right after. Not as a tactic, but as something closer to identity. How a company prices says a lot about how it understands its value, its customers, and the risk it's willing to take.
+Pricing often comes up right after. How a company prices says a lot about how it understands its value, its customers, and the risk it's willing to take.
 
 In AI products, that risk shows up faster than most teams expect.
 
-Growth doesn't automatically mean profitability. Usage patterns diverge. Costs vary by customer. Pricing assumptions that worked early stop holding. What separates durable companies from fragile ones isn't how fast they ship features, but how quickly they can see and respond when that misalignment starts.
+Growth doesn't automatically mean profitability. Usage patterns diverge. Costs vary by customer. Pricing assumptions that worked early stop holding. A team needs to see those mismatches early enough to change the price or the cost of serving the customer.
 
-Pricing isn't just a revenue mechanic. It shapes customer behavior, determines which segments succeed, and decides whether growth builds on itself or slowly falls apart.
+Pricing also shapes how customers use the product and which segments the company can profitably serve.
 
-The moat isn't a pricing model, it's the ability to learn.
+The advantage comes from learning what works and being able to change it.
 
 ---
 
@@ -36,9 +36,7 @@ By the time problems show up in financials, the damage is already done.
 
 ## Pricing as a learning system
 
-Strong pricing isn't about choosing seats versus usage or subscriptions versus credits, those are surface decisions.
-
-The deeper capability is being able to answer questions like:
+Choosing seats, usage, subscriptions, or credits requires answers to questions like:
 
 - Which customers are profitable, not on average, but individually
 - Which features drive value, and which eat into margin
@@ -46,10 +44,6 @@ The deeper capability is being able to answer questions like:
 - What would happen if limits, plans, or prices changed before you ship them
 
 Companies that can answer these questions early can act while changes are still small and reversible. Companies that can't end up frozen, because pricing changes feel risky, experiments stall, and exceptions pile up.
-
-Over time, this gap widens.
-
-One group iterates while the other hopes.
 
 ---
 
@@ -77,10 +71,10 @@ That confidence builds, so pricing stops being something to avoid and becomes so
 
 ---
 
-## The bottom line
+## Learning fast enough to change
 
 In AI SaaS, pricing is no longer a static choice, it's an ongoing process of learning how value, usage, and cost interact.
 
 Companies that can see that interaction clearly can adapt as fast as the market changes. Companies that can't stay anchored to assumptions that stopped being true a while ago.
 
-That learning speed is what sticks.
+That's the advantage I'd invest in: shortening the time between spotting a margin problem and testing a fix.

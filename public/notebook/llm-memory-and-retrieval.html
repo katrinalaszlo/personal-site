@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"LLM Memory and Retrieval","description":"How LLMs find information, why they forget between sessions, and how to solve that.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/llm-memory-and-retrieval"}}
 </script>
@@ -100,7 +100,7 @@
 
 <section id="s2">
   <h2>What survives and what doesn't</h2>
-  <p class="subtitle">The session boundary is the key concept.</p>
+  <p class="subtitle">Check what gets saved when a session ends and what the next session loads.</p>
 
   <div class="session-diagram">
     <div class="session-flow">
@@ -145,13 +145,13 @@
 
 <section id="s3">
   <h2>Three approaches to persistence</h2>
-  <p class="subtitle">Different ways to leave notes on the desk for tomorrow's amnesiac contractor.</p>
+  <p class="subtitle">Three ways to save context and load it into a later session.</p>
 
   <div class="card" style="border-top:3px solid var(--accent)">
     <span class="tag">approach 1</span>
     <h3>File-based memory</h3>
     <p>Write instructions and outputs to files. The LLM reads them at the start of each session. You control exactly what persists and how it's structured.</p>
-    <p class="dim" style="margin-bottom:0">Examples: README files, CLAUDE.md, structured markdown wikis, config files. Human-readable, version-controllable, transparent.</p>
+    <p class="dim" style="margin-bottom:0">Examples: README files, CLAUDE.md, structured markdown wikis, config files. You can read the files and review their history in git.</p>
   </div>
 
   <div class="card" style="border-top:3px solid var(--orange)">
@@ -249,7 +249,7 @@
 <footer style="padding:2rem 0;font-size:0.8125rem;color:#a1a1aa;border-top:1px solid #f4f4f5;margin-top:3rem;text-align:center">
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

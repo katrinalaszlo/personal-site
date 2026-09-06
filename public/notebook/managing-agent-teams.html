@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Agent Teams","description":"From managing engineers to managing agents. Delegation patterns, evaluation, and coordination.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/managing-agent-teams"}}
 </script>
@@ -282,7 +282,7 @@
 <!-- ======== SECTION 1: WHAT IS AN AGENT? ======== -->
 <section id="s1">
   <h2>What is an agent?</h2>
-  <p class="subtitle">An agent is a loop. That's it.</p>
+  <p class="subtitle">An agent repeatedly observes, chooses an action, and checks the result.</p>
 
   <div class="card" style="text-align:center">
     <div style="display:flex;justify-content:center;gap:8px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:13px">
@@ -329,7 +329,7 @@
 <!-- ======== SECTION 3: MEETING VS WORKSPACE ======== -->
 <section id="s3">
   <h2>Meeting model vs Workspace model</h2>
-  <p class="subtitle">Two ways agents share work. One works. One mostly doesn't.</p>
+  <p class="subtitle">Compare agents exchanging messages with agents working from shared files.</p>
 
   <div class="models-grid">
     <!-- Meeting model -->
@@ -463,7 +463,7 @@
 <!-- ======== SECTION 5: SIX KNOBS ======== -->
 <section id="s5">
   <h2>Six knobs per agent</h2>
-  <p class="subtitle">Every agent has exactly six things you configure. When something goes wrong, it's almost always one of these.</p>
+  <p class="subtitle">These six settings are a useful place to start when configuring an agent or diagnosing a failure.</p>
 
   <div class="knobs-grid" id="knobsGrid"></div>
   <div class="knob-detail" id="knobDetail"></div>
@@ -495,23 +495,23 @@
 
   <div class="pattern-panel" id="pat-phased">
     <div class="pattern-dag" id="phaseDag" style="height:280px"></div>
-    <p><strong>Multiple waves of fan-out/fan-in.</strong> Each wave's output shapes the next. The most powerful pattern.</p>
+    <p><strong>Multiple waves of fan-out/fan-in.</strong> Each wave's output shapes the next. Useful when later work depends on the results of an earlier batch.</p>
     <p class="dim">Example: Classify notes (parallel) -> Cross-reference per category (parallel) -> Write articles (parallel) -> Editorial review.</p>
   </div>
 
   <div class="pattern-panel" id="pat-verifier">
     <div class="pattern-dag" id="verDag"></div>
     <p><strong>After every write, an independent agent checks the work.</strong> If pass, next step. If fail, back to writer.</p>
-    <p class="dim">Equivalent of requiring code review before merge. Cheap and catches most regressions.</p>
+    <p class="dim">Equivalent of requiring code review before merge. Adds a separate review before the next step.</p>
   </div>
 </section>
 
 <!-- ======== SECTION 7: A REAL SETUP ======== -->
 <section id="s7">
-  <h2>A Real Setup</h2>
+  <h2>A real setup</h2>
   <p class="subtitle">20+ agents. 4 scopes. You're the orchestrator -- and you can't see the system you're orchestrating.</p>
 
-  <h3 style="margin-bottom:16px">Agent Scopes</h3>
+  <h3 style="margin-bottom:16px">Agent scopes</h3>
   <div class="scope-stack" id="scopeStack">
     <div class="scope-layer" data-scope="global">
       <div class="scope-title">
@@ -576,7 +576,7 @@
     </div>
   </div>
 
-  <h3 style="margin-top:36px;margin-bottom:16px">The Instruction Stack</h3>
+  <h3 style="margin-top:36px;margin-bottom:16px">The instruction stack</h3>
   <p class="dim" style="margin-bottom:16px">Every time an agent runs, it inherits layers of context. This is what you can't see:</p>
 
   <div class="instruction-stack" id="instStack">
@@ -597,13 +597,13 @@
 
   <div class="card" style="margin-top:24px;border-color:var(--orange)">
     <h3 style="color:var(--orange)">The gap</h3>
-    <p style="margin-bottom:0">You're managing a team where you can't see anyone's calendar, don't know what tools they have, and can't check what instructions they were given. The gap isn't better agents -- it's visibility into the system you're already orchestrating.</p>
+    <p style="margin-bottom:0">Without visibility into each agent's tools, instructions, and current task, coordination becomes guesswork. Make that state inspectable from one place.</p>
   </div>
 </section>
 
 <!-- ======== SECTION 8: THE TEST ======== -->
 <section id="s8">
-  <h2>The Test</h2>
+  <h2>Check your understanding</h2>
   <p class="subtitle">Look at a system and name its parts. Three scenarios, increasing difficulty.</p>
 
   <div class="quiz-progress" id="quizProgress">Scenario 1 of 3</div>
@@ -955,7 +955,7 @@ function checkQuiz() {
 renderQuiz();
 </script>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

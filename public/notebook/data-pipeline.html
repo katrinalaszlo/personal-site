@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Data Pipelines","description":"How text becomes training data: tokenization, batching, packing, and evaluation metrics.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/data-pipeline"}}
 </script>
@@ -192,7 +192,7 @@ footer {
 <!-- ======== PIPELINE OVERVIEW ======== -->
 <section id="pipeline">
   <h2>The full pipeline</h2>
-  <p class="subtitle">Everything in ML follows this flow. <code>prepare.py</code> owns every stage except "Model."</p>
+  <p class="subtitle">This experiment follows the flow below. <code>prepare.py</code> handles every stage except the model.</p>
 
   <div class="pipeline-flow">
     <div class="pipe-box">
@@ -408,7 +408,7 @@ gpu_buffer.copy_(cpu_buffer, non_blocking=<span class="k">True</span>)</div>
 <!-- ======== BPB ======== -->
 <section id="bpb">
   <h2>Bits per byte (BPB)</h2>
-  <p class="subtitle">The north star metric. "How efficiently can the model predict text it hasn't seen?"</p>
+  <p class="subtitle">BPB measures how well the model predicts text it has not trained on.</p>
 
   <div class="bpb-step">
     <div class="bpb-num">1</div>
@@ -488,7 +488,7 @@ gpu_buffer.copy_(cpu_buffer, non_blocking=<span class="k">True</span>)</div>
   <span>&copy; 2026 Katrina Laszlo</span>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

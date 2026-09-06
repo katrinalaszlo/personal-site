@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"AI System Design","description":"The eight decisions you'll actually make when adding AI to a product. Framework from prototype to production.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/ai-system-design"}}
 </script>
@@ -180,7 +180,7 @@
 <!-- ======== SECTION 2: THREE PILLARS ======== -->
 <section id="s2">
   <h2>The three pillars</h2>
-  <p class="subtitle">Every AI system has three load-bearing components. Name them explicitly.</p>
+  <p class="subtitle">Start by naming the model, its data sources, and what the system needs to remember.</p>
 
   <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
     <div class="card" style="border-top:3px solid var(--accent)">
@@ -197,7 +197,7 @@
     </div>
   </div>
 
-  <p><strong>Model:</strong> The engine. Not every engine needs to be a jet turbine. Some jobs need a sewing machine. Ask: What input does it handle? What's the latency budget? Does output need to be interpretable?</p>
+  <p><strong>Model:</strong> Choose it for the task. Ask: What input does it handle? What's the latency budget? Does output need to be interpretable?</p>
 
   <p><strong>Data:</strong> Most AI systems fail because of data problems, not model problems. Ask: Where does data live? Real-time or batch? What are the privacy constraints?</p>
 
@@ -233,7 +233,7 @@
     <div class="card" style="border-top:3px solid var(--green)">
       <h3>Job 1: Predict churn</h3>
       <p class="dim" style="margin-bottom:8px">Billing history, usage patterns, tenure. Structured tabular data.</p>
-      <p style="margin-bottom:0"><strong style="color:var(--green)">Use XGBoost.</strong> You don't need a poet. You need a calculator.</p>
+      <p style="margin-bottom:0"><strong style="color:var(--green)">Use XGBoost.</strong> This is a prediction from structured data.</p>
     </div>
     <div class="card" style="border-top:3px solid var(--accent)">
       <h3>Job 2: Talk to a customer</h3>
@@ -299,7 +299,7 @@
 <!-- ======== SECTION 5: MEMORY ======== -->
 <section id="s5">
   <h2>Memory isn't one thing</h2>
-  <p class="subtitle">Three tiers, three purposes, three persistence models.</p>
+  <p class="subtitle">Separate the current conversation, past interactions, and shared knowledge.</p>
 
   <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
     <div class="card" style="border-top:3px solid var(--accent)">
@@ -320,7 +320,7 @@
   </div>
 
   <div class="card" style="border-left:3px solid var(--green)">
-    <p style="margin-bottom:0"><strong style="color:var(--green)">For churn, episodic memory is king.</strong> A customer who called three times about the same unresolved billing issue is about to leave. If your AI doesn't know that, it'll give a generic response instead of "I see you've called about this roaming charge three times. Let me escalate this right now."</p>
+    <p style="margin-bottom:0"><strong style="color:var(--green)">Past interactions matter for churn.</strong> A customer who called three times about the same unresolved billing issue is about to leave. If your AI doesn't know that, it'll give a generic response instead of "I see you've called about this roaming charge three times. Let me escalate this right now."</p>
   </div>
 
   <div class="analogy">
@@ -331,7 +331,7 @@
 <!-- ======== SECTION 6: FAILURE MODES ======== -->
 <section id="s6">
   <h2>Show failure modes</h2>
-  <p class="subtitle">Candidates who only describe the happy path look junior. Systems that only handle it break in production.</p>
+  <p class="subtitle">Describe what happens when a model call fails or the answer is wrong.</p>
 
   <table class="contrast-table">
     <thead>
@@ -369,7 +369,7 @@
   <div class="card" style="border-left:3px solid var(--orange)">
     <h3>Cache misses</h3>
     <p class="dim" style="margin-bottom:8px"><strong>Problem:</strong> Same questions get asked thousands of times, each hitting the model.</p>
-    <p class="dim" style="margin-bottom:0"><strong>Fix:</strong> Cache frequent query embeddings and common responses. Huge cost savings.</p>
+    <p class="dim" style="margin-bottom:0"><strong>Fix:</strong> Cache frequent query embeddings and common responses. This avoids repeated model calls for the same answer.</p>
   </div>
 
   <div class="warning">
@@ -380,7 +380,7 @@
 <!-- ======== SECTION 8: METRICS ======== -->
 <section id="s8">
   <h2>Metrics across four layers</h2>
-  <p class="subtitle">If you only measure one thing, you'll miss three ways the system can fail.</p>
+  <p class="subtitle">Measure the model's answers, response time, user experience, and business results.</p>
 
   <div class="metrics-grid">
     <div class="metric-box model">
@@ -448,7 +448,7 @@
 
 <!-- ======== SECTION 9: QUIZ ======== -->
 <section id="s9">
-  <h2>The Test</h2>
+  <h2>Check your understanding</h2>
   <p class="subtitle">Eight questions. One per principle. See if you've internalized the framework.</p>
 
   <div class="quiz-progress-bar" id="quizProgress"></div>
@@ -666,7 +666,7 @@ function prevQ() { if (currentQ > 0) { currentQ--; renderQuiz(); } }
 renderQuiz();
 </script>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

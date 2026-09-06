@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"OpenClaw Personal Agents","description":"What OpenClaw is, how it works, when to use it vs Claude+MCP or Letta.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/openclaw-personal-agents"}}
 </script>
@@ -60,7 +60,7 @@
 
   <p>OpenClaw is a self-hosted agent framework. You run a single Gateway process on your machine (or a server). That gateway connects to messaging channels like WhatsApp, Telegram, Slack, Discord, iMessage, Signal, and a web UI. You talk to your agent wherever you already are. The agent reasons with an LLM of your choice, uses tools to act on the world, and persists memory across sessions.</p>
 
-  <p>It is not a coding agent. It is not a chatbot wrapper. It is closer to a personal operating system for an LLM, with a messaging interface instead of a terminal.</p>
+  <p>It runs a personal assistant across messaging channels, with persistent memory and access to tools.</p>
 
   <div class="card-grid">
     <div class="card" style="border-top: 3px solid var(--accent);">
@@ -88,7 +88,7 @@
 <!-- ======== SECTION 2: ARCHITECTURE ======== -->
 <section id="s2">
   <h2>Architecture: three layers</h2>
-  <p class="subtitle">Channel, brain, body. Clean separation of messaging, reasoning, and action.</p>
+  <p class="subtitle">Messaging adapters receive the request, the model decides what to do, and tools carry out the action.</p>
 
   <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
     <div class="card" style="border-top:3px solid var(--accent)">
@@ -288,7 +288,7 @@ npm install -g openclaw@latest</div>
   <h2>OpenClaw vs. Letta vs. custom Claude+MCP</h2>
   <p class="subtitle">Three different tools solving different problems. They are not direct substitutes.</p>
 
-  <p>These are not apples-to-apples comparisons. OpenClaw is a packaged personal assistant with multi-channel messaging. Letta (formerly MemGPT) is a stateful agent framework for developers building memory-rich applications. Claude+MCP (Claude Code, Managed Agents, or a custom harness) is an LLM with a tool protocol. They overlap in capabilities but diverge in what they optimize for.</p>
+  <p>OpenClaw packages a personal assistant with multi-channel messaging. Letta (formerly MemGPT) provides a framework for developers building applications with persistent memory. Claude with MCP supplies a model and a protocol for tools; the surrounding application determines how it behaves.</p>
 
   <table class="contrast-table">
     <thead>
@@ -492,7 +492,7 @@ npm install -g openclaw@latest</div>
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

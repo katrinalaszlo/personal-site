@@ -21,7 +21,7 @@ The shift so far has been in research. You ask an agent something like "best usa
 
 But once the research is done, the experience reverts to what it's always been. You click through to vendor sites, sign up for a trial or book a demo, and pay with a credit card on a pricing page. [47% build business cases with AI](https://learn.g2.com/ai-search-surging-for-b2b-buyers) before engaging a vendor, but the engagement itself is still human-to-human.
 
-Even limited to research, agents are already changing outcomes. [69% of buyers end up with a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they planned. The agent doesn't just speed up research, it changes who gets selected.
+Even limited to research, agents are already changing outcomes. [69% of buyers end up with a different vendor](https://learn.g2.com/g2-2026-ai-search-insight-report) than they planned. That can change the shortlist, even before a buyer visits a vendor's site.
 
 And there are signs this is moving beyond discovery into other parts of the funnel. On acquisition, [agents are 80% of new signups at Netlify](https://danjcleary.substack.com/p/how-netlify-is-winning-the-age-of), up from near zero a year ago. On conversion, Stripe built an entire [Agentic Commerce Protocol](https://stripe.com/blog/developing-an-open-standard-for-agentic-commerce) for agents to select plans and process payments programmatically. And on operations, Cloudflare lets agents [create accounts and deploy apps](https://www.infoq.com/news/2026/05/cloudflare-stripe-agent-commerce/) end-to-end without a human touching a browser.
 
@@ -31,10 +31,10 @@ This progression felt familiar to me. I spent years optimizing self-serve funnel
 
 ![Funnel comparison: human experience vs agent experience at each stage](/blog/images/funnel-comparison.svg)
 
-The buyer's criteria don't necessarily change, but what constitutes a delightful, simple, well-designed experience does. A human needs a clean signup page, while an agent needs a `POST /signup` that returns an API key. Same goal, completely different interface. At each stage, there's a programmatic equivalent: `llms.txt` and `pricing.md` for discovery, MCP servers and agent-ready docs for activation, programmatic checkout for conversion.
+The buyer's criteria don't necessarily change. The interface does. A human needs a clean signup page, while an agent needs a `POST /signup` that returns an API key. Same goal, completely different interface. At each stage, there's a programmatic equivalent: `llms.txt` and `pricing.md` for discovery, MCP servers and agent-ready docs for activation, programmatic checkout for conversion.
 
 ## What's next
 
 If you run a B2B SaaS with self-serve signup, this series is for you. Each part goes deeper into the funnel and includes something you can run on your own product.
 
-Part 2, Is Your Site Ready for Agents?, looks at how agents find and evaluate your product, what they look for, and how to measure whether you're showing up, and it comes with a scanner you can run on your own site. Part 3, Onboarding Agents, covers what agent-ready onboarding, auth, purchasing, and account management actually require, along with an open-source skill to make your self-serve flow agent-accessible.
+Part 2, Is Your Site Ready for Agents?, covers how agents find and evaluate your product. It includes a scanner you can run on your own site. Part 3, Onboarding Agents, covers what agent-ready onboarding, auth, purchasing, and account management actually require, along with an open-source skill to make your self-serve flow agent-accessible.

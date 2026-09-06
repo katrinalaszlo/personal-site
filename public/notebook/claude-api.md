@@ -9,105 +9,87 @@ url: https://katrinalaszlo.com/notebook/claude-api
 
 > From Claude Code user to raw API caller
 
-  ## Three Ways to Use Claude
+## Three ways to use Claude
 
-  If you use Claude Code every day, you already know what Claude can do. But Claude Code is one of three surfaces. Each talks to the same models through different interfaces, with different tradeoffs.
+If you use Claude Code every day, you already know what Claude can do. But Claude Code is one of three surfaces. Each talks to the same models through different interfaces, with different tradeoffs.
 
-  
-    
-      ### Claude.ai / Desktop
+### Claude.ai / Desktop
 
-      The consumer chat interface. You type, Claude responds. Anthropic manages the conversation, context, and billing.
+The consumer chat interface. You type, Claude responds. Anthropic manages the conversation, context, and billing.
 
-      
+- No code required
 
-        - No code required
+- Flat monthly subscription
 
-        - Flat monthly subscription
+- No programmatic access
 
-        - No programmatic access
+### Claude Code
 
-      
+The agentic coding CLI. It reads your codebase, runs tools, edits files. Under the hood, it makes API calls on your behalf.
 
-    
-    
-      ### Claude Code
+- Manages conversation for you
 
-      The agentic coding CLI. It reads your codebase, runs tools, edits files. Under the hood, it makes API calls on your behalf.
+- Tool execution built in
 
-      
+- Pay-per-token (via API key)
 
-        - Manages conversation for you
+### The API
 
-        - Tool execution built in
+The raw HTTP endpoint. You send JSON, you get JSON back. You control everything: prompts, tools, context, retries.
 
-        - Pay-per-token (via API key)
+- Full control over every parameter
 
-      
+- Build any product on top
 
-    
-    
-      ### The API
+- Pay-per-token, you manage costs
 
-      The raw HTTP endpoint. You send JSON, you get JSON back. You control everything: prompts, tools, context, retries.
+> **When to use the API directly**
+Claude Code is an opinionated wrapper. The API is the raw material. You want the API when you're building a product that uses Claude (a chatbot, a classifier, a data pipeline), when you need precise control over system prompts and tool definitions, or when you want to integrate Claude into an existing application. If you're just coding, Claude Code is better. If you're building something that uses Claude as a component, you want the API.
 
-      
+## Authentication
 
-        - Full control over every parameter
+Everything starts with an API key from the [Anthropic Console](https://console.anthropic.com). The key goes in the `x-api-key` header on every request.
 
-        - Build any product on top
+### Raw HTTP
 
-        - Pay-per-token, you manage costs
-
-      
-
-    
-  
-
-  > 
-    **When to use the API directly**
-    Claude Code is an opinionated wrapper. The API is the raw material. You want the API when you're building a product that uses Claude (a chatbot, a classifier, a data pipeline), when you need precise control over system prompts and tool definitions, or when you want to integrate Claude into an existing application. If you're just coding, Claude Code is better. If you're building something that uses Claude as a component, you want the API.
-  
-
-  ## Authentication
-
-  Everything starts with an API key from the [Anthropic Console](https://console.anthropic.com). The key goes in the `x-api-key` header on every request.
-
-  ### Raw HTTP
-
-  curl https://api.anthropic.com/v1/messages \
+```
+curl https://api.anthropic.com/v1/messages \
   --header "x-api-key: $ANTHROPIC_API_KEY" \
   --header "anthropic-version: 2023-06-01" \
   --header "content-type: application/json" \
   --data '{ "model": "claude-sonnet-4-5-20241022", "max_tokens": 1024, "messages": [{"role": "user", "content": "Hello"}] }'
+```
 
-  ### With the SDKs
+### With the SDKs
 
-  Both SDKs read `ANTHROPIC_API_KEY` from your environment automatically. You never have to pass the key in code if the env var is set.
+Both SDKs read `ANTHROPIC_API_KEY` from your environment automatically. You never have to pass the key in code if the env var is set.
 
-  # Python
+```
+# Python
 import anthropic
 client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
 
 # Or pass it explicitly
 client = anthropic.Anthropic(api_key="sk-ant-...")
+```
 
-  // TypeScript
+```
+// TypeScript
 import Anthropic from "@anthropic-ai/sdk";
 const client = new Anthropic();  // reads ANTHROPIC_API_KEY from env
+```
 
-  > 
-    **Never commit API keys.**
-    Use environment variables or a secrets manager. The key has no scope restrictions. Anyone with it can make requests as you, at your cost. Rotate immediately if exposed.
-  
+> **Never commit API keys.**
+Use environment variables or a secrets manager. The key has no scope restrictions. Anyone with it can make requests as you, at your cost. Rotate immediately if exposed.
 
-  ## The Messages Endpoint
+## The Messages endpoint
 
-  The API has one core endpoint: `POST /v1/messages`. Every interaction with Claude goes through it. The API is stateless. There is no session, no memory, no conversation ID. You send the full conversation history every time.
+The API has one core endpoint: `POST /v1/messages`. Every interaction with Claude goes through it. The API is stateless. There is no session, no memory, no conversation ID. You send the full conversation history every time.
 
-  ### Minimal request
+### Minimal request
 
-  import anthropic
+```
+import anthropic
 
 client = anthropic.Anthropic()
 message = client.messages.create(
@@ -118,12 +100,14 @@ message = client.messages.create(
     ]
 )
 print(message.content[0].text)
+```
 
-  ### Multi-turn conversation
+### Multi-turn conversation
 
-  The API doesn't remember anything. You maintain the conversation by appending messages to the array and sending the whole thing back.
+The API doesn't remember anything. You maintain the conversation by appending messages to the array and sending the whole thing back.
 
-  messages = [
+```
+messages = [
     {"role": "user", "content": "What's the tallest mountain?"},
     {"role": "assistant", "content": "Mount Everest, at 8,849 meters."},
     {"role": "user", "content": "How long does it take to climb it?"}
@@ -134,12 +118,14 @@ message = client.messages.create(
     max_tokens=1024,
     messages=messages
 )
+```
 
-  ### System prompt
+### System prompt
 
-  The system prompt sets Claude's behavior. It's a top-level parameter, not a message in the array.
+The system prompt sets Claude's behavior. It's a top-level parameter, not a message in the array.
 
-  message = client.messages.create(
+```
+message = client.messages.create(
     model="claude-sonnet-4-5-20241022",
     max_tokens=1024,
     system="You are a senior backend engineer. Be concise. Use code examples.",
@@ -147,10 +133,12 @@ message = client.messages.create(
         {"role": "user", "content": "How do I handle rate limiting in a REST API?"}
     ]
 )
+```
 
-  ### The response object
+### The response object
 
-  # message.model_dump() returns something like:
+```
+# message.model_dump() returns something like:
 {
     "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
     "type": "message",
@@ -163,65 +151,50 @@ message = client.messages.create(
         "output_tokens": 10
     }
 }
+```
 
-  Key fields: `content` is always an array (it can contain text blocks and tool-use blocks). `stop_reason` tells you why Claude stopped: `"end_turn"` means it finished, `"max_tokens"` means you hit your limit, `"tool_use"` means it wants to call a tool. `usage` is how you track costs.
+Key fields: `content` is always an array (it can contain text blocks and tool-use blocks). `stop_reason` tells you why Claude stopped: `"end_turn"` means it finished, `"max_tokens"` means you hit your limit, `"tool_use"` means it wants to call a tool. `usage` is how you track costs.
 
-  ## Model Selection
+## Model Selection
 
-  Anthropic maintains three model tiers. Same architecture, different size-speed-cost tradeoffs. Pick the cheapest model that handles your task.
+Anthropic maintains three model tiers. Same architecture, different size-speed-cost tradeoffs. Pick the cheapest model that handles your task.
 
-  
-    
-      ### Opus
+### Opus
 
-      $5 / $25 per 1M tokens
-      1M context
-      Most capable. Complex reasoning, nuanced writing, multi-step analysis. Use when quality matters most and cost is secondary.
+$5 / $25 per 1M tokens
+1M context
+Most capable. Complex reasoning, nuanced writing, multi-step analysis. Use when quality matters most and cost is secondary.
 
-    
-    
-      ### Sonnet
+### Sonnet
 
-      $3 / $15 per 1M tokens
-      200K context
-      Best balance. Strong at coding, analysis, and general tasks. The workhorse for most applications.
+$3 / $15 per 1M tokens
+200K context
+Best balance. Strong at coding, analysis, and general tasks. The workhorse for most applications.
 
-    
-    
-      ### Haiku
+### Haiku
 
-      $1 / $5 per 1M tokens
-      200K context
-      Fastest, cheapest. Classification, extraction, simple Q&A. Use for high-volume, low-complexity tasks.
+$1 / $5 per 1M tokens
+200K context
+Fastest, cheapest. Classification, extraction, simple Q&A. Use for high-volume, low-complexity tasks.
 
-    
-  
+| Model ID | Tier | Context | Best for |
+| --- | --- | --- | --- |
+| `claude-opus-4-7-20250506` | Opus | 1M | Hardest problems, agentic tasks |
+| `claude-opus-4-6-20250414` | Opus | 1M | Complex reasoning, coding |
+| `claude-sonnet-4-5-20241022` | Sonnet | 200K | General-purpose workhorse |
+| `claude-haiku-4-5-20250414` | Haiku | 200K | High-volume, low-latency |
 
-  
+> **Practical model selection**
+Start with Sonnet. If the output quality isn't sufficient, move up to Opus. If Sonnet is overkill (simple classification, yes/no decisions), move down to Haiku. Most production systems use Sonnet for the main path and Haiku for preprocessing or routing.
 
-    | | `claude-opus-4-7-20250506` | Opus | 1M | Hardest problems, agentic tasks |
+## Streaming
 
-      | `claude-opus-4-6-20250414` | Opus | 1M | Complex reasoning, coding |
+By default, the API waits until Claude finishes the entire response before returning. For anything user-facing, you want streaming: tokens arrive as they're generated, so the user sees text appearing in real time.
 
-      | `claude-sonnet-4-5-20241022` | Sonnet | 200K | General-purpose workhorse |
+### Python streaming
 
-      | `claude-haiku-4-5-20250414` | Haiku | 200K | High-volume, low-latency |
-
-    
-  
-
-  > 
-    **Practical model selection**
-    Start with Sonnet. If the output quality isn't sufficient, move up to Opus. If Sonnet is overkill (simple classification, yes/no decisions), move down to Haiku. Most production systems use Sonnet for the main path and Haiku for preprocessing or routing.
-  
-
-  ## Streaming
-
-  By default, the API waits until Claude finishes the entire response before returning. For anything user-facing, you want streaming: tokens arrive as they're generated, so the user sees text appearing in real time.
-
-  ### Python streaming
-
-  with client.messages.stream(
+```
+with client.messages.stream(
     model="claude-sonnet-4-5-20241022",
     max_tokens=1024,
     messages=[{"role": "user", "content": "Explain TCP handshake"}]
@@ -232,10 +205,12 @@ message = client.messages.create(
 # After the stream ends, get the full message
 final = stream.get_final_message()
 print(f"\n\nTokens used: {final.usage.input_tokens} in, {final.usage.output_tokens} out")
+```
 
-  ### TypeScript streaming
+### TypeScript streaming
 
-  const stream = client.messages.stream({
+```
+const stream = client.messages.stream({
   model: "claude-sonnet-4-5-20241022",
   max_tokens: 1024,
   messages: [{ role: "user", content: "Explain TCP handshake" }],
@@ -249,62 +224,47 @@ for await (const event of stream) {
 
 const final = await stream.finalMessage();
 console.log(`\nTokens: ${final.usage.input_tokens} in, ${final.usage.output_tokens} out`);
+```
 
-  Under the hood, streaming uses Server-Sent Events (SSE). The SDK handles the connection management. Each event has a type: `message_start`, `content_block_start`, `content_block_delta` (the actual tokens), `content_block_stop`, `message_stop`.
+Under the hood, streaming uses Server-Sent Events (SSE). The SDK handles the connection management. Each event has a type: `message_start`, `content_block_start`, `content_block_delta` (the actual tokens), `content_block_stop`, `message_stop`.
 
-  > 
-    **Always stream for user-facing apps.**
-    A non-streaming request for a long response can take 10-30 seconds of silence before anything appears. Streaming gives perceived latency under 1 second. The total time is the same, but the user experience is dramatically better.
-  
+> **Always stream for user-facing apps.**
+A non-streaming request for a long response can take 10-30 seconds of silence before anything appears. Streaming gives perceived latency under 1 second. The total time is the same, but the user experience is dramatically better.
 
-  ## Tool Use (Function Calling)
+## Tool Use (Function Calling)
 
-  This is how Claude Code works under the hood. You define tools (functions) with names, descriptions, and input schemas. Claude decides when to call them and returns structured arguments. You execute the function and feed the result back.
+This is how Claude Code works under the hood. You define tools (functions) with names, descriptions, and input schemas. Claude decides when to call them and returns structured arguments. You execute the function and feed the result back.
 
-  ### The tool-use loop
+### The tool-use loop
 
-  
-    
-      1
-      
-        ### Define tools + send message
+1
 
-        You describe available tools with JSON Schema. Claude sees the descriptions and decides whether to use them.
+### Define tools + send message
 
-      
-    
-    
-      2
-      
-        ### Claude returns a tool_use block
+You describe available tools with JSON Schema. Claude sees the descriptions and decides whether to use them.
 
-        Instead of (or alongside) text, the response contains a tool call with structured input. `stop_reason` will be `"tool_use"`.
+2
 
-      
-    
-    
-      3
-      
-        ### You execute the function
+### Claude returns a tool_use block
 
-        Your code runs the actual function with the provided arguments. This happens on your side, not Anthropic's.
+Instead of (or alongside) text, the response contains a tool call with structured input. `stop_reason` will be `"tool_use"`.
 
-      
-    
-    
-      4
-      
-        ### Send the result back
+3
 
-        You add the tool result to the messages array and call the API again. Claude uses the result to formulate its final answer.
+### You execute the function
 
-      
-    
-  
+Your code runs the actual function with the provided arguments. This happens on your side, not Anthropic's.
 
-  ### Full example: weather tool
+4
 
-  import anthropic, json
+### Send the result back
+
+You add the tool result to the messages array and call the API again. Claude uses the result to formulate its final answer.
+
+### Full example: weather tool
+
+```
+import anthropic, json
 
 client = anthropic.Anthropic()
 
@@ -352,35 +312,31 @@ if response.stop_reason == "tool_use":
         ]
     )
     print(followup.content[0].text)
+```
 
-  The `tool_choice` parameter controls when Claude uses tools:
+The `tool_choice` parameter controls when Claude uses tools:
 
-  
+- `{"type": "auto"}` -- Claude decides (default)
 
-    - `{"type": "auto"}` -- Claude decides (default)
+- `{"type": "any"}` -- Claude must call at least one tool
 
-    - `{"type": "any"}` -- Claude must call at least one tool
+- `{"type": "tool", "name": "get_weather"}` -- force a specific tool
 
-    - `{"type": "tool", "name": "get_weather"}` -- force a specific tool
+- `{"type": "none"}` -- disable tools for this call
 
-    - `{"type": "none"}` -- disable tools for this call
+> **This is exactly what Claude Code does.**
+Claude Code defines tools like `Read`, `Edit`, `Bash`, and `Write`. When you ask it to fix a bug, it calls the API with those tool definitions. Claude responds with tool_use blocks. Claude Code executes them (reads files, runs commands) and sends results back. The loop continues until Claude stops calling tools. You're building the same loop when you use the API directly.
 
-  
+## Prompt caching
 
-  > 
-    **This is exactly what Claude Code does.**
-    Claude Code defines tools like `Read`, `Edit`, `Bash`, and `Write`. When you ask it to fix a bug, it calls the API with those tool definitions. Claude responds with tool_use blocks. Claude Code executes them (reads files, runs commands) and sends results back. The loop continues until Claude stops calling tools. You're building the same loop when you use the API directly.
-  
+Prompt caching reduces the cost of repeated input. If you send the same system prompt or context on each request, cached reads cost 10% of the normal input price.
 
-  ## Prompt Caching
+### How it works
 
-  Prompt caching is the single most impactful cost optimization. If you send the same system prompt or context on every request, you're paying full input price every time. With caching, the repeated prefix is stored and reused at 10% of the input cost.
+Mark content blocks with `cache_control` to tell the API to cache them. On subsequent requests with the same prefix, cached tokens are read from cache instead of reprocessed.
 
-  ### How it works
-
-  Mark content blocks with `cache_control` to tell the API to cache them. On subsequent requests with the same prefix, cached tokens are read from cache instead of reprocessed.
-
-  response = client.messages.create(
+```
+response = client.messages.create(
     model="claude-sonnet-4-5-20241022",
     max_tokens=1024,
     system=[{
@@ -390,53 +346,44 @@ if response.stop_reason == "tool_use":
     }],
     messages=[{"role": "user", "content": "Review clause 4.2 of this agreement."}]
 )
+```
 
-  ### Cost breakdown
+### Cost breakdown
 
-  
-    
-      Uncached input
-      $3.00 / 1M tokens
-    
-    
-      Cache write (first)
-      $3.75 / 1M (1.25x)
-    
-    
-      Cache read (reuse)
-      $0.30 / 1M (0.1x)
-    
-  
-  Prices shown for Sonnet. Same ratios apply across all models.
+Uncached input
+$3.00 / 1M tokens
 
-  ### Cache rules
+Cache write (first)
+$3.75 / 1M (1.25x)
 
-  
+Cache read (reuse)
+$0.30 / 1M (0.1x)
 
-    - Minimum cache lifetime: 5 minutes (standard) or 60 minutes (extended, at 2x write cost)
+Prices shown for Sonnet. Same ratios apply across all models.
 
-    - Caching works on system prompts, tool definitions, and message content
+### Cache rules
 
-    - Claude reads from the longest previously cached prefix automatically
+- Minimum cache lifetime: 5 minutes (standard) or 60 minutes (extended, at 2x write cost)
 
-    - Cached content must be at the beginning of the prompt (system prompt, then tools, then early messages)
+- Caching works on system prompts, tool definitions, and message content
 
-    - Cache read tokens don't count against your input tokens per minute (ITPM) rate limit
+- Claude reads from the longest previously cached prefix automatically
 
-  
+- Cached content must be at the beginning of the prompt (system prompt, then tools, then early messages)
 
-  > 
-    **When caching saves real money**
-    If your system prompt is 4,000 tokens and you make 1,000 requests/day: without caching, that's 4M input tokens/day just for the system prompt. With caching, the first request costs 1.25x, but the remaining 999 cost 0.1x each. You go from ~$12/day to ~$1.20/day on system prompt alone. The savings grow linearly with request volume and prompt length.
-  
+- Cache read tokens don't count against your input tokens per minute (ITPM) rate limit
 
-  ## Extended Thinking
+> **When caching saves real money**
+If your system prompt is 4,000 tokens and you make 1,000 requests/day: without caching, that's 4M input tokens/day just for the system prompt. With caching, the first request costs 1.25x, but the remaining 999 cost 0.1x each. You go from ~$12/day to ~$1.20/day on system prompt alone. The savings grow linearly with request volume and prompt length.
 
-  Extended thinking lets Claude reason through a problem step by step before responding. The thinking process is visible in the response but billed as output tokens. This improves quality on hard problems: math, logic, multi-step analysis, code architecture.
+## Extended thinking
 
-  ### Adaptive thinking (current approach)
+Extended thinking lets Claude reason through a problem step by step before responding. The thinking process is visible in the response but billed as output tokens. This improves quality on hard problems: math, logic, multi-step analysis, code architecture.
 
-  response = client.messages.create(
+### Adaptive thinking (current approach)
+
+```
+response = client.messages.create(
     model="claude-opus-4-7-20250506",
     max_tokens=16000,
     thinking={
@@ -452,30 +399,32 @@ for block in response.content:
         print(f"Thinking ({len(block.thinking)} chars): {block.thinking[:200]}...")
     elif block.type == "text":
         print(f"Response: {block.text}")
+```
 
-  On Opus 4.6+ and Sonnet 4.6+, you can also use adaptive thinking, where Claude decides how much to think based on query complexity:
+On Opus 4.6+ and Sonnet 4.6+, you can also use adaptive thinking, where Claude decides how much to think based on query complexity:
 
-  response = client.messages.create(
+```
+response = client.messages.create(
     model="claude-opus-4-7-20250506",
     max_tokens=16000,
     thinking={"type": "adaptive"},  # Claude calibrates thinking depth
     messages=[{"role": "user", "content": "What's 2+2?"}]  # simple query = minimal thinking
 )
+```
 
-  > 
-    **Thinking tokens are billed as output tokens.**
-    A `budget_tokens` of 10,000 on Opus means up to $0.25 in thinking alone per request. For high-volume applications, start with a small budget and increase only if quality needs it. Adaptive thinking helps because Claude won't waste tokens thinking about simple questions.
-  
+> **Thinking tokens are billed as output tokens.**
+A `budget_tokens` of 10,000 on Opus means up to $0.25 in thinking alone per request. For high-volume applications, start with a small budget and increase only if quality needs it. Adaptive thinking helps because Claude won't waste tokens thinking about simple questions.
 
-  ## Structured Output
+## Structured output
 
-  Two ways to get structured data out of Claude: the `tool` trick, or native structured output.
+Two ways to get structured data out of Claude: the `tool` trick, or native structured output.
 
-  ### The tool trick (works everywhere)
+### The tool trick (works everywhere)
 
-  Define a "tool" that's really just a schema. Force Claude to call it. The tool input is your structured data.
+Define a "tool" that's really just a schema. Force Claude to call it. The tool input is your structured data.
 
-  response = client.messages.create(
+```
+response = client.messages.create(
     model="claude-sonnet-4-5-20241022",
     max_tokens=1024,
     tools=[{
@@ -497,12 +446,14 @@ for block in response.content:
 
 tool_block = response.content[0]
 contact = tool_block.input  # {"name": "John Smith", "email": "john@example.com", "phone": "555-0123"}
+```
 
-  ### Native structured output
+### Native structured output
 
-  For newer models, you can use `output_config.format` to get schema-validated JSON directly without the tool workaround.
+For newer models, you can use `output_config.format` to get schema-validated JSON directly without the tool workaround.
 
-  response = client.messages.create(
+```
+response = client.messages.create(
     model="claude-sonnet-4-5-20241022",
     max_tokens=1024,
     output_config={
@@ -520,14 +471,16 @@ contact = tool_block.input  # {"name": "John Smith", "email": "john@example.com"
     },
     messages=[{"role": "user", "content": "This product is amazing, best purchase I've made!"}]
 )
+```
 
-  ## Common Patterns
+## Common patterns
 
-  ### Pattern 1: Agentic loop
+### Pattern 1: Agentic loop
 
-  The fundamental pattern behind Claude Code and every AI agent. Keep calling the API until Claude stops requesting tools.
+The fundamental pattern behind Claude Code and every AI agent. Keep calling the API until Claude stops requesting tools.
 
-  def run_agent(user_message, tools, system_prompt):
+```
+def run_agent(user_message, tools, system_prompt):
     messages = [{"role": "user", "content": user_message}]
 
     while True:
@@ -559,12 +512,14 @@ contact = tool_block.input  # {"name": "John Smith", "email": "john@example.com"
 
         # Feed results back
         messages.append({"role": "user", "content": tool_results})
+```
 
-  ### Pattern 2: Classification pipeline
+### Pattern 2: Classification pipeline
 
-  Use Haiku for cheap, fast classification. Force a tool call to guarantee structured output.
+Use Haiku for cheap, fast classification. Force a tool call to guarantee structured output.
 
-  def classify_ticket(text):
+```
+def classify_ticket(text):
     response = client.messages.create(
         model="claude-haiku-4-5-20250414",   # cheap and fast
         max_tokens=256,
@@ -585,12 +540,14 @@ contact = tool_block.input  # {"name": "John Smith", "email": "john@example.com"
         messages=[{"role": "user", "content": text}]
     )
     return response.content[0].input
+```
 
-  ### Pattern 3: Batch processing
+### Pattern 3: Batch processing
 
-  For non-time-sensitive work (analytics, bulk classification, content generation), the Message Batches API gives 50% cost savings. You submit a batch of requests, and results are available within 24 hours.
+For non-time-sensitive work (analytics, bulk classification, content generation), the Message Batches API gives 50% cost savings. You submit a batch of requests, and results are available within 24 hours.
 
-  # Submit a batch
+```
+# Submit a batch
 batch = client.messages.batches.create(
     requests=[
         {
@@ -609,64 +566,58 @@ batch = client.messages.batches.create(
 while batch.processing_status != "ended":
     batch = client.messages.batches.retrieve(batch.id)
     time.sleep(60)
+```
 
-  ## Cost Awareness
+## Tracking cost
 
-  Every API call returns `usage.input_tokens` and `usage.output_tokens`. Track them. A runaway agentic loop or an accidentally large context can burn through budget fast.
+Every API call returns `usage.input_tokens` and `usage.output_tokens`. Track them. A runaway agentic loop or an accidentally large context can burn through budget fast.
 
-  ### Cost per request (Sonnet, no caching)
+### Cost per request (Sonnet, no caching)
 
-  
+| Scenario | Input tokens | Output tokens | Cost |
+| --- | --- | --- | --- |
+| Simple question | ~100 | ~200 | $0.003 |
+| Code review (1 file) | ~2,000 | ~500 | $0.014 |
+| Full codebase context | ~50,000 | ~1,000 | $0.165 |
+| Agentic loop (10 turns) | ~100,000 | ~10,000 | $0.450 |
 
-    | | Simple question | ~100 | ~200 | $0.003 |
+### Cost reduction strategies
 
-      | Code review (1 file) | ~2,000 | ~500 | $0.014 |
+- **Prompt caching:** up to 90% savings on repeated context (system prompts, tool defs, documents)
 
-      | Full codebase context | ~50,000 | ~1,000 | $0.165 |
+- **Batch API:** 50% savings for non-real-time work
 
-      | Agentic loop (10 turns) | ~100,000 | ~10,000 | $0.450 |
+- **Model selection:** Haiku is 3x cheaper than Sonnet input, 3x cheaper output
 
-    
-  
+- **Shorter prompts:** Every token in your system prompt is charged on every request (unless cached)
 
-  ### Cost reduction strategies
+- **Max tokens:** Set `max_tokens` to the minimum you need. Don't default to 4096 for a yes/no question
 
-  
+- **Token counting:** Use `client.messages.count_tokens()` before sending to estimate cost
 
-    - **Prompt caching:** up to 90% savings on repeated context (system prompts, tool defs, documents)
+> **The agentic loop cost trap.**
+In an agentic loop, each turn resends the entire conversation. By turn 10, you're sending all previous messages plus all previous tool results plus all previous Claude responses as input. Context grows quadratically. Set a maximum turn count. Summarize or truncate history when it gets long. Use prompt caching so at least the system prompt and tool definitions aren't re-charged at full price.
 
-    - **Batch API:** 50% savings for non-real-time work
+## SDK installation
 
-    - **Model selection:** Haiku is 3x cheaper than Sonnet input, 3x cheaper output
+### Python
 
-    - **Shorter prompts:** Every token in your system prompt is charged on every request (unless cached)
+```
+pip install anthropic
+```
 
-    - **Max tokens:** Set `max_tokens` to the minimum you need. Don't default to 4096 for a yes/no question
+### TypeScript / Node.js
 
-    - **Token counting:** Use `client.messages.count_tokens()` before sending to estimate cost
+```
+npm install @anthropic-ai/sdk
+```
 
-  
+Both SDKs are thin wrappers over the HTTP API. They handle authentication, retries, streaming, and type safety. The Python SDK uses Pydantic models. The TypeScript SDK is fully typed.
 
-  > 
-    **The agentic loop cost trap.**
-    In an agentic loop, each turn resends the entire conversation. By turn 10, you're sending all previous messages plus all previous tool results plus all previous Claude responses as input. Context grows quadratically. Set a maximum turn count. Summarize or truncate history when it gets long. Use prompt caching so at least the system prompt and tool definitions aren't re-charged at full price.
-  
+### TypeScript: full example
 
-  ## SDK Installation
-
-  ### Python
-
-  pip install anthropic
-
-  ### TypeScript / Node.js
-
-  npm install @anthropic-ai/sdk
-
-  Both SDKs are thin wrappers over the HTTP API. They handle authentication, retries, streaming, and type safety. The Python SDK uses Pydantic models. The TypeScript SDK is fully typed.
-
-  ### TypeScript: full example
-
-  import Anthropic from "@anthropic-ai/sdk";
+```
+import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic();
 
@@ -688,67 +639,46 @@ async function main() {
 }
 
 main();
+```
 
-  ## Quick Reference
+## Quick reference
 
-  
+| Parameter | Required | What it does |
+| --- | --- | --- |
+| `model` | Yes | Which Claude model to use |
+| `max_tokens` | Yes | Maximum output tokens (caps cost + length) |
+| `messages` | Yes | The conversation history array |
+| `system` | No | System prompt (string or content blocks with caching) |
+| `tools` | No | Array of tool definitions |
+| `tool_choice` | No | Control tool calling (auto, any, specific, none) |
+| `stream` | No | Enable SSE streaming (SDKs have `.stream()`) |
+| `thinking` | No | Enable extended/adaptive thinking |
+| `temperature` | No | Randomness (0.0-1.0, default 1.0) |
+| `output_config` | No | Structured output format (JSON schema) |
 
-    | | `model` | Yes | Which Claude model to use |
+### Stop reasons
 
-      | `max_tokens` | Yes | Maximum output tokens (caps cost + length) |
+| stop_reason | Meaning | Action |
+| --- | --- | --- |
+| `end_turn` | Claude finished normally | Read the response |
+| `tool_use` | Claude wants to call a tool | Execute tool, send result back |
+| `max_tokens` | Hit the output limit | Increase max_tokens or handle truncation |
+| `stop_sequence` | Hit a custom stop sequence | Process partial response |
 
-      | `messages` | Yes | The conversation history array |
+## From Claude Code User to API Builder
 
-      | `system` | No | System prompt (string or content blocks with caching) |
+Claude Code manages files, tools, and conversation state for you. With the API, your application handles those pieces: send messages, receive text or tool calls, execute the requested tools, and send back their results.
 
-      | `tools` | No | Array of tool definitions |
+Start with the simplest possible thing: a single `messages.create()` call. Get that working. Then add a system prompt. Then add a tool. Then add streaming. Then add prompt caching. Each layer is independent. You don't need all of them at once.
 
-      | `tool_choice` | No | Control tool calling (auto, any, specific, none) |
+- **Day 1:** Install SDK, make one API call, print the response
 
-      | `stream` | No | Enable SSE streaming (SDKs have `.stream()`) |
+- **Day 2:** Add a system prompt, build a multi-turn conversation loop
 
-      | `thinking` | No | Enable extended/adaptive thinking |
+- **Day 3:** Define a tool, implement the tool-use loop
 
-      | `temperature` | No | Randomness (0.0-1.0, default 1.0) |
+- **Day 4:** Add streaming for real-time output
 
-      | `output_config` | No | Structured output format (JSON schema) |
+- **Day 5:** Add prompt caching, monitor costs with `usage` fields
 
-    
-  
-
-  ### Stop reasons
-
-  
-
-    | | `end_turn` | Claude finished normally | Read the response |
-
-      | `tool_use` | Claude wants to call a tool | Execute tool, send result back |
-
-      | `max_tokens` | Hit the output limit | Increase max_tokens or handle truncation |
-
-      | `stop_sequence` | Hit a custom stop sequence | Process partial response |
-
-    
-  
-
-  ## From Claude Code User to API Builder
-
-  The mental model shift is small. In Claude Code, you type a prompt and the system handles everything: reading files, running tools, managing conversation state. With the API, you do all of that yourself. But the core interaction is identical: you send messages, Claude responds with text or tool calls, you handle the results.
-
-  Start with the simplest possible thing: a single `messages.create()` call. Get that working. Then add a system prompt. Then add a tool. Then add streaming. Then add prompt caching. Each layer is independent. You don't need all of them at once.
-
-  
-
-    - **Day 1:** Install SDK, make one API call, print the response
-
-    - **Day 2:** Add a system prompt, build a multi-turn conversation loop
-
-    - **Day 3:** Define a tool, implement the tool-use loop
-
-    - **Day 4:** Add streaming for real-time output
-
-    - **Day 5:** Add prompt caching, monitor costs with `usage` fields
-
-  
-
-  The API docs live at [docs.anthropic.com](https://docs.anthropic.com). The Python SDK is on [GitHub](https://github.com/anthropics/anthropic-sdk-python). The TypeScript SDK is at [anthropic-sdk-typescript](https://github.com/anthropics/anthropic-sdk-typescript).
+The API docs live at [docs.anthropic.com](https://docs.anthropic.com). The Python SDK is on [GitHub](https://github.com/anthropics/anthropic-sdk-python). The TypeScript SDK is at [anthropic-sdk-typescript](https://github.com/anthropics/anthropic-sdk-typescript).

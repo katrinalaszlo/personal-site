@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"The AX Pattern Library","description":"Design patterns for software that agents use. Four patterns for instruction files, documentation, tool interfaces, and access control, every one mapped to documented, named failures.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/ax-pattern-library"}}
 </script>
@@ -86,15 +86,15 @@
 <main>
 
 <h1>The AX Pattern Library</h1>
-<p class="subtitle">Design patterns for software that agents use. v1: four patterns for instruction files, documentation, tool interfaces, and access control. Every pattern maps to documented, named failures. None of them are engineering problems.</p>
+<p class="subtitle">Design patterns for software that agents use. v1: four patterns for instruction files, documentation, tool interfaces, and access control. Each pattern starts with a documented failure and asks what a design change could improve.</p>
 
 <!-- THE THESIS -->
 <section>
   <h2>The thesis</h2>
-  <p>When an agent fails on your product, the instinct is to search for the engineering fix: a better template, a newer SDK. But the failures follow the same arc every time, and the missing discipline is UX methodology applied to non-human users.</p>
+  <p>When an agent fails on your product, a new SDK or template may not address what went wrong. The incidents below also involve design: what the agent reads first, how it chooses a tool, and whether it understands its permissions.</p>
   <div class="arc">
     <div><b>Build</b> Developer ships something that technically works.</div>
-    <div><b>Fail</b> An agent uses it and fails. Not broken, just not designed for how agents read.</div>
+    <div><b>Fail</b> An agent uses it and fails. The interface gives it too little guidance about what to do.</div>
     <div><b>Search</b> Developer looks for engineering fixes: "MCP best practices," "CLAUDE.md template."</div>
     <div><b>Stuck</b> The answers don't solve it, because the problem is design.</div>
   </div>
@@ -208,7 +208,7 @@ service.ts. Copy segments/ as the template.</pre>
   <span class="lbl break">The break</span>
   <p>Agent access is binary: blocked entirely, or unrestricted. The result is a documented incident class: a $500M monthly Claude bill at one enterprise, Uber's annual AI budget gone in four months, a $47,000 two-agent loop that ping-ponged for eleven days because no per-agent ceiling existed. The opposite failure is just as real: <strong>permission fatigue</strong>, agents that ask approval for every step until users click "allow" blindly. A satirical game about exactly this hit the Hacker News front page.</p>
   <span class="lbl reframe">The reframe</span>
-  <p>Scoped capability is <strong>product UX, not a security afterthought</strong>. A well-designed boundary is what lets an agent act confidently, and lets its human delegate without watching. The industry term forming for this is <strong>progressive delegation</strong>: the user's approval history sets the pace of autonomy, so the agent earns permission through demonstrated reliability instead of demanding it upfront. With only 6% of companies fully trusting agents against 40% projected enterprise adoption, this is the design problem of the next two years.</p>
+  <p>Scoped capability is <strong>product UX, not a security afterthought</strong>. A well-designed boundary is what lets an agent act confidently, and lets its human delegate without watching. The industry term forming for this is <strong>progressive delegation</strong>: the user's approval history sets the pace of autonomy, so the agent earns permission through demonstrated reliability instead of demanding it upfront. The gap between 6% of companies fully trusting agents and 40% projected enterprise adoption makes those boundaries worth testing.</p>
   <span class="lbl practice">The practice</span>
   <ul class="practice-list">
     <li><b>Per-agent, per-session budgets by default.</b> Vercel ships a $200 default budget with agent deploys; default-unlimited is a design decision too, a bad one.</li>
@@ -228,7 +228,7 @@ service.ts. Copy segments/ as the template.</pre>
 <!-- WORKED EXAMPLE -->
 <section>
   <h2>A worked example, caught live</h2>
-  <div class="warning"><strong>Divergent surfaces.</strong> While preparing this library I audited my own product's site, one I'd already made agent-readable (llms.txt, AGENTS.md, MCP discovery, agent auth). The human page and the agent page disagreed: the llms.txt still described the previous product, with prices 3x higher than the live pricing table. An agent comparing vendors for its human would have read the wrong product at the wrong price, and the page "worked" the whole time. The durable fix is generating every surface from one source of truth so they <em>can't</em> diverge. If it happened on the site of someone who studies this full-time, it's happening on yours.</div>
+  <div class="warning"><strong>Divergent surfaces.</strong> While preparing this library I audited my own product's site, one I'd already made agent-readable (llms.txt, AGENTS.md, MCP discovery, agent auth). The human page and the agent page disagreed: the llms.txt still described the previous product, with prices 3x higher than the live pricing table. An agent comparing vendors for its human would have read the wrong product at the wrong price, and the page "worked" the whole time. The durable fix is generating every surface from one source of truth so they <em>can't</em> diverge. I study this full-time and still missed it on my own site.</div>
 </section>
 
 <!-- WHY THIS LIBRARY -->
@@ -244,7 +244,7 @@ service.ts. Copy segments/ as the template.</pre>
       <tr><td>Amazon</td><td>Three zones of delegation plus coordination curves</td><td>Describes the handoff, doesn't teach the design</td></tr>
     </tbody>
   </table>
-  <div class="connection"><strong>The whitespace:</strong> every agentic guide covers architecture with zero UX methodology, and every MCP tutorial teaches <em>how to build</em>, never <em>how to design</em>. The bridge between "tools are badly designed" and "here's the design practice" doesn't exist as content. This library is that bridge, written by someone who has shipped UX for humans, DX for developers, and now AX for agents.</div>
+  <div class="connection">These guides leave room for a practical design process: observe an agent attempting a task, find where it gets confused, and test a change. That is the work I want this library to support.</div>
   <p class="dim">v1 covers the surfaces agents <em>consume</em>. Two directions are next: the supervision surfaces (planning visibility, tool-use disclosure, memory surfacing, workflow tracking, recovery routing, documented across the field, productized by nobody) and pricing pages agents can read. If you're building either, I want to hear about it.</p>
 </section>
 
@@ -254,6 +254,6 @@ service.ts. Copy segments/ as the template.</pre>
 
 </main>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 </body>
 </html>

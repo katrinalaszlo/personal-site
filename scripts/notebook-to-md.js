@@ -23,6 +23,28 @@ function htmlToMd(html) {
   content = content.replace(/<script[\s\S]*?<\/script>/g, "");
   content = content.replace(/<style[\s\S]*?<\/style>/g, "");
 
+  // Protect examples before stripping layout tags or converting headings.
+  const examples = [];
+  content = content.replace(
+    /<pre\b[^>]*>([\s\S]*?)<\/pre>|<div class="code-block"[^>]*>([\s\S]*?)<\/div>/g,
+    (_, pre, block) => {
+      const code = (pre ?? block)
+        .replace(/<[^>]*>/g, "")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&amp;/g, "&");
+      const key = `NOTEBOOK_CODE_${examples.length}_END`;
+      examples.push(code.trim());
+      return `\n\n${key}\n\n`;
+    },
+  );
+  content = content.replace(
+    /<span class="pat-no">([^<]+)<\/span>\s*<h2>([^<]+)<\/h2>/g,
+    "<h2>$1: $2</h2>",
+  );
+  content = content.replace(/<summary[^>]*>([\s\S]*?)<\/summary>/g, "<h3>$1</h3>");
+  content = content.replace(/<\/?details[^>]*>/g, "\n");
+
   // Must run before heading/paragraph conversion: the handler looks for raw <h3>/<p> tags.
   content = content.replace(
     /<div class="principle-item">([\s\S]*?)<\/div>\s*<\/div>/g,
@@ -61,7 +83,7 @@ function htmlToMd(html) {
 
   content = content.replace(/<thead>[\s\S]*?<\/thead>/g, (match) => {
     const cells = [];
-    match.replace(/<th[^>]*>([\s\S]*?)<\/th>/g, (_, cell) => {
+    match.replace(/<th\b[^>]*>([\s\S]*?)<\/th>/g, (_, cell) => {
       cells.push(cell.trim());
     });
     if (!cells.length) return "";
@@ -75,7 +97,7 @@ function htmlToMd(html) {
   });
   content = content.replace(/<tr[^>]*>([\s\S]*?)<\/tr>/g, (_, row) => {
     const cells = [];
-    row.replace(/<td[^>]*>([\s\S]*?)<\/td>/g, (_, cell) => {
+    row.replace(/<td\b[^>]*>([\s\S]*?)<\/td>/g, (_, cell) => {
       cells.push(cell.trim());
     });
     if (!cells.length) return "";
@@ -89,6 +111,8 @@ function htmlToMd(html) {
 
   content = content.replace(/<strong>([\s\S]*?)<\/strong>/g, "**$1**");
   content = content.replace(/<em>([\s\S]*?)<\/em>/g, "*$1*");
+  content = content.replace(/<b>([\s\S]*?)<\/b>/g, "**$1**");
+  content = content.replace(/<i>([\s\S]*?)<\/i>/g, "*$1*");
   content = content.replace(
     /<a href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g,
     "[$2]($1)",
@@ -143,11 +167,21 @@ function htmlToMd(html) {
   content = content.replace(/&nbsp;/g, " ");
   content = content.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(n));
 
+  content = content.split("\n").map((line) => line.trim()).join("\n");
+  content = content.replace(/^>\s*\n\s*/gm, "> ");
+  content = content.replace(/(\|[^\n]*\|)\n\s*\n(?=\|)/g, "$1\n");
   content = content.replace(/\n{3,}/g, "\n\n");
+  content = content.replace(/NOTEBOOK_CODE_(\d+)_END/g, (_, index) => {
+    const code = examples[Number(index)];
+    const longestFence = Math.max(2, ...(code.match(/`+/g) || []).map((run) => run.length));
+    const fence = "`".repeat(longestFence + 1);
+    return `${fence}\n${code}\n${fence}`;
+  });
   content = content.trim();
   return content;
 }
 
+function buildNotebook() {
 const htmlFiles = fs
   .readdirSync(NOTEBOOK_DIR)
   .filter((f) => f.endsWith(".html") && f !== "index.html");
@@ -174,3 +208,8 @@ ${body}
 });
 
 console.log("Done.");
+
+}
+
+if (require.main === module) buildNotebook();
+module.exports = { htmlToMd, extractMeta };

@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Agent-Readable Sites","description":"How to make your website readable and usable by AI agents. Standards, scoring, and practical steps: llms.txt, AgentReady, markdown negotiation, self-serve for agents.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/agent-readable-sites"}}
 </script>
@@ -100,12 +100,12 @@
 <!-- PART 1: THE PROBLEM -->
 <section>
   <span class="section-num">PART 1</span>
-  <h2>The Invisible Half</h2>
+  <h2>What agents can read</h2>
   <p class="subtitle">Your site has two audiences now. One of them can't see your CSS.</p>
 
-  <p>For 30 years, websites were designed for human eyes and clicks. AI agents are now reading, deciding, and acting on sites. They don't care about your hero section, your beautiful typography, or your "trusted by 10,000 companies" social proof. They parse structure. They need machine-readable data. Your site either gives them what they need or it doesn't exist to them.</p>
+  <p>Agents need to extract product information and find actions they can take. Clear structure and machine-readable data help them do that, even when they can't use the page's visual cues.</p>
 
-  <p>This is not a future prediction. Netlify reports 96% of new signups come via AI tools. Vercel says 30% of deployments are agent-initiated. If your site is invisible to agents, you are invisible to a growing share of your market.</p>
+  <p>Netlify reports 96% of new signups come via AI tools. Vercel says 30% of deployments are agent-initiated. For developer tools, this is already a use case worth testing.</p>
 
   <div class="analogy">
     <strong>The SEO parallel:</strong> In 2005, companies optimized for Google crawlers: structured data, sitemaps, meta tags. The same shift is happening now for AI agents, but the requirements are different. Google needed links and keywords. Agents need structured context, clean APIs, and machine-readable documentation. The industry calls this AI Visibility Optimization (AVIO) or Generative Engine Optimization (GEO).
@@ -126,7 +126,7 @@
 <!-- PART 2: THE STANDARDS -->
 <section>
   <span class="section-num">PART 2</span>
-  <h2>The Standards Stack</h2>
+  <h2>Standards and discovery files</h2>
   <p class="subtitle">Four layers of agent readiness, from basic discoverability to full capability exposure.</p>
 
   <h3>llms.txt</h3>
@@ -154,7 +154,7 @@ Pricing: https://acme.com/pricing.md</div>
   <p>Model Context Protocol servers expose your product's capabilities as structured tools that agents can discover and invoke. An MCP Server Card is metadata that describes what your MCP server offers: available tools, authentication requirements, rate limits. It makes your API surface discoverable without the agent having to read documentation first.</p>
 
   <div class="connection">
-    <strong>The full stack:</strong> llms.txt for discovery. AGENTS.md for project context. Markdown negotiation for content access. MCP Server Cards for capability exposure. Each layer builds on the previous one. You don't need all four to start. Even llms.txt alone moves you from invisible to discoverable.
+    <strong>The full stack:</strong> llms.txt for discovery. AGENTS.md for project context. Markdown negotiation for content access. MCP Server Cards for capability exposure. Each layer builds on the previous one. You don't need all four to start. A useful first step is a file that points agents to your docs.
   </div>
 </section>
 
@@ -206,7 +206,7 @@ Pricing: https://acme.com/pricing.md</div>
 <!-- PART 3B: OTHER SCORING TOOLS -->
 <section>
   <span class="section-num">PART 3B</span>
-  <h2>More Scoring Tools</h2>
+  <h2>More scoring tools</h2>
   <p class="subtitle">Multiple tools now measure agent readiness from different angles.</p>
 
   <h3>Lighthouse: Agentic Browsing (Chrome DevTools)</h3>
@@ -217,7 +217,7 @@ Pricing: https://acme.com/pricing.md</div>
   <div class="card-grid">
     <div class="card" style="border-top:3px solid var(--accent)">
       <h3 style="margin-top:0;color:var(--accent)">WebMCP Integration</h3>
-      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Checks for declarative tools (defined in HTML) and imperative tools (defined in JavaScript) registered via WebMCP. Validates schema correctness and identifies forms that could be exposed as structured tools but aren't. This is the bridge between your existing forms and the agent layer.</p>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:0">Checks for declarative tools (defined in HTML) and imperative tools (defined in JavaScript) registered via WebMCP. Validates schema correctness and identifies forms that could be exposed as structured tools but aren't. This lets agents use actions already available in your forms.</p>
     </div>
     <div class="card" style="border-top:3px solid var(--green)">
       <h3 style="margin-top:0;color:var(--green)">Agent-Centric Accessibility</h3>
@@ -250,9 +250,9 @@ Pricing: https://acme.com/pricing.md</div>
 <section>
   <span class="section-num">PART 4</span>
   <h2>Self-Serve for Agents</h2>
-  <p class="subtitle">If your onboarding requires a human, agents will pick your competitor.</p>
+  <p class="subtitle">Check where onboarding forces an agent to ask its human for help.</p>
 
-  <p>Traditional B2B self-serve means removing friction for human buyers: clear pricing, instant signup, no sales call required. Agent self-serve goes further. The agent needs to discover your product, evaluate it, sign up, configure it, and start using it, all programmatically. Every step that requires a human is a step where the agent bounces.</p>
+  <p>Traditional B2B self-serve removes friction for buyers with clear pricing and instant signup. An agent needs a programmatic path through the same steps: discovery, evaluation, signup, configuration, and use. A browser-only step can force a handoff to the human.</p>
 
   <h3>What Agent Self-Serve Looks Like</h3>
 
@@ -288,7 +288,7 @@ Pricing: https://acme.com/pricing.md</div>
 <!-- PART 5: PRACTICAL CHECKLIST -->
 <section>
   <span class="section-num">PART 5</span>
-  <h2>Implementation Checklist</h2>
+  <h2>Implementation checklist</h2>
   <p class="subtitle">Ordered by effort. Start at the top.</p>
 
   <div class="checklist">
@@ -379,7 +379,7 @@ Pricing: https://acme.com/pricing.md</div>
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
 
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>

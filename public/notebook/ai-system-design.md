@@ -9,475 +9,296 @@ url: https://katrinalaszlo.com/notebook/ai-system-design
 
 > The eight decisions you'll actually make when adding AI to a product. Framework from [Aman Agarwal](https://www.linkedin.com/in/amanagarwal1/).
 
-  ## Start with users, not the system
+## Start with users, not the system
 
-  > Pick one segment. Map the journey. Find the pain. Solutions come after.
+> Pick one segment. Map the journey. Find the pain. Solutions come after.
 
-  When someone says "design an AI system for X," the instinct is to talk about models and architecture. Resist it. Start with a person.
+When someone says "design an AI system for X," the instinct is to talk about models and architecture. Resist it. Start with a person.
 
-  
-    
-      What most people say
-      "I'd build an LLM-based chatbot to handle customer support queries."
+What most people say
+"I'd build an LLM-based chatbot to handle customer support queries."
 
-    
+What you should say
+"Let me start with the user. A power user on this telecom app calls support 3x/month about billing disputes. The pain isn't the call. It's that they can't self-serve a clear billing breakdown."
 
-    
-      What you should say
-      "Let me start with the user. A power user on this telecom app calls support 3x/month about billing disputes. The pain isn't the call. It's that they can't self-serve a clear billing breakdown."
+> **PM analogy:** You'd never write a PRD starting with "we'll use PostgreSQL." You start with the user problem. Same thing here. The AI part comes later. The user part comes first.
 
-    
+## The three pillars
 
-  
+> Start by naming the model, its data sources, and what the system needs to remember.
 
-  > 
-    **PM analogy:** You'd never write a PRD starting with "we'll use PostgreSQL." You start with the user problem. Same thing here. The AI part comes later. The user part comes first.
-  
+### Model
 
-  ## The three pillars
+What does the thinking. What type? Why? What's it optimized for?
 
-  > Every AI system has three load-bearing components. Name them explicitly.
+### Data
 
-  
-    
-      ### Model
+What feeds the model. Where does it come from? How fresh does it need to be?
 
-      What does the thinking. What type? Why? What's it optimized for?
+### Memory
 
-    
+What persists across interactions. What does the system remember about this user?
 
-    
-      ### Data
+**Model:** Choose it for the task. Ask: What input does it handle? What's the latency budget? Does output need to be interpretable?
 
-      What feeds the model. Where does it come from? How fresh does it need to be?
+**Data:** Most AI systems fail because of data problems, not model problems. Ask: Where does data live? Real-time or batch? What are the privacy constraints?
 
-    
+**Memory:** Without memory, every interaction starts from zero. Ask: What persists across sessions? Where does memory live (vector DB, cache, database)? What's the retrieval strategy?
 
-    
-      ### Memory
+> **Connection to Data Pipelines:** The data pillar is the pipeline you learned about. The difference is that here, the input isn't training data. It's customer records, chat logs, usage patterns. Same concept, different source.
 
-      What persists across interactions. What does the system remember about this user?
+## LLM isn't the default
 
-    
+> "I'd use an LLM" is not a design decision. It's a reflex.
 
-  
+Two jobs in the same system can need completely different models.
 
-  **Model:** The engine. Not every engine needs to be a jet turbine. Some jobs need a sewing machine. Ask: What input does it handle? What's the latency budget? Does output need to be interpretable?
+| Dimension | XGBoost | LLM |
+| --- | --- | --- |
+| Latency | <100ms | 100ms-2s first token; total depends on output length |
+| Cost per prediction | $0.001 | $0.01-0.10 |
+| Interpretable | Yes (feature importance) | No |
+| Data type | Structured, tabular | Unstructured text, images |
+| Output type | Classification, regression | Generation, conversation |
+| Best for | Churn prediction, scoring | Conversation, summarization |
 
-  **Data:** Most AI systems fail because of data problems, not model problems. Ask: Where does data live? Real-time or batch? What are the privacy constraints?
+### Job 1: Predict churn
 
-  **Memory:** Without memory, every interaction starts from zero. Ask: What persists across sessions? Where does memory live (vector DB, cache, database)? What's the retrieval strategy?
+Billing history, usage patterns, tenure. Structured tabular data.
 
-  > 
-    **Connection to Data Pipelines:** The data pillar is the pipeline you learned about. The difference is that here, the input isn't training data. It's customer records, chat logs, usage patterns. Same concept, different source.
-  
+<strong style="color:var(--green)">Use XGBoost.</strong> This is a prediction from structured data.
 
-  ## LLM isn't the default
+### Job 2: Talk to a customer
 
-  > "I'd use an LLM" is not a design decision. It's a reflex.
+Natural language understanding, context handling, open-ended generation.
 
-  Two jobs in the same system can need completely different models.
+<strong style="color:var(--accent)">Use an LLM.</strong> XGBoost can't generate language. This is where the LLM earns its cost.
 
-  
+> **The bar:** "Here are the tradeoffs, here's my pick, here's why." Not "I'd use an LLM."
 
-    | | Latency | <100ms | 100ms-2s first token; total depends on output length |
+## Orchestration before agents
 
-      | Cost per prediction | $0.001 | $0.01-0.10 |
+> Design the router before you design the specialists.
 
-      | Interpretable | Yes (feature importance) | No |
+Before you design individual agents, design the layer that decides which agent handles what. This is triage.
 
-      | Data type | Structured, tabular | Unstructured text, images |
+1
 
-      | Output type | Classification, regression | Generation, conversation |
+### User message arrives
 
-      | Best for | Churn prediction, scoring | Conversation, summarization |
+"Why is my bill higher this month?"
 
-    
-  
+2
 
-  
-    
-      ### Job 1: Predict churn
+### Router classifies intent classify + route
 
-      Billing history, usage patterns, tenure. Structured tabular data.
+Intent: `billing_query` (confidence: 0.94). Routes to Analyst agent.
 
-      <strong style="color:var(--green)">Use XGBoost.</strong> You don't need a poet. You need a calculator.
+3
 
-    
+### Specialist agent handles it
 
-    
-      ### Job 2: Talk to a customer
+Analyst queries billing database, retrieves account details.
 
-      Natural language understanding, context handling, open-ended generation.
+4
 
-      <strong style="color:var(--accent)">Use an LLM.</strong> XGBoost can't generate language. This is where the LLM earns its cost.
+### Response returned to user
 
-    
+"Your bill increased by $12 due to roaming charges on March 5-7."
 
-  
+If the router's confidence is below threshold (e.g. 0.31), it routes to a human agent with the conversation transcript. The system learns from every handoff.
 
-  > 
-    **The bar:** "Here are the tradeoffs, here's my pick, here's why." Not "I'd use an LLM."
-  
+> **PM analogy:** An ER doesn't send you straight to a surgeon. There's a triage desk that assesses you and routes you to the right specialist. Without triage, you have specialists standing around with no one directing traffic.
 
-  ## Orchestration before agents
+> **Connection to Agent Teams:** The six knobs apply to every agent here. The router's termination condition is "response delivered." The analyst's tools include database access. The voice bot's isolation keeps it from touching account settings.
 
-  > Design the router before you design the specialists.
+## Memory isn't one thing
 
-  Before you design individual agents, design the layer that decides which agent handles what. This is triage.
+> Separate the current conversation, past interactions, and shared knowledge.
 
-  
-    
-      1
-      
-        ### User message arrives
+### Session
 
-        "Why is my bill higher this month?"
+Current conversation state. "User asked about billing, then changed to data usage."
 
-      
-    
-    
-      2
-      
-        ### Router classifies intent classify + route
+Dies when conversation ends. Implemented as conversation context.
 
-        Intent: `billing_query` (confidence: 0.94). Routes to Analyst agent.
+### Episodic
 
-      
-    
-    
-      3
-      
-        ### Specialist agent handles it
+Past interactions with this user. "Called 3x in March about the same roaming charge."
 
-        Analyst queries billing database, retrieves account details.
+Permanent, per-user. Lives in a vector database. Retrieved by similarity.
 
-      
-    
-    
-      4
-      
-        ### Response returned to user
+### Semantic
 
-        "Your bill increased by $12 due to roaming charges on March 5-7."
+Knowledge base, docs, policies. "Roaming charges apply outside home network after 2GB."
 
-      
-    
-  
+Permanent, shared across all users. RAG over product documentation.
 
-  If the router's confidence is below threshold (e.g. 0.31), it routes to a human agent with the conversation transcript. The system learns from every handoff.
+<strong style="color:var(--green)">Past interactions matter for churn.</strong> A customer who called three times about the same unresolved billing issue is about to leave. If your AI doesn't know that, it'll give a generic response instead of "I see you've called about this roaming charge three times. Let me escalate this right now."
 
-  > 
-    **PM analogy:** An ER doesn't send you straight to a surgeon. There's a triage desk that assesses you and routes you to the right specialist. Without triage, you have specialists standing around with no one directing traffic.
-  
+> **PM analogy:** A good barista knows three things. What you just ordered (session). That you always get oat milk and complained about it being out last Tuesday (episodic). That oat milk costs $0.50 extra and is in the back fridge (semantic).
 
-  > 
-    **Connection to Agent Teams:** The six knobs apply to every agent here. The router's termination condition is "response delivered." The analyst's tools include database access. The voice bot's isolation keeps it from touching account settings.
-  
+## Show failure modes
 
-  ## Memory isn't one thing
+> Describe what happens when a model call fails or the answer is wrong.
 
-  > Three tiers, three purposes, three persistence models.
+| Failure | Detection | Mitigation |
+| --- | --- | --- |
+| Model down | Health check, timeout | Human handoff with transcript |
+| High latency (>30s) | p95 monitoring | Human handoff, async notification |
+| Repeat question | Semantic similarity on consecutive messages | Escalate immediately. You've failed. |
+| Low confidence | Score <0.7 on intent classification | Route to human with context summary |
+| Hallucination | Grounding check vs. source docs | Flag, serve verified response |
 
-  
-    
-      ### Session
+> **PM analogy:** Every product has error states. 404 pages, failed payments, timeout screens. You design those before launch, not after. AI systems have the same need. The error states are just different.
 
-      Current conversation state. "User asked about billing, then changed to data usage."
+## Plan for 10x traffic
 
-      Dies when conversation ends. Implemented as conversation context.
+> Your prototype works on 100 test calls. The telecom has 50 million subscribers.
 
-    
+### Embedding search
 
-    
-      ### Episodic
+**Problem:** SQL can't do similarity search on millions of vectors fast enough.
 
-      Past interactions with this user. "Called 3x in March about the same roaming charge."
+**Fix:** Vector database (Pinecone, Weaviate, pgvector). Cache top N frequent query embeddings.
 
-      Permanent, per-user. Lives in a vector database. Retrieved by similarity.
+### Model API rate limits
 
-    
+**Problem:** External LLM APIs have throughput ceilings you'll hit at scale.
 
-    
-      ### Semantic
+**Fix:** Batch non-real-time work (churn scoring) nightly. Self-host for latency-critical paths.
 
-      Knowledge base, docs, policies. "Roaming charges apply outside home network after 2GB."
+### Cache misses
 
-      Permanent, shared across all users. RAG over product documentation.
+**Problem:** Same questions get asked thousands of times, each hitting the model.
 
-    
+**Fix:** Cache frequent query embeddings and common responses. This avoids repeated model calls for the same answer.
 
-  
+> **The key principle:** Load test the model APIs before launch, not after. Know your ceiling. If OpenAI rate-limits you at 10,000 requests/minute and you expect 50,000, that's a launch-blocking problem to find in week one, not week twelve.
 
-  
-    <strong style="color:var(--green)">For churn, episodic memory is king.</strong> A customer who called three times about the same unresolved billing issue is about to leave. If your AI doesn't know that, it'll give a generic response instead of "I see you've called about this roaming charge three times. Let me escalate this right now."
+## Metrics across four layers
 
-  
+> Measure the model's answers, response time, user experience, and business results.
 
-  > 
-    **PM analogy:** A good barista knows three things. What you just ordered (session). That you always get oat milk and complained about it being out last Tuesday (episodic). That oat milk costs $0.50 extra and is in the back fridge (semantic).
-  
+### Model Layer
 
-  ## Show failure modes
+- Recall (are we catching the right intents?)
 
-  > Candidates who only describe the happy path look junior. Systems that only handle it break in production.
+- Precision (are we classifying correctly?)
 
-  
+- Hallucination rate (<2% target)
 
-    | | Model down | Health check, timeout | Human handoff with transcript |
+Who cares: Engineering
 
-      | High latency (>30s) | p95 monitoring | Human handoff, async notification |
+### Latency Layer
 
-      | Repeat question | Semantic similarity on consecutive messages | Escalate immediately. You've failed. |
+- p95 response time (<3s target)
 
-      | Low confidence | Score <0.7 on intent classification | Route to human with context summary |
+- Time to first token
 
-      | Hallucination | Grounding check vs. source docs | Flag, serve verified response |
+- Model API uptime
 
-    
-  
+Who cares: Engineering + Product
 
-  > 
-    **PM analogy:** Every product has error states. 404 pages, failed payments, timeout screens. You design those before launch, not after. AI systems have the same need. The error states are just different.
-  
+### User Layer
 
-  ## Plan for 10x traffic
+- CSAT (>4.0 target)
 
-  > Your prototype works on 100 test calls. The telecom has 50 million subscribers.
+- % resolved without escalation (60% mo 1)
 
-  
-    ### Embedding search
+- Repeat contact rate (should decline)
 
-    **Problem:** SQL can't do similarity search on millions of vectors fast enough.
+Who cares: Product
 
-    **Fix:** Vector database (Pinecone, Weaviate, pgvector). Cache top N frequent query embeddings.
+### Business Layer
 
-  
+- Retention lift (the exec metric)
 
-  
-    ### Model API rate limits
+- Support cost per ticket
 
-    **Problem:** External LLM APIs have throughput ceilings you'll hit at scale.
+- Revenue impact
 
-    **Fix:** Batch non-real-time work (churn scoring) nightly. Self-host for latency-critical paths.
+Who cares: Leadership
 
-  
+### Why all four matter
 
-  
-    ### Cache misses
+Model metrics are perfect but users hate it
 
-    **Problem:** Same questions get asked thousands of times, each hitting the model.
+The UX is broken, not the model.
 
-    **Fix:** Cache frequent query embeddings and common responses. Huge cost savings.
+Users love it but business metrics are flat
 
-  
+You're solving a real problem that doesn't move the needle.
 
-  > 
-    **The key principle:** Load test the model APIs before launch, not after. Know your ceiling. If OpenAI rate-limits you at 10,000 requests/minute and you expect 50,000, that's a launch-blocking problem to find in week one, not week twelve.
-  
+Latency is great but model is hallucinating
 
-  ## Metrics across four layers
+You're confidently wrong, fast.
 
-  > If you only measure one thing, you'll miss three ways the system can fail.
+Everything works but latency is 30s
 
-  
-    
-      ### Model Layer
+Users will abandon before seeing the right answer.
 
-      
+> **PM analogy:** You already measure products this way. Uptime (system), page load (latency), NPS (user), revenue (business). AI systems need the same stack. The model layer is just a new row in your metrics dashboard.
 
-        - Recall (are we catching the right intents?)
+## Check your understanding
 
-        - Precision (are we classifying correctly?)
+> Eight questions. One per principle. See if you've internalized the framework.
 
-        - Hallucination rate (<2% target)
+&larr; Previous
+Next ->
 
-      
+out of 8
 
-      Who cares: Engineering
+## The full sequence
 
-    
-    
-      ### Latency Layer
+> In an interview, walk through in order. In product work, revisit as you learn.
 
-      
+1
 
-        - p95 response time (<3s target)
+### Users first product thinking
 
-        - Time to first token
+Pick a segment, map the journey, find the pain.
 
-        - Model API uptime
+2
 
-      
+### Three pillars architecture
 
-      Who cares: Engineering + Product
+Name model, data, memory explicitly.
 
-    
-    
-      ### User Layer
+3
 
-      
+### Model selection technical fluency
 
-        - CSAT (>4.0 target)
+Argue the tradeoffs, pick, justify.
 
-        - % resolved without escalation (60% mo 1)
+4
 
-        - Repeat contact rate (should decline)
+### Orchestration systems thinking
 
-      
+Design the router before the agents.
 
-      Who cares: Product
+5
 
-    
-    
-      ### Business Layer
+### Memory tiers depth
 
-      
+Session, episodic, semantic. Scoped correctly.
 
-        - Retention lift (the exec metric)
+6
 
-        - Support cost per ticket
+### Failure modes production readiness
 
-        - Revenue impact
+Name them, detect them, mitigate them.
 
-      
+7
 
-      Who cares: Leadership
+### Scale plan operational maturity
 
-    
-  
+10x traffic, bottlenecks, load testing.
 
-  ### Why all four matter
+8
 
-  
-    
-      Model metrics are perfect but users hate it
+### Four-layer metrics business judgment
 
-      The UX is broken, not the model.
+Model, latency, user, business.
 
-    
-
-    
-      Users love it but business metrics are flat
-
-      You're solving a real problem that doesn't move the needle.
-
-    
-
-    
-      Latency is great but model is hallucinating
-
-      You're confidently wrong, fast.
-
-    
-
-    
-      Everything works but latency is 30s
-
-      Users will abandon before seeing the right answer.
-
-    
-
-  
-
-  > 
-    **PM analogy:** You already measure products this way. Uptime (system), page load (latency), NPS (user), revenue (business). AI systems need the same stack. The model layer is just a new row in your metrics dashboard.
-  
-
-  ## The Test
-
-  > Eight questions. One per principle. See if you've internalized the framework.
-
-  
-  
-  
-    &larr; Previous
-    Next ->
-  
-  
-    
-    out of 8
-
-  
-
-  ## The full sequence
-
-  > In an interview, walk through in order. In product work, revisit as you learn.
-
-  
-    
-      1
-      
-        ### Users first product thinking
-
-        Pick a segment, map the journey, find the pain.
-
-      
-    
-    
-      2
-      
-        ### Three pillars architecture
-
-        Name model, data, memory explicitly.
-
-      
-    
-    
-      3
-      
-        ### Model selection technical fluency
-
-        Argue the tradeoffs, pick, justify.
-
-      
-    
-    
-      4
-      
-        ### Orchestration systems thinking
-
-        Design the router before the agents.
-
-      
-    
-    
-      5
-      
-        ### Memory tiers depth
-
-        Session, episodic, semantic. Scoped correctly.
-
-      
-    
-    
-      6
-      
-        ### Failure modes production readiness
-
-        Name them, detect them, mitigate them.
-
-      
-    
-    
-      7
-      
-        ### Scale plan operational maturity
-
-        10x traffic, bottlenecks, load testing.
-
-      
-    
-    
-      8
-      
-        ### Four-layer metrics business judgment
-
-        Model, latency, user, business.
-
-      
-    
-  
-
-> 
-  Framework credit: [Aman Agarwal](https://www.linkedin.com/in/amanagarwal1/), who identified these eight gaps from running live AI PM mock interviews.
+> Framework credit: [Aman Agarwal](https://www.linkedin.com/in/amanagarwal1/), who identified these eight gaps from running live AI PM mock interviews.

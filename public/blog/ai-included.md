@@ -12,13 +12,13 @@ author: Kat Laszlo
 
 I've been tracking SaaS pricing changes for months now, and there's a pattern that keeps repeating. A company bundles AI into its core product, raises the price, calls it a platform upgrade. Then, six to twelve months later, starts quietly walking it back.
 
-I'm already seeing it play out. Companies that marketed "AI included" as recently as mid-2025 are now introducing credit systems, usage caps, and metered add-ons. The direction seems clear. The timeline is the only real question.
+I'm already seeing it play out. Companies that marketed "AI included" as recently as mid-2025 are now introducing credit systems, usage caps, and metered add-ons. I'm watching how quickly those limits reach the customers who bought the original promise.
 
 ---
 
 In 2024 and 2025, the playbook was everywhere. Take your existing SaaS product, bolt on an AI feature, bundle it into the seat price, and use "AI included" to justify a price increase, or at least prevent churn to a competitor doing the same thing.
 
-The names tell the story. [Google Workspace bundled Gemini](https://workspace.google.com/blog/product-announcements/empowering-businesses-with-AI) with a ~17% price hike in January 2025. [Slack killed its $10/user AI add-on](https://slack.com/blog/news/june-2025-pricing-and-packaging-announcement) and raised Business+ from $12.50 to $15. Notion folded AI into Business and bumped the price $5. [Canva raised team pricing over 300%](https://fortune.com/2024/09/03/canva-hiking-teams-subscription-prices-ai-features/) to cover Magic Studio. Several of these companies have since reversed course. Notion just launched [credit-based pricing for Custom Agents at $10 per 1,000 credits](https://www.notion.com/help/custom-agent-pricing), Canva rolled out [monthly AI usage allowances](https://www.canva.com/help/ai-access/), and Google is launching an [AI Expanded Access add-on](https://workspaceupdates.googleblog.com/2026/02/google-workspace-ai-expanded-access.html) for higher usage tiers.
+[Google Workspace bundled Gemini](https://workspace.google.com/blog/product-announcements/empowering-businesses-with-AI) with a ~17% price hike in January 2025. [Slack killed its $10/user AI add-on](https://slack.com/blog/news/june-2025-pricing-and-packaging-announcement) and raised Business+ from $12.50 to $15. Notion folded AI into Business and bumped the price $5. [Canva raised team pricing over 300%](https://fortune.com/2024/09/03/canva-hiking-teams-subscription-prices-ai-features/) to cover Magic Studio. Several of these companies have since reversed course. Notion just launched [credit-based pricing for Custom Agents at $10 per 1,000 credits](https://www.notion.com/help/custom-agent-pricing), Canva rolled out [monthly AI usage allowances](https://www.canva.com/help/ai-access/), and Google is launching an [AI Expanded Access add-on](https://workspaceupdates.googleblog.com/2026/02/google-workspace-ai-expanded-access.html) for higher usage tiers.
 
 It made sense at the time. Early adoption was uneven, most users tried the AI feature once, maybe twice, the inference costs were a rounding error against total revenue, and you got to put "AI-powered" on the homepage.
 
@@ -38,9 +38,9 @@ I've seen the sequence before. The terms get updated. A soft cap appears. Then s
 
 ---
 
-## Your Billing Stack Wasn't Built for This
+## What your billing stack needs to handle
 
-Most teams underestimate this part. Moving to usage-based pricing for AI features isn't just a pricing decision. It's an infrastructure decision. And your billing system almost certainly wasn't designed for it.
+Moving to usage-based pricing for AI features means changing how the product checks limits and records consumption. That work is easy to underestimate when you're discussing the price.
 
 If you're on a typical SaaS billing stack (Stripe for payments, maybe Zuora or Chargebee for subscriptions, a spreadsheet for reconciliation), you have a system that understands seats and tiers. It can bill $50/user/month all day long, but what it can't do is meter usage in real time. When a customer burns through their token allocation mid-request, your billing system finds out hours or days later in a batch process, and by then you've already delivered the compute for free.
 
@@ -52,19 +52,19 @@ And then there's the transition itself. You need to run legacy seat-based plans 
 
 ---
 
-## Billing Was Never Designed for This
+## Checking credits before serving a request
 
 Traditional billing systems were designed as record-keepers. They sit downstream of your application. Your app makes decisions, serves requests, delivers value. After the fact, the billing system records what happened and generates an invoice.
 
 That architecture works when your marginal cost per user is near zero, which it was in the seat-based era. It breaks when every API call has a real cost, because the billing system can't participate in the decision about whether to serve that request.
 
-What's needed is billing in the request path, not a batch process but a runtime system, one that answers the question *before* your app serves the request: Does this customer have credits? Are they within their usage limits? Is their entitlement active? It records the usage atomically, at the moment of consumption, not in a nightly batch.
+The app needs to check billing state *before* it serves the request: Does this customer have credits? Are they within their usage limits? Is their entitlement active? It records the usage atomically, at the moment of consumption, not in a nightly batch.
 
 AI-native companies figured this out early. Most SaaS companies adding AI features are learning the same lesson now.
 
 ---
 
-## Credits Are Becoming the Default
+## Why companies are adding credits
 
 Credits are showing up everywhere.
 
@@ -72,7 +72,7 @@ According to [Kyle Poyar's Growth Unhinged analysis](https://www.growthunhinged.
 
 Pure usage-based pricing (pay per token, pay per request) is economically correct but psychologically terrible. Enterprise buyers hate unpredictable spend, which is the number one barrier to AI feature adoption, ahead of price point.
 
-The timeline tells the story:
+Some recent changes:
 
 - **May 2025:** [Salesforce](https://www.salesforce.com/news/press-releases/2025/05/15/agentforce-flexible-pricing-news/) launches Agentforce Flex Credits at $0.10/action
 - **Jun 2025:** [HubSpot](https://ir.hubspot.com/news-releases/news-release-details/hubspot-credits) introduces Breeze Credits
@@ -80,19 +80,19 @@ The timeline tells the story:
 - **Feb 2026:** [Notion](https://www.notion.com/help/custom-agent-pricing) launches Custom Agents. Free through May 3, then $10 per 1,000 credits.
 - **Mar 2026:** [Figma](https://www.figma.com/blog/updates-to-ai-credits-in-figma/) starts selling credit subscriptions (Mar 11) and enforcing credit limits (Mar 18).
 
-Credits are the visible surface change. The deeper shift is that AI workloads force pricing systems to participate in the request path.
+Those credit pools need to be checked as requests come in.
 
-Credits fix the buyer psychology problem. The customer pre-commits to a pool, say 50,000 tokens per month. They get spending predictability. You get variable-cost alignment. When the pool runs out, you can either hard-stop them (which actually increases adoption, because buyers trust the guardrail) or track the overage for billing.
+Credits fix the buyer psychology problem. The customer pre-commits to a pool, say 50,000 tokens per month. They get spending predictability. Your revenue covers a defined amount of usage. When the pool runs out, you can either hard-stop them (which actually increases adoption, because buyers trust the guardrail) or track the overage for billing.
 
 But credits done right aren't simple. You need FIFO consumption across multiple grants, rollover policies, expiration dates, concurrent-safe balance updates, and the ability to check a credit balance in the request path before serving compute. That's not something you bolt onto Stripe.
 
 ---
 
-## The Repricing Is Underway
+## The repricing is underway
 
 Poyar and PricingSaaS tracked [more than 1,800 pricing changes across the top 500 SaaS companies](https://www.growthunhinged.com/p/2025-state-of-saas-pricing-changes) in 2025 alone. That's 3.6 changes per company. And [ICONIQ's State of AI survey](https://www.iconiqcapital.com/growth/insights/the-state-of-ai-in-2025) found 37% of companies plan to change their AI pricing model in the next year.
 
-SaaS companies that figure out AI metering before the margin pressure forces their hand will have a real advantage. They'll price with precision, protect their unit economics, and avoid the trust erosion that comes from a sudden, reactive pricing change. The kind Cursor just went through.
+Getting metering in place early gives a team time to test prices and explain changes to customers. Doing it under margin pressure invites the kind of rushed rollout Cursor just went through.
 
 The ones that wait will face a harder transition, re-architecting billing under financial pressure, migrating customers off plans that were never sustainable, and explaining to investors why gross margins contracted before they found a fix.
 
@@ -108,6 +108,6 @@ Then there are two more that tend to be uncomfortable. How many systems would ne
 
 ---
 
-The real problem isn't seat-based pricing. It's delayed economic feedback. When your billing system can't tell you, in real time, what a customer costs you to serve, every pricing decision is a guess. And when usage patterns shift as fast as they do with AI, guessing gets expensive.
+Delayed cost data makes this harder. When your billing system can't tell you, in real time, what a customer costs you to serve, every pricing decision is a guess. And when usage patterns shift as fast as they do with AI, guessing gets expensive.
 
-Most SaaS companies that bundled "unlimited AI" are repricing or starting to. The ones that get ahead of it will treat billing as a runtime system. One that gates access, meters consumption, and gives finance real-time visibility into what each AI feature actually costs. Not a downstream invoicing tool that reconciles after the fact.
+For a team revisiting its "unlimited AI" plan, I'd start with one feature: measure what each customer consumes, check limits before serving it, and make that cost visible to finance. That gives you something concrete to price against.

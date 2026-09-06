@@ -21,7 +21,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-optimized content">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Extended LLM content">
 <link rel="alternate" type="application/rss+xml" title="Kat Laszlo's Blog" href="/blog/feed.xml">
-<link rel="stylesheet" href="notebook.css">
+<link rel="stylesheet" href="notebook.css?v=20260906">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Knowledge System Architecture","description":"Designing the full pipeline: sources, rules, retrieval, and output. Three architectures compared.","author":{"@type":"Person","name":"Katrina Laszlo","url":"https://katrinalaszlo.com"},"publisher":{"@type":"Person","name":"Katrina Laszlo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://katrinalaszlo.com/notebook/knowledge-system-architecture"}}
 </script>
@@ -189,7 +189,7 @@
   <div class="card" style="border-top:3px solid var(--purple)">
     <span class="tag purple">architecture 3</span>
     <h3>Hybrid: vector retrieval + structured output</h3>
-    <p class="dim">Vector DB handles retrieval at scale. But output is structured wiki pages, not ephemeral chat. Best of both — automatic retrieval, persistent knowledge.</p>
+    <p class="dim">A vector database retrieves relevant sources. The LLM uses them to write persistent wiki pages with citations, so people can read and revise the output.</p>
 
     <div class="system-visual" style="background:var(--bg-card)">
       <div class="sys-row">
@@ -239,7 +239,7 @@
   </table>
 
   <div class="connection">
-    <strong>Key insight:</strong> A vector DB doesn't eliminate inference — it reduces how much you need. Instead of sending everything to the LLM, you send only the relevant chunks. The vector DB is a filter, not a replacement.
+    <strong>Inference cost:</strong> A vector DB doesn't eliminate inference — it reduces how much you need. Instead of sending everything to the LLM, you send only the relevant chunks. The vector DB is a filter, not a replacement.
   </div>
 
   <div class="warning">
@@ -249,7 +249,7 @@
 
 <section id="s4">
   <h2>What the rules file actually controls</h2>
-  <p class="subtitle">The rules file (instructions, CLAUDE.md, system prompt) isn't just for writing. It's the operating system for the entire session.</p>
+  <p class="subtitle">The instructions file or system prompt defines how the agent searches, writes, and handles conflicts.</p>
 
   <div class="sequence">
     <div class="seq-step">
@@ -283,7 +283,7 @@
   </div>
 
   <div class="analogy">
-    <strong>In product terms:</strong> The rules file is like a combination of database schema (structure), API permissions (access control), and business logic (behavior). It's not just formatting — it's the entire contract for how the LLM operates.
+    <strong>In product terms:</strong> The rules file is like a combination of database schema (structure), API permissions (access control), and business logic (behavior). It describes how the LLM should use and update the knowledge base.
   </div>
 </section>
 
@@ -313,7 +313,7 @@
   </div>
 
   <div class="connection">
-    <strong>The git diff IS a retrieval layer.</strong> Instead of "vector finds similar chunks," it's "git tells you exactly what changed." More precise than vector search, zero infrastructure, and deterministic — it always finds the right files.
+    <strong>Use the diff to find changed files.</strong> Instead of "vector finds similar chunks," it's "git tells you exactly what changed." More precise than vector search, zero infrastructure, and deterministic — it always finds the right files.
   </div>
 
   <div class="warning">
@@ -332,7 +332,7 @@
 <footer style="padding:2rem 0;font-size:0.8125rem;color:#a1a1aa;border-top:1px solid #f4f4f5;margin-top:3rem;text-align:center">
   <a href="/llms.txt" style="color:#999;font-size:0.75rem;text-decoration:none">llms.txt</a>
 </footer>
-<script src="nav.js"></script>
+<script src="nav.js?v=20260906"></script>
 <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;width:90%;position:relative">
     <button onclick="document.getElementById('subscribe-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:#666">&times;</button>
